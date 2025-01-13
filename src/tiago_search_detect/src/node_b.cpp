@@ -41,7 +41,7 @@ ros::Publisher g_cube_positions_pub;
 void targetIDsCallback(const std_msgs::Int32MultiArray::ConstPtr &msg) {
   g_target_ids = msg->data;
   g_target_ids_received = true;
-
+  //oss
   std::ostringstream oss;
   oss << "Received target IDs: ";
   for (const int id : g_target_ids) {
