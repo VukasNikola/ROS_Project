@@ -1,0 +1,1 @@
+/home/nikolavukas/project/devel/.private/apriltag_finder/share/apriltag_finder/cmake/apriltag_finderConfig-version.cmake

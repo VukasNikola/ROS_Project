@@ -1,0 +1,21 @@
+[35m[1mScanning dependencies of target node_b[0m
+[ 25%] Built target move_head_down_node
+[ 50%] Built target node_a
+[ 62%] [32mBuilding CXX object CMakeFiles/node_b.dir/src/node_b.cpp.o[0m
+[ 87%] Built target waypoints_navigation_node
+[01m[K/home/nikolavukas/project/src/tiago_search_detect/src/node_b.cpp:[m[K In function ‘[01m[Kvoid tagDetectionsCallback(const ConstPtr&)[m[K’:
+[01m[K/home/nikolavukas/project/src/tiago_search_detect/src/node_b.cpp:82:62:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[KdoTransform(geometry_msgs::PoseStamped&, geometry_msgs::TransformStamped&)[m[K’
+   82 |         pose_out = tf2::doTransform(pose_in, transformStamped[01;31m[K)[m[K;
+      |                                                              [01;31m[K^[m[K
+In file included from [01m[K/opt/ros/noetic/include/tf2_geometry_msgs/tf2_geometry_msgs.h:35[m[K,
+                 from [01m[K/home/nikolavukas/project/src/tiago_search_detect/src/node_b.cpp:7[m[K:
+[01m[K/opt/ros/noetic/include/tf2/convert.h:53:8:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Ktemplate<class T> void tf2::doTransform(const T&, T&, const TransformStamped&)[m[K’
+   53 |   void [01;36m[KdoTransform[m[K(const T& data_in, T& data_out, const geometry_msgs::TransformStamped& transform);
+      |        [01;36m[K^~~~~~~~~~~[m[K
+[01m[K/opt/ros/noetic/include/tf2/convert.h:53:8:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/nikolavukas/project/src/tiago_search_detect/src/node_b.cpp:82:62:[m[K [01;36m[Knote: [m[K  deduced conflicting types for parameter ‘[01m[KT[m[K’ (‘[01m[Kgeometry_msgs::PoseStamped_<std::allocator<void> >[m[K’ and ‘[01m[Kgeometry_msgs::TransformStamped[m[K’ {aka ‘[01m[Kgeometry_msgs::TransformStamped_<std::allocator<void> >[m[K’})
+   82 |         pose_out = tf2::doTransform(pose_in, transformStamped[01;36m[K)[m[K;
+      |                                                              [01;36m[K^[m[K
+make[2]: *** [CMakeFiles/node_b.dir/build.make:63: CMakeFiles/node_b.dir/src/node_b.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:266: CMakeFiles/node_b.dir/all] Error 2
+make: *** [Makefile:141: all] Error 2

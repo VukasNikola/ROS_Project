@@ -1,0 +1,1 @@
+/home/nikolavukas/project/devel/.private/apriltag_finder/share/roseus/ros/apriltag_finder/manifest.l

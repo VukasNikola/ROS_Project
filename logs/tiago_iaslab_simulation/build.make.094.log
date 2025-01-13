@@ -1,0 +1,17 @@
+[  0%] Built target std_msgs_generate_messages_cpp
+[ 10%] Built target tiago_iaslab_simulation_get_straightline
+[ 10%] Built target std_msgs_generate_messages_lisp
+[ 10%] Built target std_msgs_generate_messages_nodejs
+[ 10%] Built target std_msgs_generate_messages_eus
+[ 10%] Built target std_msgs_generate_messages_py
+[ 15%] Built target _tiago_iaslab_simulation_generate_messages_check_deps_Coeffs
+[ 20%] Built target tiago_iaslab_simulation_apriltagids
+[ 20%] Built target _tiago_iaslab_simulation_generate_messages_check_deps_Objs
+[ 40%] Built target tiago_iaslab_simulation_generate_messages_cpp
+[ 45%] Built target tiago_iaslab_simulation_generate_messages_py
+[ 55%] Built target tiago_iaslab_simulation_generate_messages_nodejs
+[ 65%] Built target tiago_iaslab_simulation_generate_messages_lisp
+[ 80%] Built target tiago_iaslab_simulation_generate_messages_eus
+[ 90%] Built target get_straightline_node
+[100%] Built target apriltag_ids_generator_node
+[100%] Built target tiago_iaslab_simulation_generate_messages

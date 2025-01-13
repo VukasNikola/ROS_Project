@@ -1,0 +1,1 @@
+/home/nikolavukas/project/devel/.private/apriltag_finder/share/gennodejs/ros/apriltag_finder/_index.js

@@ -1,0 +1,8 @@
+prefix=/home/nikolavukas/project/install
+
+Name: apriltag_finder
+Description: Description of apriltag_finder
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: roscpp std_msgs sensor_msgs geometry_msgs tf actionlib move_base_msgs message_runtime apriltag_ros

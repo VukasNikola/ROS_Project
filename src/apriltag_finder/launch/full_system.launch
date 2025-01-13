@@ -1,0 +1,26 @@
+<!-- full_system.launch -->
+<launch>
+    <!-- 1. Launch Gazebo Simulation -->
+    <include file="$(find tiago_iaslab_simulation)/launch/start_simulation.launch">
+        <arg name="world_name" value="iaslab_assignment1"/>
+    </include>
+
+    <!-- 2. Launch Navigation Stack -->
+    <include file="$(find tiago_iaslab_simulation)/launch/navigation.launch"/>
+
+    <!-- 3. Launch Apriltag Detection -->
+    <include file="$(find tiago_iaslab_simulation)/launch/apriltag.launch"/>
+
+    <!-- 4. Launch Apriltag IDs Generator Node -->
+    <node name="ids_generator_node" pkg="apriltag_finder" type="ids_generator_node" output="screen"/>
+
+    <!-- 5. Launch apriltag_finder Package Nodes -->
+    <node name="node_a" pkg="apriltag_finder" type="node_a" output="screen"/>
+    <node name="node_b" pkg="apriltag_finder" type="node_b" output="screen"/>
+
+    <!-- Optional: Launch Custom Navigator for Extra Points -->
+    <!-- Uncomment the following lines if you've implemented the custom navigator -->
+    <!--
+    <node name="custom_navigator" pkg="apriltag_finder" type="custom_nav" output="screen"/>
+    -->
+</launch>

@@ -1,0 +1,11 @@
+/home/nikolavukas/project/build/apriltag/CMakeFiles/install/strip.dir
+/home/nikolavukas/project/build/apriltag/CMakeFiles/install/local.dir
+/home/nikolavukas/project/build/apriltag/CMakeFiles/install.dir
+/home/nikolavukas/project/build/apriltag/CMakeFiles/list_install_components.dir
+/home/nikolavukas/project/build/apriltag/CMakeFiles/rebuild_cache.dir
+/home/nikolavukas/project/build/apriltag/CMakeFiles/edit_cache.dir
+/home/nikolavukas/project/build/apriltag/CMakeFiles/opencv_demo.dir
+/home/nikolavukas/project/build/apriltag/CMakeFiles/apriltag_demo.dir
+/home/nikolavukas/project/build/apriltag/CMakeFiles/apriltag..dir
+/home/nikolavukas/project/build/apriltag/CMakeFiles/apriltag_py_docstrings.dir
+/home/nikolavukas/project/build/apriltag/CMakeFiles/apriltag.dir

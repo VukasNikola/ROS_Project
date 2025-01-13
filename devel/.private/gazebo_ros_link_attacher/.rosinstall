@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/nikolavukas/project/devel/.private/gazebo_ros_link_attacher/setup.sh

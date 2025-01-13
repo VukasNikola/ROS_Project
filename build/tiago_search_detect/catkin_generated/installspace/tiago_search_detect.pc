@@ -1,0 +1,8 @@
+prefix=/home/nikolavukas/project/install
+
+Name: tiago_search_detect
+Description: Description of tiago_search_detect
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: roscpp actionlib move_base_msgs tf2 tf2_geometry_msgs

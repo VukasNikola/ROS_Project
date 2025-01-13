@@ -1,0 +1,10 @@
+(cl:defpackage apriltag_finder-srv
+  (:use )
+  (:export
+   "APRILTAGSIDSSRV"
+   "<APRILTAGSIDSSRV-REQUEST>"
+   "APRILTAGSIDSSRV-REQUEST"
+   "<APRILTAGSIDSSRV-RESPONSE>"
+   "APRILTAGSIDSSRV-RESPONSE"
+  ))
+

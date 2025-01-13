@@ -1,0 +1,1 @@
+/home/nikolavukas/project/devel/.private/tiago_iaslab_simulation/share/roseus/ros/tiago_iaslab_simulation/manifest.l

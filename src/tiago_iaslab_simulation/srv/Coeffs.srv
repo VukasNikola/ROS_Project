@@ -1,0 +1,3 @@
+bool ready          #if true get_straaightline_node sends the coefficients' values, otherwise prints an error and kill ros
+---
+float32[] coeffs

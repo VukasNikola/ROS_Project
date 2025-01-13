@@ -1,0 +1,1 @@
+/home/nikolavukas/project/devel/.private/tiago_movement/lib/pkgconfig/tiago_movement.pc

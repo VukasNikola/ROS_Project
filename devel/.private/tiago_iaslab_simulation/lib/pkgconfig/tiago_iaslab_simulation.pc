@@ -1,0 +1,8 @@
+prefix=/home/nikolavukas/project/devel/.private/tiago_iaslab_simulation
+
+Name: tiago_iaslab_simulation
+Description: Description of tiago_iaslab_simulation
+Version: 0.0.1
+Cflags: -I/home/nikolavukas/project/devel/.private/tiago_iaslab_simulation/include
+Libs: -L${prefix}/lib 
+Requires: roscpp std_msgs message_runtime

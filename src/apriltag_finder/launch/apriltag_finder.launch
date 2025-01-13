@@ -1,0 +1,11 @@
+<!-- apriltag_finder.launch -->
+<launch>
+    <!-- Launch Node A -->
+    <node name="node_a" pkg="apriltag_finder" type="node_a" output="screen"/>
+    
+    <!-- Launch Node B -->
+    <node name="node_b" pkg="apriltag_finder" type="node_b" output="screen"/>
+    
+    <!-- Launch IDs Generator Node -->
+    <node name="ids_generator_node" pkg="apriltag_finder" type="ids_generator_node" output="screen"/>
+</launch>
