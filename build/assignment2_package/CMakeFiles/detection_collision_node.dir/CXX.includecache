@@ -65,6 +65,12 @@ sstream
 -
 vector
 -
+std_msgs/String.h
+-
+map
+-
+mutex
+-
 
 /opt/ros/noetic/include/eigen_stl_containers/eigen_stl_containers.h
 eigen_stl_containers/eigen_stl_vector_container.h
@@ -1731,6 +1737,22 @@ ros/message_operations.h
 -
 
 /opt/ros/noetic/include/std_msgs/Header.h
+string
+-
+vector
+-
+memory
+-
+ros/types.h
+-
+ros/serialization.h
+-
+ros/builtin_message_traits.h
+-
+ros/message_operations.h
+-
+
+/opt/ros/noetic/include/std_msgs/String.h
 string
 -
 vector

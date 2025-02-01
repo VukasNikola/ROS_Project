@@ -1,0 +1,4 @@
+[ 25%] Built target node_b
+[ 50%] Built target move_head_down_node
+[ 75%] Built target waypoints_navigation_node
+[100%] Built target node_a

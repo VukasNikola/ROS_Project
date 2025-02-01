@@ -1,0 +1,18 @@
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/detection_collision_node.cpp:[m[K In function ‘[01m[Kvoid tagDetectionsCallback(const ConstPtr&)[m[K’:
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/detection_collision_node.cpp:205:45:[m[K [01;31m[Kerror: [m[Kno match for ‘[01m[Koperator=[m[K’ (operand types are ‘[01m[Kgeometry_msgs::PoseStamped_<std::allocator<void> >::_pose_type[m[K’ {aka ‘[01m[Kgeometry_msgs::Pose_<std::allocator<void> >[m[K’} and ‘[01m[Kgeometry_msgs::Transform[m[K’ {aka ‘[01m[Kgeometry_msgs::Transform_<std::allocator<void> >[m[K’})
+  205 |     tagPoseWorld.pose = tf2::toMsg(worldPose[01;31m[K)[m[K;
+      |                                             [01;31m[K^[m[K
+In file included from [01m[K/opt/ros/noetic/include/geometry_msgs/PoseWithCovariance.h:18[m[K,
+                 from [01m[K/opt/ros/noetic/include/geometry_msgs/PoseWithCovarianceStamped.h:19[m[K,
+                 from [01m[K/home/nikolavukas/project/devel/.private/apriltag_ros/include/apriltag_ros/AprilTagDetection.h:18[m[K,
+                 from [01m[K/home/nikolavukas/project/devel/.private/apriltag_ros/include/apriltag_ros/AprilTagDetectionArray.h:19[m[K,
+                 from [01m[K/home/nikolavukas/project/src/assignment2_package/src/detection_collision_node.cpp:2[m[K:
+[01m[K/opt/ros/noetic/include/geometry_msgs/Pose.h:24:8:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kconstexpr geometry_msgs::Pose_<std::allocator<void> >& geometry_msgs::Pose_<std::allocator<void> >::operator=(const geometry_msgs::Pose_<std::allocator<void> >&)[m[K’
+   24 | struct [01;36m[KPose_[m[K
+      |        [01;36m[K^~~~~[m[K
+[01m[K/opt/ros/noetic/include/geometry_msgs/Pose.h:24:8:[m[K [01;36m[Knote: [m[K  no known conversion for argument 1 from ‘[01m[Kgeometry_msgs::Transform[m[K’ {aka ‘[01m[Kgeometry_msgs::Transform_<std::allocator<void> >[m[K’} to ‘[01m[Kconst geometry_msgs::Pose_<std::allocator<void> >&[m[K’
+[01m[K/opt/ros/noetic/include/geometry_msgs/Pose.h:24:8:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kconstexpr geometry_msgs::Pose_<std::allocator<void> >& geometry_msgs::Pose_<std::allocator<void> >::operator=(geometry_msgs::Pose_<std::allocator<void> >&&)[m[K’
+[01m[K/opt/ros/noetic/include/geometry_msgs/Pose.h:24:8:[m[K [01;36m[Knote: [m[K  no known conversion for argument 1 from ‘[01m[Kgeometry_msgs::Transform[m[K’ {aka ‘[01m[Kgeometry_msgs::Transform_<std::allocator<void> >[m[K’} to ‘[01m[Kgeometry_msgs::Pose_<std::allocator<void> >&&[m[K’
+make[2]: *** [CMakeFiles/detection_collision_node.dir/build.make:63: CMakeFiles/detection_collision_node.dir/src/detection_collision_node.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:519: CMakeFiles/detection_collision_node.dir/all] Error 2
+make: *** [Makefile:141: all] Error 2

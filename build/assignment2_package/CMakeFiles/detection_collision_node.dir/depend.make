@@ -126,6 +126,7 @@ CMakeFiles/detection_collision_node.dir/src/detection_collision_node.cpp.o: /opt
 CMakeFiles/detection_collision_node.dir/src/detection_collision_node.cpp.o: /opt/ros/noetic/include/std_msgs/ColorRGBA.h
 CMakeFiles/detection_collision_node.dir/src/detection_collision_node.cpp.o: /opt/ros/noetic/include/std_msgs/Empty.h
 CMakeFiles/detection_collision_node.dir/src/detection_collision_node.cpp.o: /opt/ros/noetic/include/std_msgs/Header.h
+CMakeFiles/detection_collision_node.dir/src/detection_collision_node.cpp.o: /opt/ros/noetic/include/std_msgs/String.h
 CMakeFiles/detection_collision_node.dir/src/detection_collision_node.cpp.o: /opt/ros/noetic/include/tf2/LinearMath/Matrix3x3.h
 CMakeFiles/detection_collision_node.dir/src/detection_collision_node.cpp.o: /opt/ros/noetic/include/tf2/LinearMath/MinMax.h
 CMakeFiles/detection_collision_node.dir/src/detection_collision_node.cpp.o: /opt/ros/noetic/include/tf2/LinearMath/QuadWord.h

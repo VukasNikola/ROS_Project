@@ -87,10 +87,10 @@ int main(int argc, char** argv)
 
   // --- Navigation to the Placing Table ---
   // Assuming the placing table is to the right of the current location,
-  // adjust the coordinates accordingly. Here we shift 1 meter to the right.
+  // shift 0.5 meter to the right.
   goal.target_pose.header.stamp = ros::Time::now();
   goal.target_pose.pose.position.x = 8.7;  // same x
-  goal.target_pose.pose.position.y = -2.5 + 1.0;  // shift right by 1 m
+  goal.target_pose.pose.position.y = -2.5 + 0.5;  // shift right by 0.5 m
   {
     tf2::Quaternion q;
     // Maintain the same orientation (facing negative x)
@@ -126,7 +126,7 @@ int main(int argc, char** argv)
   double x_target = 0.5;
   double y_target = m_coeff * x_target + q_coeff;
   geometry_msgs::PoseStamped placing_pose_table;
-  // Use the fixed frame for the table (for a static object use "apriltag_10" if that tag is on the table)
+  // Use the table’s frame (e.g., if static, you can use "tag_10" or a fixed table frame)
   placing_pose_table.header.frame_id = "tag_10";
   placing_pose_table.header.stamp = ros::Time::now();
   placing_pose_table.pose.position.x = x_target;
@@ -134,7 +134,7 @@ int main(int argc, char** argv)
   placing_pose_table.pose.position.z = 0.1;  // 10 cm above table
   placing_pose_table.pose.orientation.w = 1.0;
 
-  // Transform the placing pose from the table frame ("apriltag_10") to "base_link"
+  // Transform the placing pose from the table frame to "base_link"
   tf2_ros::Buffer tfBuffer;
   tf2_ros::TransformListener tfListener(tfBuffer);
   geometry_msgs::PoseStamped placing_pose_robot;

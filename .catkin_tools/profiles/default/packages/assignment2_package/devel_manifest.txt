@@ -13,6 +13,7 @@ assignment2_package
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/__init__.py /home/nikolavukas/project/devel/lib/python3/dist-packages/assignment2_package/srv/__init__.py
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/detection_collision_node /home/nikolavukas/project/devel/lib/assignment2_package/detection_collision_node
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/manipulation_node /home/nikolavukas/project/devel/lib/assignment2_package/manipulation_node
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/move_head_down_node /home/nikolavukas/project/devel/lib/assignment2_package/move_head_down_node
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/coordinator_node /home/nikolavukas/project/devel/lib/assignment2_package/coordinator_node
 /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/manifest.l /home/nikolavukas/project/devel/share/roseus/ros/assignment2_package/manifest.l
 /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PlaceObject.l /home/nikolavukas/project/devel/share/roseus/ros/assignment2_package/srv/PlaceObject.l
