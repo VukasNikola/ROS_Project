@@ -15,20 +15,6 @@ tiago_iaslab_simulation/ObjsResponse.h
 -
 
 /home/nikolavukas/project/devel/include/tiago_iaslab_simulation/ObjsRequest.h
-string
--
-vector
--
-memory
--
-ros/types.h
--
-ros/serialization.h
--
-ros/builtin_message_traits.h
--
-ros/message_operations.h
--
 
 /home/nikolavukas/project/devel/include/tiago_iaslab_simulation/ObjsResponse.h
 string

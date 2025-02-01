@@ -1,0 +1,13 @@
+<launch>
+  <!-- Coordinator Node -->
+  <node pkg="assignment2_package" type="coordinator_node" name="coordinator_node" output="screen" />
+
+  <!-- Detection and Collision Setup Node -->
+  <node pkg="assignment2_package" type="detection_collision_node" name="detection_collision_node" output="screen" />
+
+  <!-- Manipulation Node -->
+  <node pkg="assignment2_package" type="manipulation_node" name="manipulation_node" output="screen" />
+
+  <!-- Move Head Down Node (using head_action) -->
+  <node pkg="assignment2_package" type="move_head_down_node" name="move_head_down_node" output="screen" />
+</launch>

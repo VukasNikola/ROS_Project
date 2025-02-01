@@ -1,7 +1,0 @@
-[35m[1mScanning dependencies of target node_b[0m
-[ 25%] Built target move_head_down_node
-[ 37%] [32mBuilding CXX object CMakeFiles/node_b.dir/src/node_b.cpp.o[0m
-[ 62%] Built target waypoints_navigation_node
-[ 87%] Built target node_a
-[100%] [32m[1mLinking CXX executable /home/nikolavukas/project/devel/.private/tiago_search_detect/lib/tiago_search_detect/node_b[0m
-[100%] Built target node_b

@@ -1,0 +1,8 @@
+prefix=/home/nikolavukas/project/install
+
+Name: assignment2
+Description: Description of assignment2
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: actionlib apriltag_ros move_base_msgs roscpp sensor_msgs tf tf2 tf2_geometry_msgs

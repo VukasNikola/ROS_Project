@@ -1,0 +1,90 @@
+[01m[K/home/nikolavukas/project/src/assignment2/src/table_navigation.cpp:9:1:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[Kwhile[m[K’
+    9 | [01;31m[Kwhile[m[K(!ac.waitForServer(ros::Duration(5.0))){
+      | [01;31m[K^~~~~[m[K
+[01m[K/home/nikolavukas/project/src/assignment2/src/table_navigation.cpp:14:1:[m[K [01;31m[Kerror: [m[K‘[01m[Kgoal[m[K’ does not name a type
+   14 | [01;31m[Kgoal[m[K.target_pose.header.frame_id = "map"; // or the appropriate frame
+      | [01;31m[K^~~~[m[K
+[01m[K/home/nikolavukas/project/src/assignment2/src/table_navigation.cpp:15:1:[m[K [01;31m[Kerror: [m[K‘[01m[Kgoal[m[K’ does not name a type
+   15 | [01;31m[Kgoal[m[K.target_pose.header.stamp = ros::Time::now();
+      | [01;31m[K^~~~[m[K
+[01m[K/home/nikolavukas/project/src/assignment2/src/table_navigation.cpp:16:1:[m[K [01;31m[Kerror: [m[K‘[01m[Kgoal[m[K’ does not name a type
+   16 | [01;31m[Kgoal[m[K.target_pose.pose.position.x = /* your x coordinate */;
+      | [01;31m[K^~~~[m[K
+[01m[K/home/nikolavukas/project/src/assignment2/src/table_navigation.cpp:17:1:[m[K [01;31m[Kerror: [m[K‘[01m[Kgoal[m[K’ does not name a type
+   17 | [01;31m[Kgoal[m[K.target_pose.pose.position.y = /* your y coordinate */;
+      | [01;31m[K^~~~[m[K
+[01m[K/home/nikolavukas/project/src/assignment2/src/table_navigation.cpp:19:1:[m[K [01;31m[Kerror: [m[K‘[01m[Kgoal[m[K’ does not name a type
+   19 | [01;31m[Kgoal[m[K.target_pose.pose.orientation = tf::createQuaternionMsgFromYaw(/* your yaw angle */);
+      | [01;31m[K^~~~[m[K
+In file included from [01m[K/opt/ros/noetic/include/ros/ros.h:40[m[K,
+                 from [01m[K/opt/ros/noetic/include/actionlib/client/simple_action_client.h:45[m[K,
+                 from [01m[K/home/nikolavukas/project/src/assignment2/src/table_navigation.cpp:2[m[K:
+[01m[K/opt/ros/noetic/include/ros/console.h:384:3:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[Kdo[m[K’
+  384 |   [01;31m[Kdo[m[K \
+      |   [01;31m[K^~[m[K
+[01m[K/opt/ros/noetic/include/ros/console.h:575:35:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_LOG_COND[m[K’
+  575 | #define ROS_LOG(level, name, ...) [01;36m[KROS_LOG_COND[m[K(true, level, name, __VA_ARGS__)
+      |                                   [01;36m[K^~~~~~~~~~~~[m[K
+[01m[K/opt/ros/noetic/include/rosconsole/macros_generated.h:110:23:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_LOG[m[K’
+  110 | #define ROS_INFO(...) [01;36m[KROS_LOG[m[K(::ros::console::levels::Info, ROSCONSOLE_DEFAULT_NAME, __VA_ARGS__)
+      |                       [01;36m[K^~~~~~~[m[K
+[01m[K/home/nikolavukas/project/src/assignment2/src/table_navigation.cpp:21:1:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_INFO[m[K’
+   21 | [01;36m[KROS_INFO[m[K("Sending goal");
+      | [01;36m[K^~~~~~~~[m[K
+[01m[K/opt/ros/noetic/include/ros/console.h:392:5:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[Kwhile[m[K’
+  392 |   } [01;31m[Kwhile[m[K(false)
+      |     [01;31m[K^~~~~[m[K
+[01m[K/opt/ros/noetic/include/ros/console.h:575:35:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_LOG_COND[m[K’
+  575 | #define ROS_LOG(level, name, ...) [01;36m[KROS_LOG_COND[m[K(true, level, name, __VA_ARGS__)
+      |                                   [01;36m[K^~~~~~~~~~~~[m[K
+[01m[K/opt/ros/noetic/include/rosconsole/macros_generated.h:110:23:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_LOG[m[K’
+  110 | #define ROS_INFO(...) [01;36m[KROS_LOG[m[K(::ros::console::levels::Info, ROSCONSOLE_DEFAULT_NAME, __VA_ARGS__)
+      |                       [01;36m[K^~~~~~~[m[K
+[01m[K/home/nikolavukas/project/src/assignment2/src/table_navigation.cpp:21:1:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_INFO[m[K’
+   21 | [01;36m[KROS_INFO[m[K("Sending goal");
+      | [01;36m[K^~~~~~~~[m[K
+[01m[K/home/nikolavukas/project/src/assignment2/src/table_navigation.cpp:22:1:[m[K [01;31m[Kerror: [m[K‘[01m[Kac[m[K’ does not name a type
+   22 | [01;31m[Kac[m[K.sendGoal(goal);
+      | [01;31m[K^~[m[K
+[01m[K/home/nikolavukas/project/src/assignment2/src/table_navigation.cpp:24:1:[m[K [01;31m[Kerror: [m[K‘[01m[Kac[m[K’ does not name a type
+   24 | [01;31m[Kac[m[K.waitForResult();
+      | [01;31m[K^~[m[K
+[01m[K/home/nikolavukas/project/src/assignment2/src/table_navigation.cpp:25:1:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[Kif[m[K’
+   25 | [01;31m[Kif[m[K(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
+      | [01;31m[K^~[m[K
+In file included from [01m[K/opt/ros/noetic/include/ros/ros.h:40[m[K,
+                 from [01m[K/opt/ros/noetic/include/actionlib/client/simple_action_client.h:45[m[K,
+                 from [01m[K/home/nikolavukas/project/src/assignment2/src/table_navigation.cpp:2[m[K:
+[01m[K/opt/ros/noetic/include/ros/console.h:392:5:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[Kwhile[m[K’
+  392 |   } [01;31m[Kwhile[m[K(false)
+      |     [01;31m[K^~~~~[m[K
+[01m[K/opt/ros/noetic/include/ros/console.h:575:35:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_LOG_COND[m[K’
+  575 | #define ROS_LOG(level, name, ...) [01;36m[KROS_LOG_COND[m[K(true, level, name, __VA_ARGS__)
+      |                                   [01;36m[K^~~~~~~~~~~~[m[K
+[01m[K/opt/ros/noetic/include/rosconsole/macros_generated.h:110:23:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_LOG[m[K’
+  110 | #define ROS_INFO(...) [01;36m[KROS_LOG[m[K(::ros::console::levels::Info, ROSCONSOLE_DEFAULT_NAME, __VA_ARGS__)
+      |                       [01;36m[K^~~~~~~[m[K
+[01m[K/home/nikolavukas/project/src/assignment2/src/table_navigation.cpp:26:5:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_INFO[m[K’
+   26 |     [01;36m[KROS_INFO[m[K("The robot reached the goal");
+      |     [01;36m[K^~~~~~~~[m[K
+[01m[K/home/nikolavukas/project/src/assignment2/src/table_navigation.cpp:27:1:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[Kelse[m[K’
+   27 | [01;31m[Kelse[m[K
+      | [01;31m[K^~~~[m[K
+In file included from [01m[K/opt/ros/noetic/include/ros/ros.h:40[m[K,
+                 from [01m[K/opt/ros/noetic/include/actionlib/client/simple_action_client.h:45[m[K,
+                 from [01m[K/home/nikolavukas/project/src/assignment2/src/table_navigation.cpp:2[m[K:
+[01m[K/opt/ros/noetic/include/ros/console.h:392:5:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[Kwhile[m[K’
+  392 |   } [01;31m[Kwhile[m[K(false)
+      |     [01;31m[K^~~~~[m[K
+[01m[K/opt/ros/noetic/include/ros/console.h:575:35:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_LOG_COND[m[K’
+  575 | #define ROS_LOG(level, name, ...) [01;36m[KROS_LOG_COND[m[K(true, level, name, __VA_ARGS__)
+      |                                   [01;36m[K^~~~~~~~~~~~[m[K
+[01m[K/opt/ros/noetic/include/rosconsole/macros_generated.h:110:23:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_LOG[m[K’
+  110 | #define ROS_INFO(...) [01;36m[KROS_LOG[m[K(::ros::console::levels::Info, ROSCONSOLE_DEFAULT_NAME, __VA_ARGS__)
+      |                       [01;36m[K^~~~~~~[m[K
+[01m[K/home/nikolavukas/project/src/assignment2/src/table_navigation.cpp:28:5:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_INFO[m[K’
+   28 |     [01;36m[KROS_INFO[m[K("The robot failed to reach the goal");
+      |     [01;36m[K^~~~~~~~[m[K
+make[2]: *** [CMakeFiles/table_navigation.dir/build.make:63: CMakeFiles/table_navigation.dir/src/table_navigation.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:206: CMakeFiles/table_navigation.dir/all] Error 2
+make: *** [Makefile:141: all] Error 2

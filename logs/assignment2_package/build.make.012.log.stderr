@@ -1,0 +1,22 @@
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/manipulation_node.cpp:[m[K In function ‘[01m[Kbool controlGripper(const ros::NodeHandle&, const string&)[m[K’:
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/manipulation_node.cpp:23:99:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[Kros::NodeHandle::serviceClient<std_srvs::Trigger>(std::__cxx11::basic_string<char>) const[m[K’
+   23 |   ros::ServiceClient client = nh.serviceClient<std_srvs::Trigger>("/gripper_controller/" + command[01;31m[K)[m[K;
+      |                                                                                                   [01;31m[K^[m[K
+In file included from [01m[K/opt/ros/noetic/include/ros/ros.h:45[m[K,
+                 from [01m[K/home/nikolavukas/project/src/assignment2_package/src/manipulation_node.cpp:1[m[K:
+[01m[K/opt/ros/noetic/include/ros/node_handle.h:1238:17:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Ktemplate<class MReq, class MRes> ros::ServiceClient ros::NodeHandle::serviceClient(const string&, bool, const M_string&)[m[K’
+ 1238 |   ServiceClient [01;36m[KserviceClient[m[K(const std::string& service_name, bool persistent = false,
+      |                 [01;36m[K^~~~~~~~~~~~~[m[K
+[01m[K/opt/ros/noetic/include/ros/node_handle.h:1238:17:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/manipulation_node.cpp:23:99:[m[K [01;36m[Knote: [m[K  couldn’t deduce template parameter ‘[01m[KMRes[m[K’
+   23 |   ros::ServiceClient client = nh.serviceClient<std_srvs::Trigger>("/gripper_controller/" + command[01;36m[K)[m[K;
+      |                                                                                                   [01;36m[K^[m[K
+In file included from [01m[K/opt/ros/noetic/include/ros/ros.h:45[m[K,
+                 from [01m[K/home/nikolavukas/project/src/assignment2_package/src/manipulation_node.cpp:1[m[K:
+[01m[K/opt/ros/noetic/include/ros/node_handle.h:1258:17:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kros::ServiceClient ros::NodeHandle::serviceClient(const string&, bool, const M_string&) [with Service = std_srvs::Trigger; std::string = std::__cxx11::basic_string<char>; ros::M_string = std::map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> >][m[K’ <near match>
+ 1258 |   ServiceClient [01;36m[KserviceClient[m[K(const std::string& service_name, bool persistent = false,
+      |                 [01;36m[K^~~~~~~~~~~~~[m[K
+[01m[K/opt/ros/noetic/include/ros/node_handle.h:1258:17:[m[K [01;36m[Knote: [m[K  passing ‘[01m[Kconst ros::NodeHandle*[m[K’ as ‘[01m[Kthis[m[K’ argument discards qualifiers
+make[2]: *** [CMakeFiles/manipulation_node.dir/build.make:63: CMakeFiles/manipulation_node.dir/src/manipulation_node.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:378: CMakeFiles/manipulation_node.dir/all] Error 2
+make: *** [Makefile:141: all] Error 2

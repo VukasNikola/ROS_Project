@@ -1,0 +1,11 @@
+[01m[K/home/nikolavukas/project/src/assignment2/src/collision_objects.cpp:[m[K In function ‘[01m[Kint main(int, char**)[m[K’:
+[01m[K/home/nikolavukas/project/src/assignment2/src/collision_objects.cpp:20:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kmoveit::planning_interface[m[K’ has not been declared
+   20 |   moveit::[01;31m[Kplanning_interface[m[K::PlanningSceneInterface planning_scene_interface;
+      |           [01;31m[K^~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/nikolavukas/project/src/assignment2/src/collision_objects.cpp:171:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kplanning_scene_interface[m[K’ was not declared in this scope; did you mean ‘[01m[Kplanning_interface[m[K’?
+  171 |   [01;31m[Kplanning_scene_interface[m[K.addCollisionObjects(collision_objects);
+      |   [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~[m[K
+      |   [32m[Kplanning_interface[m[K
+make[2]: *** [CMakeFiles/collision_objects.dir/build.make:63: CMakeFiles/collision_objects.dir/src/collision_objects.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:1574: CMakeFiles/collision_objects.dir/all] Error 2
+make: *** [Makefile:141: all] Error 2

@@ -1,0 +1,5 @@
+# PickObject.srv
+# (Empty request)
+---
+bool success
+string message

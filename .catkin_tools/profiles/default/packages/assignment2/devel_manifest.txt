@@ -1,0 +1,7 @@
+assignment2
+/home/nikolavukas/project/devel/.private/assignment2/cmake.lock /home/nikolavukas/project/devel/./cmake.lock
+/home/nikolavukas/project/devel/.private/assignment2/lib/pkgconfig/assignment2.pc /home/nikolavukas/project/devel/lib/pkgconfig/assignment2.pc
+/home/nikolavukas/project/devel/.private/assignment2/lib/assignment2/table_navigation /home/nikolavukas/project/devel/lib/assignment2/table_navigation
+/home/nikolavukas/project/devel/.private/assignment2/lib/assignment2/collision_objects /home/nikolavukas/project/devel/lib/assignment2/collision_objects
+/home/nikolavukas/project/devel/.private/assignment2/share/assignment2/cmake/assignment2Config-version.cmake /home/nikolavukas/project/devel/share/assignment2/cmake/assignment2Config-version.cmake
+/home/nikolavukas/project/devel/.private/assignment2/share/assignment2/cmake/assignment2Config.cmake /home/nikolavukas/project/devel/share/assignment2/cmake/assignment2Config.cmake
