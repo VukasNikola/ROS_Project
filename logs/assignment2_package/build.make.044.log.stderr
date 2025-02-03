@@ -1,0 +1,7 @@
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/detection_collision_node.cpp:17:10:[m[K [01;31m[Kfatal error: [m[Kassignment2_package/DetectionCollisionConfig.h: No such file or directory
+   17 | #include [01;31m[K<assignment2_package/DetectionCollisionConfig.h>[m[K // Adjust package name if needed
+      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+compilation terminated.
+make[2]: *** [CMakeFiles/detection_collision_node.dir/build.make:63: CMakeFiles/detection_collision_node.dir/src/detection_collision_node.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:519: CMakeFiles/detection_collision_node.dir/all] Error 2
+make: *** [Makefile:141: all] Error 2
