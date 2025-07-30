@@ -12,8 +12,6 @@
 #include <cmath>
 #include "assignment2_package/GetObjectPose.h"
 #include "assignment2_package/PickObject.h"
-// (Assumption: Node C provides a service for picking an object, e.g., "PickObject.srv",
-// taking a PoseStamped and returning success. Alternatively, Node A can command Node B and Node C separately.)
 
 // Define some global parameters or constants
 static const std::string PLANNING_GROUP_ARM = "arm";         // TIAGo arm planning group name
@@ -27,6 +25,8 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "node_A");
     ros::NodeHandle nh;
+    ros::AsyncSpinner spinner(1);
+    spinner.start();
 
     // Service client to get line coefficients from /straight_line_srv
     ros::ServiceClient coeffs_client = nh.serviceClient<tiago_iaslab_simulation::Coeffs>("/straight_line_srv");
@@ -68,6 +68,57 @@ int main(int argc, char **argv)
         ROS_INFO("Node A: Gripper opened.");
     else
         ROS_WARN("Node A: Gripper open failed.");
+    
+    
+    actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> ac("move_base", true);
+    ROS_INFO("Waiting for move_base action server...");
+    ac.waitForServer();
+    ROS_INFO("Connected to move_base action server.");
+
+    // Create an action client for move_base.
+    move_base_msgs::MoveBaseGoal goal;
+    goal.target_pose.header.frame_id = "odom";
+
+    // --- Navigation Sequence to the Pick-Up Table ---
+    // 1st Goal: (8.9, -1) with yaw = 0.
+    goal.target_pose.header.stamp = ros::Time::now();
+    goal.target_pose.pose.position.x = 8.9;
+    goal.target_pose.pose.position.y = -1.0;
+    {
+        tf2::Quaternion q;
+        double yaw = 0.0; // facing positive x
+        q.setRPY(0.0, 0.0, yaw);
+        goal.target_pose.pose.orientation = tf2::toMsg(q);
+    }
+    ROS_INFO("Sending 1st goal: (8.9, -1) with yaw = 0");
+    ac.sendGoal(goal);
+    ac.waitForResult();
+    if (ac.getState() != actionlib::SimpleClientGoalState::SUCCEEDED)
+    {
+        ROS_ERROR("Failed to reach first goal.");
+        return 1;
+    }
+    ROS_INFO("Reached first goal.");
+
+    // 2nd Goal: (8.9, -2.5) with yaw = 0.
+    goal.target_pose.header.stamp = ros::Time::now();
+    goal.target_pose.pose.position.x = 8.9;
+    goal.target_pose.pose.position.y = -2.5;
+    {
+        tf2::Quaternion q;
+         double yaw = M_PI;
+        q.setRPY(0.0, 0.0, yaw);
+        goal.target_pose.pose.orientation = tf2::toMsg(q);
+    }
+    ROS_INFO("Sending 2nd goal: (8.9, -2.5) with yaw = 0");
+    ac.sendGoal(goal);
+    ac.waitForResult();
+    if (ac.getState() != actionlib::SimpleClientGoalState::SUCCEEDED)
+    {
+        ROS_ERROR("Failed to reach second goal.");
+        return 1;
+    }
+    ROS_INFO("Reached second goal.");
 
     // Define placement points along the line y = m*x + q (in tag10 frame coordinates).
     // We choose 3 points with some fixed spacing in x. These should lie within the table surface.
@@ -104,55 +155,7 @@ int main(int argc, char **argv)
     ros::Duration(1.0).sleep(); // wait a moment for TF frames to become available
 
     // Loop over each object to pick and place
-    // Create an action client for move_base.
-    actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> ac("move_base", true);
-    ROS_INFO("Waiting for move_base action server...");
-    ac.waitForServer();
-    ROS_INFO("Connected to move_base action server.");
-
-    move_base_msgs::MoveBaseGoal goal;
-    goal.target_pose.header.frame_id = "map";
-
-    // --- Navigation Sequence to the Pick-Up Table ---
-    // 1st Goal: (8.9, -1) with yaw = 0.
-    goal.target_pose.header.stamp = ros::Time::now();
-    goal.target_pose.pose.position.x = 8.9;
-    goal.target_pose.pose.position.y = -1.0;
-    {
-        tf2::Quaternion q;
-        double yaw = 0.0; // facing positive x
-        q.setRPY(0.0, 0.0, yaw);
-        goal.target_pose.pose.orientation = tf2::toMsg(q);
-    }
-    ROS_INFO("Sending 1st goal: (8.9, -1) with yaw = 0");
-    ac.sendGoal(goal);
-    ac.waitForResult();
-    if (ac.getState() != actionlib::SimpleClientGoalState::SUCCEEDED)
-    {
-        ROS_ERROR("Failed to reach first goal.");
-        return 1;
-    }
-    ROS_INFO("Reached first goal.");
-
-    // 2nd Goal: (8.9, -2.5) with yaw = 0.
-    goal.target_pose.header.stamp = ros::Time::now();
-    goal.target_pose.pose.position.x = 8.9;
-    goal.target_pose.pose.position.y = -2.5;
-    {
-        tf2::Quaternion q;
-        double yaw = 0.0;
-        q.setRPY(0.0, 0.0, yaw);
-        goal.target_pose.pose.orientation = tf2::toMsg(q);
-    }
-    ROS_INFO("Sending 2nd goal: (8.9, -2.5) with yaw = 0");
-    ac.sendGoal(goal);
-    ac.waitForResult();
-    if (ac.getState() != actionlib::SimpleClientGoalState::SUCCEEDED)
-    {
-        ROS_ERROR("Failed to reach second goal.");
-        return 1;
-    }
-    ROS_INFO("Reached second goal.");
+   
 
     for (int idx = 0; idx < num_objects && ros::ok(); ++idx)
     {
