@@ -1,5 +1,3 @@
-# PickObject.srv
-# (Empty request)
+geometry_msgs/PoseStamped target
 ---
 bool success
-string message

@@ -1,0 +1,23 @@
+<launch>
+  <!-- 1) Load robot_description from your xacro -->
+  <param name="robot_description" command="$(find xacro)/xacro $(find my_robot_description)/urdf/robot.urdf.xacro" />
+
+  <!-- 2) Load the SRDF (defines named targets) -->
+  <rosparam param="robot_description_semantic" textfile="$(find my_moveit_config)/config/robot.srdf" />
+
+  <!-- 3) (Optionally) load any kinematics, joint limits, etc -->
+  <rosparam file="$(find my_moveit_config)/config/kinematics.yaml" command="load" />
+  <rosparam file="$(find my_moveit_config)/config/joint_limits.yaml" command="load" />
+
+  <!-- 4) Start the MoveIt! planning pipeline (fake execution for demo) -->
+  <include file="$(find moveit_ros_move_group)/launch/move_group.launch">
+    <arg name="allow_trajectory_execution" value="false"/>
+    <arg name="fake_execution" value="true"/>
+  </include>
+
+  <!-- 5) Finally, launch your node to list the named targets -->
+  <node name="test_node"
+        pkg="assignment_2"
+        type="test_node"
+        output="screen"/>
+</launch>
