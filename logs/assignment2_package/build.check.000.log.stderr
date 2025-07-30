@@ -1,0 +1,5 @@
+[31m[1mCMake Error[0m at /home/nikolavukas/project/src/assignment2_package/CMakeLists.txt:48 (add_executable):
+  The target name "test" is reserved when CTest testing is enabled.
+
+
+make: *** [Makefile:2190: cmake_check_build_system] Error 1

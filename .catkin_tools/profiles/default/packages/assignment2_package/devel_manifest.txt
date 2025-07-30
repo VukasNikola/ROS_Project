@@ -1,7 +1,10 @@
 assignment2_package
 /home/nikolavukas/project/devel/.private/assignment2_package/cmake.lock /home/nikolavukas/project/devel/./cmake.lock
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/GetObjectPoseRequest.h /home/nikolavukas/project/devel/include/assignment2_package/GetObjectPoseRequest.h
 /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PickObjectResponse.h /home/nikolavukas/project/devel/include/assignment2_package/PickObjectResponse.h
 /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PickObjectRequest.h /home/nikolavukas/project/devel/include/assignment2_package/PickObjectRequest.h
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/GetObjectPoseResponse.h /home/nikolavukas/project/devel/include/assignment2_package/GetObjectPoseResponse.h
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/GetObjectPose.h /home/nikolavukas/project/devel/include/assignment2_package/GetObjectPose.h
 /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PlaceObjectResponse.h /home/nikolavukas/project/devel/include/assignment2_package/PlaceObjectResponse.h
 /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PlaceObjectRequest.h /home/nikolavukas/project/devel/include/assignment2_package/PlaceObjectRequest.h
 /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PickObject.h /home/nikolavukas/project/devel/include/assignment2_package/PickObject.h
@@ -9,14 +12,20 @@ assignment2_package
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/pkgconfig/assignment2_package.pc /home/nikolavukas/project/devel/lib/pkgconfig/assignment2_package.pc
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/__init__.py /home/nikolavukas/project/devel/lib/python3/dist-packages/assignment2_package/__init__.py
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PlaceObject.py /home/nikolavukas/project/devel/lib/python3/dist-packages/assignment2_package/srv/_PlaceObject.py
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_GetObjectPose.py /home/nikolavukas/project/devel/lib/python3/dist-packages/assignment2_package/srv/_GetObjectPose.py
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PickObject.py /home/nikolavukas/project/devel/lib/python3/dist-packages/assignment2_package/srv/_PickObject.py
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/__init__.py /home/nikolavukas/project/devel/lib/python3/dist-packages/assignment2_package/srv/__init__.py
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_C /home/nikolavukas/project/devel/lib/assignment2_package/node_C
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/test_node /home/nikolavukas/project/devel/lib/assignment2_package/test_node
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/detection_collision_node /home/nikolavukas/project/devel/lib/assignment2_package/detection_collision_node
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_A /home/nikolavukas/project/devel/lib/assignment2_package/node_A
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B /home/nikolavukas/project/devel/lib/assignment2_package/node_B
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/manipulation_node /home/nikolavukas/project/devel/lib/assignment2_package/manipulation_node
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/move_head_down_node /home/nikolavukas/project/devel/lib/assignment2_package/move_head_down_node
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/coordinator_node /home/nikolavukas/project/devel/lib/assignment2_package/coordinator_node
 /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/manifest.l /home/nikolavukas/project/devel/share/roseus/ros/assignment2_package/manifest.l
 /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PlaceObject.l /home/nikolavukas/project/devel/share/roseus/ros/assignment2_package/srv/PlaceObject.l
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/GetObjectPose.l /home/nikolavukas/project/devel/share/roseus/ros/assignment2_package/srv/GetObjectPose.l
 /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PickObject.l /home/nikolavukas/project/devel/share/roseus/ros/assignment2_package/srv/PickObject.l
 /home/nikolavukas/project/devel/.private/assignment2_package/share/assignment2_package/cmake/assignment2_packageConfig-version.cmake /home/nikolavukas/project/devel/share/assignment2_package/cmake/assignment2_packageConfig-version.cmake
 /home/nikolavukas/project/devel/.private/assignment2_package/share/assignment2_package/cmake/assignment2_package-msg-extras.cmake /home/nikolavukas/project/devel/share/assignment2_package/cmake/assignment2_package-msg-extras.cmake
@@ -25,9 +34,12 @@ assignment2_package
 /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/_index.js /home/nikolavukas/project/devel/share/gennodejs/ros/assignment2_package/_index.js
 /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PlaceObject.js /home/nikolavukas/project/devel/share/gennodejs/ros/assignment2_package/srv/PlaceObject.js
 /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PickObject.js /home/nikolavukas/project/devel/share/gennodejs/ros/assignment2_package/srv/PickObject.js
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/GetObjectPose.js /home/nikolavukas/project/devel/share/gennodejs/ros/assignment2_package/srv/GetObjectPose.js
 /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/_index.js /home/nikolavukas/project/devel/share/gennodejs/ros/assignment2_package/srv/_index.js
 /home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/assignment2_package-srv.asd /home/nikolavukas/project/devel/share/common-lisp/ros/assignment2_package/srv/assignment2_package-srv.asd
+/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/_package_GetObjectPose.lisp /home/nikolavukas/project/devel/share/common-lisp/ros/assignment2_package/srv/_package_GetObjectPose.lisp
 /home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/_package_PickObject.lisp /home/nikolavukas/project/devel/share/common-lisp/ros/assignment2_package/srv/_package_PickObject.lisp
+/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/GetObjectPose.lisp /home/nikolavukas/project/devel/share/common-lisp/ros/assignment2_package/srv/GetObjectPose.lisp
 /home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PickObject.lisp /home/nikolavukas/project/devel/share/common-lisp/ros/assignment2_package/srv/PickObject.lisp
 /home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PlaceObject.lisp /home/nikolavukas/project/devel/share/common-lisp/ros/assignment2_package/srv/PlaceObject.lisp
 /home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/_package.lisp /home/nikolavukas/project/devel/share/common-lisp/ros/assignment2_package/srv/_package.lisp

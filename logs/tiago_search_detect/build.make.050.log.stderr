@@ -1,7 +1,0 @@
-[01m[K/home/nikolavukas/project/src/tiago_search_detect/src/head_mover_node.cpp:[m[K In lambda function:
-[01m[K/home/nikolavukas/project/src/tiago_search_detect/src/head_mover_node.cpp:45:64:[m[K [01;31m[Kerror: [m[K‘[01m[KIDLE[m[K’ is not a member of ‘[01m[Kactionlib::SimpleClientGoalState[m[K’
-   45 |     if(head_ac.getState() != actionlib::SimpleClientGoalState::[01;31m[KIDLE[m[K)
-      |                                                                [01;31m[K^~~~[m[K
-make[2]: *** [CMakeFiles/head_mover_node.dir/build.make:63: CMakeFiles/head_mover_node.dir/src/head_mover_node.cpp.o] Error 1
-make[1]: *** [CMakeFiles/Makefile2:208: CMakeFiles/head_mover_node.dir/all] Error 2
-make: *** [Makefile:141: all] Error 2

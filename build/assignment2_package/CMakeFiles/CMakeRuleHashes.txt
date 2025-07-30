@@ -1,18 +1,23 @@
 # Hashes of file build rules.
+39ec05eedc0734f44549a65918ff2c2e /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/GetObjectPose.h
 de11e8329f047b8445671d97db531c82 /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PickObject.h
 faa0512961435622fc5ebc82005c2be6 /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PlaceObject.h
+053f9b9974f30c07d75a47f74635960e /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_GetObjectPose.py
 a18aa9baf9b288fe8f711f1608b7e13b /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PickObject.py
 0c077b7cd24d2132514de966ffe57019 /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PlaceObject.py
 e40ab07236fdeeb3005390726aef0fed /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/__init__.py
+22b4ba57e19a1e9cb83038ac00b825a0 /home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/GetObjectPose.lisp
 b2200ed54736bf31227f4c3369749ecc /home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PickObject.lisp
 326b435e42a4d6246a4c465a4b81b2ab /home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PlaceObject.lisp
+492dba020d3340e9822bb57d3d77171b /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/GetObjectPose.js
 5d28c4e106e1ee9592b2756f201ed9f6 /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PickObject.js
 76883da39d1d4851914bda5ce69e4208 /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PlaceObject.js
 8f7625a357b98f79d79c63e0bc1ea96a /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/manifest.l
+da82df257178de01029988585e22da54 /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/GetObjectPose.l
 b07b314e6529ed851a7aa3a096be4d1b /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PickObject.l
 7c1f8c4c624e68dfa3a20dcef67843c1 /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PlaceObject.l
-ea564e33d0c2d518982d86d8e655e49d CMakeFiles/_assignment2_package_generate_messages_check_deps_PickObject
-dd7e1d20b9694dd2b12bb94131dff317 CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject
+e29f0b46ee4cfade890e2fc4e223bf86 CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose
+c92707d0196f444fa1673735b0a27d2f CMakeFiles/_assignment2_package_generate_messages_check_deps_PickObject
 3e7cc111bd772bef37220510ecc40a25 CMakeFiles/assignment2_package_generate_messages_cpp
 3e7cc111bd772bef37220510ecc40a25 CMakeFiles/assignment2_package_generate_messages_eus
 3e7cc111bd772bef37220510ecc40a25 CMakeFiles/assignment2_package_generate_messages_lisp

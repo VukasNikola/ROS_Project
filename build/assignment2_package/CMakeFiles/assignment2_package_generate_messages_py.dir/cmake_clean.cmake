@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
+  "/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_GetObjectPose.py"
   "/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PickObject.py"
-  "/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PlaceObject.py"
   "/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/__init__.py"
   "CMakeFiles/assignment2_package_generate_messages_py"
 )

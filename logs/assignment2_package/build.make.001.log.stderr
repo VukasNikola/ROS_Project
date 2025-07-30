@@ -1,14 +1,7 @@
-[01m[K/home/nikolavukas/project/src/assignment2_package/src/detection_collision_node.cpp:2:10:[m[K [01;31m[Kfatal error: [m[Kapriltag_ros/AprilTagDetectionArray.h: No such file or directory
-    2 | #include [01;31m[K<apriltag_ros/AprilTagDetectionArray.h>[m[K
-      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
-compilation terminated.
-make[2]: *** [CMakeFiles/detection_collision_node.dir/build.make:63: CMakeFiles/detection_collision_node.dir/src/detection_collision_node.cpp.o] Error 1
-make[1]: *** [CMakeFiles/Makefile2:1171: CMakeFiles/detection_collision_node.dir/all] Error 2
-make[1]: *** Waiting for unfinished jobs....
-[01m[K/home/nikolavukas/project/src/assignment2_package/src/coordinator_node.cpp:9:10:[m[K [01;31m[Kfatal error: [m[Ktiago_iaslab_simulation/Coeffs.h: No such file or directory
-    9 | #include [01;31m[K<tiago_iaslab_simulation/Coeffs.h>[m[K
-      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
-compilation terminated.
-make[2]: *** [CMakeFiles/coordinator_node.dir/build.make:63: CMakeFiles/coordinator_node.dir/src/coordinator_node.cpp.o] Error 1
-make[1]: *** [CMakeFiles/Makefile2:1560: CMakeFiles/coordinator_node.dir/all] Error 2
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/test_node.cpp:[m[K In function ‘[01m[Kint main(int, char**)[m[K’:
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/test_node.cpp:56:98:[m[K [01;31m[Kerror: [m[Kconversion from ‘[01m[Kconst std::vector<std::__cxx11::basic_string<char> >[m[K’ to non-scalar type ‘[01m[Kstd::map<std::__cxx11::basic_string<char>, std::vector<double> >[m[K’ requested
+   56 |     std::map<std::string, std::vector<double>> named_targets = [01;31m[Kgripper_move_group.getNamedTargets()[m[K;
+      |                                                                [01;31m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~[m[K
+make[2]: *** [CMakeFiles/test_node.dir/build.make:63: CMakeFiles/test_node.dir/src/test_node.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:382: CMakeFiles/test_node.dir/all] Error 2
 make: *** [Makefile:141: all] Error 2

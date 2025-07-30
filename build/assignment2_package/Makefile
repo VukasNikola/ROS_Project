@@ -168,30 +168,30 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named manipulation_node
+# Target rules for targets named node_C
 
 # Build rule for target.
-manipulation_node: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 manipulation_node
-.PHONY : manipulation_node
+node_C: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 node_C
+.PHONY : node_C
 
 # fast build rule for target.
-manipulation_node/fast:
-	$(MAKE) -f CMakeFiles/manipulation_node.dir/build.make CMakeFiles/manipulation_node.dir/build
-.PHONY : manipulation_node/fast
+node_C/fast:
+	$(MAKE) -f CMakeFiles/node_C.dir/build.make CMakeFiles/node_C.dir/build
+.PHONY : node_C/fast
 
 #=============================================================================
-# Target rules for targets named detection_collision_node
+# Target rules for targets named node_A
 
 # Build rule for target.
-detection_collision_node: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 detection_collision_node
-.PHONY : detection_collision_node
+node_A: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 node_A
+.PHONY : node_A
 
 # fast build rule for target.
-detection_collision_node/fast:
-	$(MAKE) -f CMakeFiles/detection_collision_node.dir/build.make CMakeFiles/detection_collision_node.dir/build
-.PHONY : detection_collision_node/fast
+node_A/fast:
+	$(MAKE) -f CMakeFiles/node_A.dir/build.make CMakeFiles/node_A.dir/build
+.PHONY : node_A/fast
 
 #=============================================================================
 # Target rules for targets named assignment2_package_genlisp
@@ -324,6 +324,19 @@ moveit_msgs_generate_messages_cpp/fast:
 .PHONY : moveit_msgs_generate_messages_cpp/fast
 
 #=============================================================================
+# Target rules for targets named test_node
+
+# Build rule for target.
+test_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test_node
+.PHONY : test_node
+
+# fast build rule for target.
+test_node/fast:
+	$(MAKE) -f CMakeFiles/test_node.dir/build.make CMakeFiles/test_node.dir/build
+.PHONY : test_node/fast
+
+#=============================================================================
 # Target rules for targets named actionlib_msgs_generate_messages_lisp
 
 # Build rule for target.
@@ -361,6 +374,19 @@ tf_generate_messages_py: cmake_check_build_system
 tf_generate_messages_py/fast:
 	$(MAKE) -f CMakeFiles/tf_generate_messages_py.dir/build.make CMakeFiles/tf_generate_messages_py.dir/build
 .PHONY : tf_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named node_B
+
+# Build rule for target.
+node_B: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 node_B
+.PHONY : node_B
+
+# fast build rule for target.
+node_B/fast:
+	$(MAKE) -f CMakeFiles/node_B.dir/build.make CMakeFiles/node_B.dir/build
+.PHONY : node_B/fast
 
 #=============================================================================
 # Target rules for targets named trajectory_msgs_generate_messages_cpp
@@ -935,19 +961,6 @@ actionlib_generate_messages_cpp/fast:
 .PHONY : actionlib_generate_messages_cpp/fast
 
 #=============================================================================
-# Target rules for targets named rosgraph_msgs_generate_messages_nodejs
-
-# Build rule for target.
-rosgraph_msgs_generate_messages_nodejs: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 rosgraph_msgs_generate_messages_nodejs
-.PHONY : rosgraph_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-rosgraph_msgs_generate_messages_nodejs/fast:
-	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build
-.PHONY : rosgraph_msgs_generate_messages_nodejs/fast
-
-#=============================================================================
 # Target rules for targets named std_msgs_generate_messages_cpp
 
 # Build rule for target.
@@ -959,19 +972,6 @@ std_msgs_generate_messages_cpp: cmake_check_build_system
 std_msgs_generate_messages_cpp/fast:
 	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make CMakeFiles/std_msgs_generate_messages_cpp.dir/build
 .PHONY : std_msgs_generate_messages_cpp/fast
-
-#=============================================================================
-# Target rules for targets named coordinator_node
-
-# Build rule for target.
-coordinator_node: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 coordinator_node
-.PHONY : coordinator_node
-
-# fast build rule for target.
-coordinator_node/fast:
-	$(MAKE) -f CMakeFiles/coordinator_node.dir/build.make CMakeFiles/coordinator_node.dir/build
-.PHONY : coordinator_node/fast
 
 #=============================================================================
 # Target rules for targets named std_msgs_generate_messages_nodejs
@@ -1442,19 +1442,6 @@ std_srvs_generate_messages_eus/fast:
 .PHONY : std_srvs_generate_messages_eus/fast
 
 #=============================================================================
-# Target rules for targets named move_head_down_node
-
-# Build rule for target.
-move_head_down_node: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 move_head_down_node
-.PHONY : move_head_down_node
-
-# fast build rule for target.
-move_head_down_node/fast:
-	$(MAKE) -f CMakeFiles/move_head_down_node.dir/build.make CMakeFiles/move_head_down_node.dir/build
-.PHONY : move_head_down_node/fast
-
-#=============================================================================
 # Target rules for targets named std_msgs_generate_messages_eus
 
 # Build rule for target.
@@ -1767,17 +1754,30 @@ bond_generate_messages_py/fast:
 .PHONY : bond_generate_messages_py/fast
 
 #=============================================================================
-# Target rules for targets named _assignment2_package_generate_messages_check_deps_PlaceObject
+# Target rules for targets named rosgraph_msgs_generate_messages_nodejs
 
 # Build rule for target.
-_assignment2_package_generate_messages_check_deps_PlaceObject: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _assignment2_package_generate_messages_check_deps_PlaceObject
-.PHONY : _assignment2_package_generate_messages_check_deps_PlaceObject
+rosgraph_msgs_generate_messages_nodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 rosgraph_msgs_generate_messages_nodejs
+.PHONY : rosgraph_msgs_generate_messages_nodejs
 
 # fast build rule for target.
-_assignment2_package_generate_messages_check_deps_PlaceObject/fast:
-	$(MAKE) -f CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/build.make CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/build
-.PHONY : _assignment2_package_generate_messages_check_deps_PlaceObject/fast
+rosgraph_msgs_generate_messages_nodejs/fast:
+	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build
+.PHONY : rosgraph_msgs_generate_messages_nodejs/fast
+
+#=============================================================================
+# Target rules for targets named _assignment2_package_generate_messages_check_deps_GetObjectPose
+
+# Build rule for target.
+_assignment2_package_generate_messages_check_deps_GetObjectPose: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _assignment2_package_generate_messages_check_deps_GetObjectPose
+.PHONY : _assignment2_package_generate_messages_check_deps_GetObjectPose
+
+# fast build rule for target.
+_assignment2_package_generate_messages_check_deps_GetObjectPose/fast:
+	$(MAKE) -f CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/build.make CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/build
+.PHONY : _assignment2_package_generate_messages_check_deps_GetObjectPose/fast
 
 #=============================================================================
 # Target rules for targets named roscpp_generate_messages_nodejs
@@ -1909,113 +1909,65 @@ gtest/fast:
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest.dir/build.make gtest/googletest/CMakeFiles/gtest.dir/build
 .PHONY : gtest/fast
 
-src/coordinator_node.o: src/coordinator_node.cpp.o
+src/node_A.o: src/node_A.cpp.o
 
-.PHONY : src/coordinator_node.o
-
-# target to build an object file
-src/coordinator_node.cpp.o:
-	$(MAKE) -f CMakeFiles/coordinator_node.dir/build.make CMakeFiles/coordinator_node.dir/src/coordinator_node.cpp.o
-.PHONY : src/coordinator_node.cpp.o
-
-src/coordinator_node.i: src/coordinator_node.cpp.i
-
-.PHONY : src/coordinator_node.i
-
-# target to preprocess a source file
-src/coordinator_node.cpp.i:
-	$(MAKE) -f CMakeFiles/coordinator_node.dir/build.make CMakeFiles/coordinator_node.dir/src/coordinator_node.cpp.i
-.PHONY : src/coordinator_node.cpp.i
-
-src/coordinator_node.s: src/coordinator_node.cpp.s
-
-.PHONY : src/coordinator_node.s
-
-# target to generate assembly for a file
-src/coordinator_node.cpp.s:
-	$(MAKE) -f CMakeFiles/coordinator_node.dir/build.make CMakeFiles/coordinator_node.dir/src/coordinator_node.cpp.s
-.PHONY : src/coordinator_node.cpp.s
-
-src/detection_collision_node.o: src/detection_collision_node.cpp.o
-
-.PHONY : src/detection_collision_node.o
+.PHONY : src/node_A.o
 
 # target to build an object file
-src/detection_collision_node.cpp.o:
-	$(MAKE) -f CMakeFiles/detection_collision_node.dir/build.make CMakeFiles/detection_collision_node.dir/src/detection_collision_node.cpp.o
-.PHONY : src/detection_collision_node.cpp.o
+src/node_A.cpp.o:
+	$(MAKE) -f CMakeFiles/node_C.dir/build.make CMakeFiles/node_C.dir/src/node_A.cpp.o
+	$(MAKE) -f CMakeFiles/node_A.dir/build.make CMakeFiles/node_A.dir/src/node_A.cpp.o
+	$(MAKE) -f CMakeFiles/node_B.dir/build.make CMakeFiles/node_B.dir/src/node_A.cpp.o
+.PHONY : src/node_A.cpp.o
 
-src/detection_collision_node.i: src/detection_collision_node.cpp.i
+src/node_A.i: src/node_A.cpp.i
 
-.PHONY : src/detection_collision_node.i
+.PHONY : src/node_A.i
 
 # target to preprocess a source file
-src/detection_collision_node.cpp.i:
-	$(MAKE) -f CMakeFiles/detection_collision_node.dir/build.make CMakeFiles/detection_collision_node.dir/src/detection_collision_node.cpp.i
-.PHONY : src/detection_collision_node.cpp.i
+src/node_A.cpp.i:
+	$(MAKE) -f CMakeFiles/node_C.dir/build.make CMakeFiles/node_C.dir/src/node_A.cpp.i
+	$(MAKE) -f CMakeFiles/node_A.dir/build.make CMakeFiles/node_A.dir/src/node_A.cpp.i
+	$(MAKE) -f CMakeFiles/node_B.dir/build.make CMakeFiles/node_B.dir/src/node_A.cpp.i
+.PHONY : src/node_A.cpp.i
 
-src/detection_collision_node.s: src/detection_collision_node.cpp.s
+src/node_A.s: src/node_A.cpp.s
 
-.PHONY : src/detection_collision_node.s
+.PHONY : src/node_A.s
 
 # target to generate assembly for a file
-src/detection_collision_node.cpp.s:
-	$(MAKE) -f CMakeFiles/detection_collision_node.dir/build.make CMakeFiles/detection_collision_node.dir/src/detection_collision_node.cpp.s
-.PHONY : src/detection_collision_node.cpp.s
+src/node_A.cpp.s:
+	$(MAKE) -f CMakeFiles/node_C.dir/build.make CMakeFiles/node_C.dir/src/node_A.cpp.s
+	$(MAKE) -f CMakeFiles/node_A.dir/build.make CMakeFiles/node_A.dir/src/node_A.cpp.s
+	$(MAKE) -f CMakeFiles/node_B.dir/build.make CMakeFiles/node_B.dir/src/node_A.cpp.s
+.PHONY : src/node_A.cpp.s
 
-src/manipulation_node.o: src/manipulation_node.cpp.o
+src/test_node.o: src/test_node.cpp.o
 
-.PHONY : src/manipulation_node.o
+.PHONY : src/test_node.o
 
 # target to build an object file
-src/manipulation_node.cpp.o:
-	$(MAKE) -f CMakeFiles/manipulation_node.dir/build.make CMakeFiles/manipulation_node.dir/src/manipulation_node.cpp.o
-.PHONY : src/manipulation_node.cpp.o
+src/test_node.cpp.o:
+	$(MAKE) -f CMakeFiles/test_node.dir/build.make CMakeFiles/test_node.dir/src/test_node.cpp.o
+.PHONY : src/test_node.cpp.o
 
-src/manipulation_node.i: src/manipulation_node.cpp.i
+src/test_node.i: src/test_node.cpp.i
 
-.PHONY : src/manipulation_node.i
-
-# target to preprocess a source file
-src/manipulation_node.cpp.i:
-	$(MAKE) -f CMakeFiles/manipulation_node.dir/build.make CMakeFiles/manipulation_node.dir/src/manipulation_node.cpp.i
-.PHONY : src/manipulation_node.cpp.i
-
-src/manipulation_node.s: src/manipulation_node.cpp.s
-
-.PHONY : src/manipulation_node.s
-
-# target to generate assembly for a file
-src/manipulation_node.cpp.s:
-	$(MAKE) -f CMakeFiles/manipulation_node.dir/build.make CMakeFiles/manipulation_node.dir/src/manipulation_node.cpp.s
-.PHONY : src/manipulation_node.cpp.s
-
-src/move_head_down_node.o: src/move_head_down_node.cpp.o
-
-.PHONY : src/move_head_down_node.o
-
-# target to build an object file
-src/move_head_down_node.cpp.o:
-	$(MAKE) -f CMakeFiles/move_head_down_node.dir/build.make CMakeFiles/move_head_down_node.dir/src/move_head_down_node.cpp.o
-.PHONY : src/move_head_down_node.cpp.o
-
-src/move_head_down_node.i: src/move_head_down_node.cpp.i
-
-.PHONY : src/move_head_down_node.i
+.PHONY : src/test_node.i
 
 # target to preprocess a source file
-src/move_head_down_node.cpp.i:
-	$(MAKE) -f CMakeFiles/move_head_down_node.dir/build.make CMakeFiles/move_head_down_node.dir/src/move_head_down_node.cpp.i
-.PHONY : src/move_head_down_node.cpp.i
+src/test_node.cpp.i:
+	$(MAKE) -f CMakeFiles/test_node.dir/build.make CMakeFiles/test_node.dir/src/test_node.cpp.i
+.PHONY : src/test_node.cpp.i
 
-src/move_head_down_node.s: src/move_head_down_node.cpp.s
+src/test_node.s: src/test_node.cpp.s
 
-.PHONY : src/move_head_down_node.s
+.PHONY : src/test_node.s
 
 # target to generate assembly for a file
-src/move_head_down_node.cpp.s:
-	$(MAKE) -f CMakeFiles/move_head_down_node.dir/build.make CMakeFiles/move_head_down_node.dir/src/move_head_down_node.cpp.s
-.PHONY : src/move_head_down_node.cpp.s
+src/test_node.cpp.s:
+	$(MAKE) -f CMakeFiles/test_node.dir/build.make CMakeFiles/test_node.dir/src/test_node.cpp.s
+.PHONY : src/test_node.cpp.s
 
 # Help Target
 help:
@@ -2028,8 +1980,8 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... manipulation_node"
-	@echo "... detection_collision_node"
+	@echo "... node_C"
+	@echo "... node_A"
 	@echo "... assignment2_package_genlisp"
 	@echo "... trajectory_msgs_generate_messages_py"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
@@ -2041,9 +1993,11 @@ help:
 	@echo "... moveit_msgs_generate_messages_nodejs"
 	@echo "... test"
 	@echo "... moveit_msgs_generate_messages_cpp"
+	@echo "... test_node"
 	@echo "... actionlib_msgs_generate_messages_lisp"
 	@echo "... actionlib_msgs_generate_messages_nodejs"
 	@echo "... tf_generate_messages_py"
+	@echo "... node_B"
 	@echo "... trajectory_msgs_generate_messages_cpp"
 	@echo "... actionlib_generate_messages_py"
 	@echo "... rosgraph_msgs_generate_messages_eus"
@@ -2089,9 +2043,7 @@ help:
 	@echo "... moveit_msgs_generate_messages_lisp"
 	@echo "... actionlib_msgs_generate_messages_py"
 	@echo "... actionlib_generate_messages_cpp"
-	@echo "... rosgraph_msgs_generate_messages_nodejs"
 	@echo "... std_msgs_generate_messages_cpp"
-	@echo "... coordinator_node"
 	@echo "... std_msgs_generate_messages_nodejs"
 	@echo "... nodelet_generate_messages_lisp"
 	@echo "... geometry_msgs_generate_messages_eus"
@@ -2128,7 +2080,6 @@ help:
 	@echo "... tf_generate_messages_nodejs"
 	@echo "... tiago_iaslab_simulation_generate_messages_py"
 	@echo "... std_srvs_generate_messages_eus"
-	@echo "... move_head_down_node"
 	@echo "... std_msgs_generate_messages_eus"
 	@echo "... roscpp_generate_messages_lisp"
 	@echo "... std_srvs_generate_messages_lisp"
@@ -2153,7 +2104,8 @@ help:
 	@echo "... bond_generate_messages_eus"
 	@echo "... bond_generate_messages_lisp"
 	@echo "... bond_generate_messages_py"
-	@echo "... _assignment2_package_generate_messages_check_deps_PlaceObject"
+	@echo "... rosgraph_msgs_generate_messages_nodejs"
+	@echo "... _assignment2_package_generate_messages_check_deps_GetObjectPose"
 	@echo "... roscpp_generate_messages_nodejs"
 	@echo "... assignment2_package_generate_messages_cpp"
 	@echo "... assignment2_package_gencpp"
@@ -2164,18 +2116,12 @@ help:
 	@echo "... gmock"
 	@echo "... gtest_main"
 	@echo "... gtest"
-	@echo "... src/coordinator_node.o"
-	@echo "... src/coordinator_node.i"
-	@echo "... src/coordinator_node.s"
-	@echo "... src/detection_collision_node.o"
-	@echo "... src/detection_collision_node.i"
-	@echo "... src/detection_collision_node.s"
-	@echo "... src/manipulation_node.o"
-	@echo "... src/manipulation_node.i"
-	@echo "... src/manipulation_node.s"
-	@echo "... src/move_head_down_node.o"
-	@echo "... src/move_head_down_node.i"
-	@echo "... src/move_head_down_node.s"
+	@echo "... src/node_A.o"
+	@echo "... src/node_A.i"
+	@echo "... src/node_A.s"
+	@echo "... src/test_node.o"
+	@echo "... src/test_node.i"
+	@echo "... src/test_node.s"
 .PHONY : help
 
 

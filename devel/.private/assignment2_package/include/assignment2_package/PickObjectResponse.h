@@ -24,12 +24,10 @@ struct PickObjectResponse_
   typedef PickObjectResponse_<ContainerAllocator> Type;
 
   PickObjectResponse_()
-    : success(false)
-    , message()  {
+    : success(false)  {
     }
   PickObjectResponse_(const ContainerAllocator& _alloc)
-    : success(false)
-    , message(_alloc)  {
+    : success(false)  {
   (void)_alloc;
     }
 
@@ -37,9 +35,6 @@ struct PickObjectResponse_
 
    typedef uint8_t _success_type;
   _success_type success;
-
-   typedef std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> _message_type;
-  _message_type message;
 
 
 
@@ -70,8 +65,7 @@ return s;
 template<typename ContainerAllocator1, typename ContainerAllocator2>
 bool operator==(const ::assignment2_package::PickObjectResponse_<ContainerAllocator1> & lhs, const ::assignment2_package::PickObjectResponse_<ContainerAllocator2> & rhs)
 {
-  return lhs.success == rhs.success &&
-    lhs.message == rhs.message;
+  return lhs.success == rhs.success;
 }
 
 template<typename ContainerAllocator1, typename ContainerAllocator2>
@@ -104,12 +98,12 @@ struct IsMessage< ::assignment2_package::PickObjectResponse_<ContainerAllocator>
 
 template <class ContainerAllocator>
 struct IsFixedSize< ::assignment2_package::PickObjectResponse_<ContainerAllocator> >
-  : FalseType
+  : TrueType
   { };
 
 template <class ContainerAllocator>
 struct IsFixedSize< ::assignment2_package::PickObjectResponse_<ContainerAllocator> const>
-  : FalseType
+  : TrueType
   { };
 
 template <class ContainerAllocator>
@@ -128,12 +122,12 @@ struct MD5Sum< ::assignment2_package::PickObjectResponse_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "937c9679a518e3a18d831e57125ea522";
+    return "358e233cde0c8a8bcfea4ce193f8fc15";
   }
 
   static const char* value(const ::assignment2_package::PickObjectResponse_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x937c9679a518e3a1ULL;
-  static const uint64_t static_value2 = 0x8d831e57125ea522ULL;
+  static const uint64_t static_value1 = 0x358e233cde0c8a8bULL;
+  static const uint64_t static_value2 = 0xcfea4ce193f8fc15ULL;
 };
 
 template<class ContainerAllocator>
@@ -153,8 +147,6 @@ struct Definition< ::assignment2_package::PickObjectResponse_<ContainerAllocator
   static const char* value()
   {
     return "bool success\n"
-"string message\n"
-"\n"
 ;
   }
 
@@ -174,7 +166,6 @@ namespace serialization
     template<typename Stream, typename T> inline static void allInOne(Stream& stream, T m)
     {
       stream.next(m.success);
-      stream.next(m.message);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -195,8 +186,6 @@ struct Printer< ::assignment2_package::PickObjectResponse_<ContainerAllocator> >
   {
     s << indent << "success: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.success);
-    s << indent << "message: ";
-    Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.message);
   }
 };
 

@@ -1,7 +1,0 @@
-[01m[K/home/nikolavukas/project/src/tiago_search_detect/src/node_a.cpp:7:10:[m[K [01;31m[Kfatal error: [m[K/src/tiago_iaslab_simulation/include/tiago_iaslab_simulation/ApriltagIds.h: No such file or directory
-    7 | #include [01;31m[K</src/tiago_iaslab_simulation/include/tiago_iaslab_simulation/ApriltagIds.h>[m[K
-      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
-compilation terminated.
-make[2]: *** [CMakeFiles/node_a.dir/build.make:63: CMakeFiles/node_a.dir/src/node_a.cpp.o] Error 1
-make[1]: *** [CMakeFiles/Makefile2:210: CMakeFiles/node_a.dir/all] Error 2
-make: *** [Makefile:141: all] Error 2

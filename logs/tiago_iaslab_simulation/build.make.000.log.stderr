@@ -5,5 +5,4 @@ In file included from [01m[K/home/nikolavukas/project/src/tiago_iaslab_simulat
 compilation terminated.
 make[2]: *** [CMakeFiles/tiago_iaslab_simulation_get_straightline.dir/build.make:63: CMakeFiles/tiago_iaslab_simulation_get_straightline.dir/src/get_straightline_node.cpp.o] Error 1
 make[1]: *** [CMakeFiles/Makefile2:337: CMakeFiles/tiago_iaslab_simulation_get_straightline.dir/all] Error 2
-make[1]: *** Waiting for unfinished jobs....
 make: *** [Makefile:141: all] Error 2

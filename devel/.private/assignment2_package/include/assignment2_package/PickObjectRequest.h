@@ -15,6 +15,7 @@
 #include <ros/builtin_message_traits.h>
 #include <ros/message_operations.h>
 
+#include <geometry_msgs/PoseStamped.h>
 
 namespace assignment2_package
 {
@@ -24,14 +25,17 @@ struct PickObjectRequest_
   typedef PickObjectRequest_<ContainerAllocator> Type;
 
   PickObjectRequest_()
-    {
+    : target()  {
     }
   PickObjectRequest_(const ContainerAllocator& _alloc)
-    {
+    : target(_alloc)  {
   (void)_alloc;
     }
 
 
+
+   typedef  ::geometry_msgs::PoseStamped_<ContainerAllocator>  _target_type;
+  _target_type target;
 
 
 
@@ -59,6 +63,19 @@ return s;
 }
 
 
+template<typename ContainerAllocator1, typename ContainerAllocator2>
+bool operator==(const ::assignment2_package::PickObjectRequest_<ContainerAllocator1> & lhs, const ::assignment2_package::PickObjectRequest_<ContainerAllocator2> & rhs)
+{
+  return lhs.target == rhs.target;
+}
+
+template<typename ContainerAllocator1, typename ContainerAllocator2>
+bool operator!=(const ::assignment2_package::PickObjectRequest_<ContainerAllocator1> & lhs, const ::assignment2_package::PickObjectRequest_<ContainerAllocator2> & rhs)
+{
+  return !(lhs == rhs);
+}
+
+
 } // namespace assignment2_package
 
 namespace ros
@@ -82,12 +99,12 @@ struct IsMessage< ::assignment2_package::PickObjectRequest_<ContainerAllocator> 
 
 template <class ContainerAllocator>
 struct IsFixedSize< ::assignment2_package::PickObjectRequest_<ContainerAllocator> >
-  : TrueType
+  : FalseType
   { };
 
 template <class ContainerAllocator>
 struct IsFixedSize< ::assignment2_package::PickObjectRequest_<ContainerAllocator> const>
-  : TrueType
+  : FalseType
   { };
 
 template <class ContainerAllocator>
@@ -106,12 +123,12 @@ struct MD5Sum< ::assignment2_package::PickObjectRequest_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "d41d8cd98f00b204e9800998ecf8427e";
+    return "8ba8aeef25187f3dc987f3a87f890b3a";
   }
 
   static const char* value(const ::assignment2_package::PickObjectRequest_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0xd41d8cd98f00b204ULL;
-  static const uint64_t static_value2 = 0xe9800998ecf8427eULL;
+  static const uint64_t static_value1 = 0x8ba8aeef25187f3dULL;
+  static const uint64_t static_value2 = 0xc987f3a87f890b3aULL;
 };
 
 template<class ContainerAllocator>
@@ -130,8 +147,51 @@ struct Definition< ::assignment2_package::PickObjectRequest_<ContainerAllocator>
 {
   static const char* value()
   {
-    return "# PickObject.srv\n"
-"# (Empty request)\n"
+    return "geometry_msgs/PoseStamped target\n"
+"\n"
+"================================================================================\n"
+"MSG: geometry_msgs/PoseStamped\n"
+"# A Pose with reference coordinate frame and timestamp\n"
+"Header header\n"
+"Pose pose\n"
+"\n"
+"================================================================================\n"
+"MSG: std_msgs/Header\n"
+"# Standard metadata for higher-level stamped data types.\n"
+"# This is generally used to communicate timestamped data \n"
+"# in a particular coordinate frame.\n"
+"# \n"
+"# sequence ID: consecutively increasing ID \n"
+"uint32 seq\n"
+"#Two-integer timestamp that is expressed as:\n"
+"# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')\n"
+"# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')\n"
+"# time-handling sugar is provided by the client library\n"
+"time stamp\n"
+"#Frame this data is associated with\n"
+"string frame_id\n"
+"\n"
+"================================================================================\n"
+"MSG: geometry_msgs/Pose\n"
+"# A representation of pose in free space, composed of position and orientation. \n"
+"Point position\n"
+"Quaternion orientation\n"
+"\n"
+"================================================================================\n"
+"MSG: geometry_msgs/Point\n"
+"# This contains the position of a point in free space\n"
+"float64 x\n"
+"float64 y\n"
+"float64 z\n"
+"\n"
+"================================================================================\n"
+"MSG: geometry_msgs/Quaternion\n"
+"# This represents an orientation in free space in quaternion form.\n"
+"\n"
+"float64 x\n"
+"float64 y\n"
+"float64 z\n"
+"float64 w\n"
 ;
   }
 
@@ -148,8 +208,10 @@ namespace serialization
 
   template<class ContainerAllocator> struct Serializer< ::assignment2_package::PickObjectRequest_<ContainerAllocator> >
   {
-    template<typename Stream, typename T> inline static void allInOne(Stream&, T)
-    {}
+    template<typename Stream, typename T> inline static void allInOne(Stream& stream, T m)
+    {
+      stream.next(m.target);
+    }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
   }; // struct PickObjectRequest_
@@ -165,8 +227,12 @@ namespace message_operations
 template<class ContainerAllocator>
 struct Printer< ::assignment2_package::PickObjectRequest_<ContainerAllocator> >
 {
-  template<typename Stream> static void stream(Stream&, const std::string&, const ::assignment2_package::PickObjectRequest_<ContainerAllocator>&)
-  {}
+  template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::assignment2_package::PickObjectRequest_<ContainerAllocator>& v)
+  {
+    s << indent << "target: ";
+    s << std::endl;
+    Printer< ::geometry_msgs::PoseStamped_<ContainerAllocator> >::stream(s, indent + "  ", v.target);
+  }
 };
 
 } // namespace message_operations

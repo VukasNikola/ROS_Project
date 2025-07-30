@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/nikolavukas/project/build/assignment2_package
 include CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/progress.make
 
 CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject:
-	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py assignment2_package /home/nikolavukas/project/src/assignment2_package/srv/PlaceObject.srv geometry_msgs/Pose:geometry_msgs/PoseStamped:geometry_msgs/Point:std_msgs/Header:geometry_msgs/Quaternion
+	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py assignment2_package /home/nikolavukas/project/src/assignment2_package/srv/PlaceObject.srv geometry_msgs/PoseStamped:geometry_msgs/Point:std_msgs/Header:geometry_msgs/Quaternion:geometry_msgs/Pose
 
 _assignment2_package_generate_messages_check_deps_PlaceObject: CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject
 _assignment2_package_generate_messages_check_deps_PlaceObject: CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/build.make

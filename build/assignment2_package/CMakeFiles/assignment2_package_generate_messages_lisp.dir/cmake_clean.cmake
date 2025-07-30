@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
+  "/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/GetObjectPose.lisp"
   "/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PickObject.lisp"
-  "/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PlaceObject.lisp"
   "CMakeFiles/assignment2_package_generate_messages_lisp"
 )
 

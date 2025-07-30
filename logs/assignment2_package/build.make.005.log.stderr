@@ -1,9 +1,0 @@
-[01m[K/home/nikolavukas/project/src/assignment2_package/src/coordinator_node.cpp:[m[K In function ‘[01m[Kint main(int, char**)[m[K’:
-[01m[K/home/nikolavukas/project/src/assignment2_package/src/coordinator_node.cpp:95:14:[m[K [01;31m[Kerror: [m[K‘[01m[Kclass tf2_ros::Buffer[m[K’ has no member named ‘[01m[KwaitForTransform[m[K’; did you mean ‘[01m[KcanTransform[m[K’?
-   95 |     tfBuffer.[01;31m[KwaitForTransform[m[K("base_link", placing_pose_table.header.frame_id, ros::Time(0), ros::Duration(3.0));
-      |              [01;31m[K^~~~~~~~~~~~~~~~[m[K
-      |              [32m[KcanTransform[m[K
-make[2]: *** [CMakeFiles/coordinator_node.dir/build.make:63: CMakeFiles/coordinator_node.dir/src/coordinator_node.cpp.o] Error 1
-make[1]: *** [CMakeFiles/Makefile2:2256: CMakeFiles/coordinator_node.dir/all] Error 2
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:141: all] Error 2

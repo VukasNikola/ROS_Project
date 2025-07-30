@@ -53,11 +53,11 @@ CMAKE_BINARY_DIR = /home/nikolavukas/project/build/assignment2_package
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/manipulation_node.dir/all
-all: CMakeFiles/detection_collision_node.dir/all
+all: CMakeFiles/node_C.dir/all
+all: CMakeFiles/node_A.dir/all
+all: CMakeFiles/test_node.dir/all
+all: CMakeFiles/node_B.dir/all
 all: CMakeFiles/assignment2_package_generate_messages.dir/all
-all: CMakeFiles/coordinator_node.dir/all
-all: CMakeFiles/move_head_down_node.dir/all
 all: gtest/all
 
 .PHONY : all
@@ -68,8 +68,8 @@ preinstall: gtest/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/manipulation_node.dir/clean
-clean: CMakeFiles/detection_collision_node.dir/clean
+clean: CMakeFiles/node_C.dir/clean
+clean: CMakeFiles/node_A.dir/clean
 clean: CMakeFiles/assignment2_package_genlisp.dir/clean
 clean: CMakeFiles/trajectory_msgs_generate_messages_py.dir/clean
 clean: CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
@@ -80,9 +80,11 @@ clean: CMakeFiles/tiago_iaslab_simulation_generate_messages_cpp.dir/clean
 clean: CMakeFiles/sensor_msgs_generate_messages_cpp.dir/clean
 clean: CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/clean
 clean: CMakeFiles/moveit_msgs_generate_messages_cpp.dir/clean
+clean: CMakeFiles/test_node.dir/clean
 clean: CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/clean
 clean: CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/clean
 clean: CMakeFiles/tf_generate_messages_py.dir/clean
+clean: CMakeFiles/node_B.dir/clean
 clean: CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/clean
 clean: CMakeFiles/actionlib_generate_messages_py.dir/clean
 clean: CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
@@ -127,9 +129,7 @@ clean: CMakeFiles/tests.dir/clean
 clean: CMakeFiles/moveit_msgs_generate_messages_lisp.dir/clean
 clean: CMakeFiles/actionlib_msgs_generate_messages_py.dir/clean
 clean: CMakeFiles/actionlib_generate_messages_cpp.dir/clean
-clean: CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean
 clean: CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
-clean: CMakeFiles/coordinator_node.dir/clean
 clean: CMakeFiles/std_msgs_generate_messages_nodejs.dir/clean
 clean: CMakeFiles/nodelet_generate_messages_lisp.dir/clean
 clean: CMakeFiles/geometry_msgs_generate_messages_eus.dir/clean
@@ -166,7 +166,6 @@ clean: CMakeFiles/shape_msgs_generate_messages_py.dir/clean
 clean: CMakeFiles/tf_generate_messages_nodejs.dir/clean
 clean: CMakeFiles/tiago_iaslab_simulation_generate_messages_py.dir/clean
 clean: CMakeFiles/std_srvs_generate_messages_eus.dir/clean
-clean: CMakeFiles/move_head_down_node.dir/clean
 clean: CMakeFiles/std_msgs_generate_messages_eus.dir/clean
 clean: CMakeFiles/roscpp_generate_messages_lisp.dir/clean
 clean: CMakeFiles/std_srvs_generate_messages_lisp.dir/clean
@@ -191,7 +190,8 @@ clean: CMakeFiles/nodelet_generate_messages_nodejs.dir/clean
 clean: CMakeFiles/bond_generate_messages_eus.dir/clean
 clean: CMakeFiles/bond_generate_messages_lisp.dir/clean
 clean: CMakeFiles/bond_generate_messages_py.dir/clean
-clean: CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/clean
+clean: CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean
+clean: CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/clean
 clean: CMakeFiles/roscpp_generate_messages_nodejs.dir/clean
 clean: CMakeFiles/assignment2_package_generate_messages_cpp.dir/clean
 clean: CMakeFiles/assignment2_package_gencpp.dir/clean
@@ -260,282 +260,282 @@ gtest/googletest/clean: gtest/googletest/CMakeFiles/gtest.dir/clean
 .PHONY : gtest/googletest/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/manipulation_node.dir
+# Target rules for target CMakeFiles/node_C.dir
 
 # All Build rule for target.
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_py.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_nodejs.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_lisp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/shape_msgs_generate_messages_lisp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_cpp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_cpp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_cpp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/tf_generate_messages_py.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/actionlib_generate_messages_py.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/moveit_ros_planning_gencfg.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/shape_msgs_generate_messages_eus.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_py.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_cpp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/roscpp_generate_messages_cpp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_py.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_eus.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_eus.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_py.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/shape_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/roscpp_generate_messages_py.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_eus.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_cpp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/tf_generate_messages_eus.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_eus.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/std_srvs_generate_messages_cpp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/assignment2_package_generate_messages_eus.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_eus.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/shape_msgs_generate_messages_cpp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/moveit_ros_manipulation_gencfg.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/actionlib_generate_messages_lisp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_lisp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_py.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/actionlib_generate_messages_cpp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/std_msgs_generate_messages_cpp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/nodelet_generate_messages_lisp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_eus.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/std_msgs_generate_messages_py.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/std_srvs_generate_messages_py.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/actionlib_generate_messages_nodejs.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/std_msgs_generate_messages_lisp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_cpp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_lisp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/actionlib_generate_messages_eus.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_py.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/bond_generate_messages_nodejs.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_cpp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/assignment2_package_generate_messages_lisp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_py.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/bond_generate_messages_cpp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/dynamic_reconfigure_gencfg.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_lisp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_py.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_py.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_lisp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/tf_generate_messages_cpp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_lisp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/shape_msgs_generate_messages_py.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/tf_generate_messages_nodejs.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_py.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/std_srvs_generate_messages_eus.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/std_msgs_generate_messages_eus.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/roscpp_generate_messages_lisp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/std_srvs_generate_messages_lisp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/std_srvs_generate_messages_nodejs.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/nodelet_generate_messages_py.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/tf_generate_messages_lisp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_cpp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/roscpp_generate_messages_eus.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_eus.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_eus.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_eus.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_nodejs.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_lisp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/nodelet_generate_messages_cpp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/nodelet_generate_messages_eus.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_py.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/nodelet_generate_messages_nodejs.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/bond_generate_messages_eus.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/bond_generate_messages_lisp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/bond_generate_messages_py.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/roscpp_generate_messages_nodejs.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/assignment2_package_generate_messages_cpp.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all
-CMakeFiles/manipulation_node.dir/all: CMakeFiles/assignment2_package_generate_messages_py.dir/all
-	$(MAKE) -f CMakeFiles/manipulation_node.dir/build.make CMakeFiles/manipulation_node.dir/depend
-	$(MAKE) -f CMakeFiles/manipulation_node.dir/build.make CMakeFiles/manipulation_node.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=25,26 "Built target manipulation_node"
-.PHONY : CMakeFiles/manipulation_node.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/trajectory_msgs_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/trajectory_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/shape_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/sensor_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/moveit_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/tf_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/moveit_ros_planning_gencfg.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/shape_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/moveit_msgs_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/geometry_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/roscpp_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/sensor_msgs_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/tf2_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/moveit_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/geometry_msgs_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/shape_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/roscpp_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/visualization_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/tf_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/trajectory_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/std_srvs_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/assignment2_package_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/sensor_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/shape_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/moveit_ros_manipulation_gencfg.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/moveit_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_msgs_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/std_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/nodelet_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/geometry_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/std_msgs_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/std_srvs_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/std_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/octomap_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/octomap_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/apriltag_ros_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/bond_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/tf2_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/assignment2_package_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/tf2_msgs_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/bond_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/dynamic_reconfigure_gencfg.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/visualization_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/visualization_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/visualization_msgs_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/octomap_msgs_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/tf2_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/tf_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/apriltag_ros_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/shape_msgs_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/tf_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/std_srvs_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/std_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/roscpp_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/std_srvs_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/std_srvs_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/nodelet_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/tf_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/apriltag_ros_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/roscpp_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/apriltag_ros_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/octomap_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/visualization_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/apriltag_ros_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/sensor_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/nodelet_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/nodelet_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/nodelet_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/bond_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/bond_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/bond_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/roscpp_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/assignment2_package_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/assignment2_package_generate_messages_py.dir/all
+	$(MAKE) -f CMakeFiles/node_C.dir/build.make CMakeFiles/node_C.dir/depend
+	$(MAKE) -f CMakeFiles/node_C.dir/build.make CMakeFiles/node_C.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=25,26 "Built target node_C"
+.PHONY : CMakeFiles/node_C.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/manipulation_node.dir/rule: cmake_check_build_system
+CMakeFiles/node_C.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 14
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/manipulation_node.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/node_C.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/manipulation_node.dir/rule
+.PHONY : CMakeFiles/node_C.dir/rule
 
 # Convenience name for target.
-manipulation_node: CMakeFiles/manipulation_node.dir/rule
+node_C: CMakeFiles/node_C.dir/rule
 
-.PHONY : manipulation_node
+.PHONY : node_C
 
 # clean rule for target.
-CMakeFiles/manipulation_node.dir/clean:
-	$(MAKE) -f CMakeFiles/manipulation_node.dir/build.make CMakeFiles/manipulation_node.dir/clean
-.PHONY : CMakeFiles/manipulation_node.dir/clean
+CMakeFiles/node_C.dir/clean:
+	$(MAKE) -f CMakeFiles/node_C.dir/build.make CMakeFiles/node_C.dir/clean
+.PHONY : CMakeFiles/node_C.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/detection_collision_node.dir
+# Target rules for target CMakeFiles/node_A.dir
 
 # All Build rule for target.
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_py.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_nodejs.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_lisp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/shape_msgs_generate_messages_lisp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_cpp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_cpp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_cpp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/tf_generate_messages_py.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/actionlib_generate_messages_py.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/moveit_ros_planning_gencfg.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/shape_msgs_generate_messages_eus.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_py.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_cpp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/roscpp_generate_messages_cpp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_py.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_eus.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_eus.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_py.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/shape_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/roscpp_generate_messages_py.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_eus.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_cpp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/tf_generate_messages_eus.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_eus.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/std_srvs_generate_messages_cpp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/assignment2_package_generate_messages_eus.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_eus.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/shape_msgs_generate_messages_cpp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/moveit_ros_manipulation_gencfg.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/actionlib_generate_messages_lisp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_lisp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_py.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/actionlib_generate_messages_cpp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/std_msgs_generate_messages_cpp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/nodelet_generate_messages_lisp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_eus.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/std_msgs_generate_messages_py.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/std_srvs_generate_messages_py.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/actionlib_generate_messages_nodejs.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/std_msgs_generate_messages_lisp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_cpp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_lisp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/actionlib_generate_messages_eus.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_py.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/bond_generate_messages_nodejs.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_cpp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/assignment2_package_generate_messages_lisp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_py.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/bond_generate_messages_cpp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/dynamic_reconfigure_gencfg.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_lisp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_py.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_py.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_lisp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/tf_generate_messages_cpp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_lisp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/shape_msgs_generate_messages_py.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/tf_generate_messages_nodejs.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_py.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/std_srvs_generate_messages_eus.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/std_msgs_generate_messages_eus.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/roscpp_generate_messages_lisp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/std_srvs_generate_messages_lisp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/std_srvs_generate_messages_nodejs.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/nodelet_generate_messages_py.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/tf_generate_messages_lisp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_cpp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/roscpp_generate_messages_eus.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_eus.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_eus.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_eus.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_nodejs.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_lisp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/nodelet_generate_messages_cpp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/nodelet_generate_messages_eus.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_py.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/nodelet_generate_messages_nodejs.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/bond_generate_messages_eus.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/bond_generate_messages_lisp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/bond_generate_messages_py.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/roscpp_generate_messages_nodejs.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/assignment2_package_generate_messages_cpp.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all
-CMakeFiles/detection_collision_node.dir/all: CMakeFiles/assignment2_package_generate_messages_py.dir/all
-	$(MAKE) -f CMakeFiles/detection_collision_node.dir/build.make CMakeFiles/detection_collision_node.dir/depend
-	$(MAKE) -f CMakeFiles/detection_collision_node.dir/build.make CMakeFiles/detection_collision_node.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=15,16 "Built target detection_collision_node"
-.PHONY : CMakeFiles/detection_collision_node.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/trajectory_msgs_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/trajectory_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/shape_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/sensor_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/moveit_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/tf_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/moveit_ros_planning_gencfg.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/shape_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/moveit_msgs_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/geometry_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/roscpp_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/sensor_msgs_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/tf2_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/moveit_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/geometry_msgs_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/shape_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/roscpp_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/visualization_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/tf_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/trajectory_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/std_srvs_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/assignment2_package_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/sensor_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/shape_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/moveit_ros_manipulation_gencfg.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/moveit_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_msgs_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/std_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/nodelet_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/geometry_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/std_msgs_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/std_srvs_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/std_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/octomap_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/octomap_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/apriltag_ros_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/bond_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/tf2_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/assignment2_package_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/tf2_msgs_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/bond_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/dynamic_reconfigure_gencfg.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/visualization_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/visualization_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/visualization_msgs_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/octomap_msgs_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/tf2_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/tf_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/apriltag_ros_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/shape_msgs_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/tf_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/std_srvs_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/std_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/roscpp_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/std_srvs_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/std_srvs_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/nodelet_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/tf_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/apriltag_ros_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/roscpp_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/apriltag_ros_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/octomap_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/visualization_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/apriltag_ros_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/sensor_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/nodelet_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/nodelet_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/nodelet_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/bond_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/bond_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/bond_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/roscpp_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/assignment2_package_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/assignment2_package_generate_messages_py.dir/all
+	$(MAKE) -f CMakeFiles/node_A.dir/build.make CMakeFiles/node_A.dir/depend
+	$(MAKE) -f CMakeFiles/node_A.dir/build.make CMakeFiles/node_A.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=21,22 "Built target node_A"
+.PHONY : CMakeFiles/node_A.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/detection_collision_node.dir/rule: cmake_check_build_system
+CMakeFiles/node_A.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 14
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/detection_collision_node.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/node_A.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/detection_collision_node.dir/rule
+.PHONY : CMakeFiles/node_A.dir/rule
 
 # Convenience name for target.
-detection_collision_node: CMakeFiles/detection_collision_node.dir/rule
+node_A: CMakeFiles/node_A.dir/rule
 
-.PHONY : detection_collision_node
+.PHONY : node_A
 
 # clean rule for target.
-CMakeFiles/detection_collision_node.dir/clean:
-	$(MAKE) -f CMakeFiles/detection_collision_node.dir/build.make CMakeFiles/detection_collision_node.dir/clean
-.PHONY : CMakeFiles/detection_collision_node.dir/clean
+CMakeFiles/node_A.dir/clean:
+	$(MAKE) -f CMakeFiles/node_A.dir/build.make CMakeFiles/node_A.dir/clean
+.PHONY : CMakeFiles/node_A.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/assignment2_package_genlisp.dir
@@ -808,6 +808,145 @@ CMakeFiles/moveit_msgs_generate_messages_cpp.dir/clean:
 .PHONY : CMakeFiles/moveit_msgs_generate_messages_cpp.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/test_node.dir
+
+# All Build rule for target.
+CMakeFiles/test_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_py.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_nodejs.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_lisp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/shape_msgs_generate_messages_lisp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_cpp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_cpp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_cpp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/tf_generate_messages_py.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/actionlib_generate_messages_py.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/moveit_ros_planning_gencfg.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/shape_msgs_generate_messages_eus.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_py.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_cpp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/roscpp_generate_messages_cpp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_py.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_eus.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_eus.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_py.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/shape_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/roscpp_generate_messages_py.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_eus.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_cpp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/tf_generate_messages_eus.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_eus.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/std_srvs_generate_messages_cpp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/assignment2_package_generate_messages_eus.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_eus.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/shape_msgs_generate_messages_cpp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/moveit_ros_manipulation_gencfg.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/actionlib_generate_messages_lisp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_lisp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_py.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/actionlib_generate_messages_cpp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/std_msgs_generate_messages_cpp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/nodelet_generate_messages_lisp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_eus.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/std_msgs_generate_messages_py.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/std_srvs_generate_messages_py.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/actionlib_generate_messages_nodejs.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/std_msgs_generate_messages_lisp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_cpp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_lisp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/actionlib_generate_messages_eus.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_py.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/bond_generate_messages_nodejs.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_cpp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/assignment2_package_generate_messages_lisp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_py.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/bond_generate_messages_cpp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/dynamic_reconfigure_gencfg.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_lisp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_py.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_py.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_lisp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/tf_generate_messages_cpp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_lisp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/shape_msgs_generate_messages_py.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/tf_generate_messages_nodejs.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_py.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/std_srvs_generate_messages_eus.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/std_msgs_generate_messages_eus.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/roscpp_generate_messages_lisp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/std_srvs_generate_messages_lisp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/std_srvs_generate_messages_nodejs.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/nodelet_generate_messages_py.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/tf_generate_messages_lisp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_cpp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/roscpp_generate_messages_eus.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_eus.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_eus.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_eus.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_nodejs.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_lisp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/nodelet_generate_messages_cpp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/nodelet_generate_messages_eus.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_py.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/nodelet_generate_messages_nodejs.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/bond_generate_messages_eus.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/bond_generate_messages_lisp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/bond_generate_messages_py.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/roscpp_generate_messages_nodejs.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/assignment2_package_generate_messages_cpp.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all
+CMakeFiles/test_node.dir/all: CMakeFiles/assignment2_package_generate_messages_py.dir/all
+	$(MAKE) -f CMakeFiles/test_node.dir/build.make CMakeFiles/test_node.dir/depend
+	$(MAKE) -f CMakeFiles/test_node.dir/build.make CMakeFiles/test_node.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=27,28 "Built target test_node"
+.PHONY : CMakeFiles/test_node.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/test_node.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 14
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/test_node.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/test_node.dir/rule
+
+# Convenience name for target.
+test_node: CMakeFiles/test_node.dir/rule
+
+.PHONY : test_node
+
+# clean rule for target.
+CMakeFiles/test_node.dir/clean:
+	$(MAKE) -f CMakeFiles/test_node.dir/build.make CMakeFiles/test_node.dir/clean
+.PHONY : CMakeFiles/test_node.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/actionlib_msgs_generate_messages_lisp.dir
 
 # All Build rule for target.
@@ -887,6 +1026,145 @@ tf_generate_messages_py: CMakeFiles/tf_generate_messages_py.dir/rule
 CMakeFiles/tf_generate_messages_py.dir/clean:
 	$(MAKE) -f CMakeFiles/tf_generate_messages_py.dir/build.make CMakeFiles/tf_generate_messages_py.dir/clean
 .PHONY : CMakeFiles/tf_generate_messages_py.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/node_B.dir
+
+# All Build rule for target.
+CMakeFiles/node_B.dir/all: CMakeFiles/trajectory_msgs_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/trajectory_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/shape_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/sensor_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/moveit_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/tf_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/moveit_ros_planning_gencfg.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/shape_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/moveit_msgs_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/geometry_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/roscpp_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/sensor_msgs_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/tf2_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/moveit_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/geometry_msgs_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/shape_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/roscpp_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/visualization_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/tf_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/trajectory_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/std_srvs_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/assignment2_package_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/sensor_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/shape_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/moveit_ros_manipulation_gencfg.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/moveit_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_msgs_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/std_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/nodelet_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/geometry_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/std_msgs_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/std_srvs_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/std_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/octomap_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/octomap_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/apriltag_ros_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/bond_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/tf2_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/assignment2_package_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/tf2_msgs_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/bond_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/dynamic_reconfigure_gencfg.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/visualization_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/visualization_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/visualization_msgs_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/octomap_msgs_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/tf2_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/tf_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/apriltag_ros_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/shape_msgs_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/tf_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/std_srvs_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/std_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/roscpp_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/std_srvs_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/std_srvs_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/nodelet_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/tf_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/apriltag_ros_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/roscpp_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/apriltag_ros_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/octomap_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/visualization_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/apriltag_ros_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/sensor_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/nodelet_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/nodelet_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/nodelet_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/bond_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/bond_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/bond_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/roscpp_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/assignment2_package_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/assignment2_package_generate_messages_py.dir/all
+	$(MAKE) -f CMakeFiles/node_B.dir/build.make CMakeFiles/node_B.dir/depend
+	$(MAKE) -f CMakeFiles/node_B.dir/build.make CMakeFiles/node_B.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=23,24 "Built target node_B"
+.PHONY : CMakeFiles/node_B.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/node_B.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 14
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/node_B.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/node_B.dir/rule
+
+# Convenience name for target.
+node_B: CMakeFiles/node_B.dir/rule
+
+.PHONY : node_B
+
+# clean rule for target.
+CMakeFiles/node_B.dir/clean:
+	$(MAKE) -f CMakeFiles/node_B.dir/build.make CMakeFiles/node_B.dir/clean
+.PHONY : CMakeFiles/node_B.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/trajectory_msgs_generate_messages_cpp.dir
@@ -1817,7 +2095,7 @@ CMakeFiles/std_srvs_generate_messages_cpp.dir/clean:
 CMakeFiles/assignment2_package_generate_messages_eus.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_PickObject.dir/all
 CMakeFiles/assignment2_package_generate_messages_eus.dir/all: CMakeFiles/geometry_msgs_generate_messages_eus.dir/all
 CMakeFiles/assignment2_package_generate_messages_eus.dir/all: CMakeFiles/std_msgs_generate_messages_eus.dir/all
-CMakeFiles/assignment2_package_generate_messages_eus.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/all
+CMakeFiles/assignment2_package_generate_messages_eus.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/all
 	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_eus.dir/build.make CMakeFiles/assignment2_package_generate_messages_eus.dir/depend
 	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_eus.dir/build.make CMakeFiles/assignment2_package_generate_messages_eus.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=3,4,5 "Built target assignment2_package_generate_messages_eus"
@@ -2084,33 +2362,6 @@ CMakeFiles/actionlib_generate_messages_cpp.dir/clean:
 .PHONY : CMakeFiles/actionlib_generate_messages_cpp.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir
-
-# All Build rule for target.
-CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all:
-	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/depend
-	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target rosgraph_msgs_generate_messages_nodejs"
-.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-rosgraph_msgs_generate_messages_nodejs: CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : rosgraph_msgs_generate_messages_nodejs
-
-# clean rule for target.
-CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean:
-	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean
-.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean
-
-#=============================================================================
 # Target rules for target CMakeFiles/std_msgs_generate_messages_cpp.dir
 
 # All Build rule for target.
@@ -2136,145 +2387,6 @@ std_msgs_generate_messages_cpp: CMakeFiles/std_msgs_generate_messages_cpp.dir/ru
 CMakeFiles/std_msgs_generate_messages_cpp.dir/clean:
 	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
 .PHONY : CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/coordinator_node.dir
-
-# All Build rule for target.
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_py.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_nodejs.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_lisp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/shape_msgs_generate_messages_lisp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_cpp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_cpp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_cpp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/tf_generate_messages_py.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/actionlib_generate_messages_py.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/moveit_ros_planning_gencfg.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/shape_msgs_generate_messages_eus.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_py.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_cpp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/roscpp_generate_messages_cpp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_py.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_eus.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_eus.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_py.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/shape_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/roscpp_generate_messages_py.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_eus.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_cpp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/tf_generate_messages_eus.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_eus.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/std_srvs_generate_messages_cpp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/assignment2_package_generate_messages_eus.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_eus.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/shape_msgs_generate_messages_cpp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/moveit_ros_manipulation_gencfg.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/actionlib_generate_messages_lisp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_lisp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_py.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/actionlib_generate_messages_cpp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/std_msgs_generate_messages_cpp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/nodelet_generate_messages_lisp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_eus.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/std_msgs_generate_messages_py.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/std_srvs_generate_messages_py.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/actionlib_generate_messages_nodejs.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/std_msgs_generate_messages_lisp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_cpp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_lisp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/actionlib_generate_messages_eus.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_py.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/bond_generate_messages_nodejs.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_cpp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/assignment2_package_generate_messages_lisp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_py.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/bond_generate_messages_cpp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/dynamic_reconfigure_gencfg.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_lisp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_py.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_py.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_lisp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/tf_generate_messages_cpp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_lisp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/shape_msgs_generate_messages_py.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/tf_generate_messages_nodejs.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_py.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/std_srvs_generate_messages_eus.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/std_msgs_generate_messages_eus.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/roscpp_generate_messages_lisp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/std_srvs_generate_messages_lisp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/std_srvs_generate_messages_nodejs.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/nodelet_generate_messages_py.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/tf_generate_messages_lisp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_cpp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/roscpp_generate_messages_eus.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_eus.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_eus.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_eus.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_nodejs.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_lisp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/nodelet_generate_messages_cpp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/nodelet_generate_messages_eus.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_py.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/nodelet_generate_messages_nodejs.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/bond_generate_messages_eus.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/bond_generate_messages_lisp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/bond_generate_messages_py.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/roscpp_generate_messages_nodejs.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/assignment2_package_generate_messages_cpp.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all
-CMakeFiles/coordinator_node.dir/all: CMakeFiles/assignment2_package_generate_messages_py.dir/all
-	$(MAKE) -f CMakeFiles/coordinator_node.dir/build.make CMakeFiles/coordinator_node.dir/depend
-	$(MAKE) -f CMakeFiles/coordinator_node.dir/build.make CMakeFiles/coordinator_node.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=13,14 "Built target coordinator_node"
-.PHONY : CMakeFiles/coordinator_node.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/coordinator_node.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 14
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/coordinator_node.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/coordinator_node.dir/rule
-
-# Convenience name for target.
-coordinator_node: CMakeFiles/coordinator_node.dir/rule
-
-.PHONY : coordinator_node
-
-# clean rule for target.
-CMakeFiles/coordinator_node.dir/clean:
-	$(MAKE) -f CMakeFiles/coordinator_node.dir/build.make CMakeFiles/coordinator_node.dir/clean
-.PHONY : CMakeFiles/coordinator_node.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/std_msgs_generate_messages_nodejs.dir
@@ -2796,7 +2908,7 @@ CMakeFiles/tf2_msgs_generate_messages_cpp.dir/clean:
 CMakeFiles/assignment2_package_generate_messages_lisp.dir/all: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
 CMakeFiles/assignment2_package_generate_messages_lisp.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_PickObject.dir/all
 CMakeFiles/assignment2_package_generate_messages_lisp.dir/all: CMakeFiles/std_msgs_generate_messages_lisp.dir/all
-CMakeFiles/assignment2_package_generate_messages_lisp.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/all
+CMakeFiles/assignment2_package_generate_messages_lisp.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/all
 	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_lisp.dir/build.make CMakeFiles/assignment2_package_generate_messages_lisp.dir/depend
 	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_lisp.dir/build.make CMakeFiles/assignment2_package_generate_messages_lisp.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=6,7 "Built target assignment2_package_generate_messages_lisp"
@@ -3250,145 +3362,6 @@ std_srvs_generate_messages_eus: CMakeFiles/std_srvs_generate_messages_eus.dir/ru
 CMakeFiles/std_srvs_generate_messages_eus.dir/clean:
 	$(MAKE) -f CMakeFiles/std_srvs_generate_messages_eus.dir/build.make CMakeFiles/std_srvs_generate_messages_eus.dir/clean
 .PHONY : CMakeFiles/std_srvs_generate_messages_eus.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/move_head_down_node.dir
-
-# All Build rule for target.
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_py.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_nodejs.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_lisp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/shape_msgs_generate_messages_lisp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_cpp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_cpp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_cpp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/tf_generate_messages_py.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/actionlib_generate_messages_py.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/moveit_ros_planning_gencfg.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/shape_msgs_generate_messages_eus.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_py.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_cpp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/roscpp_generate_messages_cpp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_py.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_eus.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_eus.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_py.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/shape_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/roscpp_generate_messages_py.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_eus.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_cpp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/tf_generate_messages_eus.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_eus.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/std_srvs_generate_messages_cpp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/assignment2_package_generate_messages_eus.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_eus.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/shape_msgs_generate_messages_cpp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/moveit_ros_manipulation_gencfg.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/actionlib_generate_messages_lisp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_lisp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_py.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/actionlib_generate_messages_cpp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/std_msgs_generate_messages_cpp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/nodelet_generate_messages_lisp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_eus.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/std_msgs_generate_messages_py.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/std_srvs_generate_messages_py.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/actionlib_generate_messages_nodejs.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/std_msgs_generate_messages_lisp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_cpp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_lisp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/actionlib_generate_messages_eus.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_py.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/bond_generate_messages_nodejs.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_cpp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/assignment2_package_generate_messages_lisp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_py.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/bond_generate_messages_cpp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/dynamic_reconfigure_gencfg.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_lisp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_py.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_py.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_lisp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/tf_generate_messages_cpp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_lisp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/shape_msgs_generate_messages_py.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/tf_generate_messages_nodejs.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_py.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/std_srvs_generate_messages_eus.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/std_msgs_generate_messages_eus.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/roscpp_generate_messages_lisp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/std_srvs_generate_messages_lisp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/std_srvs_generate_messages_nodejs.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/nodelet_generate_messages_py.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/tf_generate_messages_lisp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_cpp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/roscpp_generate_messages_eus.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_eus.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_eus.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_eus.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_nodejs.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_lisp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/nodelet_generate_messages_cpp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/nodelet_generate_messages_eus.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_py.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/nodelet_generate_messages_nodejs.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/bond_generate_messages_eus.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/bond_generate_messages_lisp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/bond_generate_messages_py.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/roscpp_generate_messages_nodejs.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/assignment2_package_generate_messages_cpp.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all
-CMakeFiles/move_head_down_node.dir/all: CMakeFiles/assignment2_package_generate_messages_py.dir/all
-	$(MAKE) -f CMakeFiles/move_head_down_node.dir/build.make CMakeFiles/move_head_down_node.dir/depend
-	$(MAKE) -f CMakeFiles/move_head_down_node.dir/build.make CMakeFiles/move_head_down_node.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=27,28 "Built target move_head_down_node"
-.PHONY : CMakeFiles/move_head_down_node.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/move_head_down_node.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 14
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/move_head_down_node.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/move_head_down_node.dir/rule
-
-# Convenience name for target.
-move_head_down_node: CMakeFiles/move_head_down_node.dir/rule
-
-.PHONY : move_head_down_node
-
-# clean rule for target.
-CMakeFiles/move_head_down_node.dir/clean:
-	$(MAKE) -f CMakeFiles/move_head_down_node.dir/build.make CMakeFiles/move_head_down_node.dir/clean
-.PHONY : CMakeFiles/move_head_down_node.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/std_msgs_generate_messages_eus.dir
@@ -4039,31 +4012,58 @@ CMakeFiles/bond_generate_messages_py.dir/clean:
 .PHONY : CMakeFiles/bond_generate_messages_py.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir
+# Target rules for target CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir
 
 # All Build rule for target.
-CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/all:
-	$(MAKE) -f CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/build.make CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/depend
-	$(MAKE) -f CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/build.make CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target _assignment2_package_generate_messages_check_deps_PlaceObject"
-.PHONY : CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/all
+CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all:
+	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/depend
+	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target rosgraph_msgs_generate_messages_nodejs"
+.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/rule: cmake_check_build_system
+CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/rule
+.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
 
 # Convenience name for target.
-_assignment2_package_generate_messages_check_deps_PlaceObject: CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/rule
+rosgraph_msgs_generate_messages_nodejs: CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
 
-.PHONY : _assignment2_package_generate_messages_check_deps_PlaceObject
+.PHONY : rosgraph_msgs_generate_messages_nodejs
 
 # clean rule for target.
-CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/clean:
-	$(MAKE) -f CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/build.make CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/clean
-.PHONY : CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/clean
+CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean:
+	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean
+.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir
+
+# All Build rule for target.
+CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/all:
+	$(MAKE) -f CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/build.make CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/depend
+	$(MAKE) -f CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/build.make CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target _assignment2_package_generate_messages_check_deps_GetObjectPose"
+.PHONY : CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/rule
+
+# Convenience name for target.
+_assignment2_package_generate_messages_check_deps_GetObjectPose: CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/rule
+
+.PHONY : _assignment2_package_generate_messages_check_deps_GetObjectPose
+
+# clean rule for target.
+CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/clean:
+	$(MAKE) -f CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/build.make CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/clean
+.PHONY : CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/roscpp_generate_messages_nodejs.dir
@@ -4099,7 +4099,7 @@ CMakeFiles/roscpp_generate_messages_nodejs.dir/clean:
 CMakeFiles/assignment2_package_generate_messages_cpp.dir/all: CMakeFiles/geometry_msgs_generate_messages_cpp.dir/all
 CMakeFiles/assignment2_package_generate_messages_cpp.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_PickObject.dir/all
 CMakeFiles/assignment2_package_generate_messages_cpp.dir/all: CMakeFiles/std_msgs_generate_messages_cpp.dir/all
-CMakeFiles/assignment2_package_generate_messages_cpp.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/all
+CMakeFiles/assignment2_package_generate_messages_cpp.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/all
 	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_cpp.dir/build.make CMakeFiles/assignment2_package_generate_messages_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_cpp.dir/build.make CMakeFiles/assignment2_package_generate_messages_cpp.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=1,2 "Built target assignment2_package_generate_messages_cpp"
@@ -4156,7 +4156,7 @@ CMakeFiles/assignment2_package_gencpp.dir/clean:
 CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all: CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/all
 CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_PickObject.dir/all
 CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all: CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/all
+CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/all
 	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_nodejs.dir/build.make CMakeFiles/assignment2_package_generate_messages_nodejs.dir/depend
 	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_nodejs.dir/build.make CMakeFiles/assignment2_package_generate_messages_nodejs.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=8,9 "Built target assignment2_package_generate_messages_nodejs"
@@ -4213,7 +4213,7 @@ CMakeFiles/assignment2_package_gennodejs.dir/clean:
 CMakeFiles/assignment2_package_generate_messages_py.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_PickObject.dir/all
 CMakeFiles/assignment2_package_generate_messages_py.dir/all: CMakeFiles/geometry_msgs_generate_messages_py.dir/all
 CMakeFiles/assignment2_package_generate_messages_py.dir/all: CMakeFiles/std_msgs_generate_messages_py.dir/all
-CMakeFiles/assignment2_package_generate_messages_py.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/all
+CMakeFiles/assignment2_package_generate_messages_py.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/all
 	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_py.dir/build.make CMakeFiles/assignment2_package_generate_messages_py.dir/depend
 	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_py.dir/build.make CMakeFiles/assignment2_package_generate_messages_py.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=10,11,12 "Built target assignment2_package_generate_messages_py"
@@ -4244,7 +4244,7 @@ gtest/googlemock/CMakeFiles/gmock_main.dir/all: gtest/googlemock/CMakeFiles/gmoc
 gtest/googlemock/CMakeFiles/gmock_main.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock_main.dir/build.make gtest/googlemock/CMakeFiles/gmock_main.dir/depend
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock_main.dir/build.make gtest/googlemock/CMakeFiles/gmock_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=19,20 "Built target gmock_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=15,16 "Built target gmock_main"
 .PHONY : gtest/googlemock/CMakeFiles/gmock_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -4271,7 +4271,7 @@ gtest/googlemock/CMakeFiles/gmock_main.dir/clean:
 gtest/googlemock/CMakeFiles/gmock.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock.dir/build.make gtest/googlemock/CMakeFiles/gmock.dir/depend
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock.dir/build.make gtest/googlemock/CMakeFiles/gmock.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=17,18 "Built target gmock"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=13,14 "Built target gmock"
 .PHONY : gtest/googlemock/CMakeFiles/gmock.dir/all
 
 # Build rule for subdir invocation for target.
@@ -4298,7 +4298,7 @@ gtest/googlemock/CMakeFiles/gmock.dir/clean:
 gtest/googletest/CMakeFiles/gtest_main.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest_main.dir/build.make gtest/googletest/CMakeFiles/gtest_main.dir/depend
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest_main.dir/build.make gtest/googletest/CMakeFiles/gtest_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=23,24 "Built target gtest_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=19,20 "Built target gtest_main"
 .PHONY : gtest/googletest/CMakeFiles/gtest_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -4325,7 +4325,7 @@ gtest/googletest/CMakeFiles/gtest_main.dir/clean:
 gtest/googletest/CMakeFiles/gtest.dir/all:
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest.dir/build.make gtest/googletest/CMakeFiles/gtest.dir/depend
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest.dir/build.make gtest/googletest/CMakeFiles/gtest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=21,22 "Built target gtest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=17,18 "Built target gtest"
 .PHONY : gtest/googletest/CMakeFiles/gtest.dir/all
 
 # Build rule for subdir invocation for target.

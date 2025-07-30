@@ -1,10 +1,10 @@
 
 "use strict";
 
-let PlaceObject = require('./PlaceObject.js')
+let GetObjectPose = require('./GetObjectPose.js')
 let PickObject = require('./PickObject.js')
 
 module.exports = {
-  PlaceObject: PlaceObject,
+  GetObjectPose: GetObjectPose,
   PickObject: PickObject,
 };

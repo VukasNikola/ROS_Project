@@ -54,27 +54,32 @@ CMAKE_BINARY_DIR = /home/nikolavukas/project/build/assignment2_package
 include CMakeFiles/assignment2_package_generate_messages_lisp.dir/progress.make
 
 CMakeFiles/assignment2_package_generate_messages_lisp: /home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PickObject.lisp
-CMakeFiles/assignment2_package_generate_messages_lisp: /home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PlaceObject.lisp
+CMakeFiles/assignment2_package_generate_messages_lisp: /home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/GetObjectPose.lisp
 
 
 /home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PickObject.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
 /home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PickObject.lisp: /home/nikolavukas/project/src/assignment2_package/srv/PickObject.srv
+/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PickObject.lisp: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PickObject.lisp: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PickObject.lisp: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PickObject.lisp: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PickObject.lisp: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Lisp code from assignment2_package/PickObject.srv"
 	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/nikolavukas/project/src/assignment2_package/srv/PickObject.srv -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv
 
-/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PlaceObject.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
-/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PlaceObject.lisp: /home/nikolavukas/project/src/assignment2_package/srv/PlaceObject.srv
-/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PlaceObject.lisp: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
-/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PlaceObject.lisp: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
-/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PlaceObject.lisp: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
-/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PlaceObject.lisp: /opt/ros/noetic/share/std_msgs/msg/Header.msg
-/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PlaceObject.lisp: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Lisp code from assignment2_package/PlaceObject.srv"
-	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/nikolavukas/project/src/assignment2_package/srv/PlaceObject.srv -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv
+/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/GetObjectPose.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
+/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/GetObjectPose.lisp: /home/nikolavukas/project/src/assignment2_package/srv/GetObjectPose.srv
+/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/GetObjectPose.lisp: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/GetObjectPose.lisp: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/GetObjectPose.lisp: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/GetObjectPose.lisp: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/GetObjectPose.lisp: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Lisp code from assignment2_package/GetObjectPose.srv"
+	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/nikolavukas/project/src/assignment2_package/srv/GetObjectPose.srv -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv
 
 assignment2_package_generate_messages_lisp: CMakeFiles/assignment2_package_generate_messages_lisp
 assignment2_package_generate_messages_lisp: /home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PickObject.lisp
-assignment2_package_generate_messages_lisp: /home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/PlaceObject.lisp
+assignment2_package_generate_messages_lisp: /home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/srv/GetObjectPose.lisp
 assignment2_package_generate_messages_lisp: CMakeFiles/assignment2_package_generate_messages_lisp.dir/build.make
 
 .PHONY : assignment2_package_generate_messages_lisp

@@ -35,43 +35,5 @@ Not searching for unused variables given on the command line.
 [36m--[0m Using these message generators: gencpp;geneus;genlisp;gennodejs;genpy
 [36m--[0m assignment2_package: 0 messages, 2 services
 [36m--[0m Configuring done
-[31m[1mCMake Error[0m at /home/nikolavukas/project/src/assignment2_package/CMakeLists.txt:43 (add_executable):
-  Cannot find source file:
-
-    src/manipulation_node.cpp
-
-  Tried extensions .c .C .c++ .cc .cpp .cxx .cu .m .M .mm .h .hh .h++ .hm
-  .hpp .hxx .in .txx
-
-
-[31m[1mCMake Error[0m at /home/nikolavukas/project/src/assignment2_package/CMakeLists.txt:42 (add_executable):
-  Cannot find source file:
-
-    src/detection_collision_node.cpp
-
-  Tried extensions .c .C .c++ .cc .cpp .cxx .cu .m .M .mm .h .hh .h++ .hm
-  .hpp .hxx .in .txx
-
-
-[31m[1mCMake Error[0m at /home/nikolavukas/project/src/assignment2_package/CMakeLists.txt:41 (add_executable):
-  Cannot find source file:
-
-    src/coordinator_node.cpp
-
-  Tried extensions .c .C .c++ .cc .cpp .cxx .cu .m .M .mm .h .hh .h++ .hm
-  .hpp .hxx .in .txx
-
-
-[31m[1mCMake Error[0m at /home/nikolavukas/project/src/assignment2_package/CMakeLists.txt:43 (add_executable):
-  No SOURCES given to target: manipulation_node
-
-
-[31m[1mCMake Error[0m at /home/nikolavukas/project/src/assignment2_package/CMakeLists.txt:42 (add_executable):
-  No SOURCES given to target: detection_collision_node
-
-
-[31m[1mCMake Error[0m at /home/nikolavukas/project/src/assignment2_package/CMakeLists.txt:41 (add_executable):
-  No SOURCES given to target: coordinator_node
-
-
-CMake Generate step failed.  Build files cannot be regenerated correctly.
+[36m--[0m Generating done
+[36m--[0m Build files have been written to: /home/nikolavukas/project/build/assignment2_package

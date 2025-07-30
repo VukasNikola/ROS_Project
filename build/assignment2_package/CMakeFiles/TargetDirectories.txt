@@ -3,8 +3,8 @@
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/list_install_components.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/rebuild_cache.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/edit_cache.dir
-/home/nikolavukas/project/build/assignment2_package/CMakeFiles/manipulation_node.dir
-/home/nikolavukas/project/build/assignment2_package/CMakeFiles/detection_collision_node.dir
+/home/nikolavukas/project/build/assignment2_package/CMakeFiles/node_C.dir
+/home/nikolavukas/project/build/assignment2_package/CMakeFiles/node_A.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/assignment2_package_genlisp.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/trajectory_msgs_generate_messages_py.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir
@@ -16,9 +16,11 @@
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/test.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/moveit_msgs_generate_messages_cpp.dir
+/home/nikolavukas/project/build/assignment2_package/CMakeFiles/test_node.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/tf_generate_messages_py.dir
+/home/nikolavukas/project/build/assignment2_package/CMakeFiles/node_B.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/trajectory_msgs_generate_messages_cpp.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/actionlib_generate_messages_py.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir
@@ -64,9 +66,7 @@
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/moveit_msgs_generate_messages_lisp.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/actionlib_msgs_generate_messages_py.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/actionlib_generate_messages_cpp.dir
-/home/nikolavukas/project/build/assignment2_package/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/std_msgs_generate_messages_cpp.dir
-/home/nikolavukas/project/build/assignment2_package/CMakeFiles/coordinator_node.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/std_msgs_generate_messages_nodejs.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/nodelet_generate_messages_lisp.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/geometry_msgs_generate_messages_eus.dir
@@ -103,7 +103,6 @@
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/tf_generate_messages_nodejs.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/tiago_iaslab_simulation_generate_messages_py.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/std_srvs_generate_messages_eus.dir
-/home/nikolavukas/project/build/assignment2_package/CMakeFiles/move_head_down_node.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/std_msgs_generate_messages_eus.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/roscpp_generate_messages_lisp.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/std_srvs_generate_messages_lisp.dir
@@ -128,7 +127,8 @@
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/bond_generate_messages_eus.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/bond_generate_messages_lisp.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/bond_generate_messages_py.dir
-/home/nikolavukas/project/build/assignment2_package/CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir
+/home/nikolavukas/project/build/assignment2_package/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir
+/home/nikolavukas/project/build/assignment2_package/CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/roscpp_generate_messages_nodejs.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/assignment2_package_generate_messages_cpp.dir
 /home/nikolavukas/project/build/assignment2_package/CMakeFiles/assignment2_package_gencpp.dir

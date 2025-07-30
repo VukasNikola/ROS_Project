@@ -1,7 +1,0 @@
-[01m[K/home/nikolavukas/project/src/assignment2/src/collision_objects.cpp:2:10:[m[K [01;31m[Kfatal error: [m[Kmoveit/planning_scene_interface/planning_scene_interface.hpp: No such file or directory
-    2 | #include [01;31m[K<moveit/planning_scene_interface/planning_scene_interface.hpp>[m[K
-      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
-compilation terminated.
-make[2]: *** [CMakeFiles/collision_objects.dir/build.make:63: CMakeFiles/collision_objects.dir/src/collision_objects.cpp.o] Error 1
-make[1]: *** [CMakeFiles/Makefile2:1574: CMakeFiles/collision_objects.dir/all] Error 2
-make: *** [Makefile:141: all] Error 2

@@ -8,9 +8,6 @@
 
 # modified environment variables
 export CMAKE_PREFIX_PATH="/home/nikolavukas/project/devel/.private/apriltag_finder:$CMAKE_PREFIX_PATH"
-export LD_LIBRARY_PATH="/home/nikolavukas/project/devel/.private/apriltag_finder/lib:$LD_LIBRARY_PATH"
-export PKG_CONFIG_PATH="/home/nikolavukas/project/devel/.private/apriltag_finder/lib/pkgconfig:$PKG_CONFIG_PATH"
 export PWD='/home/nikolavukas/project/build/apriltag_finder'
-export PYTHONPATH="/home/nikolavukas/project/devel/.private/apriltag_finder/lib/python3/dist-packages:$PYTHONPATH"
 export ROSLISP_PACKAGE_DIRECTORIES="/home/nikolavukas/project/devel/.private/apriltag_finder/share/common-lisp:$ROSLISP_PACKAGE_DIRECTORIES"
 export ROS_PACKAGE_PATH="/home/nikolavukas/project/src/apriltag_finder:$ROS_PACKAGE_PATH"

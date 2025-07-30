@@ -131,7 +131,7 @@ endif()
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/assignment2_package/srv" TYPE FILE FILES
     "/home/nikolavukas/project/src/assignment2_package/srv/PickObject.srv"
-    "/home/nikolavukas/project/src/assignment2_package/srv/PlaceObject.srv"
+    "/home/nikolavukas/project/src/assignment2_package/srv/GetObjectPose.srv"
     )
 endif()
 

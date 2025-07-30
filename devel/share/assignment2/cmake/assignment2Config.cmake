@@ -1,1 +1,0 @@
-/home/nikolavukas/project/devel/.private/assignment2/share/assignment2/cmake/assignment2Config.cmake

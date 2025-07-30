@@ -412,9 +412,6 @@ catkin_DIR:PATH=/opt/ros/noetic/share/catkin/cmake
 //The directory containing a CMake configuration file for class_loader.
 class_loader_DIR:PATH=/opt/ros/noetic/share/class_loader/cmake
 
-//The directory containing a CMake configuration file for control_msgs.
-control_msgs_DIR:PATH=/opt/ros/noetic/share/control_msgs/cmake
-
 //The directory containing a CMake configuration file for cpp_common.
 cpp_common_DIR:PATH=/opt/ros/noetic/share/cpp_common/cmake
 
@@ -496,9 +493,6 @@ gtest_hide_internal_symbols:BOOL=OFF
 
 //Dependencies for the target
 gtest_main_LIB_DEPENDS:STATIC=general;gtest;
-
-//The directory containing a CMake configuration file for head_action.
-head_action_DIR:PATH=/home/nikolavukas/tiago_public_ws/devel/share/head_action/cmake
 
 //The directory containing a CMake configuration file for image_transport.
 image_transport_DIR:PATH=/opt/ros/noetic/share/image_transport/cmake

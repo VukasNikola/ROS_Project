@@ -1,0 +1,127 @@
+In file included from [01m[K/home/nikolavukas/project/src/assignment2_package/src/test_node.cpp:1[m[K:
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/gripper_control.h:[m[K In member function ‘[01m[Kvoid gripper_control::GripperController::close(int)[m[K’:
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/gripper_control.h:49:24:[m[K [01;31m[Kerror: [m[K‘[01m[KgetWidthForTag[m[K’ was not declared in this scope
+   49 |         double width = [01;31m[KgetWidthForTag[m[K(tag_id);
+      |                        [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/test_node.cpp:[m[K In function ‘[01m[Kint main(int, char**)[m[K’:
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/test_node.cpp:13:50:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K;[m[K’ token
+   13 |   int detected_id = /* from AprilTag detection */[01;31m[K;[m[K
+      |                                                  [01;31m[K^[m[K
+In file included from [01m[K/opt/ros/noetic/include/ros/ros.h:40[m[K,
+                 from [01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:1[m[K:
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:[m[K In function ‘[01m[Kint main(int, char**)[m[K’:
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:150:18:[m[K [01;35m[Kwarning: [m[Kformat ‘[01m[K%f[m[K’ expects a matching ‘[01m[Kdouble[m[K’ argument [[01;35m[K-Wformat=[m[K]
+  150 |         ROS_INFO([01;35m[K"Pose is: %f,"[m[K)
+      |                  [01;35m[K^~~~~~~~~~~~~~[m[K
+[01m[K/opt/ros/noetic/include/ros/console.h:351:165:[m[K [01;36m[Knote: [m[Kin definition of macro ‘[01m[KROSCONSOLE_PRINT_AT_LOCATION_WITH_FILTER[m[K’
+  351 |     ::ros::console::print(filter, __rosconsole_define_location__loc.logger_, __rosconsole_define_location__loc.level_, __FILE__, __LINE__, __ROSCONSOLE_FUNCTION__, [01;36m[K__VA_ARGS__[m[K)
+      |                                                                                                                                                                     [01;36m[K^~~~~~~~~~~[m[K
+[01m[K/opt/ros/noetic/include/ros/console.h:390:7:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROSCONSOLE_PRINT_AT_LOCATION[m[K’
+  390 |       [01;36m[KROSCONSOLE_PRINT_AT_LOCATION[m[K(__VA_ARGS__); \
+      |       [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/opt/ros/noetic/include/ros/console.h:575:35:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_LOG_COND[m[K’
+  575 | #define ROS_LOG(level, name, ...) [01;36m[KROS_LOG_COND[m[K(true, level, name, __VA_ARGS__)
+      |                                   [01;36m[K^~~~~~~~~~~~[m[K
+[01m[K/opt/ros/noetic/include/rosconsole/macros_generated.h:110:23:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_LOG[m[K’
+  110 | #define ROS_INFO(...) [01;36m[KROS_LOG[m[K(::ros::console::levels::Info, ROSCONSOLE_DEFAULT_NAME, __VA_ARGS__)
+      |                       [01;36m[K^~~~~~~[m[K
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:150:9:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_INFO[m[K’
+  150 |         [01;36m[KROS_INFO[m[K("Pose is: %f,")
+      |         [01;36m[K^~~~~~~~[m[K
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:150:29:[m[K [01;36m[Knote: [m[Kformat string is defined here
+  150 |         ROS_INFO("Pose is: [01;36m[K%f[m[K,")
+      |                            [01;36m[K~^[m[K
+      |                             [01;36m[K|[m[K
+      |                             [01;36m[Kdouble[m[K
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:151:5:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ before ‘[01m[K}[m[K’ token
+  151 |     [01;31m[K}[m[K
+      |     [01;31m[K^[m[K
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:278:105:[m[K [01;35m[Kwarning: [m[K‘[01m[Kdouble moveit::planning_interface::MoveGroupInterface::computeCartesianPath(const std::vector<geometry_msgs::Pose_<std::allocator<void> > >&, double, double, moveit_msgs::RobotTrajectory&, bool, moveit_msgs::MoveItErrorCodes*)[m[K’ is deprecated: Drop jump_threshold [[01;35m[K-Wdeprecated-declarations[m[K]
+  278 |         double frac = arm_move_group.computeCartesianPath(waypoints, eef_step, jump_threshold, cart_traj[01;35m[K)[m[K;
+      |                                                                                                         [01;35m[K^[m[K
+In file included from [01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:5[m[K:
+[01m[K/opt/ros/noetic/include/moveit/move_group_interface/move_group_interface.h:783:3:[m[K [01;36m[Knote: [m[Kdeclared here
+  783 |   [01;36m[KcomputeCartesianPath[m[K(const std::vector<geometry_msgs::Pose>& waypoints, double eef_step, double /*jump_threshold*/,
+      |   [01;36m[K^~~~~~~~~~~~~~~~~~~~[m[K
+In file included from [01m[K/opt/ros/noetic/include/ros/ros.h:40[m[K,
+                 from [01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:1[m[K:
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:[m[K In function ‘[01m[Kint main(int, char**)[m[K’:
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:150:18:[m[K [01;35m[Kwarning: [m[Kformat ‘[01m[K%f[m[K’ expects a matching ‘[01m[Kdouble[m[K’ argument [[01;35m[K-Wformat=[m[K]
+  150 |         ROS_INFO([01;35m[K"Pose is: %f,"[m[K)
+      |                  [01;35m[K^~~~~~~~~~~~~~[m[K
+[01m[K/opt/ros/noetic/include/ros/console.h:351:165:[m[K [01;36m[Knote: [m[Kin definition of macro ‘[01m[KROSCONSOLE_PRINT_AT_LOCATION_WITH_FILTER[m[K’
+  351 |     ::ros::console::print(filter, __rosconsole_define_location__loc.logger_, __rosconsole_define_location__loc.level_, __FILE__, __LINE__, __ROSCONSOLE_FUNCTION__, [01;36m[K__VA_ARGS__[m[K)
+      |                                                                                                                                                                     [01;36m[K^~~~~~~~~~~[m[K
+[01m[K/opt/ros/noetic/include/ros/console.h:390:7:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROSCONSOLE_PRINT_AT_LOCATION[m[K’
+  390 |       [01;36m[KROSCONSOLE_PRINT_AT_LOCATION[m[K(__VA_ARGS__); \
+      |       [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/opt/ros/noetic/include/ros/console.h:575:35:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_LOG_COND[m[K’
+  575 | #define ROS_LOG(level, name, ...) [01;36m[KROS_LOG_COND[m[K(true, level, name, __VA_ARGS__)
+      |                                   [01;36m[K^~~~~~~~~~~~[m[K
+[01m[K/opt/ros/noetic/include/rosconsole/macros_generated.h:110:23:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_LOG[m[K’
+  110 | #define ROS_INFO(...) [01;36m[KROS_LOG[m[K(::ros::console::levels::Info, ROSCONSOLE_DEFAULT_NAME, __VA_ARGS__)
+      |                       [01;36m[K^~~~~~~[m[K
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:150:9:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_INFO[m[K’
+  150 |         [01;36m[KROS_INFO[m[K("Pose is: %f,")
+      |         [01;36m[K^~~~~~~~[m[K
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:150:29:[m[K [01;36m[Knote: [m[Kformat string is defined here
+  150 |         ROS_INFO("Pose is: [01;36m[K%f[m[K,")
+      |                            [01;36m[K~^[m[K
+      |                             [01;36m[K|[m[K
+      |                             [01;36m[Kdouble[m[K
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:151:5:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ before ‘[01m[K}[m[K’ token
+  151 |     [01;31m[K}[m[K
+      |     [01;31m[K^[m[K
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:278:105:[m[K [01;35m[Kwarning: [m[K‘[01m[Kdouble moveit::planning_interface::MoveGroupInterface::computeCartesianPath(const std::vector<geometry_msgs::Pose_<std::allocator<void> > >&, double, double, moveit_msgs::RobotTrajectory&, bool, moveit_msgs::MoveItErrorCodes*)[m[K’ is deprecated: Drop jump_threshold [[01;35m[K-Wdeprecated-declarations[m[K]
+  278 |         double frac = arm_move_group.computeCartesianPath(waypoints, eef_step, jump_threshold, cart_traj[01;35m[K)[m[K;
+      |                                                                                                         [01;35m[K^[m[K
+In file included from [01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:5[m[K:
+[01m[K/opt/ros/noetic/include/moveit/move_group_interface/move_group_interface.h:783:3:[m[K [01;36m[Knote: [m[Kdeclared here
+  783 |   [01;36m[KcomputeCartesianPath[m[K(const std::vector<geometry_msgs::Pose>& waypoints, double eef_step, double /*jump_threshold*/,
+      |   [01;36m[K^~~~~~~~~~~~~~~~~~~~[m[K
+In file included from [01m[K/opt/ros/noetic/include/ros/ros.h:40[m[K,
+                 from [01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:1[m[K:
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:[m[K In function ‘[01m[Kint main(int, char**)[m[K’:
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:150:18:[m[K [01;35m[Kwarning: [m[Kformat ‘[01m[K%f[m[K’ expects a matching ‘[01m[Kdouble[m[K’ argument [[01;35m[K-Wformat=[m[K]
+  150 |         ROS_INFO([01;35m[K"Pose is: %f,"[m[K)
+      |                  [01;35m[K^~~~~~~~~~~~~~[m[K
+[01m[K/opt/ros/noetic/include/ros/console.h:351:165:[m[K [01;36m[Knote: [m[Kin definition of macro ‘[01m[KROSCONSOLE_PRINT_AT_LOCATION_WITH_FILTER[m[K’
+  351 |     ::ros::console::print(filter, __rosconsole_define_location__loc.logger_, __rosconsole_define_location__loc.level_, __FILE__, __LINE__, __ROSCONSOLE_FUNCTION__, [01;36m[K__VA_ARGS__[m[K)
+      |                                                                                                                                                                     [01;36m[K^~~~~~~~~~~[m[K
+[01m[K/opt/ros/noetic/include/ros/console.h:390:7:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROSCONSOLE_PRINT_AT_LOCATION[m[K’
+  390 |       [01;36m[KROSCONSOLE_PRINT_AT_LOCATION[m[K(__VA_ARGS__); \
+      |       [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/opt/ros/noetic/include/ros/console.h:575:35:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_LOG_COND[m[K’
+  575 | #define ROS_LOG(level, name, ...) [01;36m[KROS_LOG_COND[m[K(true, level, name, __VA_ARGS__)
+      |                                   [01;36m[K^~~~~~~~~~~~[m[K
+[01m[K/opt/ros/noetic/include/rosconsole/macros_generated.h:110:23:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_LOG[m[K’
+  110 | #define ROS_INFO(...) [01;36m[KROS_LOG[m[K(::ros::console::levels::Info, ROSCONSOLE_DEFAULT_NAME, __VA_ARGS__)
+      |                       [01;36m[K^~~~~~~[m[K
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:150:9:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_INFO[m[K’
+  150 |         [01;36m[KROS_INFO[m[K("Pose is: %f,")
+      |         [01;36m[K^~~~~~~~[m[K
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:150:29:[m[K [01;36m[Knote: [m[Kformat string is defined here
+  150 |         ROS_INFO("Pose is: [01;36m[K%f[m[K,")
+      |                            [01;36m[K~^[m[K
+      |                             [01;36m[K|[m[K
+      |                             [01;36m[Kdouble[m[K
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:151:5:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ before ‘[01m[K}[m[K’ token
+  151 |     [01;31m[K}[m[K
+      |     [01;31m[K^[m[K
+[01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:278:105:[m[K [01;35m[Kwarning: [m[K‘[01m[Kdouble moveit::planning_interface::MoveGroupInterface::computeCartesianPath(const std::vector<geometry_msgs::Pose_<std::allocator<void> > >&, double, double, moveit_msgs::RobotTrajectory&, bool, moveit_msgs::MoveItErrorCodes*)[m[K’ is deprecated: Drop jump_threshold [[01;35m[K-Wdeprecated-declarations[m[K]
+  278 |         double frac = arm_move_group.computeCartesianPath(waypoints, eef_step, jump_threshold, cart_traj[01;35m[K)[m[K;
+      |                                                                                                         [01;35m[K^[m[K
+In file included from [01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:5[m[K:
+[01m[K/opt/ros/noetic/include/moveit/move_group_interface/move_group_interface.h:783:3:[m[K [01;36m[Knote: [m[Kdeclared here
+  783 |   [01;36m[KcomputeCartesianPath[m[K(const std::vector<geometry_msgs::Pose>& waypoints, double eef_step, double /*jump_threshold*/,
+      |   [01;36m[K^~~~~~~~~~~~~~~~~~~~[m[K
+make[2]: *** [CMakeFiles/test_node.dir/build.make:63: CMakeFiles/test_node.dir/src/test_node.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:928: CMakeFiles/test_node.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+make[2]: *** [CMakeFiles/node_A.dir/build.make:63: CMakeFiles/node_A.dir/src/node_A.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:519: CMakeFiles/node_A.dir/all] Error 2
+make[2]: *** [CMakeFiles/node_B.dir/build.make:63: CMakeFiles/node_B.dir/src/node_A.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:1148: CMakeFiles/node_B.dir/all] Error 2
+make[2]: *** [CMakeFiles/node_C.dir/build.make:63: CMakeFiles/node_C.dir/src/node_A.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:380: CMakeFiles/node_C.dir/all] Error 2
+make: *** [Makefile:141: all] Error 2

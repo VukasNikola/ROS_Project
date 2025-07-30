@@ -1,7 +1,0 @@
-[01m[K/home/nikolavukas/project/src/assignment2_package/src/move_head_down_node.cpp:3:10:[m[K [01;31m[Kfatal error: [m[Khead_action/HeadAction.h: No such file or directory
-    3 | #include [01;31m[K<head_action/HeadAction.h>[m[K
-      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
-compilation terminated.
-make[2]: *** [CMakeFiles/move_head_down_node.dir/build.make:63: CMakeFiles/move_head_down_node.dir/src/move_head_down_node.cpp.o] Error 1
-make[1]: *** [CMakeFiles/Makefile2:3372: CMakeFiles/move_head_down_node.dir/all] Error 2
-make: *** [Makefile:141: all] Error 2

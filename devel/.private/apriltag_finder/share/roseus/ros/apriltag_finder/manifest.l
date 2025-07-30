@@ -7,8 +7,11 @@
 ;;
 (ros::load-ros-package "actionlib")
 (ros::load-ros-package "actionlib_msgs")
+(ros::load-ros-package "apriltag_ros")
+(ros::load-ros-package "bond")
 (ros::load-ros-package "geometry_msgs")
 (ros::load-ros-package "move_base_msgs")
+(ros::load-ros-package "nodelet")
 (ros::load-ros-package "roscpp")
 (ros::load-ros-package "rosgraph_msgs")
 (ros::load-ros-package "sensor_msgs")

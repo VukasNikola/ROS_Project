@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
+  "/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/GetObjectPose.js"
   "/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PickObject.js"
-  "/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PlaceObject.js"
   "CMakeFiles/assignment2_package_generate_messages_nodejs"
 )
 

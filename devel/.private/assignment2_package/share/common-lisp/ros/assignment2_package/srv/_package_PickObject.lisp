@@ -1,6 +1,6 @@
 (cl:in-package assignment2_package-srv)
-(cl:export '(SUCCESS-VAL
+(cl:export '(TARGET-VAL
+          TARGET
+          SUCCESS-VAL
           SUCCESS
-          MESSAGE-VAL
-          MESSAGE
 ))
