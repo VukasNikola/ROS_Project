@@ -47,7 +47,8 @@ void detectionsCallback(const apriltag_ros::AprilTagDetectionArray::ConstPtr& ms
         if (detection.id.empty()) continue;
         int tag_id = detection.id[0];
         // Get the pose of the tag relative to camera (PoseWithCovarianceStamped in detection)
-        geometry_msgs::PoseStamped tag_pose_cam = detection.pose.pose;  // Pose of tag in camera frame
+        geometry_msgs::PoseStamped tag_pose_cam;  // Pose of tag in camera frame
+        tag_pose_cam.pose = detection.pose.pose.pose;
         tag_pose_cam.header = detection.pose.header;  // ensure frame_id and stamp are set
         // If this is the reference tag (ID 10), record the transform camera->tag10
         if (tag_id == REF_TAG_ID) {
@@ -113,7 +114,7 @@ int main(int argc, char** argv) {
     tfListenerPtr = new tf2_ros::TransformListener(tfBuffer);
     
     // Subscribe to AprilTag detections
-    detections_sub = nh.subscribe("/tag_detections", 1, detectionsCallback);
+    detections_sub = nh.subscribe("tag_detections", 1, detectionsCallback);
     // Advertise service to get an object pose
     get_obj_pose_srv = nh.advertiseService("/get_object_pose", getObjectPoseService);
     

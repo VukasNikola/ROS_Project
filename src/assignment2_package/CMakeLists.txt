@@ -44,8 +44,8 @@ include_directories(
 
 add_executable(test_node src/test_node.cpp)
 add_executable(node_A src/node_A.cpp)
-add_executable(node_B src/node_A.cpp)
-add_executable(node_C src/node_A.cpp)
+add_executable(node_B src/node_B.cpp)
+add_executable(node_C src/node_C.cpp)
 
 
 target_link_libraries(test_node ${catkin_LIBRARIES})
