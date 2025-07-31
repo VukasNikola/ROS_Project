@@ -4,7 +4,7 @@
 #include <geometry_msgs/PoseStamped.h>
 #include <apriltag_ros/AprilTagDetectionArray.h>
 #include <unordered_set>
-#include "assignment2_package/GetObjectPose.h"  // Service: no request, response: geometry_msgs/PoseStamped obj_pose
+#include "assignment2_package/GetObjectPose.h" 
 
 // Node B: Detect AprilTags and compute object poses
 static const std::string CAMERA_FRAME = "xtion_rgb_optical_frame";  // example camera frame (adjust based on simulation)

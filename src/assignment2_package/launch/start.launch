@@ -4,13 +4,6 @@
     <arg name="world_name" value="iaslab_assignment2" />
   </include>
 
-  <!-- Delay next launch to allow Gazebo to load properly -->
-  <param name="/use_sim_time" value="true"/>
-  <group ns="apriltag">
-    <!-- AprilTag detection -->
-    <include file="$(find tiago_iaslab_simulation)/launch/apriltag2.launch"/>
-  </group>
-
   <!-- Navigation stack -->
   <include file="$(find tiago_iaslab_simulation)/launch/navigation.launch"/>
 
