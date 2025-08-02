@@ -330,7 +330,7 @@ int main(int argc, char **argv)
     update_timer = nh.createTimer(ros::Duration(1.0 / update_rate), timerCallback);
 
     // Start the pick service
-    ros::ServiceServer service = nh.advertiseService("/pick_object", pickObjectCallback);
+    ros::ServiceServer service = nh.advertiseService("pick_object", pickObjectCallback);
 
     ROS_INFO("Node C: Ready to manage collision objects and handle pick requests.");
 

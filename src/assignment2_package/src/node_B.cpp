@@ -4,15 +4,17 @@
 #include <geometry_msgs/PoseStamped.h>
 #include <apriltag_ros/AprilTagDetectionArray.h>
 #include <unordered_set>
-#include "assignment2_package/GetObjectPose.h" // Service: response: geometry_msgs/PoseStamped obj_pose
+#include "assignment2_package/GetObjectPose.h"
+#include "assignment2_package/GetAllObjectPoses.h"
 
 // Node B: Detect AprilTags and compute object poses
-static const std::string CAMERA_FRAME = "xtion_rgb_optical_frame"; // adjust based on your camera
-static const std::string BASE_FRAME = "base_footprint";            // robot base frame
+static const std::string CAMERA_FRAME = "xtion_rgb_optical_frame"; 
+static const std::string BASE_FRAME = "base_footprint";            // Robot base frame
 static const int REF_TAG_ID = 10;                                  // AprilTag ID used as static reference (on placing table)
 
 ros::Subscriber detections_sub;
 ros::ServiceServer get_obj_pose_srv;
+ros::ServiceServer get_all_poses_srv;
 tf2_ros::Buffer tfBuffer;
 tf2_ros::TransformListener *tfListenerPtr;
 
@@ -91,7 +93,7 @@ void detectionsCallback(const apriltag_ros::AprilTagDetectionArray::ConstPtr &ms
     }
 }
 
-// Service to provide object pose to Node A/C
+//Service to remove id from detected objects 
 bool getObjectPoseService(assignment2_package::GetObjectPose::Request &req,
                           assignment2_package::GetObjectPose::Response &res)
 {
@@ -114,6 +116,18 @@ bool getObjectPoseService(assignment2_package::GetObjectPose::Request &req,
     ROS_INFO("Node B: Providing object ID %u pose to requester.", res.obj_id);
     return true;
 }
+bool getAllObjectPosesService(assignment2_package::GetAllObjectPoses::Request &req,
+                              assignment2_package::GetAllObjectPoses::Response &res)
+{
+    for (const auto &obj : current_objects)
+    {
+        res.ids.push_back(obj.id);
+        res.poses.push_back(obj.pose);
+    }
+
+    ROS_INFO("Node B: Returning %lu object poses via GetAllObjectPoses service.", res.ids.size());
+    return true;
+}
 
 int main(int argc, char **argv)
 {
@@ -125,8 +139,9 @@ int main(int argc, char **argv)
     // Subscribe to AprilTag detections
     detections_sub = nh.subscribe("tag_detections", 1, detectionsCallback);
 
-    // Advertise service to get an object pose
+    // Advertise services
     get_obj_pose_srv = nh.advertiseService("get_object_pose", getObjectPoseService);
+    get_all_poses_srv = nh.advertiseService("get_all_object_poses", getAllObjectPosesService);
 
     ROS_INFO("Node B: Detection node started, waiting for tag detections...");
 
