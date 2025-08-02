@@ -88,9 +88,9 @@ void objectPosesCallback(const assignment2_package::ObjectPoseArray::ConstPtr &m
   std::string pkg_path = ros::package::getPath("tiago_iaslab_simulation");
   std::string mesh_uri = "file://" + pkg_path + "/meshes/triangle_centered.stl";
   Eigen::Vector3d prism_scale(
-    0.05 / 0.10,   // X-scale
-    0.07 / 0.13,   // Y-scale
-    0.035 / 0.65   // Z-scale
+    0.5,   // X-scale
+    0.5,   // Y-scale
+    0.5   // Z-scale
   );
 
   for (const auto &entry : msg->objects)
@@ -99,41 +99,60 @@ void objectPosesCallback(const assignment2_package::ObjectPoseArray::ConstPtr &m
     seen_ids.insert(tag_id);
 
     geometry_msgs::Pose obj_pose = entry.pose.pose;
-    obj_pose.position.z -= 0.03;
 
-    // Mesh for tags 7–9
+    // Mesh for tags 7–9 (using your working version)
     if (tag_id >= 7 && tag_id <= 9)
     {
+      // 1) Get tag orientation
       tf2::Quaternion tag_q;
       tf2::fromMsg(entry.pose.pose.orientation, tag_q);
-      tf2::Quaternion corr_q; corr_q.setRPY(M_PI,0.0,M_PI/2.0);
+
+      // 2) Correction: 180° about X, then 90° about Z
+      tf2::Quaternion corr_q;
+      corr_q.setRPY(M_PI, 0.0, M_PI / 2.0);
+
+      // 3) Combine & write back
       tf2::Quaternion final_q = tag_q * corr_q;
       obj_pose.orientation = tf2::toMsg(final_q);
 
+      // 4) Add mesh with scale
       std::string obj_id = "tag_mesh_" + std::to_string(tag_id);
-      addMeshCollisionObject(obj_id, mesh_uri, obj_pose, BASE_FRAME, prism_scale);
+      addMeshCollisionObject(obj_id,
+                             mesh_uri,
+                             obj_pose,
+                             BASE_FRAME,
+                             prism_scale);
+
       detected_tags[tag_id] = entry.pose;
       continue;
     }
 
-    // Primitives for all other tags
+    // Primitives for all other tags - adjust Z position based on object height
     shape_msgs::SolidPrimitive primitive;
+    double height_offset = 0.0;
+    
     if (tag_id >= 1 && tag_id <= 3)
     {
       primitive.type = primitive.CYLINDER;
-      primitive.dimensions = {0.1, 0.05};
+      primitive.dimensions = {0.1, 0.025}; // height, radius
+      height_offset = primitive.dimensions[0] / 2.0; // half of cylinder height
     }
     else
     {
       primitive.type = primitive.BOX;
-      primitive.dimensions = {0.05, 0.05, 0.05};
+      primitive.dimensions = {0.05, 0.05, 0.05}; // x, y, z
+      height_offset = primitive.dimensions[2] / 2.0; // half of box height
     }
+    
+    // Adjust Z position: move down by half the object height so bottom sits on surface
+    obj_pose.position.z -= height_offset;
+    
     std::string obj_id = "tag_object_" + std::to_string(tag_id);
     addCollisionObject(obj_id, primitive, obj_pose, BASE_FRAME);
     detected_tags[tag_id] = entry.pose;
   }
 
-  // Removal logic (unchanged)…
+  // Removal logic
   std::vector<std::string> to_remove;
   for (auto it = detected_tags.begin(); it != detected_tags.end();)
   {
