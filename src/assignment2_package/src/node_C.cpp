@@ -23,7 +23,7 @@
 static const std::string PLANNING_GROUP_ARM = "arm";
 static const std::string PLANNING_GROUP_GRIPPER = "gripper";
 static const std::string BASE_FRAME = "base_footprint";
-static const std::string MAP_FRAME = "map";
+
 
 // Globals
 moveit::planning_interface::MoveGroupInterface *arm_group;
@@ -51,29 +51,6 @@ void addCollisionObject(const std::string &id,
     planning_scene_interface->applyCollisionObject(co);
 }
 
-// Helper function to create pick and place tables
-void createPickPlaceTables(const geometry_msgs::Pose &tag_pose, const std::string &frame_id)
-{
-    shape_msgs::SolidPrimitive table_shape;
-    table_shape.type = shape_msgs::SolidPrimitive::BOX;
-    table_shape.dimensions = {0.9, 0.9, 0.9}; // h: 0.9, l: 0.9, w: 0.9
-
-    // Create pick table (offset from tag position)
-    geometry_msgs::Pose pick_table_pose = tag_pose;
-    pick_table_pose.position.x -= 0.5; // Offset left
-    pick_table_pose.position.z = 0.45; // Half height to center the cube
-    addCollisionObject("pick_table", table_shape, pick_table_pose, frame_id);
-
-    // Create place table (offset from tag position)
-    geometry_msgs::Pose place_table_pose = tag_pose;
-    place_table_pose.position.x += 0.5; // Offset right
-    place_table_pose.position.z = 0.45; // Half height to center the cube
-    addCollisionObject("place_table", table_shape, place_table_pose, frame_id);
-
-    ROS_INFO("Created pick and place tables at positions: pick(%.2f, %.2f, %.2f), place(%.2f, %.2f, %.2f)",
-             pick_table_pose.position.x, pick_table_pose.position.y, pick_table_pose.position.z,
-             place_table_pose.position.x, place_table_pose.position.y, place_table_pose.position.z);
-}
 // Helper: add a single‐pose, scaled mesh collision object
 void addMeshCollisionObject(const std::string &id,
                             const std::string &mesh_resource,
@@ -104,104 +81,79 @@ void addMeshCollisionObject(const std::string &id,
 // Subscriber callback: update scene from ObjectPoseArray
 void objectPosesCallback(const assignment2_package::ObjectPoseArray::ConstPtr &msg)
 {
-    std::set<int> seen_ids;
-    ROS_INFO("Processing object poses callback");
+  std::set<int> seen_ids;
+  ROS_INFO("Processing object poses callback");
 
-    // Precompute mesh URI and scale vector
-    std::string pkg_path = ros::package::getPath("tiago_iaslab_simulation");
-    std::string mesh_uri = "file://" + pkg_path + "/meshes/triangle_centered.stl";
+  // Precompute mesh URI and scale vector
+  std::string pkg_path = ros::package::getPath("tiago_iaslab_simulation");
+  std::string mesh_uri = "file://" + pkg_path + "/meshes/triangle_centered.stl";
+  Eigen::Vector3d prism_scale(
+    0.05 / 0.10,   // X-scale
+    0.07 / 0.13,   // Y-scale
+    0.035 / 0.65   // Z-scale
+  );
 
-    // Desired prism dims: L=0.05, b=0.07, h=0.035
-    // Correct per‐axis scales based on STL’s native dimensions:
-    Eigen::Vector3d prism_scale(
-        0.05 / 0.10, // X: length  0.05m from 0.10m native → 0.5×
-        0.07 / 0.13, // Y: base    0.07m from 0.13m native → ~0.5385×
-        0.035 / 0.65 // Z: height  0.035m from 0.65m native → ~0.05385×
-    );
+  for (const auto &entry : msg->objects)
+  {
+    int tag_id = entry.id;
+    seen_ids.insert(tag_id);
 
-    for (const auto &entry : msg->objects)
+    geometry_msgs::Pose obj_pose = entry.pose.pose;
+    obj_pose.position.z -= 0.03;
+
+    // Mesh for tags 7–9
+    if (tag_id >= 7 && tag_id <= 9)
     {
-        int tag_id = entry.id;
-        seen_ids.insert(tag_id);
+      tf2::Quaternion tag_q;
+      tf2::fromMsg(entry.pose.pose.orientation, tag_q);
+      tf2::Quaternion corr_q; corr_q.setRPY(M_PI,0.0,M_PI/2.0);
+      tf2::Quaternion final_q = tag_q * corr_q;
+      obj_pose.orientation = tf2::toMsg(final_q);
 
-        if (tag_id == 10)
-        {
-            if (!persistent_tables[tag_id])
-            {
-                createPickPlaceTables(entry.pose.pose, MAP_FRAME);
-                persistent_tables[tag_id] = true;
-            }
-            continue;
-        }
-
-        geometry_msgs::Pose obj_pose = entry.pose.pose;
-        obj_pose.position.z -= 0.03;
-
-        if (tag_id >= 7 && tag_id <= 9)
-        {
-            // 1) Get tag orientation
-            tf2::Quaternion tag_q;
-            tf2::fromMsg(entry.pose.pose.orientation, tag_q);
-
-            // 2) Correction: 180° about X, then 90° about Z
-            tf2::Quaternion corr_q;
-            corr_q.setRPY(M_PI, 0.0, M_PI / 2.0);
-
-            // 3) Combine & write back
-            tf2::Quaternion final_q = tag_q * corr_q;
-            obj_pose.orientation = tf2::toMsg(final_q);
-
-            // 4) Add mesh with scale
-            std::string obj_id = "tag_mesh_" + std::to_string(tag_id);
-            addMeshCollisionObject(obj_id,
-                                   mesh_uri,
-                                   obj_pose,
-                                   BASE_FRAME,
-                                   prism_scale);
-
-            detected_tags[tag_id] = entry.pose;
-            continue;
-        }
-        // All other tags: your existing primitive logic
-        shape_msgs::SolidPrimitive primitive;
-        if (tag_id >= 1 && tag_id <= 3)
-        {
-            primitive.type = primitive.CYLINDER;
-            primitive.dimensions = {0.1, 0.05};
-        }
-        else
-        {
-            primitive.type = primitive.BOX;
-            primitive.dimensions = {0.05, 0.05, 0.05};
-        }
-        std::string obj_id = "tag_object_" + std::to_string(tag_id);
-        addCollisionObject(obj_id, primitive, obj_pose, BASE_FRAME);
-        detected_tags[tag_id] = entry.pose;
+      std::string obj_id = "tag_mesh_" + std::to_string(tag_id);
+      addMeshCollisionObject(obj_id, mesh_uri, obj_pose, BASE_FRAME, prism_scale);
+      detected_tags[tag_id] = entry.pose;
+      continue;
     }
 
-    // Removal logic (unchanged)…
-    std::vector<std::string> to_remove;
-    for (auto it = detected_tags.begin(); it != detected_tags.end();)
+    // Primitives for all other tags
+    shape_msgs::SolidPrimitive primitive;
+    if (tag_id >= 1 && tag_id <= 3)
     {
-        int id = it->first;
-        if (!seen_ids.count(id) && !persistent_tables[id])
-        {
-            to_remove.push_back((id >= 7 && id <= 9)
-                                    ? "tag_mesh_" + std::to_string(id)
-                                    : "tag_object_" + std::to_string(id));
-            it = detected_tags.erase(it);
-        }
-        else
-        {
-            ++it;
-        }
+      primitive.type = primitive.CYLINDER;
+      primitive.dimensions = {0.1, 0.05};
     }
-    if (!to_remove.empty())
+    else
     {
-        planning_scene_interface->removeCollisionObjects(to_remove);
-        ROS_INFO("Removed %zu old collision objects", to_remove.size());
+      primitive.type = primitive.BOX;
+      primitive.dimensions = {0.05, 0.05, 0.05};
     }
+    std::string obj_id = "tag_object_" + std::to_string(tag_id);
+    addCollisionObject(obj_id, primitive, obj_pose, BASE_FRAME);
+    detected_tags[tag_id] = entry.pose;
+  }
+
+  // Removal logic (unchanged)…
+  std::vector<std::string> to_remove;
+  for (auto it = detected_tags.begin(); it != detected_tags.end();)
+  {
+    int id = it->first;
+    if (!seen_ids.count(id))
+    {
+      to_remove.push_back((id >= 7 && id <= 9)
+                          ? "tag_mesh_" + std::to_string(id)
+                          : "tag_object_" + std::to_string(id));
+      it = detected_tags.erase(it);
+    }
+    else ++it;
+  }
+  if (!to_remove.empty())
+  {
+    planning_scene_interface->removeCollisionObjects(to_remove);
+    ROS_INFO("Removed %zu old collision objects", to_remove.size());
+  }
 }
+
 
 // Service callback for pick operation
 bool pickObjectCallback(assignment2_package::PickObject::Request &req,
@@ -334,33 +286,31 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "node_C");
-    ros::NodeHandle nh;
+  ros::init(argc, argv, "node_C");
+  ros::NodeHandle nh;
 
-    // TF
-    tfListener = new tf2_ros::TransformListener(tfBuffer);
+  // TF
+  tfListener = new tf2_ros::TransformListener(tfBuffer);
 
-    // MoveIt interfaces
-    static moveit::planning_interface::MoveGroupInterface arm_mg(PLANNING_GROUP_ARM);
-    static moveit::planning_interface::MoveGroupInterface gripper_mg(PLANNING_GROUP_GRIPPER);
-    static moveit::planning_interface::PlanningSceneInterface psi;
-    arm_group = &arm_mg;
-    gripper_group = &gripper_mg;
-    planning_scene_interface = &psi;
+  // MoveIt interfaces
+  static moveit::planning_interface::MoveGroupInterface arm_mg(PLANNING_GROUP_ARM);
+  static moveit::planning_interface::MoveGroupInterface gripper_mg(PLANNING_GROUP_GRIPPER);
+  static moveit::planning_interface::PlanningSceneInterface psi;
+  arm_group = &arm_mg;
+  gripper_group = &gripper_mg;
+  planning_scene_interface = &psi;
 
-    arm_group->setPlanningTime(10.0);
-    arm_group->setMaxVelocityScalingFactor(0.5);
-    arm_group->setMaxAccelerationScalingFactor(0.5);
+  arm_group->setPlanningTime(10.0);
+  arm_group->setMaxVelocityScalingFactor(0.5);
+  arm_group->setMaxAccelerationScalingFactor(0.5);
 
-    // Subscribe to live object poses - KEEP THE SUBSCRIBER IN SCOPE!
-    ros::Subscriber object_sub = nh.subscribe("object_poses", 1, objectPosesCallback);
+  // Subscribe & service as before
+  ros::Subscriber object_sub = nh.subscribe("object_poses", 1, objectPosesCallback);
+  ros::ServiceServer pick_service = nh.advertiseService("pick_object", pickObjectCallback);
 
-    // Advertise pick service
-    ros::ServiceServer pick_service = nh.advertiseService("pick_object", pickObjectCallback);
+  ROS_INFO("Node C: Ready (static tables placed at 10, -2.5 in map frame)");
+  ros::spin();
 
-    ROS_INFO("Node C: Ready (listening on /object_poses, serving /pick_object)");
-    ros::spin();
-
-    delete tfListener;
-    return 0;
+  delete tfListener;
+  return 0;
 }

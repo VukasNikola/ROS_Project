@@ -12,7 +12,6 @@
 static const std::string CAMERA_FRAME = "xtion_rgb_optical_frame";
 static const std::string BASE_FRAME = "base_footprint"; // Robot base frame
 static const int REF_TAG_ID = 10;                       // AprilTag ID used as static reference (on placing table)
-static const std::string MAP_FRAME = "map";             
 
 ros::Subscriber detections_sub;
 ros::ServiceServer get_obj_pose_srv;
@@ -30,13 +29,13 @@ struct DetectedObject
 std::vector<DetectedObject> current_objects;
 std::unordered_set<int> picked_ids; // set of IDs already picked
 
+// Callback for AprilTag detections
 void detectionsCallback(const apriltag_ros::AprilTagDetectionArray::ConstPtr &msg)
 {
     // Clear previous detections
     current_objects.clear();
-    // Create message out object
-    assignment2_package::ObjectPoseArray msg_out;
-    // Find transform from camera to base for regular objects
+
+    // Find transform from camera to base
     geometry_msgs::TransformStamped cam_to_base;
     try
     {
@@ -49,20 +48,6 @@ void detectionsCallback(const apriltag_ros::AprilTagDetectionArray::ConstPtr &ms
         return;
     }
 
-    // Find transform from camera to map for reference tag
-    geometry_msgs::TransformStamped cam_to_map;
-    bool map_transform_available = false;
-    try
-    {
-        cam_to_map = tfBuffer.lookupTransform(MAP_FRAME, msg->header.frame_id,
-                                              msg->header.stamp, ros::Duration(0.1));
-        map_transform_available = true;
-    }
-    catch (tf2::TransformException &ex)
-    {
-        ROS_WARN_THROTTLE(1.0, "Node B: TF lookup failed for camera to map: %s", ex.what());
-    }
-
     // Process each detected tag
     for (const auto &detection : msg->detections)
     {
@@ -71,55 +56,12 @@ void detectionsCallback(const apriltag_ros::AprilTagDetectionArray::ConstPtr &ms
 
         int tag_id = detection.id[0];
 
-        // Handle reference tag (ID 10) for table positioning
-        if (tag_id == REF_TAG_ID)
-        {
-            if (map_transform_available)
-            {
-                // Get pose of reference tag in camera frame
-                geometry_msgs::PoseStamped tag_pose_cam;
-                tag_pose_cam.header = detection.pose.header;
-                tag_pose_cam.pose = detection.pose.pose.pose;
-
-                // Transform to map frame
-                geometry_msgs::PoseStamped tag_pose_map;
-                tf2::doTransform(tag_pose_cam, tag_pose_map, cam_to_map);
-                tag_pose_map.header.frame_id = MAP_FRAME;
-
-                // Create a special message for the reference tag
-                assignment2_package::ObjectPose ref_entry;
-                ref_entry.id = tag_id;
-                ref_entry.pose = tag_pose_map;
-
-                // Add to message (you'll handle this differently in Node C)
-                assignment2_package::ObjectPoseArray ref_msg;
-                ref_msg.objects.push_back(ref_entry);
-
-                // Publish on a separate topic or add a flag to distinguish
-                // Option 1: Separate topic
-                // ref_pose_pub.publish(ref_msg);
-
-                // Option 2: Add to main message with special handling
-                msg_out.objects.push_back(ref_entry);
-
-                ROS_INFO_THROTTLE(0.5, "Node B: Reference tag (ID 10) detected in map frame at [%.2f, %.2f, %.2f]",
-                                  tag_pose_map.pose.position.x,
-                                  tag_pose_map.pose.position.y,
-                                  tag_pose_map.pose.position.z);
-            }
-            continue; // Don't process as regular object
-        }
-
-        // Only process object tags (1-9) - in base frame
-        if (tag_id < 1 || tag_id > 9)
-            continue;
-
         // Get pose of tag in camera frame
         geometry_msgs::PoseStamped tag_pose_cam;
         tag_pose_cam.header = detection.pose.header;
         tag_pose_cam.pose = detection.pose.pose.pose;
 
-        // Transform to base frame (for pickable objects)
+        // Transform to base frame
         geometry_msgs::PoseStamped tag_pose_base;
         tf2::doTransform(tag_pose_cam, tag_pose_base, cam_to_base);
         tag_pose_base.header.frame_id = BASE_FRAME;
@@ -132,11 +74,6 @@ void detectionsCallback(const apriltag_ros::AprilTagDetectionArray::ConstPtr &ms
             obj.pose = tag_pose_base;
             current_objects.push_back(obj);
 
-            assignment2_package::ObjectPose entry;
-            entry.id = tag_id;
-            entry.pose = tag_pose_base;
-            msg_out.objects.push_back(entry);
-
             ROS_INFO("Node B: Detected object ID %d at [%.2f, %.2f, %.2f]",
                      tag_id,
                      tag_pose_base.pose.position.x,
@@ -144,8 +81,15 @@ void detectionsCallback(const apriltag_ros::AprilTagDetectionArray::ConstPtr &ms
                      tag_pose_base.pose.position.z);
         }
     }
-
     // Publish all current objects
+    assignment2_package::ObjectPoseArray msg_out;
+    for (const auto &obj : current_objects)
+    {
+        assignment2_package::ObjectPose entry;
+        entry.id = obj.id;
+        entry.pose = obj.pose;
+        msg_out.objects.push_back(entry);
+    }
     object_pose_pub.publish(msg_out);
 }
 
