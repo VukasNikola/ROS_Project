@@ -23,7 +23,12 @@ add_service_files(
   FILES
   PickObject.srv
   GetObjectPose.srv
-  GetAllObjectPoses.srv
+)
+
+add_message_files(
+  FILES
+  ObjectPose.msg
+  ObjectPoseArray.msg
 )
 
 ## Generate messages and services

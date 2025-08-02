@@ -5,16 +5,17 @@
 #include <apriltag_ros/AprilTagDetectionArray.h>
 #include <unordered_set>
 #include "assignment2_package/GetObjectPose.h"
-#include "assignment2_package/GetAllObjectPoses.h"
+#include "assignment2_package/ObjectPoseArray.h"
+#include "assignment2_package/ObjectPose.h"
 
 // Node B: Detect AprilTags and compute object poses
-static const std::string CAMERA_FRAME = "xtion_rgb_optical_frame"; 
-static const std::string BASE_FRAME = "base_footprint";            // Robot base frame
-static const int REF_TAG_ID = 10;                                  // AprilTag ID used as static reference (on placing table)
+static const std::string CAMERA_FRAME = "xtion_rgb_optical_frame";
+static const std::string BASE_FRAME = "base_footprint"; // Robot base frame
+static const int REF_TAG_ID = 10;                       // AprilTag ID used as static reference (on placing table)
 
 ros::Subscriber detections_sub;
 ros::ServiceServer get_obj_pose_srv;
-ros::ServiceServer get_all_poses_srv;
+ros::Publisher object_pose_pub;
 tf2_ros::Buffer tfBuffer;
 tf2_ros::TransformListener *tfListenerPtr;
 
@@ -91,9 +92,19 @@ void detectionsCallback(const apriltag_ros::AprilTagDetectionArray::ConstPtr &ms
                      tag_pose_base.pose.position.z);
         }
     }
+    // Publish all current objects
+    assignment2_package::ObjectPoseArray msg_out;
+    for (const auto &obj : current_objects)
+    {
+        assignment2_package::ObjectPose entry;
+        entry.id = obj.id;
+        entry.pose = obj.pose;
+        msg_out.objects.push_back(entry);
+    }
+    object_pose_pub.publish(msg_out);
 }
 
-//Service to remove id from detected objects 
+// Service to remove id from detected objects
 bool getObjectPoseService(assignment2_package::GetObjectPose::Request &req,
                           assignment2_package::GetObjectPose::Response &res)
 {
@@ -116,18 +127,6 @@ bool getObjectPoseService(assignment2_package::GetObjectPose::Request &req,
     ROS_INFO("Node B: Providing object ID %u pose to requester.", res.obj_id);
     return true;
 }
-bool getAllObjectPosesService(assignment2_package::GetAllObjectPoses::Request &req,
-                              assignment2_package::GetAllObjectPoses::Response &res)
-{
-    for (const auto &obj : current_objects)
-    {
-        res.ids.push_back(obj.id);
-        res.poses.push_back(obj.pose);
-    }
-
-    ROS_INFO("Node B: Returning %lu object poses via GetAllObjectPoses service.", res.ids.size());
-    return true;
-}
 
 int main(int argc, char **argv)
 {
@@ -141,7 +140,7 @@ int main(int argc, char **argv)
 
     // Advertise services
     get_obj_pose_srv = nh.advertiseService("get_object_pose", getObjectPoseService);
-    get_all_poses_srv = nh.advertiseService("get_all_object_poses", getAllObjectPosesService);
+    object_pose_pub = nh.advertise<assignment2_package::ObjectPoseArray>("object_poses", 1);
 
     ROS_INFO("Node B: Detection node started, waiting for tag detections...");
 

@@ -5,125 +5,83 @@
 #include <shape_msgs/SolidPrimitive.h>
 #include <geometry_msgs/Pose.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
-#include <apriltag_ros/AprilTagDetectionArray.h>
 #include <tf2_ros/transform_listener.h>
 #include <map>
-#include <set>
-#include "assignment2_package/PickObject.h" // Service: request: PoseStamped target; response: bool success
+#include "assignment2_package/PickObject.h"
+#include "assignment2_package/ObjectPose.h"
+#include "assignment2_package/ObjectPoseArray.h"
 
 // Node C: MoveIt manipulation and collision object management
 static const std::string PLANNING_GROUP_ARM = "arm";
 static const std::string PLANNING_GROUP_GRIPPER = "gripper";
 static const std::string BASE_FRAME = "base_footprint";
 
-// Global MoveIt interfaces
+// Globals
 moveit::planning_interface::MoveGroupInterface *arm_group;
 moveit::planning_interface::MoveGroupInterface *gripper_group;
 moveit::planning_interface::PlanningSceneInterface *planning_scene_interface;
-
-// TF for coordinate transforms
 tf2_ros::Buffer tfBuffer;
 tf2_ros::TransformListener *tfListener;
 
-// Track detected tags and collision objects
+// Keep track of which collision objects are currently in the scene
 std::map<int, geometry_msgs::PoseStamped> detected_tags;
-std::set<int> current_detection_ids;
-ros::Timer update_timer;
 
-// Add collision object to MoveIt planning scene
-void addCollisionObject(const std::string &id, const shape_msgs::SolidPrimitive &primitive,
-                        const geometry_msgs::Pose &pose, const std::string &frame_id)
+// Helper: add or update a collision object
+void addCollisionObject(const std::string &id,
+                        const shape_msgs::SolidPrimitive &primitive,
+                        const geometry_msgs::Pose &pose,
+                        const std::string &frame_id)
 {
-    moveit_msgs::CollisionObject collision_object;
-    collision_object.id = id;
-    collision_object.header.frame_id = frame_id;
-    collision_object.primitives.push_back(primitive);
-    collision_object.primitive_poses.push_back(pose);
-    collision_object.operation = moveit_msgs::CollisionObject::ADD;
-
-    planning_scene_interface->applyCollisionObject(collision_object);
+    moveit_msgs::CollisionObject co;
+    co.id = id;
+    co.header.frame_id = frame_id;
+    co.primitives.push_back(primitive);
+    co.primitive_poses.push_back(pose);
+    co.operation = moveit_msgs::CollisionObject::ADD;
+    planning_scene_interface->applyCollisionObject(co);
 }
 
-// Update collision objects for all detected tags
-void updateCollisionObjects()
+// Subscriber callback: update scene from ObjectPoseArray
+void objectPosesCallback(const assignment2_package::ObjectPoseArray::ConstPtr &msg)
 {
-    std::vector<std::string> objects_to_remove;
-
-    // Update existing tags and add new ones
-    for (const auto &tag_pair : detected_tags)
+    std::set<int> seen_ids;
+    // Add or update all current objects
+    for (const auto &entry : msg->objects)
     {
-        int tag_id = tag_pair.first;
+        int tag_id = entry.id;
+        seen_ids.insert(tag_id);
 
-        // Skip reference tag (ID 10)
-        if (tag_id == 10)
-            continue;
-
-        try
+        // Choose primitive by tag_id (NEEDS 3RD OBJECT INCORPORATION)
+        shape_msgs::SolidPrimitive primitive;
+        if ((tag_id >= 1 && tag_id <= 3) || (tag_id >= 7 && tag_id <= 9))
         {
-            // Transform to base frame if needed
-            geometry_msgs::PoseStamped base_pose;
-            if (tag_pair.second.header.frame_id != BASE_FRAME)
-            {
-                tfBuffer.transform(tag_pair.second, base_pose, BASE_FRAME, ros::Duration(0.1));
-            }
-            else
-            {
-                base_pose = tag_pair.second;
-            }
-
-            // Create collision object - simple cube for all objects
-
-            shape_msgs::SolidPrimitive primitive;
-            switch (tag_id)
-            {
-            case 1:
-            case 2:
-            case 3:
-                primitive.type = primitive.CYLINDER; // approximate hexagon as cylinder?
-                primitive.dimensions = {0.1, 0.05};  // height, radius
-                break;
-            case 4:
-            case 5:
-            case 6:
-                primitive.type = primitive.BOX;
-                primitive.dimensions = {0.05, 0.05, 0.05};
-                break;
-            case 7:
-            case 8:
-            case 9:
-                primitive.type = primitive.CYLINDER; // approximate hexagon as cylinder?
-                primitive.dimensions = {0.1, 0.05};  // height, radius
-                break;
-            default:
-                ROS_WARN("Unknown tag id %d, defaulting to box", tag_id);
-                primitive.type = primitive.BOX;
-                primitive.dimensions = {0.06, 0.06, 0.06};
-            }
-
-            // Adjust pose - lower it so cube sits on table instead of floating
-            geometry_msgs::Pose obj_pose = base_pose.pose;
-            obj_pose.position.z -= 0.03; // half the cube height
-
-            std::string obj_id = "tag_object_" + std::to_string(tag_id);
-            addCollisionObject(obj_id, primitive, obj_pose, BASE_FRAME);
-
-            ROS_DEBUG("Updated collision object for tag %d", tag_id);
+            primitive.type = primitive.CYLINDER;
+            primitive.dimensions = {0.1, 0.05};
         }
-        catch (tf2::TransformException &ex)
+        else
         {
-            ROS_WARN("Could not transform tag %d: %s", tag_id, ex.what());
+            primitive.type = primitive.BOX;
+            primitive.dimensions = {0.05, 0.05, 0.05};
         }
+
+        // Lower it onto the table(NEEDS FIXING BASED ON OBJECT)
+        geometry_msgs::Pose obj_pose = entry.pose.pose;
+        obj_pose.position.z -= 0.03;
+
+        std::string obj_id = "tag_object_" + std::to_string(tag_id);
+        addCollisionObject(obj_id, primitive, obj_pose, BASE_FRAME);
+
+        // Record for removal logic
+        detected_tags[tag_id] = entry.pose;
     }
 
-    // Remove objects for tags no longer detected
-    auto it = detected_tags.begin();
-    while (it != detected_tags.end())
+    // Remove any old objects that no longer appear
+    std::vector<std::string> to_remove;
+    for (auto it = detected_tags.begin(); it != detected_tags.end();)
     {
-        if (current_detection_ids.find(it->first) == current_detection_ids.end())
+        if (!seen_ids.count(it->first))
         {
-            // Tag no longer detected, remove collision object
-            objects_to_remove.push_back("tag_object_" + std::to_string(it->first));
-            ROS_INFO("Removing collision object for tag %d (no longer detected)", it->first);
+            to_remove.push_back("tag_object_" + std::to_string(it->first));
             it = detected_tags.erase(it);
         }
         else
@@ -131,43 +89,11 @@ void updateCollisionObjects()
             ++it;
         }
     }
-
-    // Remove collision objects
-    if (!objects_to_remove.empty())
+    if (!to_remove.empty())
     {
-        planning_scene_interface->removeCollisionObjects(objects_to_remove);
+        planning_scene_interface->removeCollisionObjects(to_remove);
     }
 }
-
-// Timer callback for regular updates
-void timerCallback(const ros::TimerEvent &)
-{
-    updateCollisionObjects();
-}
-
-// AprilTag detection callback
-void detectionsCallback(const apriltag_ros::AprilTagDetectionArray::ConstPtr &msg)
-{
-    current_detection_ids.clear();
-
-    // Process each detected tag
-    for (const auto &tag : msg->detections)
-    {
-        if (tag.id.empty())
-            continue;
-
-        int tag_id = tag.id[0];
-        current_detection_ids.insert(tag_id);
-
-        // Store the detection
-        geometry_msgs::PoseStamped camera_to_tag;
-        camera_to_tag.header = tag.pose.header;
-        camera_to_tag.pose = tag.pose.pose.pose;
-
-        detected_tags[tag_id] = camera_to_tag;
-    }
-}
-
 // Service callback for pick operation
 bool pickObjectCallback(assignment2_package::PickObject::Request &req,
                         assignment2_package::PickObject::Response &res)
@@ -301,41 +227,31 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "node_C");
     ros::NodeHandle nh;
-    ros::NodeHandle pnh("~");
 
-    // Parameters
-    double update_rate = pnh.param("update_rate", 10.0); // 10Hz updates
-
-    // Initialize TF
+    // TF
     tfListener = new tf2_ros::TransformListener(tfBuffer);
 
-    // Initialize MoveIt interfaces
-    static moveit::planning_interface::MoveGroupInterface arm_move_group(PLANNING_GROUP_ARM);
-    static moveit::planning_interface::MoveGroupInterface gripper_move_group(PLANNING_GROUP_GRIPPER);
+    // MoveIt interfaces
+    static moveit::planning_interface::MoveGroupInterface arm_mg(PLANNING_GROUP_ARM);
+    static moveit::planning_interface::MoveGroupInterface gripper_mg(PLANNING_GROUP_GRIPPER);
     static moveit::planning_interface::PlanningSceneInterface psi;
-
-    arm_group = &arm_move_group;
-    gripper_group = &gripper_move_group;
+    arm_group = &arm_mg;
+    gripper_group = &gripper_mg;
     planning_scene_interface = &psi;
 
-    // Set planning parameters
     arm_group->setPlanningTime(10.0);
     arm_group->setMaxVelocityScalingFactor(0.5);
     arm_group->setMaxAccelerationScalingFactor(0.5);
 
-    // Subscribe to AprilTag detections for collision object management
-    ros::Subscriber detections_sub = nh.subscribe("tag_detections", 1, detectionsCallback);
+    // Subscribe to live object poses 
+    ros::Subscriber object_sub = nh.subscribe("object_poses", 1, objectPosesCallback);
 
-    // Set up timer for regular collision object updates
-    update_timer = nh.createTimer(ros::Duration(1.0 / update_rate), timerCallback);
+    // Advertise pick service
+    ros::ServiceServer pick_service = nh.advertiseService("pick_object", pickObjectCallback);
 
-    // Start the pick service
-    ros::ServiceServer service = nh.advertiseService("pick_object", pickObjectCallback);
 
-    ROS_INFO("Node C: Ready to manage collision objects and handle pick requests.");
-
+    ROS_INFO("Node C: Ready (listening on /object_poses, serving /pick_object)");
     ros::spin();
-
     delete tfListener;
     return 0;
 }
