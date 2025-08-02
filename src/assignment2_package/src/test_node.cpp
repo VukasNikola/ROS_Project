@@ -1,40 +1,72 @@
-// test_get_object_pose.cpp
 #include <ros/ros.h>
-#include "assignment2_package/GetObjectPose.h"
-#include <geometry_msgs/PoseStamped.h>
+#include <moveit/planning_scene_interface/planning_scene_interface.h>
+#include <moveit_msgs/CollisionObject.h>
+#include <shape_msgs/SolidPrimitive.h>
+#include <geometry_msgs/Pose.h>
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
-    ros::init(argc, argv, "test_get_object_pose");
-    ros::NodeHandle nh;
+  ros::init(argc, argv, "test_node");
+  ros::NodeHandle nh;
+  ros::AsyncSpinner spinner(1);
+  spinner.start();
 
-    // Create a client for the service
-    ros::ServiceClient client =
-        nh.serviceClient<assignment2_package::GetObjectPose>("get_object_pose");
-    assignment2_package::GetObjectPose srv;
+  // give Gazebo / MoveIt a moment to spin up
+  ros::Duration(1.0).sleep();
 
-    ros::Rate rate(1.0); // 1 Hz
-    while (ros::ok())
-    {
-        if (client.call(srv))
-        {
-            ROS_INFO("Got object ID %u in frame '%s' at [%.3f, %.3f, %.3f]",
-                     srv.response.obj_id,
-                     srv.response.obj_pose.header.frame_id.c_str(),
-                     srv.response.obj_pose.pose.position.x,
-                     srv.response.obj_pose.pose.position.y,
-                     srv.response.obj_pose.pose.position.z);
-        }
+  moveit::planning_interface::PlanningSceneInterface psi;
 
-        else
-        {
-            // Service call failed or returned false
-            ROS_WARN("Service call to get_object_pose failed or no object available.");
-        }
+  // common box primitive
+  shape_msgs::SolidPrimitive box;
+  box.type = box.BOX;
+  box.dimensions = {0.9, 0.9, 0.9};
 
-        ros::spinOnce();
-        rate.sleep();
-    }
+  const double z_center = box.dimensions[2] / 2.0;
 
-    return 0;
+  // Picking table
+  moveit_msgs::CollisionObject pick_table;
+  pick_table.id = "picking_table";
+  pick_table.header.frame_id = "map";
+  pick_table.primitives.push_back(box);
+  {
+    geometry_msgs::Pose p;
+    p.position.x = -5.248;
+    p.position.y = -1.2766;
+    p.position.z = z_center;
+    p.orientation.w = 1.0;
+    pick_table.primitive_poses.push_back(p);
+  }
+
+  // Placing table
+  moveit_msgs::CollisionObject place_table;
+  place_table.id = "placing_table";
+  place_table.header.frame_id = "map";
+  place_table.primitives.push_back(box);
+  {
+    geometry_msgs::Pose p;
+    p.position.x = -5.248;
+    p.position.y =  0.8161;
+    p.position.z = z_center;
+    p.orientation.w = 1.0;
+    place_table.primitive_poses.push_back(p);
+  }
+
+  // bundle both
+  std::vector<moveit_msgs::CollisionObject> objects = { pick_table, place_table };
+
+  ros::Rate rate(10.0);  // 10 Hz
+  while (ros::ok())
+  {
+    // update timestamps
+    ros::Time now = ros::Time::now();
+    for (auto& obj : objects)
+      obj.header.stamp = now;
+
+    // refresh both tables
+    psi.applyCollisionObjects(objects);
+
+    rate.sleep();
+  }
+
+  return 0;
 }
