@@ -1,71 +1,45 @@
 #include <ros/ros.h>
-#include <moveit/planning_scene_interface/planning_scene_interface.h>
-#include <moveit_msgs/CollisionObject.h>
-#include <shape_msgs/SolidPrimitive.h>
-#include <geometry_msgs/Pose.h>
+#include <assignment2_package/GetObjectPose.h>
+#include <assignment2_package/PickObject.h>
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
   ros::init(argc, argv, "test_node");
   ros::NodeHandle nh;
-  ros::AsyncSpinner spinner(1);
-  spinner.start();
 
-  // give Gazebo / MoveIt a moment to spin up
-  ros::Duration(1.0).sleep();
+  // Client for GetObjectPose
+  ros::ServiceClient get_pose_client = nh.serviceClient<assignment2_package::GetObjectPose>("get_object_pose");
+  ROS_INFO("Waiting for get_object_pose service...");
+  get_pose_client.waitForExistence();
 
-  moveit::planning_interface::PlanningSceneInterface psi;
+  // Client for PickObject
+  ros::ServiceClient pick_client = nh.serviceClient<assignment2_package::PickObject>("pick_object");
+  ROS_INFO("Waiting for pick_object service...");
+  pick_client.waitForExistence();
 
-  // common box primitive
-  shape_msgs::SolidPrimitive box;
-  box.type = box.BOX;
-  box.dimensions = {0.9, 0.9, 0.77};
-
-  const double z_center = box.dimensions[2] / 2.0;
-
-  // Picking table
-  moveit_msgs::CollisionObject pick_table;
-  pick_table.id = "picking_table";
-  pick_table.header.frame_id = "map";
-  pick_table.primitives.push_back(box);
-  {
-    geometry_msgs::Pose p;
-    p.position.x = 7.8;
-    p.position.y = -3.02;
-    p.position.z = z_center;
-    p.orientation.w = 1.0;
-    pick_table.primitive_poses.push_back(p);
+  // 1) Call get_object_pose
+  assignment2_package::GetObjectPose get_pose_srv;
+  if (!get_pose_client.call(get_pose_srv)) {
+    ROS_ERROR("Failed to call get_object_pose service");
+    return 1;
   }
+  // Optionally check inside the response that an object was found:
+  // if (!get_pose_srv.response.success) { ... }
 
-  // Placing table
-  moveit_msgs::CollisionObject place_table;
-  place_table.id = "placing_table";
-  place_table.header.frame_id = "map";
-  place_table.primitives.push_back(box);
-  {
-    geometry_msgs::Pose p;
-    p.position.x = 7.8;
-    p.position.y = -1.92;
-    p.position.z = z_center;
-    p.orientation.w = 1.0;
-    place_table.primitive_poses.push_back(p);
-  }
+  // 2) Populate and call pick_object
+  assignment2_package::PickObject pick_srv;
+  pick_srv.request.target   = get_pose_srv.response.obj_pose;
+  pick_srv.request.target_id = get_pose_srv.response.obj_id;
 
-  // bundle both
-  std::vector<moveit_msgs::CollisionObject> objects = { pick_table, place_table };
-
-  ros::Rate rate(10.0);  // 10 Hz
-  while (ros::ok())
-  {
-    // update timestamps
-    ros::Time now = ros::Time::now();
-    for (auto& obj : objects)
-      obj.header.stamp = now;
-
-    // refresh both tables
-    psi.applyCollisionObjects(objects);
-
-    rate.sleep();
+  if (pick_client.call(pick_srv)) {
+    if (pick_srv.response.success) {
+      ROS_INFO("Pick succeeded!");
+    } else {
+      ROS_WARN("Pick service returned failure");
+    }
+  } else {
+    ROS_ERROR("Failed to call pick_object service");
+    return 1;
   }
 
   return 0;

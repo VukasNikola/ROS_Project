@@ -1,3 +1,4 @@
 geometry_msgs/PoseStamped target
+uint32 target_id
 ---
 bool success

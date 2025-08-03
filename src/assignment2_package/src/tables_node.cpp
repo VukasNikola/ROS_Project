@@ -6,7 +6,7 @@
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "test_node");
+  ros::init(argc, argv, "tables_node");
   ros::NodeHandle nh;
   ros::AsyncSpinner spinner(1);
   spinner.start();
@@ -19,7 +19,7 @@ int main(int argc, char** argv)
   // common box primitive
   shape_msgs::SolidPrimitive box;
   box.type = box.BOX;
-  box.dimensions = {0.9, 0.9, 0.77};
+  box.dimensions = {1, 1, 0.77};
 
   const double z_center = box.dimensions[2] / 2.0;
 

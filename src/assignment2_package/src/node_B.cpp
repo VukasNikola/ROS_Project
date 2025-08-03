@@ -106,8 +106,8 @@ bool getObjectPoseService(assignment2_package::GetObjectPose::Request &req,
     // Take the first available object
     DetectedObject obj = current_objects.front();
 
-    // Mark it as picked
-    picked_ids.insert(obj.id);
+    // // Mark it as picked
+    // picked_ids.insert(obj.id);
 
     // Return the pose in base frame
     res.obj_id = obj.id;
