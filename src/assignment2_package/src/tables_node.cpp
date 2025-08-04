@@ -19,7 +19,7 @@ int main(int argc, char** argv)
   // common box primitive
   shape_msgs::SolidPrimitive box;
   box.type = box.BOX;
-  box.dimensions = {1, 1, 0.77};
+  box.dimensions = {1.07, 1.07, 0.77};
 
   const double z_center = box.dimensions[2] / 2.0;
 

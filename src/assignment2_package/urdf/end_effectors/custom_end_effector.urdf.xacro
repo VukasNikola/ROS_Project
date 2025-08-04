@@ -1,0 +1,8 @@
+<xacro:macro name="gripper_extension" params="arm_tool_link">
+  <link name="fingertip_frame"/>
+  <joint name="fixed_fingertip_joint" type="fixed">
+    <parent link="${parent}"/>
+    <child link="fingertip_frame"/>
+    <origin xyz="0.21 0 0"/>
+  </joint>
+</xacro:macro>

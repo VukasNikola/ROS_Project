@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!--
+    This launch file is a complete replacement for the university's
+    'start_simulation.launch' file. It performs the same steps but
+    ensures that your custom URDF is the one that gets loaded.
+
+    To use this, make sure to replace 'assignment2_package' with the actual
+    name of your ROS package.
+-->
+<launch>
+  <!-- Arguments from the university's launch file. We declare them here
+       so you can still pass them from the command line. -->
+  <arg name="world_name"  default="iaslab_assignment2"/>
+  <arg name="robot"  default="steel"/>
+  <arg name="arm"  default="$(eval {'iron': False}.get(arg('robot'), True))"/>
+  <arg name="end_effector"  default="$(eval {'iron': 'false', 'steel': 'pal-gripper', 'titanium': 'pal-hey5'}.get(arg('robot'), 'pal-gripper'))"/>
+  <arg name="ft_sensor"  default="$(eval {'titanium': 'schunk-ft'}.get(arg('robot'), 'false'))"/>
+  <arg name="laser_model"  default="sick-571"/>
+  <arg name="camera_model"  default="orbbec-astra"/>
+  <arg name="multi" default=""/>
+  <arg name="gzpose" default="-x -6.58 -y 1.37 -z 0.0 -R 0.0 -P 0.0 -Y 0.0"/>
+  <arg name="public_sim" default="true"/>
+  <arg name="tuck_arm" default="true"/>
+  <arg name="recording" default="false"/>
+  <arg name="extra_gazebo_args" default=""/>
+  <arg name="use_moveit_camera" default="false"/>
+  <arg name="use_dynamic_footprint" default="false"/>
+
+  <env name="LC_NUMERIC" value="C" />
+
+  <!-- Include the base environment. This is part of the original launch file. -->
+  <include file="$(find tiago_iaslab_simulation)/launch/environment.launch">
+    <arg name="world_name" value="$(arg world_name)"/>
+  </include>
+
+  <!-- IMPORTANT: We set the robot_description parameter using your custom URDF wrapper.
+       This must be done *before* any included file that might read this parameter. -->
+  <param name="robot_description"
+         command="$(find xacro)/xacro --inorder '$(find assignment2_package)/urdf/tiago_with_fingertip.urdf.xacro'"/>
+
+  <!-- Now, we include the remaining launch files from the university's setup.
+       They will automatically find and use the 'robot_description' parameter
+       that we just set. -->
+
+  <!-- Include the spawn script for Gazebo. This includes the robot_state_publisher
+       which will use your custom URDF. -->
+  <include file="$(find tiago_gazebo)/launch/tiago_spawn.launch">
+    <arg name="arm" value="$(arg arm)"/>
+    <arg name="end_effector" value="$(arg end_effector)"/>
+    <arg name="ft_sensor" value="$(arg ft_sensor)"/>
+    <arg name="laser_model" value="$(arg laser_model)"/>
+    <arg name="camera_model" value="$(arg camera_model)"/>
+    <arg name="multi" value="$(arg multi)"/>
+    <arg name="gzpose" value="$(arg gzpose)"/>
+  </include>
+
+  <!-- Include the tiago bringup script for MoveIt! and other nodes -->
+  <include file="$(find tiago_gazebo)/launch/simulation_tiago_bringup.launch">
+    <arg name="arm" value="$(arg arm)"/>
+    <arg name="end_effector" value="$(arg end_effector)"/>
+    <arg name="ft_sensor" value="$(arg ft_sensor)"/>
+    <arg name="laser_model" value="$(arg laser_model)"/>
+    <arg name="camera_model" value="$(arg camera_model)"/>
+    <arg name="public_sim"  value="$(arg public_sim)"/>
+    <arg name="use_moveit_camera" value="$(arg use_moveit_camera)"/>
+    <arg name="use_dynamic_footprint" value="$(arg use_dynamic_footprint)"/>
+  </include>
+
+  <!--
+    FIX: The 'Unknown frame map' error is fixed by including the
+    localization node. This node publishes the `map` to `odom`
+    transform, which is essential for navigation.
+  -->
+  <include file="$(find tiago_iaslab_simulation)/launch/amcl_tiago.launch"/>
+
+  <!-- The remaining nodes from the original launch file. -->
+  <group if="$(arg tuck_arm)">
+      <node name="tuck_arm" pkg="tiago_gazebo" type="tuck_arm.py" output="screen"/>
+  </group>
+  <node name="image_proc" pkg="image_proc" type="image_proc" ns="xtion/rgb"/>
+
+</launch>
