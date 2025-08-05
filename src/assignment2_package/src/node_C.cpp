@@ -26,18 +26,19 @@
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2/LinearMath/Matrix3x3.h>
 #include <tf2/LinearMath/Vector3.h>
-
+#include <moveit/robot_trajectory/robot_trajectory.h>
+#include <moveit/trajectory_processing/iterative_time_parameterization.h>
 
 // Node C: MoveIt manipulation and collision object management
-static const std::string PLANNING_GROUP_ARM = "arm_torso";   // Changed from "arm" to "arm_torso"
-static const std::string PLANNING_GROUP_GRIPPER = "gripper"; // Not needed maybe, due to the .h
+static const std::string PLANNING_GROUP_ARM = "arm_torso";
+static const std::string PLANNING_GROUP_GRIPPER = "gripper";
 static const std::string BASE_FRAME = "base_footprint";
 
 // Globals
 moveit::planning_interface::MoveGroupInterface *arm_group;
-moveit::planning_interface::MoveGroupInterface *gripper_group; // Same as planning group
+moveit::planning_interface::MoveGroupInterface *gripper_group;
 moveit::planning_interface::PlanningSceneInterface *planning_scene_interface;
-tf2_ros::Buffer tfBuffer;
+tf2_ros::Buffer *tfBuffer;
 tf2_ros::TransformListener *tfListener;
 ros::ServiceClient get_obj_pose_client;
 
@@ -186,213 +187,281 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
                         assignment2_package::PickObject::Response &res)
 {
   ROS_INFO("PickObject service called - executing pick sequence");
-  try {
+  try
+  {
+    // Initialize gripper controller (assuming "gripper" is the planning group name)
+    gripper_control::GripperController gripper("gripper");
+    
+    // Register named targets for gripper
+    gripper.registerNamedTarget("open", 0.044);    // Max opening
+    gripper.registerNamedTarget("closed", 0.0);    // Fully closed
+    
+    // Open gripper before approaching
+    ROS_INFO("Opening gripper before approach");
+    gripper.open();
+    
     // Set the end effector link
     arm_group->setEndEffectorLink("gripper_grasping_frame");
-    
-    // Get object ID and determine height
-    int id = req.target_id;
+
+    // Get the target pose from the request
+    geometry_msgs::Pose target_pose = req.target.pose;
+
+    // STEP 1: Calculate the above_pose and object_height based on the ID
+    geometry_msgs::Pose above_pose;
+    tf2::Quaternion final_orientation_q;
     double object_height;
-    if (id >= 1 && id <= 3) {
-      object_height = 0.1;  
-    } else if (id >= 4 && id <= 6) {
-      object_height = 0.05;  
-    } else if (id >= 7 && id <= 9) {
-      object_height = 0.035; 
-    } else {
+    int id = req.target_id;
+
+    if (id >= 1 && id <= 3)
+    {
+      // Case 1: For cylinders
+      ROS_INFO("Using torso_fixed link orientation for object ID %d", id);
+      object_height = 0.1;
+
+      // Get torso_fixed_link orientation
+      geometry_msgs::TransformStamped torso_transform;
+      try
+      {
+        torso_transform = tfBuffer->lookupTransform(req.target.header.frame_id, "torso_fixed_link", ros::Time(0), ros::Duration(1.0));
+        tf2::fromMsg(torso_transform.transform.rotation, final_orientation_q);
+      }
+      catch (tf2::TransformException &ex)
+      {
+        ROS_ERROR("Could not get transform: %s", ex.what());
+        res.success = false;
+        return true;
+      }
+
+      // Start from target position and move up 0.2m in world Z
+      above_pose.position = target_pose.position;
+      above_pose.position.z += 0.2;
+    }
+    else if (id >= 4 && id <= 6)
+    {
+      // Case 2: For cubes
+      ROS_INFO("Using target_pose orientation for object ID %d", id);
+      object_height = 0.05;
+
+      // Use target orientation
+      tf2::fromMsg(target_pose.orientation, final_orientation_q);
+
+      // Start from target position and move up 0.2m in world Z
+      above_pose.position = target_pose.position;
+      above_pose.position.z += 0.2;
+    }
+    else if (id >= 7 && id <= 9)
+    {
+      // Case 3: For prism on slope
+      ROS_INFO("Handling prism on slope for ID %d", id);
+      object_height = 0.035;
+
+      // Get the target orientation
+      tf2::Quaternion target_q;
+      tf2::fromMsg(target_pose.orientation, target_q);
+
+      // Create 45-degree rotation around local X-axis
+      tf2::Quaternion q_45_deg_x;
+      q_45_deg_x.setRPY(M_PI / 4, 0, 0);
+
+      // Apply the rotation: first target orientation, then 45-deg rotation
+      tf2::Quaternion temp_orientation_q = target_q * q_45_deg_x;
+      temp_orientation_q.normalize();
+
+      // Move 0.2m along the rotated Z-axis to get above position
+      tf2::Vector3 z_offset_local(0, 0, 0.2);
+      tf2::Vector3 z_offset_world = tf2::quatRotate(temp_orientation_q, z_offset_local);
+
+      // Apply the offset to get above position
+      above_pose.position = target_pose.position;
+      above_pose.position.x += z_offset_world.x();
+      above_pose.position.y += z_offset_world.y();
+      above_pose.position.z += z_offset_world.z();
+
+      // Now apply -90 degree rotation around Z-axis for reachable gripper orientation
+      tf2::Quaternion q_neg_90_deg_z;
+      q_neg_90_deg_z.setRPY(0, 0, -M_PI / 2);
+
+      // Final orientation: target * 45deg_x * -90deg_z
+      final_orientation_q = temp_orientation_q * q_neg_90_deg_z;
+      final_orientation_q.normalize();
+    }
+    else
+    {
       ROS_ERROR("Invalid object ID: %d", id);
       res.success = false;
       return true;
     }
-    
-    // Get the target pose from the request
-    geometry_msgs::Pose target_pose = req.target.pose;
-    
-    // STEP 1: Move above the object (20cm above)
-    geometry_msgs::Pose above_pose = target_pose;
-    above_pose.position.z += 0.2;  // Add 20cm to the z-axis
-    
-    ROS_INFO("Step 1: Moving above object at x=%.3f, y=%.3f, z=%.3f", 
+
+    // Set the orientation for the above pose
+    above_pose.orientation = tf2::toMsg(final_orientation_q);
+
+    // Apply gripper offset of 0.05m (changed from -0.06)
+    tf2::Vector3 gripper_offset(-0.05, 0.0, 0.0);
+    tf2::Vector3 offset_world = tf2::quatRotate(final_orientation_q, gripper_offset);
+
+    above_pose.position.x += offset_world.x();
+    above_pose.position.y += offset_world.y();
+    above_pose.position.z += offset_world.z();
+
+    ROS_INFO("Step 1: Moving above object with adjusted orientation at x=%.3f, y=%.3f, z=%.3f",
              above_pose.position.x, above_pose.position.y, above_pose.position.z);
-    
+
     arm_group->setPoseTarget(above_pose);
     moveit::planning_interface::MoveGroupInterface::Plan plan1;
     bool success1 = (arm_group->plan(plan1) == moveit::core::MoveItErrorCode::SUCCESS);
-    
-    if (!success1) {
-      ROS_ERROR("Failed to plan movement above object!");
+
+    if (!success1)
+    {
+      ROS_ERROR("Failed to plan movement above object with adjusted orientation!");
       res.success = false;
       return true;
     }
-    
+
     moveit::core::MoveItErrorCode execute_result1 = arm_group->execute(plan1);
-    if (execute_result1 != moveit::core::MoveItErrorCode::SUCCESS) {
+    if (execute_result1 != moveit::core::MoveItErrorCode::SUCCESS)
+    {
       ROS_ERROR("Failed to move above object!");
       res.success = false;
       return true;
     }
-    
+
     ROS_INFO("Successfully moved above target!");
+
+    // STEP 2: Cartesian move down
+    ROS_INFO("STEP 2: Moving down to grasp position with Cartesian path");
     
-    // STEP 2: Straight line movement to grasp position
-    ROS_INFO("Step 2: Moving in straight lines to grasp position");
+    // Calculate the grasp position
+    geometry_msgs::Pose grasp_pose = above_pose;  // Start with above pose (keeps orientation)
     
-    // Get current pose
-    geometry_msgs::Pose current_pose = arm_group->getCurrentPose().pose;
+    // Move down to target Z position minus half object height, plus 0.05 for finger clearance
+    grasp_pose.position.z = target_pose.position.z - (object_height / 2.0) + 0.05;
     
-    // SUBSTEP 2A: Move straight in -X direction of gripper frame by 0.11m
+    ROS_INFO("Moving to grasp position at z=%.3f (target_z=%.3f, object_height=%.3f)",
+             grasp_pose.position.z, target_pose.position.z, object_height);
+    
+    // Create waypoints for Cartesian path
     std::vector<geometry_msgs::Pose> waypoints;
+    waypoints.push_back(above_pose);   // Start position
+    waypoints.push_back(grasp_pose);   // End position
     
-    // Transform -0.11m in gripper's X direction to world coordinates
-    tf2::Quaternion q_current;
-    tf2::fromMsg(current_pose.orientation, q_current);
-    tf2::Vector3 move_forward(-0.11, 0.0, 0.0); // -11cm in gripper's X direction
-    tf2::Vector3 forward_world = tf2::quatRotate(q_current, move_forward);
+    // Plan Cartesian path
+    moveit_msgs::RobotTrajectory trajectory;
+    const double jump_threshold = 0.0;  // Disable jump threshold
+    const double eef_step = 0.01;       // 1cm interpolation steps
+    double fraction = arm_group->computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory);
     
-    geometry_msgs::Pose forward_pose = current_pose;
-    forward_pose.position.x += forward_world.x();
-    forward_pose.position.y += forward_world.y();
-    forward_pose.position.z += forward_world.z();
-    waypoints.push_back(forward_pose);
+    ROS_INFO("Cartesian path planned (%.2f%% achieved)", fraction * 100.0);
     
-    ROS_INFO("Moving forward by 0.11m in gripper X direction");
-    
-    // Plan and execute Cartesian path for forward movement
-    moveit_msgs::RobotTrajectory trajectory1;
-    const double jump_threshold = 0.0;
-    const double eef_step = 0.01; // 1cm steps
-    double fraction1 = arm_group->computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory1);
-    
-    if (fraction1 < 0.9) { // Less than 90% of path achievable
-      ROS_ERROR("Could not compute forward Cartesian path (%.2f%% achieved)", fraction1 * 100.0);
+    if (fraction < 0.95)  // If less than 95% of path achieved
+    {
+      ROS_ERROR("Could not plan full Cartesian path down to object!");
       res.success = false;
       return true;
     }
     
-    // Execute forward movement
-    moveit::planning_interface::MoveGroupInterface::Plan forward_plan;
-    forward_plan.trajectory_ = trajectory1;
-    moveit::core::MoveItErrorCode forward_result = arm_group->execute(forward_plan);
+    // Execute the Cartesian path
+    moveit::planning_interface::MoveGroupInterface::Plan plan2;
+    plan2.trajectory_ = trajectory;
     
-    if (forward_result != moveit::core::MoveItErrorCode::SUCCESS) {
-      ROS_ERROR("Failed to execute forward movement!");
-      res.success = false;
-      return true;
-    }
-    
-    ROS_INFO("Successfully moved forward!");
-    
-    // SUBSTEP 2B: Move straight down to object level
-    waypoints.clear();
-    
-    geometry_msgs::Pose current_pose_after_forward = arm_group->getCurrentPose().pose;
-    geometry_msgs::Pose down_pose = current_pose_after_forward;
-    
-    // Move down to object Z minus half height (so gripper fingers are at object center)
-    double target_z = target_pose.position.z - (object_height / 2.0);
-    down_pose.position.z = target_z;
-    waypoints.push_back(down_pose);
-    
-    ROS_INFO("Moving down to z=%.3f (object center level)", target_z);
-    
-    // Plan and execute Cartesian path for downward movement
-    moveit_msgs::RobotTrajectory trajectory2;
-    double fraction2 = arm_group->computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory2);
-    
-    if (fraction2 < 0.9) { // Less than 90% of path achievable
-      ROS_ERROR("Could not compute downward Cartesian path (%.2f%% achieved)", fraction2 * 100.0);
-      res.success = false;
-      return true;
-    }
-    
-    // Execute downward movement
-    moveit::planning_interface::MoveGroupInterface::Plan down_plan;
-    down_plan.trajectory_ = trajectory2;
-    moveit::core::MoveItErrorCode down_result = arm_group->execute(down_plan);
-    
-    if (down_result != moveit::core::MoveItErrorCode::SUCCESS) {
-      ROS_ERROR("Failed to execute downward movement!");
+    moveit::core::MoveItErrorCode execute_result2 = arm_group->execute(plan2);
+    if (execute_result2 != moveit::core::MoveItErrorCode::SUCCESS)
+    {
+      ROS_ERROR("Failed to execute Cartesian move down!");
       res.success = false;
       return true;
     }
     
     ROS_INFO("Successfully moved to grasp position!");
-    
+
     // STEP 3: Close the gripper
-    ROS_INFO("Step 3: Closing gripper...");
+    ROS_INFO("STEP 3: Closing gripper for object ID %d", id);
     
-    // Create a separate move group for the gripper if it exists
-    // Replace "gripper" with your actual gripper group name
     try {
-      moveit::planning_interface::MoveGroupInterface gripper_group("gripper");
-      gripper_group.setNamedTarget("close");
-      moveit::core::MoveItErrorCode gripper_result = gripper_group.move();
+      // Close gripper with appropriate width for the object
+      gripper.close(id);
       
-      if (gripper_result == moveit::core::MoveItErrorCode::SUCCESS) {
-        ROS_INFO("Gripper closed successfully using gripper group!");
-      } else {
-        ROS_WARN("Gripper group move failed, trying joint control...");
-        
-        // Fallback: Direct joint control
-        std::map<std::string, double> gripper_targets;
-        gripper_targets["gripper_left_finger_joint"] = 0.01;
-        gripper_targets["gripper_right_finger_joint"] = 0.01;
-        
-        gripper_group.setJointValueTarget(gripper_targets);
-        gripper_group.move();
-        ROS_INFO("Gripper closed using joint targets!");
-      }
-    } catch (const std::exception& e) {
-      ROS_WARN("Could not use gripper group: %s", e.what());
-      ROS_WARN("You may need to control the gripper through a separate action server or publisher");
+      // Small delay to ensure gripper has closed
+      ros::Duration(0.5).sleep();
       
-      // Alternative: If you have a gripper action client or publisher, use it here
-      // For example:
-      // control_msgs::GripperCommandActionGoal gripper_goal;
-      // gripper_goal.goal.command.position = 0.01; // closed position
-      // gripper_action_client.sendGoal(gripper_goal);
+      ROS_INFO("Gripper closed successfully!");
+    }
+    catch (const std::exception& e) {
+      ROS_ERROR("Failed to close gripper: %s", e.what());
+      res.success = false;
+      return true;
+    }
+
+    // STEP 4: Lift object straight up
+    ROS_INFO("STEP 4: Lifting object up by 0.6m");
+    
+    // Get current pose (should be at grasp position)
+    geometry_msgs::Pose lift_pose = grasp_pose;
+    
+    // Move up 0.6m in Z direction
+    lift_pose.position.z += 0.6;
+    
+    ROS_INFO("Lifting to position at z=%.3f", lift_pose.position.z);
+    
+    // Create waypoints for Cartesian lift
+    std::vector<geometry_msgs::Pose> lift_waypoints;
+    lift_waypoints.push_back(grasp_pose);  // Start position
+    lift_waypoints.push_back(lift_pose);   // End position (0.6m up)
+    
+    // Plan Cartesian path for lifting
+    moveit_msgs::RobotTrajectory lift_trajectory;
+    const double lift_jump_threshold = 0.0;  // Disable jump threshold
+    const double lift_eef_step = 0.01;       // 1cm interpolation steps
+    double lift_fraction = arm_group->computeCartesianPath(lift_waypoints, lift_eef_step, 
+                                                           lift_jump_threshold, lift_trajectory);
+    
+    ROS_INFO("Lift Cartesian path planned (%.2f%% achieved)", lift_fraction * 100.0);
+    
+    if (lift_fraction < 0.95)  // If less than 95% of path achieved
+    {
+      ROS_ERROR("Could not plan full Cartesian path for lifting!");
+      res.success = false;
+      return true;
     }
     
+    // Execute the lift
+    moveit::planning_interface::MoveGroupInterface::Plan lift_plan;
+    lift_plan.trajectory_ = lift_trajectory;
+    
+    moveit::core::MoveItErrorCode lift_result = arm_group->execute(lift_plan);
+    if (lift_result != moveit::core::MoveItErrorCode::SUCCESS)
+    {
+      ROS_ERROR("Failed to execute lift!");
+      res.success = false;
+      return true;
+    }
+    
+    ROS_INFO("Successfully lifted object!");
+
     ROS_INFO("Pick sequence completed successfully!");
     res.success = true;
-    
-  } catch (const std::exception &e) {
+  }
+  catch (const std::exception &e)
+  {
     ROS_ERROR("Exception in pickObjectCallback: %s", e.what());
     res.success = false;
   }
-  
+
   return true;
 }
-
 
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "node_C");
   ros::NodeHandle nh;
-
-  //  Broadcast static fingertip_frame
-  {
-    static tf2_ros::StaticTransformBroadcaster static_broadcaster;
-    geometry_msgs::TransformStamped ts;
-    ts.header.stamp    = ros::Time::now();
-    ts.header.frame_id = "arm_tool_link";      // parent
-    ts.child_frame_id  = "fingertip_frame";    // new frame
-    ts.transform.translation.x = 0.21;
-    ts.transform.translation.y =  0.0;
-    ts.transform.translation.z =  0.0;
-    ts.transform.rotation.x = 0.0;
-    ts.transform.rotation.y = 0.0;
-    ts.transform.rotation.z = 0.0;
-    ts.transform.rotation.w = 1.0;
-    static_broadcaster.sendTransform(ts);
-    ROS_INFO("Broadcasted static transform arm_tool_link → fingertip_frame (-0.21 m X)");
-  }
   // Use AsyncSpinner to process service callbacks and MoveIt
   ros::AsyncSpinner spinner(2); // 2 threads should be sufficient
   spinner.start();
 
-  // TF
-  tfListener = new tf2_ros::TransformListener(tfBuffer);
+  // Initialize TF Buffer and Listener and assign to global pointers
+  tf2_ros::Buffer tfBuffer_obj;
+  tf2_ros::TransformListener tfListener_obj(tfBuffer_obj);
+  tfBuffer = &tfBuffer_obj;
+  tfListener = &tfListener_obj; // Assigning address to global pointer
 
   // MoveIt interfaces with error handling and debug info
   try
@@ -440,6 +509,6 @@ int main(int argc, char **argv)
   ROS_INFO("Node C: Ready with arm_torso group for extended reach");
 
   ros::waitForShutdown();
-  delete tfListener;
+  // Don't delete tfListener since it was not allocated with 'new'
   return 0;
 }

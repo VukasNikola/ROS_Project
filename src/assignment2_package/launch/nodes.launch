@@ -1,0 +1,11 @@
+<!-- assignment2.launch -->
+<launch>
+    <!-- Start tables_node -->
+    <node pkg="assignment2_package" type="tables_node" name="tables_node" output="screen"/>
+
+    <!-- Start node_B -->
+    <node pkg="assignment2_package" type="node_B" name="node_B" output="screen"/>
+
+    <!-- Start node_C -->
+    <node pkg="assignment2_package" type="node_C" name="node_C" output="screen"/>
+</launch>

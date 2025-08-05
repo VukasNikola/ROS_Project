@@ -24,7 +24,7 @@ inline double getWidthForTag(int tag_id) {
             full_width = 0.05; // cube
             break;
         case 7: case 8: case 9:
-            full_width = 0.07; // triangular prism
+            full_width = 0.068; // triangular prism
             break;
         default:
             throw std::invalid_argument("Unknown AprilTag ID: " + std::to_string(tag_id));
