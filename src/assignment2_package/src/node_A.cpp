@@ -57,7 +57,7 @@ int main(int argc, char **argv)
     arm_move_group.setMaxAccelerationScalingFactor(0.5);
     arm_move_group.setMaxVelocityScalingFactor(0.5);
 
-    // === Define an explicit “open” joint configuration ===
+    // === Define an explicit "open" joint configuration ===
     std::map<std::string, double> open_position;
     open_position["gripper_left_finger_joint"] = 0.04;
     open_position["gripper_right_finger_joint"] = 0.04;
@@ -69,63 +69,29 @@ int main(int argc, char **argv)
     else
         ROS_WARN("Node A: Gripper open failed.");
     
-    
+    // Initialize navigation client
     actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> ac("move_base", true);
     ROS_INFO("Waiting for move_base action server...");
     ac.waitForServer();
     ROS_INFO("Connected to move_base action server.");
 
-    // Create an action client for move_base.
+    // Create navigation goal
     move_base_msgs::MoveBaseGoal goal;
     goal.target_pose.header.frame_id = "odom";
 
-    // --- Navigation Sequence to the Pick-Up Table ---
-    // 1st Goal: (8.9, -1) with yaw = 0.
-    goal.target_pose.header.stamp = ros::Time::now();
-    goal.target_pose.pose.position.x = 8.9;
-    goal.target_pose.pose.position.y = -1.0;
-    {
-        tf2::Quaternion q;
-        double yaw = 0.0; // facing positive x
-        q.setRPY(0.0, 0.0, yaw);
-        goal.target_pose.pose.orientation = tf2::toMsg(q);
-    }
-    ROS_INFO("Sending 1st goal: (8.9, -1) with yaw = 0");
-    ac.sendGoal(goal);
-    ac.waitForResult();
-    if (ac.getState() != actionlib::SimpleClientGoalState::SUCCEEDED)
-    {
-        ROS_ERROR("Failed to reach first goal.");
-        return 1;
-    }
-    ROS_INFO("Reached first goal.");
+    // Service clients for Node B and Node C
+    ros::ServiceClient get_pose_client = nh.serviceClient<assignment2_package::GetObjectPose>("get_object_pose");
+    ros::ServiceClient pick_client = nh.serviceClient<assignment2_package::PickObject>("pick_object");
+    ros::ServiceClient place_client = nh.serviceClient<assignment2_package::PickObject>("place_object");
 
-    // 2nd Goal: (8.9, -2.5) with yaw = 0.
-    goal.target_pose.header.stamp = ros::Time::now();
-    goal.target_pose.pose.position.x = 8.9;
-    goal.target_pose.pose.position.y = -2.5;
-    {
-        tf2::Quaternion q;
-         double yaw = M_PI;
-        q.setRPY(0.0, 0.0, yaw);
-        goal.target_pose.pose.orientation = tf2::toMsg(q);
-    }
-    ROS_INFO("Sending 2nd goal: (8.9, -2.5) with yaw = 0");
-    ac.sendGoal(goal);
-    ac.waitForResult();
-    if (ac.getState() != actionlib::SimpleClientGoalState::SUCCEEDED)
-    {
-        ROS_ERROR("Failed to reach second goal.");
-        return 1;
-    }
-    ROS_INFO("Reached second goal.");
+    ROS_INFO("Waiting for services...");
+    get_pose_client.waitForExistence();
+    pick_client.waitForExistence(); 
+    place_client.waitForExistence();
+    ROS_INFO("All services available.");
 
     // Define placement points along the line y = m*x + q (in tag10 frame coordinates).
-    // We choose 3 points with some fixed spacing in x. These should lie within the table surface.
     int num_objects = 3; // we will place 3 objects (minimum required)
-
-    // NEEDS ADJUSTING
-
     double start_x = 0.20; // [m] starting x offset from tag frame origin (adjust as needed to be on table)
     double delta_x = 0.10; // [m] spacing in x between placements (adjust as needed)
 
@@ -139,92 +105,141 @@ int main(int argc, char **argv)
         place_poses[i].header.frame_id = TAG_FRAME;
         place_poses[i].pose.position.x = x;
         place_poses[i].pose.position.y = y;
-        // Set Z position slightly above table: assume tag frame is at table surface, so z = object height/2 + clearance.
-        place_poses[i].pose.position.z = 0.05; // 5cm above table (to place at surface, we will later approach down)
-        // Orientation: we want the end-effector to be pointing downward.
-        // We set orientation such that gripper's tool frame has z-axis pointing down.
-        // (This is an approximate orientation; adjust via RPY as needed.)
+        // Set Z position 0.6m above table for approach position
+        place_poses[i].pose.position.z = 0.6; // 0.6m above table (Node C will move down from here)
+        // Orientation: end-effector pointing downward
         tf2::Quaternion q_down;
-        q_down.setRPY(M_PI, 0, 0); // 180 deg roll (flip), so that end-effector points down (assuming default orientation facing forward)
+        q_down.setRPY(M_PI, 0, 0); // 180 deg roll (flip), so that end-effector points down
         place_poses[i].pose.orientation = tf2::toMsg(q_down);
     }
 
     // TF listener to get transforms (for converting poses from tag frame to base frame)
     tf2_ros::Buffer tfBuffer;
     tf2_ros::TransformListener tfListener(tfBuffer);
-    ros::Duration(1.0).sleep(); // wait a moment for TF frames to become available
+    ros::Duration(2.0).sleep(); // wait for TF frames to become available
 
-    // Loop over each object to pick and place
-   
-
-    for (int idx = 0; idx < num_objects && ros::ok(); ++idx)
+    // Initial navigation to avoid table collision
+    ROS_INFO("Node A: Moving to initial safe position to avoid table collision...");
+    goal.target_pose.header.stamp = ros::Time::now();
+    goal.target_pose.pose.position.x = 9;
+    goal.target_pose.pose.position.y = -1.0;  // Safe Y position
+    goal.target_pose.pose.position.z = 0.0;
     {
-        ROS_INFO("Node A: Starting pick-and-place for object %d", idx + 1);
+        tf2::Quaternion q;
+        double yaw = -M_PI/2; // Facing negative Y direction
+        q.setRPY(0.0, 0.0, yaw);
+        goal.target_pose.pose.orientation = tf2::toMsg(q);
+    }
+    
+    ac.sendGoal(goal);
+    ac.waitForResult();
+    if (ac.getState() != actionlib::SimpleClientGoalState::SUCCEEDED)
+    {
+        ROS_ERROR("Failed to reach initial safe position. Aborting.");
+        return 1;
+    }
+    ROS_INFO("Successfully reached initial safe position.");
 
-        // 3rd Goal: Adjust to (8.7, -2.5) with yaw = π (robot faces negative x).
+    // Main pick and place loop
+    int objects_processed = 0;
+    while (objects_processed < num_objects && ros::ok())
+    {
+        ROS_INFO("Node A: Starting pick-and-place for object %d", objects_processed + 1);
+
+        // STEP 1: Navigate to picking table
+        ROS_INFO("Node A: Navigating to picking table...");
         goal.target_pose.header.stamp = ros::Time::now();
-        goal.target_pose.pose.position.x = 8.7;
-        goal.target_pose.pose.position.y = -2.5;
+        goal.target_pose.pose.position.x = 9;  // Leave room for head movement
+        goal.target_pose.pose.position.y = -3.02; // Correct Y for picking table
+        goal.target_pose.pose.position.z = 0.0;
         {
             tf2::Quaternion q;
-            double yaw = M_PI;
+            double yaw = M_PI; // Facing negative X direction
             q.setRPY(0.0, 0.0, yaw);
             goal.target_pose.pose.orientation = tf2::toMsg(q);
         }
-
-        ROS_INFO("Sending 3rd goal: (8.7, -2.5) with yaw = π");
+        
         ac.sendGoal(goal);
         ac.waitForResult();
-
         if (ac.getState() != actionlib::SimpleClientGoalState::SUCCEEDED)
         {
-            ROS_ERROR("Failed to reach third goal.");
-            return 1;
+            ROS_ERROR("Failed to reach picking table. Aborting.");
+            break;
         }
-        ROS_INFO("Successfully reached the pick-up table.");
+        ROS_INFO("Successfully reached picking table.");
 
-        // ** Get target object pose from Node B (detection) **
-        // We assume Node B offers a service "/get_object_pose" that returns the next object's pose in base frame.
-        // Alternatively, Node A could call Node B to get all poses and select one.
-        geometry_msgs::PoseStamped object_pose_base;
+        // STEP 2: Get object pose from Node B
+        ROS_INFO("Node A: Getting object pose from Node B...");
+        assignment2_package::GetObjectPose get_pose_srv;
+        if (!get_pose_client.call(get_pose_srv))
         {
-            // Service call to Node B - GetObjectPose (assuming custom service that returns PoseStamped of an unpicked object)
-            // For demonstration, we will call it and expect object_pose_base in response.
-            // If Node B automatically transforms to base frame, great; otherwise, it might return in camera or tag frame.
-            // Here we assume it returns pose in the robot base frame.
-            assignment2_package::GetObjectPose getObjSrv;
-            if (!ros::service::call("/get_object_pose", getObjSrv))
-            {
-                ROS_ERROR("Node A: Failed to call Node B service to get object pose");
-                break;
-            }
-            object_pose_base = getObjSrv.response.obj_pose;
+            ROS_ERROR("Node A: Failed to call get_object_pose service");
+            break;
         }
-        ROS_INFO_STREAM("Node A: Received object pose from Node B: " << object_pose_base);
+        
+        ROS_INFO("Node A: Received object pose from Node B - ID: %d", get_pose_srv.response.obj_id);
 
-        // ** Call Node C to pick the object at the given pose **
-        // We assume Node C provides a service "/pick_object" that takes a PoseStamped (in base frame) and picks the object.
-        // The service could return success or failure.
+        // STEP 3: Call Node C to pick the object
+        ROS_INFO("Node A: Calling Node C to pick object...");
+        assignment2_package::PickObject pick_srv;
+        pick_srv.request.target = get_pose_srv.response.obj_pose;
+        pick_srv.request.target_id = get_pose_srv.response.obj_id;
+        
+        if (!pick_client.call(pick_srv) || !pick_srv.response.success)
         {
-            assignment2_package::PickObject pickSrv;
-            pickSrv.request.target = object_pose_base;
-            ROS_INFO("Node A: Calling Node C to pick the object...");
-            if (!ros::service::call("/pick_object", pickSrv) || !pickSrv.response.success)
+            ROS_ERROR("Node A: Failed to pick object %d. Moving to safe position and continuing to next object.", objects_processed + 1);
+            
+            // Move back to safe position before trying next object
+            ROS_INFO("Node A: Returning to safe position after failed pick...");
+            goal.target_pose.header.stamp = ros::Time::now();
+            goal.target_pose.pose.position.x = 9;
+            goal.target_pose.pose.position.y = -1.0;
+            goal.target_pose.pose.position.z = 0.0;
             {
-                ROS_ERROR("Node A: Node C failed to pick object %d. Aborting sequence.", idx + 1);
-                break;
+                tf2::Quaternion q;
+                double yaw = -M_PI/2; // Facing negative Y direction
+                q.setRPY(0.0, 0.0, yaw);
+                goal.target_pose.pose.orientation = tf2::toMsg(q);
             }
+            
+            ac.sendGoal(goal);
+            ac.waitForResult();
+            
+            // Add delay to allow objects to be re-detected
+            ros::Duration(3.0).sleep();
+            
+            continue; // Try next object
         }
-        ROS_INFO("Node A: Object %d picked successfully, now navigating to place table.", idx + 1);
+        ROS_INFO("Node A: Object %d picked successfully!", objects_processed + 1);
 
-        // ** Navigate to placing table position **
-        // TODO: Command robot base to move to the placing table docking position.
-        // e.g., call a navigation service or action to go to a preset pose in front of the placing table.
-        ROS_INFO("Node A: (TODO) Navigate to placing table pose");
+        // STEP 4: Navigate to placing table
+        ROS_INFO("Node A: Navigating to placing table...");
+        goal.target_pose.header.stamp = ros::Time::now();
+        goal.target_pose.pose.position.x = 9;  // Leave room for arm movement  
+        goal.target_pose.pose.position.y = -1.92; // Correct Y for placing table
+        goal.target_pose.pose.position.z = 0.0;
+        {
+            tf2::Quaternion q;
+            double yaw = M_PI; // Facing negative X direction
+            q.setRPY(0.0, 0.0, yaw);
+            goal.target_pose.pose.orientation = tf2::toMsg(q);
+        }
+        
+        ac.sendGoal(goal);
+        ac.waitForResult();
+        if (ac.getState() != actionlib::SimpleClientGoalState::SUCCEEDED)
+        {
+            ROS_ERROR("Failed to reach placing table. Aborting.");
+            break;
+        }
+        ROS_INFO("Successfully reached placing table.");
+        
+        // Allow time for robot to settle and any dynamic elements to stabilize
+        ROS_INFO("Node A: Waiting for robot to settle at placing table...");
+        ros::Duration(2.0).sleep(); // 2 second delay
 
-        // ** Compute and execute place motion using MoveIt **
-        // Take the pre-defined placement pose in tag frame and transform it to base frame for current robot pose.
-        geometry_msgs::PoseStamped place_pose_tag = place_poses[idx];
+        // STEP 5: Move arm to approach pose above placement line
+        geometry_msgs::PoseStamped place_pose_tag = place_poses[objects_processed];
         geometry_msgs::PoseStamped place_pose_base;
         try
         {
@@ -235,88 +250,56 @@ int main(int argc, char **argv)
         catch (tf2::TransformException &ex)
         {
             ROS_ERROR("Node A: TF transform error from tag frame to base frame: %s", ex.what());
-            // If transform fails, skip this iteration
-            continue;
+            continue; // Skip this object
         }
-        ROS_INFO_STREAM("Node A: Transformed place pose to base frame: " << place_pose_base);
-
-        // Plan and execute a movement to an approach pose above the place location.
-        // We will approach from above (already set orientation downwards in place_pose_base).
-        geometry_msgs::PoseStamped approach_pose = place_pose_base;
-        approach_pose.pose.position.z += 0.10; // approach 10cm above the table target point
-        arm_move_group.setPoseTarget(approach_pose.pose, "arm_tool_link");
+        
+        ROS_INFO("Node A: Moving arm to approach pose above placement line...");
+        arm_move_group.setPoseTarget(place_pose_base.pose, "arm_tool_link");
         moveit::planning_interface::MoveGroupInterface::Plan plan;
         bool success = (arm_move_group.plan(plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+        
         if (!success)
         {
-            ROS_WARN("Node A: Failed to plan approach to place position. Retrying with a lower height.");
-            // Try a slightly higher approach if initial fails (simple retry strategy)
-            approach_pose.pose.position.z += 0.05;
-            arm_move_group.setPoseTarget(approach_pose.pose, "arm_tool_link");
-            success = (arm_move_group.plan(plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-        }
-        if (success)
-        {
-            ROS_INFO("Node A: Executing approach to place position...");
-            arm_move_group.execute(plan);
-            ros::Duration(1.0).sleep(); // small delay
-        }
-        else
-        {
-            ROS_ERROR("Node A: Failed to plan any trajectory to place approach. Skipping placement for object %d.", idx + 1);
+            ROS_ERROR("Node A: Failed to plan approach to place position. Skipping object %d.", objects_processed + 1);
             continue;
         }
+        
+        ROS_INFO("Node A: Executing approach to place position...");
+        arm_move_group.execute(plan);
+        ros::Duration(1.0).sleep(); // Allow settling
 
-        // Now perform a *linear* motion downwards from the approach to the actual place pose.
-        std::vector<geometry_msgs::Pose> waypoints;
-        waypoints.push_back(approach_pose.pose);
-        waypoints.push_back(place_pose_base.pose);
-        moveit_msgs::RobotTrajectory cart_traj;
-        const double jump_threshold = 0.0;
-        const double eef_step = 0.01; // e.g., 1cm step for Cartesian path
-        double frac = arm_move_group.computeCartesianPath(waypoints, eef_step, jump_threshold, cart_traj);
-        if (frac > 0.99)
+        // STEP 6: Call Node C to place the object
+        ROS_INFO("Node A: Calling Node C to place object...");
+        assignment2_package::PickObject place_srv; // Reusing PickObject service type
+        place_srv.request.target_id = get_pose_srv.response.obj_id;
+        
+        if (!place_client.call(place_srv) || !place_srv.response.success)
         {
-            ROS_INFO("Node A: Cartesian path computed for final lowering (%.2f%% achieved).", frac * 100.0);
-            // Execute the Cartesian trajectory for placing down
-            arm_move_group.execute(cart_traj);
+            ROS_ERROR("Node A: Failed to place object %d.", objects_processed + 1);
+            // Continue anyway - object might still be placed
         }
         else
         {
-            ROS_WARN("Node A: Cartesian path for placing only achieved %.2f%%, trying to execute partial path.", frac * 100.0);
-            arm_move_group.execute(cart_traj);
+            ROS_INFO("Node A: Object %d placed successfully!", objects_processed + 1);
         }
 
-        // Once at the place pose (object over the table), open the gripper to release the object
-        ROS_INFO("Node A: Opening gripper to release object.");
-        gripper_move_group.setNamedTarget("open");
-        gripper_move_group.move();
-
-        // (Optional) Detach object via Gazebo_ros_link_attacher plugin
-        // TODO: Call the appropriate service to detach the object from the gripper, if it was attached.
-        // Example (if a service /link_attacher_node/detach is available):
-        // gazebo_ros_link_attacher::Attach detach_srv;
-        // detach_srv.request.model_name_1 = "tiago"; detach_srv.request.link_name_1 = "arm_7_link";
-        // detach_srv.request.model_name_2 = "<object_model_name>"; detach_srv.request.link_name_2 = "<object_link_name>";
-        // ros::service::call("/link_attacher_node/detach", detach_srv);
-        ROS_INFO("Node A: (Optional) Detach object via Gazebo link attacher plugin (if in use).");
-
-        // Retreat arm back to the approach pose (or intermediate safe pose)
-        arm_move_group.setPoseTarget(approach_pose.pose, "arm_tool_link");
-        if (arm_move_group.plan(plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS)
+        // STEP 7: Move arm to safe travel position
+        ROS_INFO("Node A: Moving arm to safe travel position...");
+        try 
         {
-            arm_move_group.execute(plan);
-            ros::Duration(0.5).sleep();
+            arm_move_group.setNamedTarget("folded"); // Assuming "folded" pose exists
+            arm_move_group.move();
         }
-        // Move arm to a secure travel pose (folded arm) before navigating again
-        arm_move_group.setNamedTarget("folded"); // assuming a named pose "folded" or "home" is defined for safe travel
-        arm_move_group.move();
-        ROS_INFO("Node A: Placed object %d and moved arm to safe position.", idx + 1);
+        catch (...)
+        {
+            ROS_WARN("Node A: Failed to move to 'folded' position. Arm may not have a predefined folded pose.");
+        }
 
-        // After placing, go back for next object (loop continues)
-    } // end for each object
+        objects_processed++;
+        ROS_INFO("Node A: Completed pick-and-place for object %d/%d", objects_processed, num_objects);
+    }
 
-    ROS_INFO("Node A: Pick-and-place routine completed.");
+    ROS_INFO("Node A: Pick-and-place routine completed. Processed %d objects.", objects_processed);
     ros::shutdown();
     return 0;
 }

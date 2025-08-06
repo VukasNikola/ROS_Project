@@ -8,4 +8,7 @@
 
     <!-- Start node_C -->
     <node pkg="assignment2_package" type="node_C" name="node_C" output="screen"/>
+
+    <!-- Start node_A -->
+    <node pkg="assignment2_package" type="node_A" name="node_A" output="screen"/>
 </launch>

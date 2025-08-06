@@ -27,6 +27,7 @@ add_service_files(
   FILES
     PickObject.srv
     GetObjectPose.srv
+    PlaceObject.srv
 )
 add_message_files(
   FILES

@@ -10,4 +10,6 @@
   <!-- Run the get_straightline_node -->
   <node pkg="tiago_iaslab_simulation" type="get_straightline_node" name="get_straightline_node" output="screen"/>
 
+  <include file="$(find tiago_iaslab_simulation)/launch/apriltag2.launch"/>
+
 </launch>

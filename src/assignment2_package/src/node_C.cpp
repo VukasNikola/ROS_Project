@@ -12,6 +12,7 @@
 #include "assignment2_package/PickObject.h"
 #include "assignment2_package/ObjectPose.h"
 #include "assignment2_package/ObjectPoseArray.h"
+#include "assignment2_package/PlaceObject.h"
 #include "assignment2_package/GetObjectPose.h"
 #include "gripper_control.h"
 #include <geometric_shapes/mesh_operations.h>
@@ -97,7 +98,7 @@ void addMeshCollisionObject(const std::string &id,
 void objectPosesCallback(const assignment2_package::ObjectPoseArray::ConstPtr &msg)
 {
   std::set<int> seen_ids;
-  ROS_INFO("Processing object poses callback");
+  
 
   // Precompute mesh URI and scale vector
   std::string pkg_path = ros::package::getPath("tiago_iaslab_simulation");
@@ -394,26 +395,43 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
       
       // Set up attachment request
       attach_srv.request.model_name_1 = "tiago";
-      attach_srv.request.link_name_1 = "arm_7_link";  // As specified in instructions
+      attach_srv.request.link_name_1 = "arm_7_link";  
       
-      // Determine object model name based on ID
+      // Determine object model name and link name based on ID
       std::string object_model_name;
+      std::string object_link_name;
+      
       if (id == 1) {
         object_model_name = "Hexagon";
-      } else if (id == 2 || id == 3) {
-        object_model_name = "Hexagon_" + std::to_string(id);
+        object_link_name = "Hexagon_link";  // Use pattern: ModelName_link
+      } else if (id == 2) {
+        object_model_name = "Hexagon_2";
+        object_link_name = "Hexagon_2_link";
+      } else if (id == 3) {
+        object_model_name = "Hexagon_3";
+        object_link_name = "Hexagon_3_link";
       } else if (id == 4) {
         object_model_name = "cube";
-      } else if (id == 5 || id == 6) {
-        object_model_name = "cube_" + std::to_string(id);
+        object_link_name = "cube_link";
+      } else if (id == 5) {
+        object_model_name = "cube_5";
+        object_link_name = "cube_5_link"; 
+      } else if (id == 6) {
+        object_model_name = "cube_6";
+        object_link_name = "cube_6_link";
       } else if (id == 7) {
         object_model_name = "Triangle";
-      } else if (id == 8 || id == 9) {
-        object_model_name = "Triangle_" + std::to_string(id);
+        object_link_name = "Triangle_link";
+      } else if (id == 8) {
+        object_model_name = "Triangle_8";
+        object_link_name = "Triangle_8_link";
+      } else if (id == 9) {
+        object_model_name = "Triangle_9";
+        object_link_name = "Triangle_9_link";
       }
       
       attach_srv.request.model_name_2 = object_model_name;
-      attach_srv.request.link_name_2 = "link";  // Usually "link" for simple objects
+      attach_srv.request.link_name_2 = object_link_name;  // Use correct link name
       
       ROS_INFO("Attempting to attach: %s:%s to %s:%s", 
                attach_srv.request.model_name_1.c_str(),
@@ -457,14 +475,14 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
       return true;
     }
 
-    // STEP 4: Lift object straight up
-    ROS_INFO("STEP 4: Lifting object up by 0.6m");
+    // STEP 5: Lift object straight up
+    ROS_INFO("STEP 5: Lifting object up by 0.6m");
     
     // Get current pose (should be at grasp position)
     geometry_msgs::Pose lift_pose = grasp_pose;
     
     // Move up 0.6m in Z direction
-    lift_pose.position.z += 0.6;
+    lift_pose.position.z += 0.45;
     
     ROS_INFO("Lifting to position at z=%.3f", lift_pose.position.z);
     
@@ -507,6 +525,170 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
   catch (const std::exception &e)
   {
     ROS_ERROR("Exception in pickObjectCallback: %s", e.what());
+    res.success = false;
+  }
+
+  return true;
+}
+
+bool placeObjectCallback(assignment2_package::PickObject::Request &req,
+                        assignment2_package::PickObject::Response &res)
+{
+  ROS_INFO("PlaceObject service called - executing place sequence");
+  try
+  {
+    int id = req.target_id;
+
+    
+    // STEP 1: Move straight down 0.6m from current position (should be above placement line)
+    ROS_INFO("STEP 1: Moving straight down 0.6m to placement line");
+    
+    // Get current pose
+    geometry_msgs::PoseStamped current_pose_stamped = arm_group->getCurrentPose();
+    geometry_msgs::Pose current_pose = current_pose_stamped.pose;
+    
+    // Calculate target pose (0.6m down in Z direction)
+    geometry_msgs::Pose target_pose = current_pose;
+    target_pose.position.z -= 0.45;  // Move down 0.6m
+    
+    ROS_INFO("Moving down from z=%.3f to z=%.3f", current_pose.position.z, target_pose.position.z);
+    
+    // Create waypoints for Cartesian path
+    std::vector<geometry_msgs::Pose> place_waypoints;
+    place_waypoints.push_back(current_pose);   // Start position
+    place_waypoints.push_back(target_pose);    // End position (0.6m down)
+    
+    // Plan Cartesian path for placing down
+    moveit_msgs::RobotTrajectory place_trajectory;
+    const double place_eef_step = 0.01;       // 1cm interpolation steps
+    double place_fraction = arm_group->computeCartesianPath(place_waypoints, place_eef_step, place_trajectory);
+    
+    ROS_INFO("Place Cartesian path planned (%.2f%% achieved)", place_fraction * 100.0);
+    
+    if (place_fraction < 0.95)  // If less than 95% of path achieved
+    {
+      ROS_ERROR("Could not plan full Cartesian path for placing down!");
+      res.success = false;
+      return true;
+    }
+    
+    // Execute the downward movement
+    moveit::planning_interface::MoveGroupInterface::Plan place_plan;
+    place_plan.trajectory_ = place_trajectory;
+    
+    moveit::core::MoveItErrorCode place_result = arm_group->execute(place_plan);
+    if (place_result != moveit::core::MoveItErrorCode::SUCCESS)
+    {
+      ROS_ERROR("Failed to execute downward movement!");
+      res.success = false;
+      return true;
+    }
+    
+    ROS_INFO("Successfully moved down to place position!");
+
+    // STEP 2: Detach object from gripper (WHILE object is supported by table)
+    ROS_INFO("STEP 2: Detaching object from gripper");
+    
+    // Wait for service to be available
+    std::string detach_service = "/link_attacher_node/detach";
+    bool service_exists = ros::service::waitForService(detach_service, ros::Duration(2.0));
+    
+    if (service_exists) {
+      // Create service client for link detacher
+      ros::ServiceClient detach_client = nh_ptr->serviceClient<gazebo_ros_link_attacher::Attach>(detach_service);
+      gazebo_ros_link_attacher::Attach detach_srv;
+      
+      // Set up detachment request (same as attachment but different service)
+      detach_srv.request.model_name_1 = "tiago";
+      detach_srv.request.link_name_1 = "arm_7_link";  // Same as used in pickup
+      
+      // Determine object model name and link name based on ID (same logic as pickup)
+      std::string object_model_name;
+      std::string object_link_name;
+      
+      if (id == 1) {
+        object_model_name = "Hexagon";
+        object_link_name = "Hexagon_link";
+      } else if (id == 2) {
+        object_model_name = "Hexagon_2";
+        object_link_name = "Hexagon_2_link";
+      } else if (id == 3) {
+        object_model_name = "Hexagon_3";
+        object_link_name = "Hexagon_3_link";
+      } else if (id == 4) {
+        object_model_name = "cube";
+        object_link_name = "cube_link";
+      } else if (id == 5) {
+        object_model_name = "cube_5";
+        object_link_name = "cube_5_link";
+      } else if (id == 6) {
+        object_model_name = "cube_6";
+        object_link_name = "cube_6_link";
+      } else if (id == 7) {
+        object_model_name = "Triangle";
+        object_link_name = "Triangle_link";
+      } else if (id == 8) {
+        object_model_name = "Triangle_8";
+        object_link_name = "Triangle_8_link";
+      } else if (id == 9) {
+        object_model_name = "Triangle_9";
+        object_link_name = "Triangle_9_link";
+      }
+      
+      detach_srv.request.model_name_2 = object_model_name;
+      detach_srv.request.link_name_2 = object_link_name;
+      
+      ROS_INFO("Attempting to detach: %s:%s from %s:%s", 
+               detach_srv.request.model_name_1.c_str(),
+               detach_srv.request.link_name_1.c_str(),
+               detach_srv.request.model_name_2.c_str(),
+               detach_srv.request.link_name_2.c_str());
+      
+      // Call the detach service
+      if (detach_client.call(detach_srv)) {
+        if (detach_srv.response.ok) {
+          ROS_INFO("Successfully detached object %s from gripper", object_model_name.c_str());
+        } else {
+          ROS_WARN("Failed to detach object");
+        }
+      } else {
+        ROS_WARN("Failed to call detach service - continuing without detachment");
+      }
+    } else {
+      ROS_WARN("Link detacher service not available - continuing without detachment");
+    }
+    
+    // Wait for detachment to stabilize in physics engine
+    ros::Duration(1.0).sleep();
+
+    // STEP 3: Open the gripper
+    ROS_INFO("STEP 3: Opening gripper to release object");
+    
+    try {
+      // Initialize gripper controller
+      gripper_control::GripperController gripper("gripper");
+      gripper.registerNamedTarget("open", 0.044);
+      
+      // Open gripper
+      gripper.open();
+      
+      // Small delay to ensure gripper has opened
+      ros::Duration(0.5).sleep();
+      
+      ROS_INFO("Gripper opened successfully!");
+    }
+    catch (const std::exception& e) {
+      ROS_ERROR("Failed to open gripper: %s", e.what());
+      res.success = false;
+      return true;
+    }
+
+    ROS_INFO("Place sequence completed successfully!");
+    res.success = true;
+  }
+  catch (const std::exception &e)
+  {
+    ROS_ERROR("Exception in placeObjectCallback: %s", e.what());
     res.success = false;
   }
 
@@ -571,10 +753,11 @@ int main(int argc, char **argv)
   /// Service client to Node B's get_object_pose
   get_obj_pose_client = nh.serviceClient<assignment2_package::GetObjectPose>("get_object_pose");
   ros::ServiceServer pick_service = nh.advertiseService("pick_object", pickObjectCallback);
+  ros::ServiceServer place_service = nh.advertiseService("place_object", placeObjectCallback);
 
   ROS_INFO("Node C: Ready with arm_torso group for extended reach");
 
   ros::waitForShutdown();
-  // Don't delete tfListener since it was not allocated with 'new'
+
   return 0;
 }
