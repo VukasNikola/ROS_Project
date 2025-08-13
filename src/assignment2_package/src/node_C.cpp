@@ -112,6 +112,14 @@ void objectPosesCallback(const assignment2_package::ObjectPoseArray::ConstPtr &m
   for (const auto &entry : msg->objects)
   {
     int tag_id = entry.id;
+    
+    // Skip tag 10 - it's the reference tag on the placing table
+    if (tag_id == 10)
+    {
+      ROS_DEBUG("Skipping tag 10 (reference tag) - no collision object needed");
+      continue;
+    }
+    
     seen_ids.insert(tag_id);
 
     geometry_msgs::Pose obj_pose = entry.pose.pose;
@@ -153,11 +161,17 @@ void objectPosesCallback(const assignment2_package::ObjectPoseArray::ConstPtr &m
       primitive.dimensions = {0.1, 0.025};           // height, radius
       height_offset = primitive.dimensions[0] / 2.0; // half of cylinder height
     }
-    else
+    else if (tag_id >= 4 && tag_id <= 6)
     {
       primitive.type = primitive.BOX;
       primitive.dimensions = {0.05, 0.05, 0.05};     // x, y, z
       height_offset = primitive.dimensions[2] / 2.0; // half of box height
+    }
+    else
+    {
+      // Any other tag ID that's not 10 and not in the defined ranges
+      ROS_WARN("Unknown tag ID %d detected - skipping collision object creation", tag_id);
+      continue;
     }
 
     // Adjust Z position: move down by half the object height so bottom sits on surface
@@ -186,7 +200,6 @@ void objectPosesCallback(const assignment2_package::ObjectPoseArray::ConstPtr &m
   if (!to_remove.empty())
   {
     planning_scene_interface->removeCollisionObjects(to_remove);
-    ROS_INFO("Removed %zu old collision objects", to_remove.size());
   }
 }
 bool pickObjectCallback(assignment2_package::PickObject::Request &req,
@@ -357,7 +370,7 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     
     ROS_INFO("Cartesian path planned (%.2f%% achieved)", fraction * 100.0);
     
-    if (fraction < 0.95)  // If less than 95% of path achieved
+    if (fraction < 0.85)  // If less than 85% of path achieved
     {
       ROS_ERROR("Could not plan full Cartesian path down to object!");
       res.success = false;
@@ -476,13 +489,13 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     }
 
     // STEP 5: Lift object straight up
-    ROS_INFO("STEP 5: Lifting object up by 0.6m");
+    ROS_INFO("STEP 5: Lifting object up by 0.3m");
     
     // Get current pose (should be at grasp position)
     geometry_msgs::Pose lift_pose = grasp_pose;
     
     // Move up 0.6m in Z direction
-    lift_pose.position.z += 0.45;
+    lift_pose.position.z += 0.3;
     
     ROS_INFO("Lifting to position at z=%.3f", lift_pose.position.z);
     
@@ -498,7 +511,7 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     
     ROS_INFO("Lift Cartesian path planned (%.2f%% achieved)", lift_fraction * 100.0);
     
-    if (lift_fraction < 0.95)  // If less than 95% of path achieved
+    if (lift_fraction < 0.85)  // If less than 85% of path achieved
     {
       ROS_ERROR("Could not plan full Cartesian path for lifting!");
       res.success = false;
@@ -547,9 +560,9 @@ bool placeObjectCallback(assignment2_package::PickObject::Request &req,
     geometry_msgs::PoseStamped current_pose_stamped = arm_group->getCurrentPose();
     geometry_msgs::Pose current_pose = current_pose_stamped.pose;
     
-    // Calculate target pose (0.6m down in Z direction)
+    // Calculate target pose (0.3m down in Z direction)
     geometry_msgs::Pose target_pose = current_pose;
-    target_pose.position.z -= 0.45;  // Move down 0.6m
+    target_pose.position.z -= 0.3;  // Move down 0.3m
     
     ROS_INFO("Moving down from z=%.3f to z=%.3f", current_pose.position.z, target_pose.position.z);
     
@@ -565,7 +578,7 @@ bool placeObjectCallback(assignment2_package::PickObject::Request &req,
     
     ROS_INFO("Place Cartesian path planned (%.2f%% achieved)", place_fraction * 100.0);
     
-    if (place_fraction < 0.95)  // If less than 95% of path achieved
+    if (place_fraction < 0.85)  // If less than 85% of path achieved
     {
       ROS_ERROR("Could not plan full Cartesian path for placing down!");
       res.success = false;

@@ -74,11 +74,12 @@ void detectionsCallback(const apriltag_ros::AprilTagDetectionArray::ConstPtr &ms
             obj.pose = tag_pose_base;
             current_objects.push_back(obj);
 
-            ROS_INFO("Node B: Detected object ID %d at [%.2f, %.2f, %.2f]",
-                     tag_id,
-                     tag_pose_base.pose.position.x,
-                     tag_pose_base.pose.position.y,
-                     tag_pose_base.pose.position.z);
+            // Only print detection info once every 5 seconds per tag ID
+            ROS_INFO_THROTTLE(5.0, "Node B: Detected object ID %d at [%.2f, %.2f, %.2f]",
+                              tag_id,
+                              tag_pose_base.pose.position.x,
+                              tag_pose_base.pose.position.y,
+                              tag_pose_base.pose.position.z);
         }
     }
     // Publish all current objects
