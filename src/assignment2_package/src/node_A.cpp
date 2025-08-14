@@ -23,90 +23,103 @@ static const std::string TAG_FRAME = "tag_10";                   // Reference fr
 static const std::string PLANNING_GROUP_ARM_TORSO = "arm_torso"; // For reaching deep into a scene if needed
 
 // ==================== PLACEMENT POSE MANAGER CLASS ====================
-class PlacementPoseManager {
+class PlacementPoseManager
+{
 private:
     // Store the line coefficients and table info
     double line_m_;
     double line_q_;
     double table_center_x_;
     double table_center_y_;
-    
+
     // Store the placement points in tag_10 frame
     std::vector<std::pair<double, double>> placement_points_tag_frame_;
     bool poses_initialized_;
-    
+
     // Table dimensions (matching your test node)
     static constexpr double TABLE_WIDTH = 1.07;
     static constexpr double TABLE_DEPTH = 1.07;
     static constexpr double TABLE_HEIGHT = 0.77;
     static constexpr double TABLE_OFFSET_X = 0.36;
-    static constexpr double TABLE_OFFSET_Y = 0.18;
+    static constexpr double TABLE_OFFSET_Y = 0.145;
     static constexpr double EPSILON = 1e-6;
-    
+
 public:
     PlacementPoseManager() : poses_initialized_(false) {}
-    
+
     /**
      * @brief Check if a point is within the table bounds
      */
-    bool isPointOnTable(double x, double y) {
+    bool isPointOnTable(double x, double y)
+    {
         double x_min = table_center_x_ - TABLE_WIDTH / 2.0;
         double x_max = table_center_x_ + TABLE_WIDTH / 2.0;
         double y_min = table_center_y_ - TABLE_DEPTH / 2.0;
         double y_max = table_center_y_ + TABLE_DEPTH / 2.0;
-        
+
         return (x >= x_min - EPSILON && x <= x_max + EPSILON &&
                 y >= y_min - EPSILON && y <= y_max + EPSILON);
     }
-    
+
     /**
      * @brief Initialize placement poses along the line in tag_10 frame
      * This matches the logic from your test node
      */
-    bool initializePoses(double line_m, double line_q, int num_objects = 3) {
+    bool initializePoses(double line_m, double line_q, int num_objects = 3)
+    {
         ROS_INFO("Initializing %d placement poses along line y = %.3fx + %.3f", num_objects, line_m, line_q);
-        
+
         // Store line coefficients
         line_m_ = line_m;
         line_q_ = line_q;
-        
+
         // Set table center (matching your test node)
         table_center_x_ = TABLE_OFFSET_X;
         table_center_y_ = TABLE_OFFSET_Y;
-        
+
         // Clear any existing points
         placement_points_tag_frame_.clear();
-        
+
         // Find the closest point on the line to the table center
         double closest_x, closest_y;
-        
-        if (std::abs(line_m) < EPSILON) {
+
+        if (std::abs(line_m) < EPSILON)
+        {
             // Horizontal line: y = q
             closest_x = table_center_x_;
             closest_y = line_q;
-        } else if (std::abs(1.0/line_m) < EPSILON) {
+        }
+        else if (std::abs(1.0 / line_m) < EPSILON)
+        {
             // Vertical line: x = -q/m
-            closest_x = -line_q/line_m;
+            closest_x = -line_q / line_m;
             closest_y = table_center_y_;
-        } else {
+        }
+        else
+        {
             // General case: find perpendicular intersection
             double m_perp = -1.0 / line_m;
             double q_perp = table_center_y_ - m_perp * table_center_x_;
             closest_x = (q_perp - line_q) / (line_m - m_perp);
             closest_y = line_m * closest_x + line_q;
         }
-        
+
         // Calculate direction vector along the line
         double dir_x, dir_y;
-        if (std::abs(line_m) < EPSILON) {
+        if (std::abs(line_m) < EPSILON)
+        {
             // Horizontal line
             dir_x = 1.0;
             dir_y = 0.0;
-        } else if (std::abs(1.0/line_m) < EPSILON) {
+        }
+        else if (std::abs(1.0 / line_m) < EPSILON)
+        {
             // Vertical line
             dir_x = 0.0;
             dir_y = 1.0;
-        } else {
+        }
+        else
+        {
             // General case
             dir_x = 1.0;
             dir_y = line_m;
@@ -114,50 +127,51 @@ public:
             dir_x /= length;
             dir_y /= length;
         }
-        
+
         // Generate placement points: center point ± 0.15m along the line
         double spacing = 0.15;
-        
+
         // Center point (closest to table center)
         placement_points_tag_frame_.push_back({closest_x, closest_y});
-        
+
         // Point 0.15m "above" (in positive direction along line)
-        placement_points_tag_frame_.push_back({
-            closest_x + spacing * dir_x,
-            closest_y + spacing * dir_y
-        });
-        
+        placement_points_tag_frame_.push_back({closest_x + spacing * dir_x,
+                                               closest_y + spacing * dir_y});
+
         // Point 0.15m "below" (in negative direction along line)
-        placement_points_tag_frame_.push_back({
-            closest_x - spacing * dir_x,
-            closest_y - spacing * dir_y
-        });
-        
+        placement_points_tag_frame_.push_back({closest_x - spacing * dir_x,
+                                               closest_y - spacing * dir_y});
+
         // Verify all points are on the table
         bool all_valid = true;
-        for (size_t i = 0; i < placement_points_tag_frame_.size(); ++i) {
+        for (size_t i = 0; i < placement_points_tag_frame_.size(); ++i)
+        {
             double x = placement_points_tag_frame_[i].first;
             double y = placement_points_tag_frame_[i].second;
-            
-            if (!isPointOnTable(x, y)) {
+
+            if (!isPointOnTable(x, y))
+            {
                 ROS_WARN("Placement point %zu at (%.3f, %.3f) is off the table!", i, x, y);
                 all_valid = false;
-            } else {
+            }
+            else
+            {
                 std::string position_name = (i == 0) ? "CENTER" : (i == 1 ? "FORWARD" : "BACKWARD");
                 ROS_INFO("Placement %zu (%s): tag_10(%.3f, %.3f)", i, position_name.c_str(), x, y);
             }
         }
-        
-        if (!all_valid) {
+
+        if (!all_valid)
+        {
             ROS_ERROR("Some placement points are off the table. Line may not be suitable.");
             // Continue anyway, but warn the user
         }
-        
+
         poses_initialized_ = true;
         ROS_INFO("Successfully initialized %zu placement poses", placement_points_tag_frame_.size());
         return true;
     }
-    
+
     /**
      * @brief Get a placement pose transformed to base_footprint frame
      * Call this right before you need to place an object
@@ -166,104 +180,116 @@ public:
      * @param tfBuffer TF buffer for transformations
      * @param z_offset Height above table surface (default 0.3m above table to match Node C)
      */
-    bool getPlacementPose(int object_index, geometry_msgs::PoseStamped& pose_out, 
-                         tf2_ros::Buffer& tfBuffer, double z_offset = 0.3) {
-        if (!poses_initialized_) {
+    bool getPlacementPose(int object_index, geometry_msgs::PoseStamped &pose_out,
+                          tf2_ros::Buffer &tfBuffer, double z_offset = 0.3)
+    {
+        if (!poses_initialized_)
+        {
             ROS_ERROR("Poses not initialized. Call initializePoses() first.");
             return false;
         }
-        
-        if (object_index < 0 || object_index >= placement_points_tag_frame_.size()) {
-            ROS_ERROR("Invalid object index %d. Valid range: 0-%zu", 
-                      object_index, placement_points_tag_frame_.size()-1);
+
+        if (object_index < 0 || object_index >= placement_points_tag_frame_.size())
+        {
+            ROS_ERROR("Invalid object index %d. Valid range: 0-%zu",
+                      object_index, placement_points_tag_frame_.size() - 1);
             return false;
         }
-        
-        try {
+
+        try
+        {
             // Get the stored placement point in tag_10 frame
             double x = placement_points_tag_frame_[object_index].first;
             double y = placement_points_tag_frame_[object_index].second;
-            
+
             geometry_msgs::PoseStamped pose_tag;
             pose_tag.header.frame_id = TAG_FRAME;
             pose_tag.header.stamp = ros::Time::now();
             pose_tag.pose.position.x = x;
             pose_tag.pose.position.y = y;
-            pose_tag.pose.position.z = 0.0;  // Table surface in tag frame
-            
+            pose_tag.pose.position.z = 0.0; // Table surface in tag frame
+
             // End-effector pointing downward
             tf2::Quaternion q_down;
             q_down.setRPY(M_PI, 0, 0);
             pose_tag.pose.orientation = tf2::toMsg(q_down);
-            
+
             // Wait for transform to be available
-            if (!tfBuffer.canTransform(BASE_FRAME, TAG_FRAME, ros::Time::now(), ros::Duration(3.0))) {
+            if (!tfBuffer.canTransform(BASE_FRAME, TAG_FRAME, ros::Time::now(), ros::Duration(3.0)))
+            {
                 ROS_ERROR("Cannot get transform from %s to %s", TAG_FRAME.c_str(), BASE_FRAME.c_str());
                 return false;
             }
-            
+
             // Transform to base_footprint
             tfBuffer.transform(pose_tag, pose_out, BASE_FRAME, ros::Duration(3.0));
-            
+
             // Set approach height: table surface (0.77m) + z_offset
             pose_out.pose.position.z = TABLE_HEIGHT + z_offset;
-            
+
             // Always use torso_fixed_link orientation for all placements (orientation doesn't matter)
             ROS_INFO("Using torso_fixed_link orientation for placement (object orientation doesn't matter)");
             geometry_msgs::TransformStamped torso_transform;
-            try {
+            try
+            {
                 torso_transform = tfBuffer.lookupTransform(BASE_FRAME, "torso_fixed_link", ros::Time(0), ros::Duration(1.0));
                 tf2::Quaternion final_orientation_q;
                 tf2::fromMsg(torso_transform.transform.rotation, final_orientation_q);
                 pose_out.pose.orientation = tf2::toMsg(final_orientation_q);
-            } catch (tf2::TransformException &ex) {
+            }
+            catch (tf2::TransformException &ex)
+            {
                 ROS_ERROR("Could not get torso_fixed_link transform: %s", ex.what());
                 return false;
             }
-            
-            std::string position_name = (object_index == 0) ? "CENTER" : 
-                                       (object_index == 1 ? "FORWARD" : "BACKWARD");
+
+            std::string position_name = (object_index == 0) ? "CENTER" : (object_index == 1 ? "FORWARD" : "BACKWARD");
             ROS_INFO("Approach pose %d (%s): tag_10(%.3f, %.3f) -> base(%.3f, %.3f, %.3f) [+%.2fm above table]",
                      object_index, position_name.c_str(),
                      x, y,
                      pose_out.pose.position.x, pose_out.pose.position.y, pose_out.pose.position.z,
                      z_offset);
-            
+
             return true;
         }
-        catch (tf2::TransformException &ex) {
+        catch (tf2::TransformException &ex)
+        {
             ROS_ERROR("TF transform error for object %d: %s", object_index, ex.what());
             return false;
         }
     }
-    
+
     /**
      * @brief Get number of stored poses
      */
-    int getNumPoses() const {
+    int getNumPoses() const
+    {
         return poses_initialized_ ? placement_points_tag_frame_.size() : 0;
     }
-    
+
     /**
      * @brief Check if poses are initialized
      */
-    bool isInitialized() const {
+    bool isInitialized() const
+    {
         return poses_initialized_;
     }
-    
+
     /**
      * @brief Clear stored poses
      */
-    void clear() {
+    void clear()
+    {
         placement_points_tag_frame_.clear();
         poses_initialized_ = false;
         ROS_INFO("Cleared stored placement poses");
     }
-    
+
     /**
      * @brief Get stored line info
      */
-    void getLineInfo(double& m, double& q) const {
+    void getLineInfo(double &m, double &q) const
+    {
         m = line_m_;
         q = line_q_;
     }
@@ -283,12 +309,12 @@ int main(int argc, char **argv)
 
     // Service client to get line coefficients from /straight_line_srv
     ros::ServiceClient coeffs_client = nh.serviceClient<tiago_iaslab_simulation::Coeffs>("/straight_line_srv");
-    
+
     // ==================== INITIALIZE PLACEMENT POSE MANAGER ====================
     PlacementPoseManager pose_manager;
-    int num_objects = 3;   // we will place 3 objects (minimum required)
-    bool best_line_found = false;  // Track if we've found the best line yet
-    double best_m = 0.0, best_q = 0.0;  // Store the best line coefficients
+    int num_objects = 3;               // we will place 3 objects (minimum required)
+    bool best_line_found = false;      // Track if we've found the best line yet
+    double best_m = 0.0, best_q = 0.0; // Store the best line coefficients
 
     // Initialize MoveIt interfaces for arm (for some movements), gripper, and arm_torso (for placement reach)
     moveit::planning_interface::MoveGroupInterface arm_move_group(PLANNING_GROUP_ARM);
@@ -308,7 +334,7 @@ int main(int argc, char **argv)
     arm_torso_move_group.setMaxAccelerationScalingFactor(0.5);
     arm_torso_move_group.setMaxVelocityScalingFactor(0.5);
     arm_torso_move_group.setPlanningTime(10.0);
-    
+
     // Also set for arm group
     arm_move_group.setGoalPositionTolerance(0.01);
     arm_move_group.setGoalOrientationTolerance(0.01);
@@ -482,44 +508,21 @@ int main(int argc, char **argv)
         }
         ROS_INFO("Node A: Object %d picked successfully!", objects_processed + 1);
 
-        // STEP 3.5: Move back slightly before arm movement
-        ROS_INFO("Node A: Moving back from picking table before arm adjustment...");
-        goal.target_pose.header.stamp = ros::Time::now();
-        goal.target_pose.pose.position.x = 9.5;  // Move back 20cm
-        goal.target_pose.pose.position.y = -3.02; // Same Y as picking table
-        goal.target_pose.pose.position.z = 0.0;
-        {
-            tf2::Quaternion q;
-            double yaw = M_PI; // Keep same orientation
-            q.setRPY(0.0, 0.0, yaw);
-            goal.target_pose.pose.orientation = tf2::toMsg(q);
-        }
-        
-        ac.sendGoal(goal);
-        ac.waitForResult();
-        if (ac.getState() != actionlib::SimpleClientGoalState::SUCCEEDED)
-        {
-            ROS_WARN("Failed to move back from picking table, continuing anyway...");
-        }
-        else
-        {
-            ROS_INFO("Successfully moved back from picking table.");
-        }
-        ros::Duration(1.0).sleep(); // Allow settling
-        
+    
+
         // STEP 3.6: Move arm to safe travel position after moving back
         ROS_INFO("Node A: Moving arm to safe travel position for navigation...");
         try
         {
             std::map<std::string, double> safe_travel_joints;
             safe_travel_joints["torso_lift_joint"] = 0.350; // Keep torso raised for better clearance
-            safe_travel_joints["arm_1_joint"] = 0.2;       // Safe arm position
-            safe_travel_joints["arm_2_joint"] = -1.34;
-            safe_travel_joints["arm_3_joint"] = -0.2;
-            safe_travel_joints["arm_4_joint"] = 1.94;
-            safe_travel_joints["arm_5_joint"] = -1.57;
-            safe_travel_joints["arm_6_joint"] = 1.37;
-            safe_travel_joints["arm_7_joint"] = 0.0;
+            safe_travel_joints["arm_1_joint"] = 0.070;      // Safe arm position
+            safe_travel_joints["arm_2_joint"] = -1.091;
+            safe_travel_joints["arm_3_joint"] = -0.238;
+            safe_travel_joints["arm_4_joint"] = 2.284;
+            safe_travel_joints["arm_5_joint"] = 1.492;
+            safe_travel_joints["arm_6_joint"] = -0.476;
+            safe_travel_joints["arm_7_joint"] = 1.145;
 
             arm_torso_move_group.setJointValueTarget(safe_travel_joints);
             if (arm_torso_move_group.move())
@@ -599,129 +602,141 @@ int main(int argc, char **argv)
         }
 
         // STEP 4.6: Find best line on FIRST visit to placing table
-        if (!best_line_found) {
-            ROS_INFO("Node A: First time at placing table - finding best line from 15 iterations...");
-            
+        if (!best_line_found)
+        {
+            ROS_INFO("Node A: First time at placing table - finding best line from 40 iterations...");
+
             // Wait a bit more to ensure tag_10 is being detected
             ros::Duration(2.0).sleep();
-            
-            struct LineCandidate {
+
+            struct LineCandidate
+            {
                 double m, q;
                 double distance_to_center;
                 bool all_points_valid;
             };
-            
+
             std::vector<LineCandidate> valid_lines;
-            const double TABLE_CENTER_X = 0.36;  // Matching test node
-            const double TABLE_CENTER_Y = 0.18;  // Matching test node
-            
-            for (int iteration = 0; iteration < 15; ++iteration) {
+            const double TABLE_CENTER_X = 0.36; // Matching test node
+            const double TABLE_CENTER_Y = 0.145; // Matching test node
+
+            for (int iteration = 0; iteration < 40; ++iteration)
+            {
                 tiago_iaslab_simulation::Coeffs coeffs_srv;
                 coeffs_srv.request.ready = true;
-                
-                if (!coeffs_client.call(coeffs_srv)) {
+
+                if (!coeffs_client.call(coeffs_srv))
+                {
                     ROS_ERROR("Failed to call /straight_line_srv on iteration %d", iteration);
                     continue;
                 }
-                
+
                 double m = coeffs_srv.response.coeffs[0];
                 double q = coeffs_srv.response.coeffs[1];
-                
+
                 ROS_INFO("Iteration %d: Line y = %.3fx + %.3f", iteration, m, q);
-                
+
                 // Calculate distance to table center (simplified version)
                 double closest_x, closest_y;
-                if (std::abs(m) < 1e-6) {
+                if (std::abs(m) < 1e-6)
+                {
                     closest_x = TABLE_CENTER_X;
                     closest_y = q;
-                } else {
+                }
+                else
+                {
                     double m_perp = -1.0 / m;
                     double q_perp = TABLE_CENTER_Y - m_perp * TABLE_CENTER_X;
                     closest_x = (q_perp - q) / (m - m_perp);
                     closest_y = m * closest_x + q;
                 }
-                
-                double distance = std::sqrt(std::pow(closest_x - TABLE_CENTER_X, 2) + 
-                                           std::pow(closest_y - TABLE_CENTER_Y, 2));
-                
+
+                double distance = std::sqrt(std::pow(closest_x - TABLE_CENTER_X, 2) +
+                                            std::pow(closest_y - TABLE_CENTER_Y, 2));
+
                 LineCandidate candidate;
                 candidate.m = m;
                 candidate.q = q;
                 candidate.distance_to_center = distance;
                 candidate.all_points_valid = true;
-                
+
                 valid_lines.push_back(candidate);
                 ROS_INFO("  - Distance to table center: %.4f", distance);
             }
-            
-            if (valid_lines.empty()) {
-                ROS_ERROR("No valid lines found after 15 iterations");
-                break;  // Skip this object
+
+            if (valid_lines.empty())
+            {
+                ROS_ERROR("No valid lines found after 40 iterations");
+                break; // Skip this object
             }
-            
+
             // Find the best line (closest to table center)
             auto best_line = std::min_element(valid_lines.begin(), valid_lines.end(),
-                [](const LineCandidate& a, const LineCandidate& b) {
-                    return a.distance_to_center < b.distance_to_center;
-                });
-            
+                                              [](const LineCandidate &a, const LineCandidate &b)
+                                              {
+                                                  return a.distance_to_center < b.distance_to_center;
+                                              });
+
             best_m = best_line->m;
             best_q = best_line->q;
-            
+
             ROS_INFO("===== BEST LINE SELECTED =====");
             ROS_INFO("Line: y = %.3fx + %.3f", best_m, best_q);
             ROS_INFO("Distance to table center: %.4f", best_line->distance_to_center);
             ROS_INFO("This line will be used for ALL placements");
             ROS_INFO("==============================");
-            
+
             // Initialize placement poses with the best line
-            if (!pose_manager.initializePoses(best_m, best_q, num_objects)) {
+            if (!pose_manager.initializePoses(best_m, best_q, num_objects))
+            {
                 ROS_ERROR("Node A: Failed to initialize placement poses");
-                break;  // Skip this object
+                break; // Skip this object
             }
-            
+
             best_line_found = true;
             ROS_INFO("Node A: Placement poses initialized for %d objects using best line", num_objects);
         }
-        else {
+        else
+        {
             ROS_INFO("Node A: Using previously found best line y = %.3fx + %.3f", best_m, best_q);
         }
 
         // STEP 5: Get placement pose and move to approach position using arm_torso
         ROS_INFO("Node A: Getting approach pose for object %d (0.3m above placement)...", objects_processed + 1);
-        
+
         // IMPORTANT: Update poses each time we return to the placing table
         // This ensures the transformation from tag_10 to base_footprint is current
         ROS_INFO("Node A: Updating placement pose transformation for current robot position...");
-        
+
         geometry_msgs::PoseStamped approach_pose_base;
-        
-        if (!pose_manager.getPlacementPose(objects_processed, approach_pose_base, tfBuffer, 0.3)) {
+
+        if (!pose_manager.getPlacementPose(objects_processed, approach_pose_base, tfBuffer, 0.3))
+        {
             ROS_ERROR("Node A: Failed to get approach pose for object %d. Skipping.", objects_processed + 1);
             continue; // Skip this object
         }
-        
+
         // The pose is now freshly transformed from tag_10 to base_footprint
         // using the current TF, so it will be at the correct position
         ROS_INFO("Node A: Placement pose updated with current transform");
-        
+
         // IMPORTANT: Use arm_torso for better reach to placement position
         ROS_INFO("Node A: Moving arm to approach pose above placement position using arm_torso...");
         arm_torso_move_group.setEndEffectorLink("gripper_grasping_frame"); // Match Node C
         arm_torso_move_group.setPoseTarget(approach_pose_base.pose, "gripper_grasping_frame");
-        
+
         moveit::planning_interface::MoveGroupInterface::Plan plan;
         bool success = (arm_torso_move_group.plan(plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
 
         if (!success)
         {
             ROS_ERROR("Node A: Failed to plan approach to placement position with arm_torso. Trying alternative approach...");
-            
+
             // Try with arm_tool_link as end effector
             arm_torso_move_group.setEndEffectorLink("arm_tool_link");
             arm_torso_move_group.setPoseTarget(approach_pose_base.pose, "arm_tool_link");
             success = (arm_torso_move_group.plan(plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-            
+
             if (!success)
             {
                 ROS_ERROR("Node A: Still failed to plan. Skipping object %d.", objects_processed + 1);
@@ -748,46 +763,21 @@ int main(int argc, char **argv)
             ROS_INFO("Node A: Object %d placed successfully!", objects_processed + 1);
         }
 
-        // STEP 6.5: Move back from placing table before arm adjustment
-        ROS_INFO("Node A: Moving back from placing table for safer arm movement...");
-        goal.target_pose.header.stamp = ros::Time::now();
-        goal.target_pose.pose.position.x = 9.2;  // Move back 20cm
-        goal.target_pose.pose.position.y = -1.92; // Same Y as placing table
-        goal.target_pose.pose.position.z = 0.0;
-        {
-            tf2::Quaternion q;
-            double yaw = M_PI; // Keep same orientation
-            q.setRPY(0.0, 0.0, yaw);
-            goal.target_pose.pose.orientation = tf2::toMsg(q);
-        }
-        
-        ac.sendGoal(goal);
-        ac.waitForResult();
-        if (ac.getState() != actionlib::SimpleClientGoalState::SUCCEEDED)
-        {
-            ROS_WARN("Failed to move back from placing table, continuing anyway...");
-        }
-        else
-        {
-            ROS_INFO("Successfully moved back from placing table.");
-        }
-        ros::Duration(1.0).sleep(); // Allow settling
-        
         // STEP 6.6: Move arm to safe position if not last object
-        if (objects_processed < num_objects - 1)  // Only if there are more objects to pick
+        if (objects_processed < num_objects - 1) // Only if there are more objects to pick
         {
             ROS_INFO("Node A: Moving arm to safe position before next pick cycle...");
             try
             {
                 std::map<std::string, double> safe_travel_joints;
                 safe_travel_joints["torso_lift_joint"] = 0.350;
-                safe_travel_joints["arm_1_joint"] = 0.2;
-                safe_travel_joints["arm_2_joint"] = -1.34;
-                safe_travel_joints["arm_3_joint"] = -0.2;
-                safe_travel_joints["arm_4_joint"] = 1.94;
-                safe_travel_joints["arm_5_joint"] = -1.57;
-                safe_travel_joints["arm_6_joint"] = 1.37;
-                safe_travel_joints["arm_7_joint"] = 0.0;
+                safe_travel_joints["arm_1_joint"] = 0.070; // Safe arm position
+                safe_travel_joints["arm_2_joint"] = -1.091;
+                safe_travel_joints["arm_3_joint"] = -0.238;
+                safe_travel_joints["arm_4_joint"] = 2.284;
+                safe_travel_joints["arm_5_joint"] = 1.492;
+                safe_travel_joints["arm_6_joint"] = -0.476;
+                safe_travel_joints["arm_7_joint"] = 1.145;
 
                 arm_torso_move_group.setJointValueTarget(safe_travel_joints);
                 if (arm_torso_move_group.move())
