@@ -508,9 +508,43 @@ int main(int argc, char **argv)
         }
         ROS_INFO("Node A: Object %d picked successfully!", objects_processed + 1);
 
-    
+        // NEW STEP 3.5: Clear table by lifting arm_1_joint before moving to safe position
+        ROS_INFO("Node A: Clearing table by lifting arm_1_joint...");
+        try
+        {
+            // Get current joint values as vector
+            std::vector<double> current_joint_values = arm_torso_move_group.getCurrentJointValues();
 
-        // STEP 3.6: Move arm to safe travel position after moving back
+            // Get joint names
+            const std::vector<std::string> &joint_names = arm_torso_move_group.getVariableNames();
+
+            // Create map from current values
+            std::map<std::string, double> table_clear_joints;
+            for (size_t i = 0; i < joint_names.size(); ++i)
+            {
+                table_clear_joints[joint_names[i]] = current_joint_values[i];
+            }
+
+            // Modify only arm_1_joint
+            table_clear_joints["arm_1_joint"] = 0.07; // Lift to clear table
+
+            arm_torso_move_group.setJointValueTarget(table_clear_joints);
+            if (arm_torso_move_group.move())
+            {
+                ROS_INFO("Node A: Arm lifted to clear picking table.");
+                ros::Duration(0.5).sleep(); // Short settling time
+            }
+            else
+            {
+                ROS_WARN("Node A: Failed to lift arm to clear table, continuing anyway.");
+            }
+        }
+        catch (...)
+        {
+            ROS_WARN("Node A: Exception lifting arm to clear table, continuing.");
+        }
+
+        // STEP 3.6: Move arm to safe travel position after clearing table
         ROS_INFO("Node A: Moving arm to safe travel position for navigation...");
         try
         {
@@ -538,6 +572,30 @@ int main(int argc, char **argv)
         catch (...)
         {
             ROS_WARN("Node A: Exception moving arm to safe travel position.");
+        }
+
+        // NEW STEP 3.7: Rotate to face positive Y direction to avoid arc navigation
+        ROS_INFO("Node A: Rotating to face positive Y direction for straight navigation...");
+        goal.target_pose.header.stamp = ros::Time::now();
+        goal.target_pose.pose.position.x = 9;     // Keep same position
+        goal.target_pose.pose.position.y = -3.02; // Keep same position
+        goal.target_pose.pose.position.z = 0.0;
+        {
+            tf2::Quaternion q;
+            double yaw = M_PI / 2; // Face positive Y direction
+            q.setRPY(0.0, 0.0, yaw);
+            goal.target_pose.pose.orientation = tf2::toMsg(q);
+        }
+
+        ac.sendGoal(goal);
+        ac.waitForResult();
+        if (ac.getState() != actionlib::SimpleClientGoalState::SUCCEEDED)
+        {
+            ROS_WARN("Failed to rotate to positive Y, continuing anyway.");
+        }
+        else
+        {
+            ROS_INFO("Successfully rotated to face positive Y direction.");
         }
 
         // STEP 4: Navigate to placing table
@@ -617,7 +675,7 @@ int main(int argc, char **argv)
             };
 
             std::vector<LineCandidate> valid_lines;
-            const double TABLE_CENTER_X = 0.36; // Matching test node
+            const double TABLE_CENTER_X = 0.36;  // Matching test node
             const double TABLE_CENTER_Y = 0.145; // Matching test node
 
             for (int iteration = 0; iteration < 40; ++iteration)
@@ -763,9 +821,45 @@ int main(int argc, char **argv)
             ROS_INFO("Node A: Object %d placed successfully!", objects_processed + 1);
         }
 
-        // STEP 6.6: Move arm to safe position if not last object
+        // NEW STEP 6.5: Clear table by lifting arm_1_joint before moving to safe position
         if (objects_processed < num_objects - 1) // Only if there are more objects to pick
         {
+            ROS_INFO("Node A: Clearing placing table by lifting arm_1_joint...");
+            try
+            {
+                // Get current joint values as vector
+                std::vector<double> current_joint_values = arm_torso_move_group.getCurrentJointValues();
+
+                // Get joint names
+                const std::vector<std::string> &joint_names = arm_torso_move_group.getVariableNames();
+
+                // Create map from current values
+                std::map<std::string, double> table_clear_joints;
+                for (size_t i = 0; i < joint_names.size(); ++i)
+                {
+                    table_clear_joints[joint_names[i]] = current_joint_values[i];
+                }
+
+                // Modify only arm_1_joint
+                table_clear_joints["arm_1_joint"] = 0.07; // Lift to clear table
+
+                arm_torso_move_group.setJointValueTarget(table_clear_joints);
+                if (arm_torso_move_group.move())
+                {
+                    ROS_INFO("Node A: Arm lifted to clear placing table.");
+                    ros::Duration(0.5).sleep(); // Short settling time
+                }
+                else
+                {
+                    ROS_WARN("Node A: Failed to lift arm to clear table, continuing anyway.");
+                }
+            }
+            catch (...)
+            {
+                ROS_WARN("Node A: Exception lifting arm to clear table, continuing.");
+            }
+
+            // STEP 6.6: Move arm to safe position
             ROS_INFO("Node A: Moving arm to safe position before next pick cycle...");
             try
             {
@@ -793,6 +887,30 @@ int main(int argc, char **argv)
             catch (...)
             {
                 ROS_WARN("Node A: Exception moving arm to safe position, continuing.");
+            }
+
+            // NEW STEP 6.7: Rotate to face negative Y direction to avoid arc navigation
+            ROS_INFO("Node A: Rotating to face negative Y direction for straight navigation...");
+            goal.target_pose.header.stamp = ros::Time::now();
+            goal.target_pose.pose.position.x = 9;     // Keep same position
+            goal.target_pose.pose.position.y = -1.92; // Keep same position
+            goal.target_pose.pose.position.z = 0.0;
+            {
+                tf2::Quaternion q;
+                double yaw = -M_PI / 2; // Face negative Y direction
+                q.setRPY(0.0, 0.0, yaw);
+                goal.target_pose.pose.orientation = tf2::toMsg(q);
+            }
+
+            ac.sendGoal(goal);
+            ac.waitForResult();
+            if (ac.getState() != actionlib::SimpleClientGoalState::SUCCEEDED)
+            {
+                ROS_WARN("Failed to rotate to negative Y, continuing anyway.");
+            }
+            else
+            {
+                ROS_INFO("Successfully rotated to face negative Y direction.");
             }
         }
 
