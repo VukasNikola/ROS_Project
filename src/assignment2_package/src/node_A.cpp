@@ -526,7 +526,8 @@ int main(int argc, char **argv)
             }
 
             // Modify only arm_1_joint
-            table_clear_joints["arm_1_joint"] = 0.07; // Lift to clear table
+            table_clear_joints["arm_1_joint"] = 2.22;  // Lift to clear table
+            table_clear_joints["arm_2_joint"] = -0.73; // Lift to clear table
 
             arm_torso_move_group.setJointValueTarget(table_clear_joints);
             if (arm_torso_move_group.move())
@@ -840,8 +841,8 @@ int main(int argc, char **argv)
                     table_clear_joints[joint_names[i]] = current_joint_values[i];
                 }
 
-                // Modify only arm_1_joint
-                table_clear_joints["arm_1_joint"] = 0.07; // Lift to clear table
+                table_clear_joints["arm_1_joint"] = 2.22;  // Lift to clear table
+                table_clear_joints["arm_2_joint"] = -0.73; // Lift to clear table
 
                 arm_torso_move_group.setJointValueTarget(table_clear_joints);
                 if (arm_torso_move_group.move())

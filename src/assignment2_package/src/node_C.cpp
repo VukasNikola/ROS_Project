@@ -370,7 +370,7 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     
     ROS_INFO("Cartesian path planned (%.2f%% achieved)", fraction * 100.0);
     
-    if (fraction < 0.85)  // If less than 85% of path achieved
+    if (fraction < 0.65)  // If less than 65 of path achieved
     {
       ROS_ERROR("Could not plan full Cartesian path down to object!");
       res.success = false;
@@ -511,7 +511,7 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     
     ROS_INFO("Lift Cartesian path planned (%.2f%% achieved)", lift_fraction * 100.0);
     
-    if (lift_fraction < 0.85)  // If less than 85% of path achieved
+    if (lift_fraction < 0.65)  // If less than 65% of path achieved
     {
       ROS_ERROR("Could not plan full Cartesian path for lifting!");
       res.success = false;
@@ -578,7 +578,7 @@ bool placeObjectCallback(assignment2_package::PickObject::Request &req,
     
     ROS_INFO("Place Cartesian path planned (%.2f%% achieved)", place_fraction * 100.0);
     
-    if (place_fraction < 0.80)  // If less than 80% of path achieved
+    if (place_fraction < 0.65)  // If less than 65% of path achieved
     {
       ROS_ERROR("Could not plan full Cartesian path for placing down!");
       res.success = false;
