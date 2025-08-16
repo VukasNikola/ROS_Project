@@ -199,30 +199,33 @@ public:
 
         try
         {
+            // Use SINGLE timestamp for consistency
+            ros::Time current_time = ros::Time::now();
+
             // Get the stored placement point in tag_10 frame
             double x = placement_points_tag_frame_[object_index].first;
             double y = placement_points_tag_frame_[object_index].second;
 
             geometry_msgs::PoseStamped pose_tag;
             pose_tag.header.frame_id = TAG_FRAME;
-            pose_tag.header.stamp = ros::Time::now();
+            pose_tag.header.stamp = current_time; // Use consistent time
             pose_tag.pose.position.x = x;
             pose_tag.pose.position.y = y;
-            pose_tag.pose.position.z = 0.0; // Table surface in tag frame
+            pose_tag.pose.position.z = 0.0;
 
             // End-effector pointing downward
             tf2::Quaternion q_down;
             q_down.setRPY(M_PI, 0, 0);
             pose_tag.pose.orientation = tf2::toMsg(q_down);
 
-            // Wait for transform to be available
-            if (!tfBuffer.canTransform(BASE_FRAME, TAG_FRAME, ros::Time::now(), ros::Duration(3.0)))
+            // Wait for transform to be available - use SAME timestamp
+            if (!tfBuffer.canTransform(BASE_FRAME, TAG_FRAME, current_time, ros::Duration(3.0)))
             {
                 ROS_ERROR("Cannot get transform from %s to %s", TAG_FRAME.c_str(), BASE_FRAME.c_str());
                 return false;
             }
 
-            // Transform to base_footprint
+            // Transform to base_footprint - use SAME timestamp
             tfBuffer.transform(pose_tag, pose_out, BASE_FRAME, ros::Duration(3.0));
 
             // Set approach height: table surface (0.77m) + z_offset
@@ -509,50 +512,16 @@ int main(int argc, char **argv)
         }
         ROS_INFO("Node A: Object %d picked successfully!", objects_processed + 1);
 
-        // NEW STEP 3.5: Clear table by lifting arm_1_joint before moving to safe position
-        ROS_INFO("Node A: Clearing table by lifting arm_1_joint...");
-        try
-        {
-            // Get current joint values as vector
-            std::vector<double> current_joint_values = arm_torso_move_group.getCurrentJointValues();
-
-            // Get joint names
-            const std::vector<std::string> &joint_names = arm_torso_move_group.getVariableNames();
-
-            // Create map from current values
-            std::map<std::string, double> table_clear_joints;
-            for (size_t i = 0; i < joint_names.size(); ++i)
-            {
-                table_clear_joints[joint_names[i]] = current_joint_values[i];
-            }
-
-            // Modify only arm_1_joint
-            table_clear_joints["arm_1_joint"] = 2.22;  // Lift to clear table
-            table_clear_joints["arm_2_joint"] = -0.73; // Lift to clear table
-
-            arm_torso_move_group.setJointValueTarget(table_clear_joints);
-            if (arm_torso_move_group.move())
-            {
-                ROS_INFO("Node A: Arm lifted to clear picking table.");
-                ros::Duration(0.5).sleep(); // Short settling time
-            }
-            else
-            {
-                ROS_WARN("Node A: Failed to lift arm to clear table, continuing anyway.");
-            }
-        }
-        catch (...)
-        {
-            ROS_WARN("Node A: Exception lifting arm to clear table, continuing.");
-        }
+        ROS_INFO("Node A: Waiting for planning scene to stabilize after pick...");
+        ros::Duration(2.0).sleep(); // 3 second delay to let Node C finish its updates
 
         // STEP 3.6: Move arm to safe travel position after clearing table
-        ROS_INFO("Node A: Moving arm to safe travel position for navigation...");
+        ROS_INFO("Node A: Moving arm to safe position before next pick cycle...");
         try
         {
             std::map<std::string, double> safe_travel_joints;
-            safe_travel_joints["torso_lift_joint"] = 0.350; // Keep torso raised for better clearance
-            safe_travel_joints["arm_1_joint"] = 0.070;      // Safe arm position
+            safe_travel_joints["torso_lift_joint"] = 0.350;
+            safe_travel_joints["arm_1_joint"] = 0.070;
             safe_travel_joints["arm_2_joint"] = -1.091;
             safe_travel_joints["arm_3_joint"] = -0.238;
             safe_travel_joints["arm_4_joint"] = 2.284;
@@ -561,19 +530,47 @@ int main(int argc, char **argv)
             safe_travel_joints["arm_7_joint"] = 1.145;
 
             arm_torso_move_group.setJointValueTarget(safe_travel_joints);
-            if (arm_torso_move_group.move())
+
+            // Increase planning time and attempts
+            arm_torso_move_group.setPlanningTime(10.0);
+            arm_torso_move_group.setNumPlanningAttempts(5);
+
+            // Plan first, then execute
+            moveit::planning_interface::MoveGroupInterface::Plan safe_plan;
+            bool plan_success = (arm_torso_move_group.plan(safe_plan) ==
+                                 moveit::planning_interface::MoveItErrorCode::SUCCESS);
+
+            if (plan_success)
             {
-                ROS_INFO("Node A: Arm moved to safe travel position after picking.");
-                ros::Duration(1.0).sleep(); // Allow settling
+                // Slow down for safe movement
+                arm_torso_move_group.setMaxVelocityScalingFactor(0.3);
+                arm_torso_move_group.setMaxAccelerationScalingFactor(0.3);
+
+                moveit::core::MoveItErrorCode exec_result = arm_torso_move_group.execute(safe_plan);
+
+                // Reset scaling
+                arm_torso_move_group.setMaxVelocityScalingFactor(0.5);
+                arm_torso_move_group.setMaxAccelerationScalingFactor(0.5);
+
+                if (exec_result == moveit::core::MoveItErrorCode::SUCCESS)
+                {
+                    ROS_INFO("Node A: Arm moved to safe position.");
+                    ros::Duration(1.0).sleep();
+                }
+                else
+                {
+                    ROS_WARN("Node A: Failed to execute safe position movement (error %d), continuing anyway.",
+                             exec_result.val);
+                }
             }
             else
             {
-                ROS_WARN("Node A: Failed to move arm to safe travel position.");
+                ROS_WARN("Node A: Failed to plan safe position movement, continuing anyway.");
             }
         }
-        catch (...)
+        catch (const std::exception &e)
         {
-            ROS_WARN("Node A: Exception moving arm to safe travel position.");
+            ROS_WARN("Node A: Exception moving arm to safe position: %s, continuing.", e.what());
         }
 
         // NEW STEP 3.7: Rotate to face positive Y direction to avoid arc navigation
@@ -603,7 +600,7 @@ int main(int argc, char **argv)
         // STEP 4: Navigate to placing table
         ROS_INFO("Node A: Navigating to placing table...");
         goal.target_pose.header.stamp = ros::Time::now();
-        goal.target_pose.pose.position.x = 9;     // Leave room for arm movement
+        goal.target_pose.pose.position.x = 8.97;
         goal.target_pose.pose.position.y = -1.92; // Correct Y for placing table
         goal.target_pose.pose.position.z = 0.0;
         {
@@ -664,7 +661,7 @@ int main(int argc, char **argv)
         // STEP 4.6: Find best line on FIRST visit to placing table
         if (!best_line_found)
         {
-            ROS_INFO("Node A: First time at placing table - finding best line from 40 iterations...");
+            ROS_INFO("Node A: First time at placing table - finding best line from 300 iterations...");
 
             // Wait a bit more to ensure tag_10 is being detected
             ros::Duration(2.0).sleep();
@@ -680,7 +677,7 @@ int main(int argc, char **argv)
             const double TABLE_CENTER_X = 0.36;  // Matching test node
             const double TABLE_CENTER_Y = 0.145; // Matching test node
 
-            for (int iteration = 0; iteration < 40; ++iteration)
+            for (int iteration = 0; iteration < 300; ++iteration)
             {
                 tiago_iaslab_simulation::Coeffs coeffs_srv;
                 coeffs_srv.request.ready = true;
@@ -726,7 +723,7 @@ int main(int argc, char **argv)
 
             if (valid_lines.empty())
             {
-                ROS_ERROR("No valid lines found after 40 iterations");
+                ROS_ERROR("No valid lines found after 300 iterations");
                 break; // Skip this object
             }
 
@@ -806,11 +803,11 @@ int main(int argc, char **argv)
 
         ROS_INFO("Node A: Executing approach to placement position...");
         arm_torso_move_group.execute(plan);
-        ros::Duration(1.0).sleep(); // Allow settling
+        ros::Duration(2.0).sleep(); // Allow settling
 
         // STEP 6: Call Node C to place the object (it will handle the final positioning)
         ROS_INFO("Node A: Calling Node C to place object from approach pose...");
-        assignment2_package::PlaceObject place_srv; 
+        assignment2_package::PlaceObject place_srv;
         place_srv.request.target_id = get_pose_srv.response.obj_id;
 
         if (!place_client.call(place_srv) || !place_srv.response.success)
@@ -823,51 +820,17 @@ int main(int argc, char **argv)
             ROS_INFO("Node A: Object %d placed successfully!", objects_processed + 1);
         }
 
-        // NEW STEP 6.5: Clear table by lifting arm_1_joint before moving to safe position
         if (objects_processed < num_objects - 1) // Only if there are more objects to pick
         {
-            ROS_INFO("Node A: Clearing placing table by lifting arm_1_joint...");
-            try
-            {
-                // Get current joint values as vector
-                std::vector<double> current_joint_values = arm_torso_move_group.getCurrentJointValues();
-
-                // Get joint names
-                const std::vector<std::string> &joint_names = arm_torso_move_group.getVariableNames();
-
-                // Create map from current values
-                std::map<std::string, double> table_clear_joints;
-                for (size_t i = 0; i < joint_names.size(); ++i)
-                {
-                    table_clear_joints[joint_names[i]] = current_joint_values[i];
-                }
-
-                table_clear_joints["arm_1_joint"] = 2.22;  // Lift to clear table
-                table_clear_joints["arm_2_joint"] = -0.73; // Lift to clear table
-
-                arm_torso_move_group.setJointValueTarget(table_clear_joints);
-                if (arm_torso_move_group.move())
-                {
-                    ROS_INFO("Node A: Arm lifted to clear placing table.");
-                    ros::Duration(0.5).sleep(); // Short settling time
-                }
-                else
-                {
-                    ROS_WARN("Node A: Failed to lift arm to clear table, continuing anyway.");
-                }
-            }
-            catch (...)
-            {
-                ROS_WARN("Node A: Exception lifting arm to clear table, continuing.");
-            }
-
+            ROS_INFO("Node A: Waiting for planning scene to stabilize after place...");
+            ros::Duration(2.0).sleep(); // 2 second delay
             // STEP 6.6: Move arm to safe position
             ROS_INFO("Node A: Moving arm to safe position before next pick cycle...");
             try
             {
                 std::map<std::string, double> safe_travel_joints;
                 safe_travel_joints["torso_lift_joint"] = 0.350;
-                safe_travel_joints["arm_1_joint"] = 0.070; // Safe arm position
+                safe_travel_joints["arm_1_joint"] = 0.070;
                 safe_travel_joints["arm_2_joint"] = -1.091;
                 safe_travel_joints["arm_3_joint"] = -0.238;
                 safe_travel_joints["arm_4_joint"] = 2.284;
@@ -876,19 +839,47 @@ int main(int argc, char **argv)
                 safe_travel_joints["arm_7_joint"] = 1.145;
 
                 arm_torso_move_group.setJointValueTarget(safe_travel_joints);
-                if (arm_torso_move_group.move())
+
+                // Increase planning time and attempts
+                arm_torso_move_group.setPlanningTime(10.0);
+                arm_torso_move_group.setNumPlanningAttempts(5);
+
+                // Plan first, then execute
+                moveit::planning_interface::MoveGroupInterface::Plan safe_plan;
+                bool plan_success = (arm_torso_move_group.plan(safe_plan) ==
+                                     moveit::planning_interface::MoveItErrorCode::SUCCESS);
+
+                if (plan_success)
                 {
-                    ROS_INFO("Node A: Arm moved to safe position.");
-                    ros::Duration(1.0).sleep();
+                    // Slow down for safe movement
+                    arm_torso_move_group.setMaxVelocityScalingFactor(0.3);
+                    arm_torso_move_group.setMaxAccelerationScalingFactor(0.3);
+
+                    moveit::core::MoveItErrorCode exec_result = arm_torso_move_group.execute(safe_plan);
+
+                    // Reset scaling
+                    arm_torso_move_group.setMaxVelocityScalingFactor(0.5);
+                    arm_torso_move_group.setMaxAccelerationScalingFactor(0.5);
+
+                    if (exec_result == moveit::core::MoveItErrorCode::SUCCESS)
+                    {
+                        ROS_INFO("Node A: Arm moved to safe position.");
+                        ros::Duration(1.0).sleep();
+                    }
+                    else
+                    {
+                        ROS_WARN("Node A: Failed to execute safe position movement (error %d), continuing anyway.",
+                                 exec_result.val);
+                    }
                 }
                 else
                 {
-                    ROS_WARN("Node A: Failed to move arm to safe position, continuing anyway.");
+                    ROS_WARN("Node A: Failed to plan safe position movement, continuing anyway.");
                 }
             }
-            catch (...)
+            catch (const std::exception &e)
             {
-                ROS_WARN("Node A: Exception moving arm to safe position, continuing.");
+                ROS_WARN("Node A: Exception moving arm to safe position: %s, continuing.", e.what());
             }
 
             // NEW STEP 6.7: Rotate to face negative Y direction to avoid arc navigation

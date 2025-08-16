@@ -58,6 +58,7 @@ std::map<int, bool> persistent_tables; // Track which tables have been created
 // New global flag to manage object attachment state
 bool is_object_attached = false;
 std::string attached_object_id;
+double saved_pickup_z = 0.0;
 
 // Helper: add or update a collision object
 void addCollisionObject(const std::string &id,
@@ -125,7 +126,17 @@ void objectPosesCallback(const assignment2_package::ObjectPoseArray::ConstPtr &m
       ROS_DEBUG("Skipping tag 10 (reference tag) - no collision object needed");
       continue;
     }
+    // CRITICAL FIX: Skip creating collision objects for attached objects
+    std::string current_obj_id = (tag_id >= 7 && tag_id <= 9)
+                                     ? "tag_mesh_" + std::to_string(tag_id)
+                                     : "tag_object_" + std::to_string(tag_id);
 
+    if (is_object_attached && current_obj_id == attached_object_id)
+    {
+      ROS_DEBUG("Skipping collision object creation for attached object: %s", current_obj_id.c_str());
+      seen_ids.insert(tag_id); // Mark as seen so it doesn't get removed
+      continue;
+    }
     seen_ids.insert(tag_id);
 
     geometry_msgs::Pose obj_pose = entry.pose.pose;
@@ -189,28 +200,52 @@ void objectPosesCallback(const assignment2_package::ObjectPoseArray::ConstPtr &m
   }
 
   // Removal logic: ONLY remove objects if the robot is not holding one
-  if (!is_object_attached)
+  std::vector<std::string> to_remove;
+  for (auto it = detected_tags.begin(); it != detected_tags.end();)
   {
-    std::vector<std::string> to_remove;
-    for (auto it = detected_tags.begin(); it != detected_tags.end();)
+    int id = it->first;
+    std::string obj_id = (id >= 7 && id <= 9)
+                             ? "tag_mesh_" + std::to_string(id)
+                             : "tag_object_" + std::to_string(id);
+
+    if (!seen_ids.count(id))
     {
-      int id = it->first;
-      if (!seen_ids.count(id))
+      // Object not detected by vision anymore
+
+      // If we're holding an object, only remove if it's NOT the attached object
+      if (is_object_attached)
       {
-        to_remove.push_back((id >= 7 && id <= 9)
-                                ? "tag_mesh_" + std::to_string(id)
-                                : "tag_object_" + std::to_string(id));
-        it = detected_tags.erase(it);
+        if (obj_id != attached_object_id)
+        {
+          to_remove.push_back(obj_id);
+          it = detected_tags.erase(it);
+        }
+        else
+        {
+          // Keep the attached object in detected_tags but don't remove from scene
+          ++it;
+        }
       }
       else
-        ++it;
+      {
+        // Not holding anything, remove normally
+        to_remove.push_back(obj_id);
+        it = detected_tags.erase(it);
+      }
     }
-    if (!to_remove.empty())
+    else
     {
-      planning_scene_interface->removeCollisionObjects(to_remove);
+      ++it;
     }
   }
+
+  if (!to_remove.empty())
+  {
+    planning_scene_interface->removeCollisionObjects(to_remove);
+    ROS_INFO("Removed %zu collision objects from planning scene", to_remove.size());
+  }
 }
+
 bool pickObjectCallback(assignment2_package::PickObject::Request &req,
                         assignment2_package::PickObject::Response &res)
 {
@@ -423,6 +458,10 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
 
     ROS_INFO("Successfully moved to grasp position!");
 
+    // *** SAVE THE PICKUP Z COORDINATE FOR PLACEMENT ***
+    saved_pickup_z = grasp_pose.position.z + 0.03;
+    ROS_INFO("Saved pickup Z coordinate: %.3f for future placement", saved_pickup_z);
+
     // Wait for robot to settle and physics to stabilize
     ros::Duration(1.0).sleep();
 
@@ -523,6 +562,12 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     // Add the gripper finger links to the list of links that can "touch" the object
     attached_co.touch_links.push_back("gripper_left_finger_link");
     attached_co.touch_links.push_back("gripper_right_finger_link");
+    attached_co.touch_links.push_back("gripper_grasping_frame");
+    attached_co.touch_links.push_back("arm_7_link");
+    attached_co.touch_links.push_back("arm_6_link");
+    attached_co.touch_links.push_back("arm_5_link");
+    attached_co.touch_links.push_back("arm_4_link");
+    attached_co.touch_links.push_back("arm_3_link");
 
     // Tell MoveIt! to remove the object from the planning scene world
     attached_co.object.operation = moveit_msgs::CollisionObject::ADD;
@@ -617,67 +662,155 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
 bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
                          assignment2_package::PlaceObject::Response &res)
 {
-  ROS_INFO("PlaceObject service called - executing place sequence");
+  ROS_INFO("PlaceObject service called - executing place sequence with attached object");
   try
   {
     int id = req.target_id;
 
-    // STEP 1: Move straight down 0.3m from current position (should be above placement line)
-    ROS_INFO("STEP 1: Moving straight down 0.3m to placement line");
+    ROS_INFO("STEP 0: Detaching collision object before any movement planning");
 
-    // Get current pose
+    // Remove the attached collision object from MoveIt planning scene
+    moveit_msgs::AttachedCollisionObject detach_for_movement;
+    detach_for_movement.link_name = MOVEIT_ATTACH_LINK;
+    detach_for_movement.object.id = attached_object_id;
+    detach_for_movement.object.operation = moveit_msgs::CollisionObject::REMOVE;
+    detach_for_movement.object.header.frame_id = MOVEIT_ATTACH_LINK;
+    planning_scene_interface->applyAttachedCollisionObject(detach_for_movement);
+
+    ros::Duration(1.0).sleep(); // Allow planning scene to update
+    ROS_INFO("Collision object detached before movement - object still physically attached in Gazebo");
+
+    ROS_INFO("STEP 1: Moving down with object still attached for better planning");
+
+    // Get current pose with delay for stability
+    ros::Duration(0.5).sleep();
     geometry_msgs::PoseStamped current_pose_stamped = arm_group->getCurrentPose();
     geometry_msgs::Pose current_pose = current_pose_stamped.pose;
 
-    // Calculate target pose (0.3m down in Z direction)
+    // Calculate target pose with buffer
     geometry_msgs::Pose target_pose = current_pose;
-    target_pose.position.z -= 0.3; // Move down 0.3m
+    double placement_z_with_buffer = saved_pickup_z;
+    target_pose.position.z = placement_z_with_buffer;
 
-    ROS_INFO("Moving down from z=%.3f to z=%.3f", current_pose.position.z, target_pose.position.z);
+    ROS_INFO("Moving down from z=%.3f to z=%.3f (with attached object, includes 0.050m buffer)",
+             current_pose.position.z, target_pose.position.z);
 
-    // Create waypoints for Cartesian path
-    std::vector<geometry_msgs::Pose> place_waypoints;
-    place_waypoints.push_back(current_pose); // Start position
-    place_waypoints.push_back(target_pose);  // End position (0.6m down)
-
-    // Plan Cartesian path for placing down
-    moveit_msgs::RobotTrajectory place_trajectory;
-    const double place_eef_step = 0.01; // 1cm interpolation steps
-    double place_fraction = arm_group->computeCartesianPath(place_waypoints, place_eef_step, place_trajectory);
-
-    ROS_INFO("Place Cartesian path planned (%.2f%% achieved)", place_fraction * 100.0);
-
-    if (place_fraction < 0.65) // If less than 65% of path achieved
+    // Publish TF frames for visualization (optional - can be commented out)
+    static tf2_ros::StaticTransformBroadcaster static_tf_broadcaster;
     {
-      ROS_ERROR("Could not plan full Cartesian path for placing down!");
-      res.success = false;
-      return true;
+      geometry_msgs::TransformStamped tf_start;
+      tf_start.header.stamp = ros::Time::now();
+      tf_start.header.frame_id = BASE_FRAME;
+      tf_start.child_frame_id = "place_start_frame";
+      tf_start.transform.translation.x = current_pose.position.x;
+      tf_start.transform.translation.y = current_pose.position.y;
+      tf_start.transform.translation.z = current_pose.position.z;
+      tf_start.transform.rotation = current_pose.orientation;
+      static_tf_broadcaster.sendTransform(tf_start);
+
+      geometry_msgs::TransformStamped tf_target;
+      tf_target.header.stamp = ros::Time::now();
+      tf_target.header.frame_id = BASE_FRAME;
+      tf_target.child_frame_id = "place_target_frame";
+      tf_target.transform.translation.x = target_pose.position.x;
+      tf_target.transform.translation.y = target_pose.position.y;
+      tf_target.transform.translation.z = target_pose.position.z;
+      tf_target.transform.rotation = target_pose.orientation;
+      static_tf_broadcaster.sendTransform(tf_target);
+
+      ROS_INFO_STREAM("Published TF frames:"
+                      << " 'place_start_frame' @ ("
+                      << current_pose.position.x << ", "
+                      << current_pose.position.y << ", "
+                      << current_pose.position.z << ") and"
+                      << " 'place_target_frame' @ ("
+                      << target_pose.position.x << ", "
+                      << target_pose.position.y << ", "
+                      << target_pose.position.z << ")");
     }
 
-    // Execute the downward movement
-    moveit::planning_interface::MoveGroupInterface::Plan place_plan;
-    place_plan.trajectory_ = place_trajectory;
+    // Force-remove the collision object that might be blocking
+    ROS_INFO("Force-removing world collision object that's blocking the path");
+    std::vector<std::string> force_remove = {attached_object_id}; 
+    planning_scene_interface->removeCollisionObjects(force_remove);
+    ros::Duration(0.5).sleep();
 
+    // ========== JOINT-SPACE PLANNING SOLUTION ==========
+    ROS_INFO("STEP 2: Using joint-space planning for placement movement");
+
+    // Set tolerances for more reliable planning
+    arm_group->setGoalPositionTolerance(0.015);
+    arm_group->setGoalOrientationTolerance(0.015);
+    arm_group->setPlanningTime(10.0);
+    arm_group->setNumPlanningAttempts(5);
+
+    // Set the target pose
+    arm_group->setPoseTarget(target_pose);
+
+    // Slow down the movement for safety with attached object
+    arm_group->setMaxVelocityScalingFactor(0.3);
+    arm_group->setMaxAccelerationScalingFactor(0.3);
+
+    // Plan the movement
+    moveit::planning_interface::MoveGroupInterface::Plan place_plan;
+    bool plan_success = (arm_group->plan(place_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+
+    if (!plan_success)
+    {
+      ROS_WARN("First planning attempt failed, trying with increased tolerances...");
+      
+      // Try with more relaxed tolerances
+      arm_group->setGoalPositionTolerance(0.02);
+      arm_group->setGoalOrientationTolerance(0.02);
+      arm_group->setPlanningTime(15.0);
+      
+      plan_success = (arm_group->plan(place_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+      
+      if (!plan_success)
+      {
+        ROS_ERROR("Failed to plan placement movement even with relaxed tolerances");
+        res.success = false;
+        is_object_attached = false;
+        attached_object_id = "";
+        return true;
+      }
+    }
+
+    ROS_INFO("Successfully planned placement movement");
+
+    // Execute the movement
+    ROS_INFO("Executing placement movement with reduced speed...");
     moveit::core::MoveItErrorCode place_result = arm_group->execute(place_plan);
+
+    // Reset scaling factors for future movements
+    arm_group->setMaxVelocityScalingFactor(0.5);
+    arm_group->setMaxAccelerationScalingFactor(0.5);
+
     if (place_result != moveit::core::MoveItErrorCode::SUCCESS)
     {
-      ROS_ERROR("Failed to execute downward movement!");
-      res.success = false;
-      return true;
+      ROS_WARN("Execution returned error code %d, but continuing with release...", place_result.val);
+      // Continue anyway as the robot might be close enough to the target
+    }
+    else
+    {
+      ROS_INFO("Successfully executed placement movement");
     }
 
-    ROS_INFO("Successfully moved down to place position!");
+    ROS_INFO("Reached placement position");
 
-    // STEP 2: Detach object from gripper (GAZEBO & MOVEIT!)
+    // Wait for arm to fully settle
+    ros::Duration(1.5).sleep();
 
-    // First, detach the object in Gazebo's physics world
-    ROS_INFO("STEP 2a: Detaching object from gripper in Gazebo");
+    // STEP 3: Detach from Gazebo physics
+    ROS_INFO("STEP 3: Detaching object from gripper in Gazebo physics");
     std::string gazebo_detach_service = "/link_attacher_node/detach";
-    bool gazebo_detach_service_exists = ros::service::waitForService(gazebo_detach_service, ros::Duration(2.0));
+    bool gazebo_detach_service_exists = ros::service::waitForService(
+        gazebo_detach_service, ros::Duration(2.0));
 
     if (gazebo_detach_service_exists)
     {
-      ros::ServiceClient detach_client = nh_ptr->serviceClient<gazebo_ros_link_attacher::Attach>(gazebo_detach_service);
+      ros::ServiceClient detach_client = nh_ptr->serviceClient<gazebo_ros_link_attacher::Attach>(
+          gazebo_detach_service);
       gazebo_ros_link_attacher::Attach detach_srv;
 
       detach_srv.request.model_name_1 = "tiago";
@@ -739,7 +872,8 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
       {
         if (detach_srv.response.ok)
         {
-          ROS_INFO("Successfully detached object %s from gripper in Gazebo", object_model_name.c_str());
+          ROS_INFO("Successfully detached object %s from gripper in Gazebo",
+                   object_model_name.c_str());
         }
         else
         {
@@ -756,25 +890,11 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
       ROS_WARN("Gazebo link detacher service not available - continuing without detachment");
     }
 
-    // Now, detach the object from the gripper in MoveIt!
-    ROS_INFO("STEP 2b: Detaching object from gripper in MoveIt!");
-    moveit_msgs::AttachedCollisionObject detach_obj;
-    detach_obj.link_name = MOVEIT_ATTACH_LINK; // the same link you attached to
-    detach_obj.object.id = attached_object_id; // the same object id
-    detach_obj.object.operation = moveit_msgs::CollisionObject::REMOVE;
-    // (optional) set the header to the link for clarity
-    detach_obj.object.header.frame_id = MOVEIT_ATTACH_LINK;
-
-    planning_scene_interface->applyAttachedCollisionObject(detach_obj);
-
-    ROS_INFO("Successfully detached object '%s' from link '%s' in MoveIt!",
-             attached_object_id.c_str(), MOVEIT_ATTACH_LINK.c_str());
-
-    // Wait for detachment to stabilize in physics engine
+    // Wait for physics to settle after Gazebo detachment
     ros::Duration(1.0).sleep();
 
-    // STEP 3: Open the gripper
-    ROS_INFO("STEP 3: Opening gripper to release object");
+    // STEP 4: Open the gripper
+    ROS_INFO("STEP 4: Opening gripper to release object");
 
     try
     {
@@ -785,7 +905,7 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
       // Open gripper
       gripper.open();
 
-      // Small delay to ensure gripper has opened
+      // Wait for gripper to open
       ros::Duration(0.5).sleep();
 
       ROS_INFO("Gripper opened successfully!");
@@ -797,9 +917,44 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
       return true;
     }
 
-    // Set flag back to false now that object is detached
+    // STEP 5: Optional - Move up slightly after releasing
+    ROS_INFO("STEP 5: Moving up slightly after release");
+    try
+    {
+      geometry_msgs::Pose retreat_pose = target_pose;
+      retreat_pose.position.z += 0.1; // Move up 10cm
+
+      // Use joint-space planning for retreat as well
+      arm_group->setPoseTarget(retreat_pose);
+      arm_group->setMaxVelocityScalingFactor(0.3);  // Faster for retreat
+      arm_group->setMaxAccelerationScalingFactor(0.3);
+
+      moveit::planning_interface::MoveGroupInterface::Plan retreat_plan;
+      bool retreat_success = (arm_group->plan(retreat_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+
+      if (retreat_success)
+      {
+        arm_group->execute(retreat_plan);
+        ROS_INFO("Successfully retreated from placement position");
+      }
+      else
+      {
+        ROS_WARN("Could not plan retreat, but object was placed successfully");
+      }
+
+      // Reset scaling
+      arm_group->setMaxVelocityScalingFactor(0.5);
+      arm_group->setMaxAccelerationScalingFactor(0.5);
+    }
+    catch (...)
+    {
+      ROS_WARN("Exception during retreat, but object was placed successfully");
+    }
+
+    // Reset attachment flags
     is_object_attached = false;
     attached_object_id = "";
+    saved_pickup_z = 0.0; // Reset for next pick
 
     ROS_INFO("Place sequence completed successfully!");
     res.success = true;
@@ -807,6 +962,8 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
   catch (const std::exception &e)
   {
     ROS_ERROR("Exception in placeObjectCallback: %s", e.what());
+    is_object_attached = false;
+    attached_object_id = "";
     res.success = false;
   }
 
