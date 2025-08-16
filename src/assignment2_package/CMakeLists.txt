@@ -44,7 +44,6 @@ generate_messages(
 
 ## Catkin exports
 catkin_package(
-  INCLUDE_DIRS include
   LIBRARIES ${PROJECT_NAME}
   CATKIN_DEPENDS
     roscpp
@@ -63,7 +62,6 @@ catkin_package(
 )
 
 include_directories(
-  include
   ${catkin_INCLUDE_DIRS}
   ${geometric_shapes_INCLUDE_DIRS}
 )

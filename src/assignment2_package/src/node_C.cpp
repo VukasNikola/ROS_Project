@@ -3,6 +3,7 @@
 #include <moveit/move_group_interface/move_group_interface.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 #include <moveit_msgs/CollisionObject.h>
+#include <moveit_msgs/AttachedCollisionObject.h>
 #include <shape_msgs/SolidPrimitive.h>
 #include <shape_msgs/Mesh.h>
 #include <geometry_msgs/Pose.h>
@@ -20,11 +21,11 @@
 #include <Eigen/Geometry>
 #include <boost/variant.hpp>
 #include <map>
+#include <cmath>
 #include <set>
 #include <cstdint>
 #include <moveit/robot_model_loader/robot_model_loader.h>
 #include <tf2_ros/static_transform_broadcaster.h>
-#include <tf2/LinearMath/Quaternion.h>
 #include <tf2/LinearMath/Matrix3x3.h>
 #include <tf2/LinearMath/Vector3.h>
 #include <moveit/robot_trajectory/robot_trajectory.h>
@@ -33,11 +34,13 @@
 #include <gazebo_ros_link_attacher/AttachRequest.h>
 #include <gazebo_ros_link_attacher/AttachResponse.h>
 
-
 // Node C: MoveIt manipulation and collision object management
 static const std::string PLANNING_GROUP_ARM = "arm_torso";
 static const std::string PLANNING_GROUP_GRIPPER = "gripper";
 static const std::string BASE_FRAME = "base_footprint";
+static const std::string GRIPPER_LINK_NAME = "arm_7_link";
+// MoveIt will attach/detach using this link (keep Gazebo on GRIPPER_LINK_NAME)
+static const std::string MOVEIT_ATTACH_LINK = "gripper_grasping_frame";
 
 // Globals
 moveit::planning_interface::MoveGroupInterface *arm_group;
@@ -46,11 +49,15 @@ moveit::planning_interface::PlanningSceneInterface *planning_scene_interface;
 tf2_ros::Buffer *tfBuffer;
 tf2_ros::TransformListener *tfListener;
 ros::ServiceClient get_obj_pose_client;
-ros::NodeHandle* nh_ptr;
+ros::NodeHandle *nh_ptr;
 
 // Keep track of which collision objects are currently in the scene
 std::map<int, geometry_msgs::PoseStamped> detected_tags;
 std::map<int, bool> persistent_tables; // Track which tables have been created
+
+// New global flag to manage object attachment state
+bool is_object_attached = false;
+std::string attached_object_id;
 
 // Helper: add or update a collision object
 void addCollisionObject(const std::string &id,
@@ -98,7 +105,6 @@ void addMeshCollisionObject(const std::string &id,
 void objectPosesCallback(const assignment2_package::ObjectPoseArray::ConstPtr &msg)
 {
   std::set<int> seen_ids;
-  
 
   // Precompute mesh URI and scale vector
   std::string pkg_path = ros::package::getPath("tiago_iaslab_simulation");
@@ -112,14 +118,14 @@ void objectPosesCallback(const assignment2_package::ObjectPoseArray::ConstPtr &m
   for (const auto &entry : msg->objects)
   {
     int tag_id = entry.id;
-    
+
     // Skip tag 10 - it's the reference tag on the placing table
     if (tag_id == 10)
     {
       ROS_DEBUG("Skipping tag 10 (reference tag) - no collision object needed");
       continue;
     }
-    
+
     seen_ids.insert(tag_id);
 
     geometry_msgs::Pose obj_pose = entry.pose.pose;
@@ -182,43 +188,53 @@ void objectPosesCallback(const assignment2_package::ObjectPoseArray::ConstPtr &m
     detected_tags[tag_id] = entry.pose;
   }
 
-  // Removal logic
-  std::vector<std::string> to_remove;
-  for (auto it = detected_tags.begin(); it != detected_tags.end();)
+  // Removal logic: ONLY remove objects if the robot is not holding one
+  if (!is_object_attached)
   {
-    int id = it->first;
-    if (!seen_ids.count(id))
+    std::vector<std::string> to_remove;
+    for (auto it = detected_tags.begin(); it != detected_tags.end();)
     {
-      to_remove.push_back((id >= 7 && id <= 9)
-                              ? "tag_mesh_" + std::to_string(id)
-                              : "tag_object_" + std::to_string(id));
-      it = detected_tags.erase(it);
+      int id = it->first;
+      if (!seen_ids.count(id))
+      {
+        to_remove.push_back((id >= 7 && id <= 9)
+                                ? "tag_mesh_" + std::to_string(id)
+                                : "tag_object_" + std::to_string(id));
+        it = detected_tags.erase(it);
+      }
+      else
+        ++it;
     }
-    else
-      ++it;
-  }
-  if (!to_remove.empty())
-  {
-    planning_scene_interface->removeCollisionObjects(to_remove);
+    if (!to_remove.empty())
+    {
+      planning_scene_interface->removeCollisionObjects(to_remove);
+    }
   }
 }
 bool pickObjectCallback(assignment2_package::PickObject::Request &req,
                         assignment2_package::PickObject::Response &res)
 {
+  // Set flag to true to prevent object removal from planning scene
+  is_object_attached = true;
+  auto reset_flag = [&]()
+  {
+    is_object_attached = false;
+    attached_object_id.clear();
+  };
   ROS_INFO("PickObject service called - executing pick sequence");
   try
   {
     // Initialize gripper controller (assuming "gripper" is the planning group name)
     gripper_control::GripperController gripper("gripper");
-    
+
     // Register named targets for gripper
-    gripper.registerNamedTarget("open", 0.044);    // Max opening
-    gripper.registerNamedTarget("closed", 0.0);    // Fully closed
-    
+    gripper.registerNamedTarget("open", 0.044); // Max opening
+    gripper.registerNamedTarget("closed", 0.0); // Fully closed
+
     // Open gripper before approaching
     ROS_INFO("Opening gripper before approach");
     gripper.open();
-    
+
     // Set the end effector link
     arm_group->setEndEffectorLink("gripper_grasping_frame");
 
@@ -230,6 +246,16 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     tf2::Quaternion final_orientation_q;
     double object_height;
     int id = req.target_id;
+
+    // Set the collision object ID to use for attachment
+    if (id >= 7 && id <= 9)
+    {
+      attached_object_id = "tag_mesh_" + std::to_string(id);
+    }
+    else
+    {
+      attached_object_id = "tag_object_" + std::to_string(id);
+    }
 
     if (id >= 1 && id <= 3)
     {
@@ -248,6 +274,7 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
       {
         ROS_ERROR("Could not get transform: %s", ex.what());
         res.success = false;
+        reset_flag();
         return true;
       }
 
@@ -308,6 +335,7 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     {
       ROS_ERROR("Invalid object ID: %d", id);
       res.success = false;
+      reset_flag();
       return true;
     }
 
@@ -333,6 +361,7 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     {
       ROS_ERROR("Failed to plan movement above object with adjusted orientation!");
       res.success = false;
+      reset_flag();
       return true;
     }
 
@@ -341,6 +370,7 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     {
       ROS_ERROR("Failed to move above object!");
       res.success = false;
+      reset_flag();
       return true;
     }
 
@@ -348,188 +378,227 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
 
     // STEP 2: Cartesian move down
     ROS_INFO("STEP 2: Moving down to grasp position with Cartesian path");
-    
+
     // Calculate the grasp position
-    geometry_msgs::Pose grasp_pose = above_pose;  // Start with above pose (keeps orientation)
-    
+    geometry_msgs::Pose grasp_pose = above_pose; // Start with above pose (keeps orientation)
+
     // Move down to target Z position minus half object height, plus 0.05 for finger clearance
     grasp_pose.position.z = target_pose.position.z - (object_height / 2.0) + 0.05;
-    
+
     ROS_INFO("Moving to grasp position at z=%.3f (target_z=%.3f, object_height=%.3f)",
              grasp_pose.position.z, target_pose.position.z, object_height);
-    
+
     // Create waypoints for Cartesian path
     std::vector<geometry_msgs::Pose> waypoints;
-    waypoints.push_back(above_pose);   // Start position
-    waypoints.push_back(grasp_pose);   // End position
-    
+    waypoints.push_back(above_pose); // Start position
+    waypoints.push_back(grasp_pose); // End position
+
     // Plan Cartesian path
     moveit_msgs::RobotTrajectory trajectory;
-    const double eef_step = 0.01;       // 1cm interpolation steps
+    const double eef_step = 0.01; // 1cm interpolation steps
     double fraction = arm_group->computeCartesianPath(waypoints, eef_step, trajectory);
-    
+
     ROS_INFO("Cartesian path planned (%.2f%% achieved)", fraction * 100.0);
-    
-    if (fraction < 0.65)  // If less than 65 of path achieved
+
+    if (fraction < 0.65) // If less than 65 of path achieved
     {
       ROS_ERROR("Could not plan full Cartesian path down to object!");
       res.success = false;
+      reset_flag();
       return true;
     }
-    
+
     // Execute the Cartesian path
     moveit::planning_interface::MoveGroupInterface::Plan plan2;
     plan2.trajectory_ = trajectory;
-    
+
     moveit::core::MoveItErrorCode execute_result2 = arm_group->execute(plan2);
     if (execute_result2 != moveit::core::MoveItErrorCode::SUCCESS)
     {
       ROS_ERROR("Failed to execute Cartesian move down!");
       res.success = false;
+      reset_flag();
       return true;
     }
-    
+
     ROS_INFO("Successfully moved to grasp position!");
-    
+
     // Wait for robot to settle and physics to stabilize
     ros::Duration(1.0).sleep();
 
-    // STEP 3: Attach object to gripper (BEFORE closing)
-    ROS_INFO("STEP 3: Attaching object to gripper");
-    
-    // Wait for service to be available
-    std::string attach_service = "/link_attacher_node/attach";
-    bool service_exists = ros::service::waitForService(attach_service, ros::Duration(2.0));
-    
-    if (service_exists) {
-      // Create service client for link attacher
-      ros::ServiceClient attach_client = nh_ptr->serviceClient<gazebo_ros_link_attacher::Attach>(attach_service);
+    // STEP 3: Attach object to gripper (GAZEBO & MOVEIT!)
+
+    // First, do the Gazebo link attachment
+    ROS_INFO("STEP 3a: Attaching object to gripper in Gazebo");
+    std::string gazebo_attach_service = "/link_attacher_node/attach";
+    bool gazebo_service_exists = ros::service::waitForService(gazebo_attach_service, ros::Duration(2.0));
+
+    if (gazebo_service_exists)
+    {
+      ros::ServiceClient attach_client = nh_ptr->serviceClient<gazebo_ros_link_attacher::Attach>(gazebo_attach_service);
       gazebo_ros_link_attacher::Attach attach_srv;
-      
-      // Set up attachment request
       attach_srv.request.model_name_1 = "tiago";
-      attach_srv.request.link_name_1 = "arm_7_link";  
-      
-      // Determine object model name and link name based on ID
+      attach_srv.request.link_name_1 = GRIPPER_LINK_NAME;
+
       std::string object_model_name;
       std::string object_link_name;
-      
-      if (id == 1) {
+
+      if (id == 1)
+      {
         object_model_name = "Hexagon";
-        object_link_name = "Hexagon_link";  // Use pattern: ModelName_link
-      } else if (id == 2) {
+        object_link_name = "Hexagon_link";
+      }
+      else if (id == 2)
+      {
         object_model_name = "Hexagon_2";
         object_link_name = "Hexagon_2_link";
-      } else if (id == 3) {
+      }
+      else if (id == 3)
+      {
         object_model_name = "Hexagon_3";
         object_link_name = "Hexagon_3_link";
-      } else if (id == 4) {
+      }
+      else if (id == 4)
+      {
         object_model_name = "cube";
         object_link_name = "cube_link";
-      } else if (id == 5) {
+      }
+      else if (id == 5)
+      {
         object_model_name = "cube_5";
-        object_link_name = "cube_5_link"; 
-      } else if (id == 6) {
+        object_link_name = "cube_5_link";
+      }
+      else if (id == 6)
+      {
         object_model_name = "cube_6";
         object_link_name = "cube_6_link";
-      } else if (id == 7) {
+      }
+      else if (id == 7)
+      {
         object_model_name = "Triangle";
         object_link_name = "Triangle_link";
-      } else if (id == 8) {
+      }
+      else if (id == 8)
+      {
         object_model_name = "Triangle_8";
         object_link_name = "Triangle_8_link";
-      } else if (id == 9) {
+      }
+      else if (id == 9)
+      {
         object_model_name = "Triangle_9";
         object_link_name = "Triangle_9_link";
       }
-      
+
       attach_srv.request.model_name_2 = object_model_name;
-      attach_srv.request.link_name_2 = object_link_name;  // Use correct link name
-      
-      ROS_INFO("Attempting to attach: %s:%s to %s:%s", 
-               attach_srv.request.model_name_1.c_str(),
-               attach_srv.request.link_name_1.c_str(),
-               attach_srv.request.model_name_2.c_str(),
-               attach_srv.request.link_name_2.c_str());
-      
-      // Call the attach service
-      if (attach_client.call(attach_srv)) {
-        if (attach_srv.response.ok) {
-          ROS_INFO("Successfully attached object %s to gripper", object_model_name.c_str());
-        } else {
-          ROS_WARN("Failed to attach object");
+      attach_srv.request.link_name_2 = object_link_name;
+
+      if (attach_client.call(attach_srv))
+      {
+        if (attach_srv.response.ok)
+        {
+          ROS_INFO("Successfully attached object %s to gripper in Gazebo", object_model_name.c_str());
         }
-      } else {
-        ROS_WARN("Failed to call attach service - continuing without attachment");
+        else
+        {
+          ROS_WARN("Failed to attach object in Gazebo");
+        }
       }
-    } else {
-      ROS_WARN("Link attacher service not available - continuing without attachment");
-      ROS_WARN("Make sure to run: rosrun gazebo_ros_link_attacher attach.py");
+      else
+      {
+        ROS_WARN("Failed to call Gazebo attach service - continuing without attachment");
+      }
     }
-    
-    // IMPORTANT: Wait for attachment to stabilize in physics engine
+    else
+    {
+      ROS_WARN("Gazebo link attacher service not available - continuing without attachment");
+    }
+
+    // Now, attach the object in MoveIt!'s planning scene
+    ROS_INFO("STEP 3b: Attaching object to gripper in MoveIt!");
+    moveit_msgs::AttachedCollisionObject attached_co;
+    attached_co.link_name = MOVEIT_ATTACH_LINK;
+    attached_co.object.header.frame_id = MOVEIT_ATTACH_LINK;
+    attached_co.object.id = attached_object_id;
+
+    // Add the gripper finger links to the list of links that can "touch" the object
+    attached_co.touch_links.push_back("gripper_left_finger_link");
+    attached_co.touch_links.push_back("gripper_right_finger_link");
+
+    // Tell MoveIt! to remove the object from the planning scene world
+    attached_co.object.operation = moveit_msgs::CollisionObject::ADD;
+
+    planning_scene_interface->applyAttachedCollisionObject(attached_co);
+    ROS_INFO("Successfully attached object '%s' to gripper link '%s' in MoveIt!",
+             attached_object_id.c_str(), attached_co.link_name.c_str());
+
+    // Wait for attachment to stabilize in physics engine and planning scene
     ros::Duration(1.0).sleep();
 
     // STEP 4: Close the gripper
     ROS_INFO("STEP 4: Closing gripper for object ID %d", id);
-    
-    try {
+
+    try
+    {
       // Close gripper with appropriate width for the object
       gripper.close(id);
-      
+
       // Small delay to ensure gripper has closed
       ros::Duration(0.5).sleep();
-      
+
       ROS_INFO("Gripper closed successfully!");
     }
-    catch (const std::exception& e) {
+    catch (const std::exception &e)
+    {
       ROS_ERROR("Failed to close gripper: %s", e.what());
+      reset_flag();
       res.success = false;
       return true;
     }
 
     // STEP 5: Lift object straight up
     ROS_INFO("STEP 5: Lifting object up by 0.3m");
-    
+
     // Get current pose (should be at grasp position)
     geometry_msgs::Pose lift_pose = grasp_pose;
-    
-    // Move up 0.6m in Z direction
+
+    // Move up 0.3m in Z direction
     lift_pose.position.z += 0.3;
-    
+
     ROS_INFO("Lifting to position at z=%.3f", lift_pose.position.z);
-    
+
     // Create waypoints for Cartesian lift
     std::vector<geometry_msgs::Pose> lift_waypoints;
-    lift_waypoints.push_back(grasp_pose);  // Start position
-    lift_waypoints.push_back(lift_pose);   // End position (0.6m up)
-    
+    lift_waypoints.push_back(grasp_pose); // Start position
+    lift_waypoints.push_back(lift_pose);  // End position (0.3m up)
+
     // Plan Cartesian path for lifting
     moveit_msgs::RobotTrajectory lift_trajectory;
-    const double lift_eef_step = 0.01;       // 1cm interpolation steps
+    const double lift_eef_step = 0.01; // 1cm interpolation steps
     double lift_fraction = arm_group->computeCartesianPath(lift_waypoints, lift_eef_step, lift_trajectory);
-    
+
     ROS_INFO("Lift Cartesian path planned (%.2f%% achieved)", lift_fraction * 100.0);
-    
-    if (lift_fraction < 0.65)  // If less than 65% of path achieved
+
+    if (lift_fraction < 0.65) // If less than 65% of path achieved
     {
       ROS_ERROR("Could not plan full Cartesian path for lifting!");
       res.success = false;
+      reset_flag();
       return true;
     }
-    
+
     // Execute the lift
     moveit::planning_interface::MoveGroupInterface::Plan lift_plan;
     lift_plan.trajectory_ = lift_trajectory;
-    
+
     moveit::core::MoveItErrorCode lift_result = arm_group->execute(lift_plan);
     if (lift_result != moveit::core::MoveItErrorCode::SUCCESS)
     {
       ROS_ERROR("Failed to execute lift!");
       res.success = false;
+      reset_flag();
       return true;
     }
-    
+
     ROS_INFO("Successfully lifted object!");
 
     ROS_INFO("Pick sequence completed successfully!");
@@ -538,57 +607,57 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
   catch (const std::exception &e)
   {
     ROS_ERROR("Exception in pickObjectCallback: %s", e.what());
+    reset_flag();
     res.success = false;
   }
 
   return true;
 }
 
-bool placeObjectCallback(assignment2_package::PickObject::Request &req,
-                        assignment2_package::PickObject::Response &res)
+bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
+                         assignment2_package::PlaceObject::Response &res)
 {
   ROS_INFO("PlaceObject service called - executing place sequence");
   try
   {
     int id = req.target_id;
 
-    
-    // STEP 1: Move straight down 0.6m from current position (should be above placement line)
-    ROS_INFO("STEP 1: Moving straight down 0.6m to placement line");
-    
+    // STEP 1: Move straight down 0.3m from current position (should be above placement line)
+    ROS_INFO("STEP 1: Moving straight down 0.3m to placement line");
+
     // Get current pose
     geometry_msgs::PoseStamped current_pose_stamped = arm_group->getCurrentPose();
     geometry_msgs::Pose current_pose = current_pose_stamped.pose;
-    
+
     // Calculate target pose (0.3m down in Z direction)
     geometry_msgs::Pose target_pose = current_pose;
-    target_pose.position.z -= 0.3;  // Move down 0.3m
-    
+    target_pose.position.z -= 0.3; // Move down 0.3m
+
     ROS_INFO("Moving down from z=%.3f to z=%.3f", current_pose.position.z, target_pose.position.z);
-    
+
     // Create waypoints for Cartesian path
     std::vector<geometry_msgs::Pose> place_waypoints;
-    place_waypoints.push_back(current_pose);   // Start position
-    place_waypoints.push_back(target_pose);    // End position (0.6m down)
-    
+    place_waypoints.push_back(current_pose); // Start position
+    place_waypoints.push_back(target_pose);  // End position (0.6m down)
+
     // Plan Cartesian path for placing down
     moveit_msgs::RobotTrajectory place_trajectory;
-    const double place_eef_step = 0.01;       // 1cm interpolation steps
+    const double place_eef_step = 0.01; // 1cm interpolation steps
     double place_fraction = arm_group->computeCartesianPath(place_waypoints, place_eef_step, place_trajectory);
-    
+
     ROS_INFO("Place Cartesian path planned (%.2f%% achieved)", place_fraction * 100.0);
-    
-    if (place_fraction < 0.65)  // If less than 65% of path achieved
+
+    if (place_fraction < 0.65) // If less than 65% of path achieved
     {
       ROS_ERROR("Could not plan full Cartesian path for placing down!");
       res.success = false;
       return true;
     }
-    
+
     // Execute the downward movement
     moveit::planning_interface::MoveGroupInterface::Plan place_plan;
     place_plan.trajectory_ = place_trajectory;
-    
+
     moveit::core::MoveItErrorCode place_result = arm_group->execute(place_plan);
     if (place_result != moveit::core::MoveItErrorCode::SUCCESS)
     {
@@ -596,105 +665,141 @@ bool placeObjectCallback(assignment2_package::PickObject::Request &req,
       res.success = false;
       return true;
     }
-    
+
     ROS_INFO("Successfully moved down to place position!");
 
-    // STEP 2: Detach object from gripper (WHILE object is supported by table)
-    ROS_INFO("STEP 2: Detaching object from gripper");
-    
-    // Wait for service to be available
-    std::string detach_service = "/link_attacher_node/detach";
-    bool service_exists = ros::service::waitForService(detach_service, ros::Duration(2.0));
-    
-    if (service_exists) {
-      // Create service client for link detacher
-      ros::ServiceClient detach_client = nh_ptr->serviceClient<gazebo_ros_link_attacher::Attach>(detach_service);
+    // STEP 2: Detach object from gripper (GAZEBO & MOVEIT!)
+
+    // First, detach the object in Gazebo's physics world
+    ROS_INFO("STEP 2a: Detaching object from gripper in Gazebo");
+    std::string gazebo_detach_service = "/link_attacher_node/detach";
+    bool gazebo_detach_service_exists = ros::service::waitForService(gazebo_detach_service, ros::Duration(2.0));
+
+    if (gazebo_detach_service_exists)
+    {
+      ros::ServiceClient detach_client = nh_ptr->serviceClient<gazebo_ros_link_attacher::Attach>(gazebo_detach_service);
       gazebo_ros_link_attacher::Attach detach_srv;
-      
-      // Set up detachment request (same as attachment but different service)
+
       detach_srv.request.model_name_1 = "tiago";
-      detach_srv.request.link_name_1 = "arm_7_link";  // Same as used in pickup
-      
-      // Determine object model name and link name based on ID (same logic as pickup)
+      detach_srv.request.link_name_1 = GRIPPER_LINK_NAME;
+
       std::string object_model_name;
       std::string object_link_name;
-      
-      if (id == 1) {
+
+      if (id == 1)
+      {
         object_model_name = "Hexagon";
         object_link_name = "Hexagon_link";
-      } else if (id == 2) {
+      }
+      else if (id == 2)
+      {
         object_model_name = "Hexagon_2";
         object_link_name = "Hexagon_2_link";
-      } else if (id == 3) {
+      }
+      else if (id == 3)
+      {
         object_model_name = "Hexagon_3";
         object_link_name = "Hexagon_3_link";
-      } else if (id == 4) {
+      }
+      else if (id == 4)
+      {
         object_model_name = "cube";
         object_link_name = "cube_link";
-      } else if (id == 5) {
+      }
+      else if (id == 5)
+      {
         object_model_name = "cube_5";
         object_link_name = "cube_5_link";
-      } else if (id == 6) {
+      }
+      else if (id == 6)
+      {
         object_model_name = "cube_6";
         object_link_name = "cube_6_link";
-      } else if (id == 7) {
+      }
+      else if (id == 7)
+      {
         object_model_name = "Triangle";
         object_link_name = "Triangle_link";
-      } else if (id == 8) {
+      }
+      else if (id == 8)
+      {
         object_model_name = "Triangle_8";
         object_link_name = "Triangle_8_link";
-      } else if (id == 9) {
+      }
+      else if (id == 9)
+      {
         object_model_name = "Triangle_9";
         object_link_name = "Triangle_9_link";
       }
-      
+
       detach_srv.request.model_name_2 = object_model_name;
       detach_srv.request.link_name_2 = object_link_name;
-      
-      ROS_INFO("Attempting to detach: %s:%s from %s:%s", 
-               detach_srv.request.model_name_1.c_str(),
-               detach_srv.request.link_name_1.c_str(),
-               detach_srv.request.model_name_2.c_str(),
-               detach_srv.request.link_name_2.c_str());
-      
-      // Call the detach service
-      if (detach_client.call(detach_srv)) {
-        if (detach_srv.response.ok) {
-          ROS_INFO("Successfully detached object %s from gripper", object_model_name.c_str());
-        } else {
-          ROS_WARN("Failed to detach object");
+
+      if (detach_client.call(detach_srv))
+      {
+        if (detach_srv.response.ok)
+        {
+          ROS_INFO("Successfully detached object %s from gripper in Gazebo", object_model_name.c_str());
         }
-      } else {
-        ROS_WARN("Failed to call detach service - continuing without detachment");
+        else
+        {
+          ROS_WARN("Failed to detach object in Gazebo");
+        }
       }
-    } else {
-      ROS_WARN("Link detacher service not available - continuing without detachment");
+      else
+      {
+        ROS_WARN("Failed to call Gazebo detach service - continuing without detachment");
+      }
     }
-    
+    else
+    {
+      ROS_WARN("Gazebo link detacher service not available - continuing without detachment");
+    }
+
+    // Now, detach the object from the gripper in MoveIt!
+    ROS_INFO("STEP 2b: Detaching object from gripper in MoveIt!");
+    moveit_msgs::AttachedCollisionObject detach_obj;
+    detach_obj.link_name = MOVEIT_ATTACH_LINK; // the same link you attached to
+    detach_obj.object.id = attached_object_id; // the same object id
+    detach_obj.object.operation = moveit_msgs::CollisionObject::REMOVE;
+    // (optional) set the header to the link for clarity
+    detach_obj.object.header.frame_id = MOVEIT_ATTACH_LINK;
+
+    planning_scene_interface->applyAttachedCollisionObject(detach_obj);
+
+    ROS_INFO("Successfully detached object '%s' from link '%s' in MoveIt!",
+             attached_object_id.c_str(), MOVEIT_ATTACH_LINK.c_str());
+
     // Wait for detachment to stabilize in physics engine
     ros::Duration(1.0).sleep();
 
     // STEP 3: Open the gripper
     ROS_INFO("STEP 3: Opening gripper to release object");
-    
-    try {
+
+    try
+    {
       // Initialize gripper controller
       gripper_control::GripperController gripper("gripper");
       gripper.registerNamedTarget("open", 0.044);
-      
+
       // Open gripper
       gripper.open();
-      
+
       // Small delay to ensure gripper has opened
       ros::Duration(0.5).sleep();
-      
+
       ROS_INFO("Gripper opened successfully!");
     }
-    catch (const std::exception& e) {
+    catch (const std::exception &e)
+    {
       ROS_ERROR("Failed to open gripper: %s", e.what());
       res.success = false;
       return true;
     }
+
+    // Set flag back to false now that object is detached
+    is_object_attached = false;
+    attached_object_id = "";
 
     ROS_INFO("Place sequence completed successfully!");
     res.success = true;
@@ -712,7 +817,7 @@ int main(int argc, char **argv)
 {
   ros::init(argc, argv, "node_C");
   ros::NodeHandle nh;
-  
+
   nh_ptr = &nh;
   // Use AsyncSpinner to process service callbacks and MoveIt
   ros::AsyncSpinner spinner(2); // 2 threads should be sufficient

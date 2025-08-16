@@ -14,6 +14,7 @@
 #include <cmath>
 #include "assignment2_package/GetObjectPose.h"
 #include "assignment2_package/PickObject.h"
+#include "assignment2_package/PlaceObject.h"
 
 // Define some global parameters or constants
 static const std::string PLANNING_GROUP_ARM = "arm";             // TIAGo arm planning group name
@@ -366,7 +367,7 @@ int main(int argc, char **argv)
     // Service clients for Node B and Node C
     ros::ServiceClient get_pose_client = nh.serviceClient<assignment2_package::GetObjectPose>("get_object_pose");
     ros::ServiceClient pick_client = nh.serviceClient<assignment2_package::PickObject>("pick_object");
-    ros::ServiceClient place_client = nh.serviceClient<assignment2_package::PickObject>("place_object");
+    ros::ServiceClient place_client = nh.serviceClient<assignment2_package::PlaceObject>("place_object");
 
     ROS_INFO("Waiting for services...");
     get_pose_client.waitForExistence();
@@ -809,7 +810,7 @@ int main(int argc, char **argv)
 
         // STEP 6: Call Node C to place the object (it will handle the final positioning)
         ROS_INFO("Node A: Calling Node C to place object from approach pose...");
-        assignment2_package::PickObject place_srv; // Reusing PickObject service type
+        assignment2_package::PlaceObject place_srv; 
         place_srv.request.target_id = get_pose_srv.response.obj_id;
 
         if (!place_client.call(place_srv) || !place_srv.response.success)
