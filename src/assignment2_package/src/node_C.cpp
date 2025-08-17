@@ -294,24 +294,14 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
 
     if (id >= 1 && id <= 3)
     {
-      // Case 1: For cylinders
-      ROS_INFO("Using torso_fixed link orientation for object ID %d", id);
+      // Case 1: For cylinders - USE FLIPPED ORIENTATION
+      ROS_INFO("Using flipped gripper orientation for cylinder (ID %d)", id);
       object_height = 0.1;
 
-      // Get torso_fixed_link orientation
-      geometry_msgs::TransformStamped torso_transform;
-      try
-      {
-        torso_transform = tfBuffer->lookupTransform(req.target.header.frame_id, "torso_fixed_link", ros::Time(0), ros::Duration(1.0));
-        tf2::fromMsg(torso_transform.transform.rotation, final_orientation_q);
-      }
-      catch (tf2::TransformException &ex)
-      {
-        ROS_ERROR("Could not get transform: %s", ex.what());
-        res.success = false;
-        reset_flag();
-        return true;
-      }
+      // This creates a quaternion where Z points straight down
+      tf2::Quaternion downward_q;
+      downward_q.setRPY(M_PI, 0, 0); // 180° rotation around X makes Z point down
+      final_orientation_q = downward_q;
 
       // Start from target position and move up 0.2m in world Z
       above_pose.position = target_pose.position;
@@ -319,12 +309,22 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     }
     else if (id >= 4 && id <= 6)
     {
-      // Case 2: For cubes
-      ROS_INFO("Using target_pose orientation for object ID %d", id);
+      // Case 2: For cubes - USE FLIPPED ORIENTATION
+      ROS_INFO("Using flipped gripper orientation for cube (ID %d)", id);
       object_height = 0.05;
 
-      // Use target orientation
-      tf2::fromMsg(target_pose.orientation, final_orientation_q);
+      // Get target orientation
+      tf2::Quaternion target_q;
+      tf2::fromMsg(target_pose.orientation, target_q);
+
+      // Since cubes might be rotated, preserve their yaw but flip to point down
+      double roll, pitch, yaw;
+      tf2::Matrix3x3(target_q).getRPY(roll, pitch, yaw);
+
+      // Create downward-pointing orientation with object's yaw
+      tf2::Quaternion downward_q;
+      downward_q.setRPY(M_PI, 0, yaw);
+      final_orientation_q = downward_q;
 
       // Start from target position and move up 0.2m in world Z
       above_pose.position = target_pose.position;
@@ -332,39 +332,38 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     }
     else if (id >= 7 && id <= 9)
     {
-      // Case 3: For prism on slope
-      ROS_INFO("Handling prism on slope for ID %d", id);
-      object_height = 0.035;
+      // Case 3: For prism on slope — requested orientation sequence:
+      // final = target_q * Rx(+45°) * Rx(180°) * Rz(+90°)
+      ROS_INFO("Handling prism on slope (IDs 7–9) with specific above-pose orientation");
+      object_height = 0.032;
 
-      // Get the target orientation
+      // Start from the measured tag pose
       tf2::Quaternion target_q;
       tf2::fromMsg(target_pose.orientation, target_q);
 
-      // Create 45-degree rotation around local X-axis
-      tf2::Quaternion q_45_deg_x;
-      q_45_deg_x.setRPY(M_PI / 4, 0, 0);
+      // Build the incremental rotations
+      tf2::Quaternion q_rx45;
+      q_rx45.setRPY(M_PI / 4, 0, 0); // +45° about X
+      tf2::Quaternion q_rx180;
+      q_rx180.setRPY(M_PI, 0, 0); // +180° about X
+      tf2::Quaternion q_rz90;
+      q_rz90.setRPY(0, 0, M_PI / 2); // +90° about Z
 
-      // Apply the rotation: first target orientation, then 45-deg rotation
-      tf2::Quaternion temp_orientation_q = target_q * q_45_deg_x;
-      temp_orientation_q.normalize();
-
-      // Move 0.2m along the rotated Z-axis to get above position
-      tf2::Vector3 z_offset_local(0, 0, 0.2);
-      tf2::Vector3 z_offset_world = tf2::quatRotate(temp_orientation_q, z_offset_local);
-
-      // Apply the offset to get above position
-      above_pose.position = target_pose.position;
-      above_pose.position.x += z_offset_world.x();
-      above_pose.position.y += z_offset_world.y();
-      above_pose.position.z += z_offset_world.z();
-
-      // Now apply -90 degree rotation around Z-axis for reachable gripper orientation
-      tf2::Quaternion q_neg_90_deg_z;
-      q_neg_90_deg_z.setRPY(0, 0, -M_PI / 2);
-
-      // Final orientation: target * 45deg_x * -90deg_z
-      final_orientation_q = temp_orientation_q * q_neg_90_deg_z;
+      // Compose in LOCAL frame (right-multiply)
+      final_orientation_q = target_q * q_rx45 * q_rx180 * q_rz90;
       final_orientation_q.normalize();
+
+      // "Above" point: back off 0.20 m along the tool -Z of the FINAL orientation
+      tf2::Vector3 approach_offset(0, 0, -0.2);
+      tf2::Vector3 offset_world = tf2::quatRotate(final_orientation_q, approach_offset);
+
+      above_pose.position = target_pose.position;
+      above_pose.position.x += offset_world.x();
+      above_pose.position.y += offset_world.y();
+      above_pose.position.z += offset_world.z();
+
+      // (Orientation is assigned after the if/else via final_orientation_q)
+      ROS_INFO("Prism above-pose set with Rx(+45)->Rx(180)->Rz(+90) from tag frame");
     }
     else
     {
@@ -374,9 +373,8 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
       return true;
     }
 
-    // Set the orientation for the above pose
+    // Set the final orientation
     above_pose.orientation = tf2::toMsg(final_orientation_q);
-
     // Apply gripper offset of 0.05m (changed from -0.06)
     tf2::Vector3 gripper_offset(-0.05, 0.0, 0.0);
     tf2::Vector3 offset_world = tf2::quatRotate(final_orientation_q, gripper_offset);
@@ -731,7 +729,7 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
 
     // Force-remove the collision object that might be blocking
     ROS_INFO("Force-removing world collision object that's blocking the path");
-    std::vector<std::string> force_remove = {attached_object_id}; 
+    std::vector<std::string> force_remove = {attached_object_id};
     planning_scene_interface->removeCollisionObjects(force_remove);
     ros::Duration(0.5).sleep();
 
@@ -758,14 +756,14 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
     if (!plan_success)
     {
       ROS_WARN("First planning attempt failed, trying with increased tolerances...");
-      
+
       // Try with more relaxed tolerances
       arm_group->setGoalPositionTolerance(0.02);
       arm_group->setGoalOrientationTolerance(0.02);
       arm_group->setPlanningTime(15.0);
-      
+
       plan_success = (arm_group->plan(place_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-      
+
       if (!plan_success)
       {
         ROS_ERROR("Failed to plan placement movement even with relaxed tolerances");
@@ -926,7 +924,7 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
 
       // Use joint-space planning for retreat as well
       arm_group->setPoseTarget(retreat_pose);
-      arm_group->setMaxVelocityScalingFactor(0.3);  // Faster for retreat
+      arm_group->setMaxVelocityScalingFactor(0.3); // Faster for retreat
       arm_group->setMaxAccelerationScalingFactor(0.3);
 
       moveit::planning_interface::MoveGroupInterface::Plan retreat_plan;
