@@ -213,23 +213,10 @@ public:
             pose_tag.pose.position.y = y;
             pose_tag.pose.position.z = 0.0;
 
-            // FIXED ORIENTATION: Z pointing down, X pointing forward
-            // This creates the desired gripper orientation for placement
-            tf2::Quaternion placement_q;
-
-            // Option 1: Simple downward orientation with X aligned to robot's forward direction
-            // In base_footprint frame, robot's forward is typically negative X
-            // So we want gripper X to point in negative X direction of base frame
-            placement_q.setRPY(M_PI, 0, M_PI); // 180° around X (Z down), then 180° around Z (X flipped)
-
-            // Option 2: If you want X pointing in positive X of base frame instead:
-            // placement_q.setRPY(M_PI, 0, 0); // Just 180° around X
-
-            // Option 3: If you need a different forward direction (e.g., along Y axis):
-            // placement_q.setRPY(M_PI, 0, M_PI/2); // Z down, X pointing in negative Y direction
-            // placement_q.setRPY(M_PI, 0, -M_PI/2); // Z down, X pointing in positive Y direction
-
-            pose_tag.pose.orientation = tf2::toMsg(placement_q);
+            // End-effector pointing downward
+            tf2::Quaternion q_down;
+            q_down.setRPY(M_PI, 0, 0);
+            pose_tag.pose.orientation = tf2::toMsg(q_down);
 
             // Wait for transform to be available - use SAME timestamp
             if (!tfBuffer.canTransform(BASE_FRAME, TAG_FRAME, current_time, ros::Duration(3.0)))
@@ -241,60 +228,38 @@ public:
             // Transform to base_footprint - use SAME timestamp
             tfBuffer.transform(pose_tag, pose_out, BASE_FRAME, ros::Duration(3.0));
 
-            // Set the correct gripper orientation in base frame
-            // We want: Z pointing down, X pointing forward (negative X of base frame)
-
-            // Your current output shows:
-            // - Z is correct (pointing down)
-            // - X is pointing in +Y direction instead of -X
-            // Current yaw is ~95.63° (π/2), we need it to be 180° (π)
-
-            tf2::Quaternion gripper_orientation;
-
-            // For TIAGo with gripper_grasping_frame:
-            // Roll = π (flips Z to point down)
-            // Pitch = 0 (no pitch needed)
-            // Yaw = π (rotates X to point in -X direction of base frame)
-            gripper_orientation.setRPY(M_PI, 0, M_PI);
-
-            // Apply the corrected orientation
-            pose_out.pose.orientation = tf2::toMsg(gripper_orientation);
-
             // Set approach height: table surface (0.77m) + z_offset
             pose_out.pose.position.z = TABLE_HEIGHT + z_offset;
 
-            // Debug output to verify orientation
-            tf2::Quaternion final_q;
-            tf2::fromMsg(pose_out.pose.orientation, final_q);
+            // Always use torso_fixed_link orientation for all placements (orientation doesn't matter)
+            ROS_INFO("Using torso_fixed_link orientation for placement (object orientation doesn't matter)");
+            geometry_msgs::TransformStamped torso_transform;
+            try
+            {
+                torso_transform = tfBuffer.lookupTransform(BASE_FRAME, "torso_fixed_link", ros::Time(0), ros::Duration(1.0));
+                tf2::Quaternion torso_q;
+                tf2::fromMsg(torso_transform.transform.rotation, torso_q);
 
-            // Calculate where the gripper axes are pointing
-            tf2::Vector3 x_axis(1, 0, 0);
-            tf2::Vector3 y_axis(0, 1, 0);
-            tf2::Vector3 z_axis(0, 0, 1);
+                // Create 180 degree rotation around X
+                tf2::Quaternion x_rotation;
+                x_rotation.setRPY(M_PI, 0, 0);
 
-            tf2::Vector3 gripper_x = tf2::quatRotate(final_q, x_axis);
-            tf2::Vector3 gripper_y = tf2::quatRotate(final_q, y_axis);
-            tf2::Vector3 gripper_z = tf2::quatRotate(final_q, z_axis);
-
-            // Also output RPY for debugging
-            double roll, pitch, yaw;
-            tf2::Matrix3x3(final_q).getRPY(roll, pitch, yaw);
+                // Apply the rotation
+                tf2::Quaternion final_q = torso_q * x_rotation;
+                pose_out.pose.orientation = tf2::toMsg(final_q);
+            }
+            catch (tf2::TransformException &ex)
+            {
+                ROS_ERROR("Could not get torso_fixed_link transform: %s", ex.what());
+                return false;
+            }
 
             std::string position_name = (object_index == 0) ? "CENTER" : (object_index == 1 ? "FORWARD" : "BACKWARD");
-
-            ROS_INFO("Placement pose %d (%s):", object_index, position_name.c_str());
-            ROS_INFO("  Position: base(%.3f, %.3f, %.3f) [+%.2fm above table]",
+            ROS_INFO("Approach pose %d (%s): tag_10(%.3f, %.3f) -> base(%.3f, %.3f, %.3f) [+%.2fm above table]",
+                     object_index, position_name.c_str(),
+                     x, y,
                      pose_out.pose.position.x, pose_out.pose.position.y, pose_out.pose.position.z,
                      z_offset);
-            ROS_INFO("  Orientation (RPY): [%.2f°, %.2f°, %.2f°]",
-                     roll * 180 / M_PI, pitch * 180 / M_PI, yaw * 180 / M_PI);
-            ROS_INFO("  Gripper axes in base frame:");
-            ROS_INFO("    X-axis: [%.2f, %.2f, %.2f] (should point forward)",
-                     gripper_x.x(), gripper_x.y(), gripper_x.z());
-            ROS_INFO("    Y-axis: [%.2f, %.2f, %.2f]",
-                     gripper_y.x(), gripper_y.y(), gripper_y.z());
-            ROS_INFO("    Z-axis: [%.2f, %.2f, %.2f] (should be ~[0, 0, -1] for downward)",
-                     gripper_z.x(), gripper_z.y(), gripper_z.z());
 
             return true;
         }
@@ -456,7 +421,7 @@ int main(int argc, char **argv)
         // STEP 1: Navigate to picking table
         ROS_INFO("Node A: Navigating to picking table...");
         goal.target_pose.header.stamp = ros::Time::now();
-        goal.target_pose.pose.position.x = 8.88;     // Leave room for head movement
+        goal.target_pose.pose.position.x = 8.88;  // Leave room for head movement
         goal.target_pose.pose.position.y = -3.02; // Correct Y for picking table
         goal.target_pose.pose.position.z = 0.0;
         {
@@ -642,7 +607,7 @@ int main(int argc, char **argv)
         // STEP 4: Navigate to placing table
         ROS_INFO("Node A: Navigating to placing table...");
         goal.target_pose.header.stamp = ros::Time::now();
-        goal.target_pose.pose.position.x = 9;
+        goal.target_pose.pose.position.x = 8.97;
         goal.target_pose.pose.position.y = -1.92; // Correct Y for placing table
         goal.target_pose.pose.position.z = 0.0;
         {
@@ -800,7 +765,7 @@ int main(int argc, char **argv)
             ROS_INFO("Node A: Using previously found best line y = %.3fx + %.3f", best_m, best_q);
         }
 
-        //STEP 5 : Get placement pose and move to approach position using arm_torso
+        // STEP 5: Get placement pose and move to approach position using arm_torso
         ROS_INFO("Node A: Getting approach pose for object %d (0.3m above placement)...", objects_processed + 1);
 
         // IMPORTANT: Update poses each time we return to the placing table
@@ -809,197 +774,42 @@ int main(int argc, char **argv)
 
         geometry_msgs::PoseStamped approach_pose_base;
 
-        // Try different approach heights if the default fails
-        std::vector<double> approach_heights = {0.3, 0.25, 0.35, 0.2}; // Try different heights
-        bool placement_success = false;
-
-        for (double height : approach_heights)
+        if (!pose_manager.getPlacementPose(objects_processed, approach_pose_base, tfBuffer, 0.3))
         {
-            if (!pose_manager.getPlacementPose(objects_processed, approach_pose_base, tfBuffer, height))
-            {
-                ROS_ERROR("Node A: Failed to get approach pose for object %d at height %.2f.",
-                          objects_processed + 1, height);
-                continue;
-            }
-
-            ROS_INFO("Node A: Trying approach at height %.2fm above table", height);
-
-            // IMPORTANT: Use arm_torso for better reach to placement position
-            arm_torso_move_group.setEndEffectorLink("gripper_grasping_frame");
-
-            // Try different planners
-            std::vector<std::string> planners = {
-                "RRTConnectkConfigDefault",
-                "RRTstarkConfigDefault",
-                "PRMstarkConfigDefault",
-                "TRRTkConfigDefault"};
-
-            for (const auto &planner : planners)
-            {
-                ROS_INFO("Node A: Attempting with planner: %s", planner.c_str());
-
-                // Set planner and parameters
-                arm_torso_move_group.setPlannerId(planner);
-                arm_torso_move_group.setPlanningTime(20.0);             // Increased from 15.0
-                arm_torso_move_group.setNumPlanningAttempts(15);        // Increased from 10
-                arm_torso_move_group.setGoalPositionTolerance(0.03);    // Slightly relaxed from 0.02
-                arm_torso_move_group.setGoalOrientationTolerance(0.03); // Slightly relaxed from 0.02
-
-                // Ensure torso is raised for better reach
-                std::map<std::string, double> joint_constraints;
-                joint_constraints["torso_lift_joint"] = 0.35; // Maximum torso height
-
-                // Set pose target with joint constraints
-                arm_torso_move_group.setPoseTarget(approach_pose_base.pose, "gripper_grasping_frame");
-
-                // Try to plan
-                moveit::planning_interface::MoveGroupInterface::Plan plan;
-                bool success = (arm_torso_move_group.plan(plan) ==
-                                moveit::planning_interface::MoveItErrorCode::SUCCESS);
-
-                if (success)
-                {
-                    ROS_INFO("Node A: Successfully planned with %s at height %.2fm!",
-                             planner.c_str(), height);
-
-                    // Execute the plan
-                    ROS_INFO("Node A: Executing approach to placement position...");
-
-                    // Slow down for placement approach
-                    arm_torso_move_group.setMaxVelocityScalingFactor(0.3);
-                    arm_torso_move_group.setMaxAccelerationScalingFactor(0.3);
-
-                    moveit::core::MoveItErrorCode exec_result = arm_torso_move_group.execute(plan);
-
-                    // Reset scaling
-                    arm_torso_move_group.setMaxVelocityScalingFactor(0.5);
-                    arm_torso_move_group.setMaxAccelerationScalingFactor(0.5);
-
-                    if (exec_result == moveit::core::MoveItErrorCode::SUCCESS)
-                    {
-                        ROS_INFO("Node A: Successfully moved to placement approach position!");
-                        placement_success = true;
-                        break; // Success! Exit planner loop
-                    }
-                    else
-                    {
-                        ROS_WARN("Node A: Execution failed with error %d, trying next planner...",
-                                 exec_result.val);
-                    }
-                }
-            }
-
-            if (placement_success)
-            {
-                break; // Success! Exit height loop
-            }
-        }
-
-        // If still no success, try with very relaxed constraints
-        if (!placement_success)
-        {
-            ROS_WARN("Node A: All standard attempts failed. Trying with very relaxed constraints...");
-
-            // Try with much more relaxed tolerances
-            arm_torso_move_group.setGoalPositionTolerance(0.05);
-            arm_torso_move_group.setGoalOrientationTolerance(0.1);
-            arm_torso_move_group.setPlanningTime(30.0);
-            arm_torso_move_group.setNumPlanningAttempts(20);
-
-            // Try joint-space planning instead of Cartesian
-            ROS_INFO("Node A: Attempting joint-space planning with IK...");
-
-            // Get current robot state
-            robot_state::RobotStatePtr current_state = arm_torso_move_group.getCurrentState();
-
-            // Try to find IK solution
-            const robot_state::JointModelGroup *joint_model_group =
-                current_state->getJointModelGroup("arm_torso");
-
-            bool found_ik = current_state->setFromIK(joint_model_group,
-                                                     approach_pose_base.pose,
-                                                     10,   // attempts
-                                                     0.1); // timeout
-
-            if (found_ik)
-            {
-                ROS_INFO("Node A: Found IK solution, attempting to move...");
-
-                // Get joint values and move
-                std::vector<double> joint_values;
-                current_state->copyJointGroupPositions(joint_model_group, joint_values);
-
-                arm_torso_move_group.setJointValueTarget(joint_values);
-
-                moveit::planning_interface::MoveGroupInterface::Plan plan;
-                bool success = (arm_torso_move_group.plan(plan) ==
-                                moveit::planning_interface::MoveItErrorCode::SUCCESS);
-
-                if (success)
-                {
-                    moveit::core::MoveItErrorCode exec_result = arm_torso_move_group.execute(plan);
-                    if (exec_result == moveit::core::MoveItErrorCode::SUCCESS)
-                    {
-                        ROS_INFO("Node A: Successfully moved using joint-space planning!");
-                        placement_success = true;
-                    }
-                }
-            }
-        }
-
-        // Final fallback: move to a pre-placement position first
-        if (!placement_success)
-        {
-            ROS_WARN("Node A: Trying staged approach - moving to pre-placement position first...");
-
-            // Define a pre-placement pose closer to the robot
-            geometry_msgs::Pose pre_place_pose;
-            pre_place_pose.position.x = 0.6; // Closer to robot
-            pre_place_pose.position.y = 0.0; // Centered
-            pre_place_pose.position.z = 1.0; // High position
-
-            // Same orientation as placement
-            tf2::Quaternion q;
-            q.setRPY(M_PI, 0, M_PI);
-            pre_place_pose.orientation = tf2::toMsg(q);
-
-            arm_torso_move_group.setPoseTarget(pre_place_pose);
-
-            moveit::planning_interface::MoveGroupInterface::Plan pre_plan;
-            bool pre_success = (arm_torso_move_group.plan(pre_plan) ==
-                                moveit::planning_interface::MoveItErrorCode::SUCCESS);
-
-            if (pre_success)
-            {
-                arm_torso_move_group.execute(pre_plan);
-                ros::Duration(1.0).sleep();
-
-                // Now try to reach the actual placement from this intermediate position
-                arm_torso_move_group.setPoseTarget(approach_pose_base.pose);
-
-                moveit::planning_interface::MoveGroupInterface::Plan final_plan;
-                bool final_success = (arm_torso_move_group.plan(final_plan) ==
-                                      moveit::planning_interface::MoveItErrorCode::SUCCESS);
-
-                if (final_success)
-                {
-                    moveit::core::MoveItErrorCode exec_result = arm_torso_move_group.execute(final_plan);
-                    if (exec_result == moveit::core::MoveItErrorCode::SUCCESS)
-                    {
-                        ROS_INFO("Node A: Successfully reached placement using staged approach!");
-                        placement_success = true;
-                    }
-                }
-            }
-        }
-
-        if (!placement_success)
-        {
-            ROS_ERROR("Node A: Failed to reach placement position for object %d. Skipping.",
-                      objects_processed + 1);
+            ROS_ERROR("Node A: Failed to get approach pose for object %d. Skipping.", objects_processed + 1);
             continue; // Skip this object
         }
 
+        // The pose is now freshly transformed from tag_10 to base_footprint
+        // using the current TF, so it will be at the correct position
+        ROS_INFO("Node A: Placement pose updated with current transform");
+
+        // IMPORTANT: Use arm_torso for better reach to placement position
+        ROS_INFO("Node A: Moving arm to approach pose above placement position using arm_torso...");
+        arm_torso_move_group.setEndEffectorLink("gripper_grasping_frame"); // Match Node C
+        arm_torso_move_group.setPoseTarget(approach_pose_base.pose, "gripper_grasping_frame");
+
+        moveit::planning_interface::MoveGroupInterface::Plan plan;
+        bool success = (arm_torso_move_group.plan(plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+
+        if (!success)
+        {
+            ROS_ERROR("Node A: Failed to plan approach to placement position with arm_torso. Trying alternative approach...");
+
+            // Try with arm_tool_link as end effector
+            arm_torso_move_group.setEndEffectorLink("arm_tool_link");
+            arm_torso_move_group.setPoseTarget(approach_pose_base.pose, "arm_tool_link");
+            success = (arm_torso_move_group.plan(plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+
+            if (!success)
+            {
+                ROS_ERROR("Node A: Still failed to plan. Skipping object %d.", objects_processed + 1);
+                continue;
+            }
+        }
+
+        ROS_INFO("Node A: Executing approach to placement position...");
+        arm_torso_move_group.execute(plan);
         ros::Duration(2.0).sleep(); // Allow settling
 
         // STEP 6: Call Node C to place the object (it will handle the final positioning)

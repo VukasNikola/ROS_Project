@@ -93,6 +93,8 @@ void detectionsCallback(const apriltag_ros::AprilTagDetectionArray::ConstPtr &ms
     }
     object_pose_pub.publish(msg_out);
 }
+//NEEDS OBJECT SELECTION IMPLEMENTATION DUE TO ANOTHER OBJECT BEING PRESENT AT THE SCENE
+//COULD ADD LOGIC TO MOVE FORWARD IN CASE AN OBJECT IS NOT CORRECTLY SEEN 
 
 // Service to remove id from detected objects
 bool getObjectPoseService(assignment2_package::GetObjectPose::Request &req,
