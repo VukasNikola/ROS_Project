@@ -156,14 +156,20 @@ void objectPosesCallback(const assignment2_package::ObjectPoseArray::ConstPtr &m
       tf2::Quaternion final_q = tag_q * corr_q;
       obj_pose.orientation = tf2::toMsg(final_q);
 
-      // 4) Add mesh with scale
       std::string obj_id = "tag_mesh_" + std::to_string(tag_id);
-      addMeshCollisionObject(obj_id,
-                             mesh_uri,
-                             obj_pose,
-                             BASE_FRAME,
-                             prism_scale);
 
+      // IMPORTANT: Remove existing mesh before adding with new pose
+      if (detected_tags.find(tag_id) != detected_tags.end())
+      {
+        // Object already exists, remove it first to ensure update
+        std::vector<std::string> to_remove = {obj_id};
+        planning_scene_interface->removeCollisionObjects(to_remove);
+        ros::Duration(0.05).sleep(); // Brief pause for removal to process
+        ROS_DEBUG("Removed existing mesh %s before update", obj_id.c_str());
+      }
+
+      // Now add with new pose
+      addMeshCollisionObject(obj_id, mesh_uri, obj_pose, BASE_FRAME, prism_scale);
       detected_tags[tag_id] = entry.pose;
       continue;
     }
@@ -311,7 +317,7 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     {
       // Case 2: For cubes - USE FLIPPED ORIENTATION
       ROS_INFO("Using flipped gripper orientation for cube (ID %d)", id);
-      object_height = 0.05;
+      object_height = 0.0495;
 
       // Get target orientation
       tf2::Quaternion target_q;
@@ -557,6 +563,13 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     attached_co.object.header.frame_id = MOVEIT_ATTACH_LINK;
     attached_co.object.id = attached_object_id;
 
+    // Apply same offset you used when approaching (so collision geometry matches)
+    geometry_msgs::Pose attach_pose;
+    attach_pose.orientation.w = 1.0;                           // keep orientation aligned with link
+    attach_pose.position.x = -0.05;                            // offset into fingers
+    attached_co.object.primitive_poses.push_back(attach_pose); // for primitive/box/cylinder
+    attached_co.object.mesh_poses.push_back(attach_pose);      // for mesh case (harmless if unused)
+
     // Add the gripper finger links to the list of links that can "touch" the object
     attached_co.touch_links.push_back("gripper_left_finger_link");
     attached_co.touch_links.push_back("gripper_right_finger_link");
@@ -567,7 +580,7 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     attached_co.touch_links.push_back("arm_4_link");
     attached_co.touch_links.push_back("arm_3_link");
 
-    // Tell MoveIt! to remove the object from the planning scene world
+    // Mark object for addition (will be removed from world and attached)
     attached_co.object.operation = moveit_msgs::CollisionObject::ADD;
 
     planning_scene_interface->applyAttachedCollisionObject(attached_co);
@@ -665,20 +678,10 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
   {
     int id = req.target_id;
 
-    ROS_INFO("STEP 0: Detaching collision object before any movement planning");
+    // REMOVED STEP 0 - We keep the object attached in MoveIt during planning
+    // This ensures collision checking considers the attached object
 
-    // Remove the attached collision object from MoveIt planning scene
-    moveit_msgs::AttachedCollisionObject detach_for_movement;
-    detach_for_movement.link_name = MOVEIT_ATTACH_LINK;
-    detach_for_movement.object.id = attached_object_id;
-    detach_for_movement.object.operation = moveit_msgs::CollisionObject::REMOVE;
-    detach_for_movement.object.header.frame_id = MOVEIT_ATTACH_LINK;
-    planning_scene_interface->applyAttachedCollisionObject(detach_for_movement);
-
-    ros::Duration(1.0).sleep(); // Allow planning scene to update
-    ROS_INFO("Collision object detached before movement - object still physically attached in Gazebo");
-
-    ROS_INFO("STEP 1: Moving down with object still attached for better planning");
+    ROS_INFO("STEP 1: Moving down with object attached in both MoveIt and Gazebo");
 
     // Get current pose with delay for stability
     ros::Duration(0.5).sleep();
@@ -727,14 +730,10 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
                       << target_pose.position.z << ")");
     }
 
-    // Force-remove the collision object that might be blocking
-    ROS_INFO("Force-removing world collision object that's blocking the path");
-    std::vector<std::string> force_remove = {attached_object_id};
-    planning_scene_interface->removeCollisionObjects(force_remove);
-    ros::Duration(0.5).sleep();
+    // REMOVED: Force-removing collision object - we want to keep it for collision checking
 
-    // ========== JOINT-SPACE PLANNING SOLUTION ==========
-    ROS_INFO("STEP 2: Using joint-space planning for placement movement");
+    // ========== JOINT-SPACE PLANNING WITH ATTACHED OBJECT ==========
+    ROS_INFO("STEP 2: Using joint-space planning for placement movement (with attached object)");
 
     // Set tolerances for more reliable planning
     arm_group->setGoalPositionTolerance(0.015);
@@ -749,7 +748,7 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
     arm_group->setMaxVelocityScalingFactor(0.3);
     arm_group->setMaxAccelerationScalingFactor(0.3);
 
-    // Plan the movement
+    // Plan the movement (MoveIt will consider the attached object for collision checking)
     moveit::planning_interface::MoveGroupInterface::Plan place_plan;
     bool plan_success = (arm_group->plan(place_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
 
@@ -767,6 +766,15 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
       if (!plan_success)
       {
         ROS_ERROR("Failed to plan placement movement even with relaxed tolerances");
+
+        // Clean up: detach the object from MoveIt if planning failed
+        moveit_msgs::AttachedCollisionObject detach_cleanup;
+        detach_cleanup.link_name = MOVEIT_ATTACH_LINK;
+        detach_cleanup.object.id = attached_object_id;
+        detach_cleanup.object.operation = moveit_msgs::CollisionObject::REMOVE;
+        detach_cleanup.object.header.frame_id = MOVEIT_ATTACH_LINK;
+        planning_scene_interface->applyAttachedCollisionObject(detach_cleanup);
+
         res.success = false;
         is_object_attached = false;
         attached_object_id = "";
@@ -774,7 +782,7 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
       }
     }
 
-    ROS_INFO("Successfully planned placement movement");
+    ROS_INFO("Successfully planned placement movement with attached object collision checking");
 
     // Execute the movement
     ROS_INFO("Executing placement movement with reduced speed...");
@@ -798,6 +806,16 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
 
     // Wait for arm to fully settle
     ros::Duration(1.5).sleep();
+
+    // NOW we can detach from MoveIt planning scene (after movement is complete)
+    ROS_INFO("Detaching object from MoveIt planning scene after successful placement");
+    moveit_msgs::AttachedCollisionObject detach_from_moveit;
+    detach_from_moveit.link_name = MOVEIT_ATTACH_LINK;
+    detach_from_moveit.object.id = attached_object_id;
+    detach_from_moveit.object.operation = moveit_msgs::CollisionObject::REMOVE;
+    detach_from_moveit.object.header.frame_id = MOVEIT_ATTACH_LINK;
+    planning_scene_interface->applyAttachedCollisionObject(detach_from_moveit);
+    ros::Duration(0.5).sleep(); // Allow planning scene to update
 
     // STEP 3: Detach from Gazebo physics
     ROS_INFO("STEP 3: Detaching object from gripper in Gazebo physics");

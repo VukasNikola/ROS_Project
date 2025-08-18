@@ -28,6 +28,25 @@ struct DetectedObject
 
 std::vector<DetectedObject> current_objects;
 std::unordered_set<int> picked_ids; // set of IDs already picked
+std::unordered_set<int> picked_bins; // new set to store picked bin IDs
+
+// Helper function to get the bin ID for a given tag ID
+int getBinId(int tag_id)
+{
+    if (tag_id >= 1 && tag_id <= 3)
+    {
+        return 1;
+    }
+    else if (tag_id >= 4 && tag_id <= 6)
+    {
+        return 2;
+    }
+    else if (tag_id >= 7 && tag_id <= 9)
+    {
+        return 3;
+    }
+    return 0; // Invalid bin
+}
 
 // Callback for AprilTag detections
 void detectionsCallback(const apriltag_ros::AprilTagDetectionArray::ConstPtr &msg)
@@ -93,10 +112,8 @@ void detectionsCallback(const apriltag_ros::AprilTagDetectionArray::ConstPtr &ms
     }
     object_pose_pub.publish(msg_out);
 }
-//NEEDS OBJECT SELECTION IMPLEMENTATION DUE TO ANOTHER OBJECT BEING PRESENT AT THE SCENE
-//COULD ADD LOGIC TO MOVE FORWARD IN CASE AN OBJECT IS NOT CORRECTLY SEEN 
 
-// Service to remove id from detected objects
+// Service to get an object pose and remove it and its group from the detected objects
 bool getObjectPoseService(assignment2_package::GetObjectPose::Request &req,
                           assignment2_package::GetObjectPose::Response &res)
 {
@@ -106,18 +123,30 @@ bool getObjectPoseService(assignment2_package::GetObjectPose::Request &req,
         return false;
     }
 
-    // Take the first available object
-    DetectedObject obj = current_objects.front();
+    // Iterate through current detections to find a suitable object
+    for (const auto &obj : current_objects)
+    {
+        int bin_id = getBinId(obj.id);
+        
+        // Check if the object's bin has already been picked
+        if (bin_id != 0 && picked_bins.find(bin_id) == picked_bins.end())
+        {
+            // Found a suitable object.
+            res.obj_id = obj.id;
+            res.obj_pose = obj.pose;
+            
+            // Mark the object and its entire bin as picked
+            picked_ids.insert(obj.id);
+            picked_bins.insert(bin_id);
+            
+            ROS_INFO("Node B: Providing object ID %u from bin %u. Bin is now marked as picked.", res.obj_id, bin_id);
+            return true;
+        }
+    }
 
-    // // Mark it as picked
-    // picked_ids.insert(obj.id);
-
-    // Return the pose in base frame
-    res.obj_id = obj.id;
-    res.obj_pose = obj.pose;
-
-    ROS_INFO("Node B: Providing object ID %u pose to requester.", res.obj_id);
-    return true;
+    // If we get here, no suitable objects were found
+    ROS_WARN("Node B: No suitable objects found to provide. All available bins may have been picked.");
+    return false;
 }
 
 int main(int argc, char **argv)
@@ -141,13 +170,3 @@ int main(int argc, char **argv)
     delete tfListenerPtr;
     return 0;
 }
-
-// This node continuously listens for AprilTag detections,
-// transforms each unpicked tag’s pose into the robot’s base frame,
-// and makes those fresh poses available on demand. On every incoming tag_detections message it clears its previous list,
-// looks up the latest camera-to-base transform,
-// and for each detected tag (IDs 1–9, excluding the special reference tag 10) that hasn’t yet been “picked,”
-// computes its pose in the base frame and adds it to current_objects.
-// A ROS service (get_object_pose) then lets another node request the next available object: once it hands out a tag’s pose,
-// it marks that tag ID in picked_ids so it won’t be offered again.
-// Thus, at any moment, current_objects holds the up-to-date base-frame poses of all remaining, unpicked tags.

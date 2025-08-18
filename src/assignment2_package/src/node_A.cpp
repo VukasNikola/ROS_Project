@@ -129,8 +129,8 @@ public:
             dir_y /= length;
         }
 
-        // Generate placement points: center point ± 0.15m along the line
-        double spacing = 0.15;
+        // Generate placement points: center point ± 0.16m along the line
+        double spacing = 0.16;
 
         // Center point (closest to table center)
         placement_points_tag_frame_.push_back({closest_x, closest_y});
@@ -208,7 +208,7 @@ public:
 
             geometry_msgs::PoseStamped pose_tag;
             pose_tag.header.frame_id = TAG_FRAME;
-            pose_tag.header.stamp = current_time; // Use consistent time
+            pose_tag.header.stamp = current_time;
             pose_tag.pose.position.x = x;
             pose_tag.pose.position.y = y;
             pose_tag.pose.position.z = 0.0;
@@ -218,20 +218,28 @@ public:
             q_down.setRPY(M_PI, 0, 0);
             pose_tag.pose.orientation = tf2::toMsg(q_down);
 
-            // Wait for transform to be available - use SAME timestamp
+            // *** ADD GRIPPER OFFSET LIKE IN PICKING ***
+            tf2::Vector3 gripper_offset(-0.05, 0.0, 0.0);
+            tf2::Vector3 offset_world = tf2::quatRotate(q_down, gripper_offset);
+
+            pose_tag.pose.position.x += offset_world.x();
+            pose_tag.pose.position.y += offset_world.y();
+            pose_tag.pose.position.z += offset_world.z();
+
+            // Wait for transform to be available
             if (!tfBuffer.canTransform(BASE_FRAME, TAG_FRAME, current_time, ros::Duration(3.0)))
             {
                 ROS_ERROR("Cannot get transform from %s to %s", TAG_FRAME.c_str(), BASE_FRAME.c_str());
                 return false;
             }
 
-            // Transform to base_footprint - use SAME timestamp
+            // Transform to base_footprint
             tfBuffer.transform(pose_tag, pose_out, BASE_FRAME, ros::Duration(3.0));
 
             // Set approach height: table surface (0.77m) + z_offset
             pose_out.pose.position.z = TABLE_HEIGHT + z_offset;
 
-            // Always use torso_fixed_link orientation for all placements (orientation doesn't matter)
+            // Use torso_fixed_link orientation for all placements
             ROS_INFO("Using torso_fixed_link orientation for placement (object orientation doesn't matter)");
             geometry_msgs::TransformStamped torso_transform;
             try
@@ -255,7 +263,7 @@ public:
             }
 
             std::string position_name = (object_index == 0) ? "CENTER" : (object_index == 1 ? "FORWARD" : "BACKWARD");
-            ROS_INFO("Approach pose %d (%s): tag_10(%.3f, %.3f) -> base(%.3f, %.3f, %.3f) [+%.2fm above table]",
+            ROS_INFO("Approach pose %d (%s): tag_10(%.3f, %.3f) -> base(%.3f, %.3f, %.3f) [+%.2fm above table, with gripper offset]",
                      object_index, position_name.c_str(),
                      x, y,
                      pose_out.pose.position.x, pose_out.pose.position.y, pose_out.pose.position.z,
@@ -475,13 +483,38 @@ int main(int argc, char **argv)
             ROS_WARN("Node A: Exception setting head position, continuing...");
         }
 
-        // STEP 2: Get object pose from Node B
         ROS_INFO("Node A: Getting object pose from Node B...");
         assignment2_package::GetObjectPose get_pose_srv;
-        if (!get_pose_client.call(get_pose_srv))
+        if (!get_pose_client.call(get_pose_srv) || get_pose_srv.response.obj_id == -1)
         {
-            ROS_ERROR("Node A: Failed to call get_object_pose service");
-            break;
+            // Fallback if head movement fails or no objects are found
+            ROS_WARN("Node A: No objects found or head movement failed. Applying fallback head pose.");
+
+            control_msgs::FollowJointTrajectoryGoal fallback_head_goal;
+            fallback_head_goal.trajectory.joint_names.push_back("head_1_joint");
+            fallback_head_goal.trajectory.joint_names.push_back("head_2_joint");
+
+            trajectory_msgs::JointTrajectoryPoint fallback_point;
+            fallback_point.positions.push_back(-0.0052); // ~ Straight ahead
+            fallback_point.positions.push_back(-0.7283); // ~ Tilted downward
+            fallback_point.velocities.push_back(0.0);
+            fallback_point.velocities.push_back(0.0);
+            fallback_point.time_from_start = ros::Duration(2.0);
+
+            fallback_head_goal.trajectory.points.push_back(fallback_point);
+
+            head_client.sendGoal(fallback_head_goal);
+            head_client.waitForResult(ros::Duration(3.0));
+
+            ROS_INFO("Node A: Head moved to fallback position.");
+            ros::Duration(1.0).sleep(); // Wait for head to settle
+
+            // Now, try to get the object pose again
+            if (!get_pose_client.call(get_pose_srv) || get_pose_srv.response.obj_id == -1)
+            {
+                ROS_ERROR("Node A: Failed to call get_object_pose service after fallback. Aborting.");
+                break;
+            }
         }
 
         ROS_INFO("Node A: Received object pose from Node B - ID: %d", get_pose_srv.response.obj_id);
@@ -527,14 +560,14 @@ int main(int argc, char **argv)
         try
         {
             std::map<std::string, double> safe_travel_joints;
-            safe_travel_joints["torso_lift_joint"] = 0.350;
-            safe_travel_joints["arm_1_joint"] = 0.070;
-            safe_travel_joints["arm_2_joint"] = -1.091;
-            safe_travel_joints["arm_3_joint"] = -0.238;
-            safe_travel_joints["arm_4_joint"] = 2.284;
-            safe_travel_joints["arm_5_joint"] = 1.492;
-            safe_travel_joints["arm_6_joint"] = -0.476;
-            safe_travel_joints["arm_7_joint"] = 1.145;
+            safe_travel_joints["torso_lift_joint"] = 0.150;
+            safe_travel_joints["arm_1_joint"] = 0.200;
+            safe_travel_joints["arm_2_joint"] = -1.339;
+            safe_travel_joints["arm_3_joint"] = -0.200;
+            safe_travel_joints["arm_4_joint"] = 1.938;
+            safe_travel_joints["arm_5_joint"] = -1.570;
+            safe_travel_joints["arm_6_joint"] = 1.370;
+            safe_travel_joints["arm_7_joint"] = 0.00;
 
             arm_torso_move_group.setJointValueTarget(safe_travel_joints);
 
@@ -788,6 +821,8 @@ int main(int argc, char **argv)
         ROS_INFO("Node A: Moving arm to approach pose above placement position using arm_torso...");
         arm_torso_move_group.setEndEffectorLink("gripper_grasping_frame"); // Match Node C
         arm_torso_move_group.setPoseTarget(approach_pose_base.pose, "gripper_grasping_frame");
+        arm_torso_move_group.setPlanningTime(30.0);
+        arm_torso_move_group.setNumPlanningAttempts(20);
 
         moveit::planning_interface::MoveGroupInterface::Plan plan;
         bool success = (arm_torso_move_group.plan(plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
@@ -836,20 +871,20 @@ int main(int argc, char **argv)
             try
             {
                 std::map<std::string, double> safe_travel_joints;
-                safe_travel_joints["torso_lift_joint"] = 0.350;
-                safe_travel_joints["arm_1_joint"] = 0.070;
-                safe_travel_joints["arm_2_joint"] = -1.091;
-                safe_travel_joints["arm_3_joint"] = -0.238;
-                safe_travel_joints["arm_4_joint"] = 2.284;
-                safe_travel_joints["arm_5_joint"] = 1.492;
-                safe_travel_joints["arm_6_joint"] = -0.476;
-                safe_travel_joints["arm_7_joint"] = 1.145;
+                safe_travel_joints["torso_lift_joint"] = 0.150;
+                safe_travel_joints["arm_1_joint"] = 0.200;
+                safe_travel_joints["arm_2_joint"] = -1.339;
+                safe_travel_joints["arm_3_joint"] = -0.200;
+                safe_travel_joints["arm_4_joint"] = 1.938;
+                safe_travel_joints["arm_5_joint"] = -1.570;
+                safe_travel_joints["arm_6_joint"] = 1.370;
+                safe_travel_joints["arm_7_joint"] = 0.00;
 
                 arm_torso_move_group.setJointValueTarget(safe_travel_joints);
 
                 // Increase planning time and attempts
-                arm_torso_move_group.setPlanningTime(10.0);
-                arm_torso_move_group.setNumPlanningAttempts(5);
+                arm_torso_move_group.setPlanningTime(15.0);
+                arm_torso_move_group.setNumPlanningAttempts(10);
 
                 // Plan first, then execute
                 moveit::planning_interface::MoveGroupInterface::Plan safe_plan;
