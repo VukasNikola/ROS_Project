@@ -59,7 +59,7 @@ std::map<int, bool> persistent_tables;                    // Track which tables 
 // Object state management
 int currently_manipulated_id = -1;  // ID of object being manipulated (-1 = none)
 std::string attached_object_id;     // MoveIt collision object ID of attached object
-double saved_pickup_z = 0.0 + 0.01; // Z coordinate for placement
+double saved_pickup_z = 0.0 + 0.03; // Z coordinate for placement
 
 // Helper: Get collision object ID for a given tag
 std::string getCollisionObjectId(int tag_id)
@@ -432,7 +432,7 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     moveit_msgs::RobotTrajectory trajectory;
 
     // Plan Cartesian path with explicit parameters
-    const double eef_step = 0.005; // Fine interpolation helps IK continuity
+    const double eef_step = 0.015; // Fine interpolation helps IK continuity
     const bool avoid_collisions = true;
     arm_group->setStartStateToCurrentState();
 
@@ -627,7 +627,7 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     std::vector<geometry_msgs::Pose> lift_waypoints = {grasp_pose, lift_pose};
     moveit_msgs::RobotTrajectory lift_trajectory;
 
-    const double lift_eef_step = 0.005; // Fine interpolation
+    const double lift_eef_step = 0.015; // Fine interpolation
     const bool lift_avoid_collisions = true;
     arm_group->setStartStateToCurrentState();
 
@@ -786,26 +786,29 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
     geometry_msgs::Pose current_pose = current_pose_stamped.pose;
 
     geometry_msgs::Pose target_pose = current_pose;
-    
+
     // SAFETY CHECK: Ensure saved_pickup_z is not too low for placing table
-    const double PLACING_TABLE_HEIGHT = 0.77;  // Placing table surface height
-    const double MIN_CLEARANCE = 0.05;  // Minimum 5cm above table surface
+    const double PLACING_TABLE_HEIGHT = 0.77; // Placing table surface height
+    const double MIN_CLEARANCE = 0.07;        // Minimum 5cm above table surface
     double safe_placement_z = std::max(saved_pickup_z, PLACING_TABLE_HEIGHT + MIN_CLEARANCE);
-    
-    if (safe_placement_z > saved_pickup_z) {
-        ROS_WARN("Adjusting placement height: saved_pickup_z=%.3f was too low, using %.3f instead", 
-                 saved_pickup_z, safe_placement_z);
-    } else {
-        ROS_INFO("Using saved pickup height: %.3f", saved_pickup_z);
+
+    if (safe_placement_z != saved_pickup_z)
+    {
+      ROS_WARN("Adjusting placement height: saved_pickup_z=%.3f was too low, using %.3f instead",
+               saved_pickup_z, safe_placement_z);
     }
-    
+    else
+    {
+      ROS_INFO("Using saved pickup height: %.3f", saved_pickup_z);
+    }
+
     target_pose.position.z = safe_placement_z;
 
     ROS_INFO("Moving from z=%.3f to z=%.3f", current_pose.position.z, target_pose.position.z);
 
     // Configure for safe placement
     arm_group->setGoalPositionTolerance(0.015);
-    arm_group->setGoalOrientationTolerance(0.015);
+    arm_group->setGoalOrientationTolerance(0.1);
     arm_group->setPlanningTime(10.0);
     arm_group->setNumPlanningAttempts(5);
     arm_group->setMaxVelocityScalingFactor(0.3);
@@ -819,8 +822,8 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
     if (!plan_success)
     {
       ROS_WARN("Retrying with relaxed tolerances...");
-      arm_group->setGoalPositionTolerance(0.02);
-      arm_group->setGoalOrientationTolerance(0.02);
+      arm_group->setGoalPositionTolerance(0.3);
+      arm_group->setGoalOrientationTolerance(0.3);
       arm_group->setPlanningTime(15.0);
 
       plan_success = (arm_group->plan(place_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
@@ -857,15 +860,18 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
     planning_scene_interface->applyAttachedCollisionObject(detach_from_moveit);
     ros::Duration(0.5).sleep();
 
-    // STEP 3: Open gripper (NOW it's safe because object is detached from MoveIt)
-    ROS_INFO("STEP 3: Opening gripper");
-    gripper_control::GripperController gripper("gripper");
-    gripper.registerNamedTarget("open", 0.044);
-    gripper.open();
-    ros::Duration(0.5).sleep();
+    // Remove object to avoid issues with gripper 
+    if (!attached_object_id.empty())
+    {
+      std::vector<std::string> rm_ids = {attached_object_id};
+      planning_scene_interface->removeCollisionObjects(rm_ids);
+      ROS_INFO("Removed world collision object '%s' (temporarily) to avoid gripper start-in-collision.",
+               attached_object_id.c_str());
+      ros::Duration(0.2).sleep();
+    }
 
-    // STEP 4: Detach from Gazebo physics (after gripper is open)
-    ROS_INFO("STEP 4: Detaching from Gazebo physics");
+    // STEP 3: Detach from Gazebo physics BEFORE opening gripper
+    ROS_INFO("STEP 3: Detaching from Gazebo physics FIRST");
     std::string gazebo_detach_service = "/link_attacher_node/detach";
     if (ros::service::waitForService(gazebo_detach_service, ros::Duration(2.0)))
     {
@@ -935,7 +941,15 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
       }
     }
 
+    // Give some time for the physics to settle after detachment
     ros::Duration(1.0).sleep();
+
+    // STEP 4: NOW open gripper (object is detached from both MoveIt and Gazebo)
+    ROS_INFO("STEP 4: Opening gripper (object now detached from Gazebo)");
+    gripper_control::GripperController gripper("gripper");
+    gripper.registerNamedTarget("open", 0.044);
+    gripper.open();
+    ros::Duration(0.5).sleep();
 
     // STEP 5: Retreat
     ROS_INFO("STEP 5: Retreating from placement");

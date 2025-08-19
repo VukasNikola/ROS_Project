@@ -242,8 +242,7 @@ public:
      * @param object_index Index of the object (0, 1, 2, ...)
      * @param pose_out Output pose in base_footprint frame
      * @param tfBuffer TF buffer for transformations
-     * @param z_offset Height above table surface (default 0.3m above table to match Node C)
-     */
+     * @param z_offset Height above table surface (default 0.3m above table for approach)*/
     bool getPlacementPose(int object_index, geometry_msgs::PoseStamped &pose_out,
                           tf2_ros::Buffer &tfBuffer, double z_offset = 0.3)
     {
@@ -274,14 +273,14 @@ public:
             pose_tag.header.stamp = current_time;
             pose_tag.pose.position.x = x;
             pose_tag.pose.position.y = y;
-            pose_tag.pose.position.z = 0.0;
+            pose_tag.pose.position.z = 0.0; // On the table surface in tag_10 frame
 
             // End-effector pointing downward
             tf2::Quaternion q_down;
             q_down.setRPY(M_PI, 0, 0);
             pose_tag.pose.orientation = tf2::toMsg(q_down);
 
-            // *** ADD GRIPPER OFFSET LIKE IN PICKING ***
+            // Add gripper offset (before transformation)
             tf2::Vector3 gripper_offset(-0.05, 0.0, 0.0);
             tf2::Vector3 offset_world = tf2::quatRotate(q_down, gripper_offset);
 
@@ -296,11 +295,13 @@ public:
                 return false;
             }
 
-            // Transform to base_footprint
+            // Transform to base_footprint - this preserves the actual table height
             tfBuffer.transform(pose_tag, pose_out, BASE_FRAME, ros::Duration(3.0));
 
-            // Set approach height: table surface (0.77m) + z_offset
-            pose_out.pose.position.z = TABLE_HEIGHT + z_offset;
+            // IMPORTANT: Now add z_offset to the TRANSFORMED z position
+            // This keeps the pose relative to the actual table surface as defined by tag_10
+            double table_surface_z = pose_out.pose.position.z;     // Save the actual table surface height
+            pose_out.pose.position.z = table_surface_z + z_offset; // Add offset for approach
 
             // Use torso_fixed_link orientation for all placements
             ROS_INFO("Using torso_fixed_link orientation for placement (object orientation doesn't matter)");
@@ -326,11 +327,12 @@ public:
             }
 
             std::string position_name = (object_index == 0) ? "CENTER" : (object_index == 1 ? "FORWARD" : "BACKWARD");
-            ROS_INFO("Approach pose %d (%s): tag_10(%.3f, %.3f) -> base(%.3f, %.3f, %.3f) [+%.2fm above table, with gripper offset]",
+            ROS_INFO("Approach pose %d (%s): tag_10(%.3f, %.3f, 0.0) -> base(%.3f, %.3f, %.3f)",
                      object_index, position_name.c_str(),
                      x, y,
-                     pose_out.pose.position.x, pose_out.pose.position.y, pose_out.pose.position.z,
-                     z_offset);
+                     pose_out.pose.position.x, pose_out.pose.position.y, pose_out.pose.position.z);
+            ROS_INFO("  Table surface at z=%.3f in base frame, approach at z=%.3f (+%.2fm offset)",
+                     table_surface_z, pose_out.pose.position.z, z_offset);
 
             return true;
         }
@@ -410,16 +412,16 @@ int main(int argc, char **argv)
     head_client.waitForServer();
     ROS_INFO("Connected to head controller action server.");
 
-    // Set tolerances for arm_torso group (matching Node C)
-    arm_torso_move_group.setGoalPositionTolerance(0.01);
-    arm_torso_move_group.setGoalOrientationTolerance(0.01);
+    // Set tolerances for arm_torso group
+    arm_torso_move_group.setGoalPositionTolerance(0.03);
+    arm_torso_move_group.setGoalOrientationTolerance(0.14);
     arm_torso_move_group.setMaxAccelerationScalingFactor(0.5);
     arm_torso_move_group.setMaxVelocityScalingFactor(0.5);
     arm_torso_move_group.setPlanningTime(10.0);
 
     // Also set for arm group
-    arm_move_group.setGoalPositionTolerance(0.01);
-    arm_move_group.setGoalOrientationTolerance(0.01);
+    arm_move_group.setGoalPositionTolerance(0.03);
+    arm_move_group.setGoalOrientationTolerance(0.014);
     arm_move_group.setMaxAccelerationScalingFactor(0.5);
     arm_move_group.setMaxVelocityScalingFactor(0.5);
 
@@ -694,7 +696,7 @@ int main(int argc, char **argv)
         // NEW STEP 3.7: Rotate to face positive Y direction to avoid arc navigation
         ROS_INFO("Node A: Rotating to face positive Y direction for straight navigation...");
         goal.target_pose.header.stamp = ros::Time::now();
-        goal.target_pose.pose.position.x = 8.881;  // Keep same position
+        goal.target_pose.pose.position.x = 8.881; // Keep same position
         goal.target_pose.pose.position.y = -3.02; // Keep same position
         goal.target_pose.pose.position.z = 0.0;
         {

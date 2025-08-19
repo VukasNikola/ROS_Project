@@ -18,7 +18,7 @@ inline double getWidthForTag(int tag_id) {
     double full_width;
     switch (tag_id) {
         case 1: case 2: case 3:
-            full_width = 0.047; // hex prism
+            full_width = 0.05; // hex prism
             break;
         case 4: case 5: case 6:
             full_width = 0.051; // cube

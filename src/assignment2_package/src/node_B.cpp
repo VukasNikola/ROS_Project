@@ -124,7 +124,7 @@ bool getObjectPoseService(assignment2_package::GetObjectPose::Request &req,
     }
 
     // Define bin priority order 
-    std::vector<int> bin_priority = {3, 1, 2};
+    std::vector<int> bin_priority = {1, 2, 3};
 
     // Try bins in priority order
     for (int priority_bin : bin_priority)
