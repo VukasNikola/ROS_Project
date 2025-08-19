@@ -494,7 +494,7 @@ int main(int argc, char **argv)
         move_base_msgs::MoveBaseGoal approach_goal;
         approach_goal.target_pose.header.frame_id = "odom";
         approach_goal.target_pose.header.stamp = ros::Time::now();
-        approach_goal.target_pose.pose.position.x = 8.88;
+        approach_goal.target_pose.pose.position.x = 8.881;
         approach_goal.target_pose.pose.position.y = -3.02;
         approach_goal.target_pose.pose.position.z = 0.0;
         // Don't set orientation - let robot choose the easiest path
@@ -638,7 +638,7 @@ int main(int argc, char **argv)
         try
         {
             std::map<std::string, double> safe_travel_joints;
-            safe_travel_joints["torso_lift_joint"] = 0.150;
+            safe_travel_joints["torso_lift_joint"] = 0.200;
             safe_travel_joints["arm_1_joint"] = 0.200;
             safe_travel_joints["arm_2_joint"] = -1.339;
             safe_travel_joints["arm_3_joint"] = -0.200;
@@ -694,7 +694,7 @@ int main(int argc, char **argv)
         // NEW STEP 3.7: Rotate to face positive Y direction to avoid arc navigation
         ROS_INFO("Node A: Rotating to face positive Y direction for straight navigation...");
         goal.target_pose.header.stamp = ros::Time::now();
-        goal.target_pose.pose.position.x = 8.88;     // Keep same position
+        goal.target_pose.pose.position.x = 8.881;  // Keep same position
         goal.target_pose.pose.position.y = -3.02; // Keep same position
         goal.target_pose.pose.position.z = 0.0;
         {
@@ -718,7 +718,7 @@ int main(int argc, char **argv)
         // STEP 4: Navigate to placing table
         ROS_INFO("Node A: Navigating to placing table...");
         goal.target_pose.header.stamp = ros::Time::now();
-        goal.target_pose.pose.position.x = 8.97;
+        goal.target_pose.pose.position.x = 9;
         goal.target_pose.pose.position.y = -1.92; // Correct Y for placing table
         goal.target_pose.pose.position.z = 0.0;
         {
@@ -949,7 +949,7 @@ int main(int argc, char **argv)
             try
             {
                 std::map<std::string, double> safe_travel_joints;
-                safe_travel_joints["torso_lift_joint"] = 0.150;
+                safe_travel_joints["torso_lift_joint"] = 0.200;
                 safe_travel_joints["arm_1_joint"] = 0.200;
                 safe_travel_joints["arm_2_joint"] = -1.339;
                 safe_travel_joints["arm_3_joint"] = -0.200;
