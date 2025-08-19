@@ -33,6 +33,7 @@
 #include <gazebo_ros_link_attacher/Attach.h>
 #include <gazebo_ros_link_attacher/AttachRequest.h>
 #include <gazebo_ros_link_attacher/AttachResponse.h>
+#include <memory>
 
 // Node C: MoveIt manipulation and collision object management
 static const std::string PLANNING_GROUP_ARM = "arm_torso";
@@ -73,6 +74,8 @@ void addCollisionObject(const std::string &id,
   co.primitive_poses.push_back(pose);
   co.operation = moveit_msgs::CollisionObject::ADD;
   planning_scene_interface->applyCollisionObject(co);
+  ros::Duration(0.1).sleep();
+  ros::spinOnce();   
 }
 
 // Helper: add a single‐pose, scaled mesh collision object
@@ -86,13 +89,13 @@ void addMeshCollisionObject(const std::string &id,
   co.id = id;
   co.header.frame_id = frame_id;
 
-  // Load & scale the mesh in one go:
-  // (this overload applies your scale to X, Y, Z axes)
-  shapes::Mesh *m = shapes::createMeshFromResource(mesh_resource, scale);
+  // Load & scale the mesh with RAII
+  std::unique_ptr<shapes::Mesh> m(
+      static_cast<shapes::Mesh *>(shapes::createMeshFromResource(mesh_resource, scale)));
 
   // Convert to the ShapeMsg variant and extract the mesh
   shapes::ShapeMsg shape_msg;
-  shapes::constructMsgFromShape(m, shape_msg);
+  shapes::constructMsgFromShape(m.get(), shape_msg);
   const shape_msgs::Mesh &mesh_msg = boost::get<shape_msgs::Mesh>(shape_msg);
 
   // Populate and apply
@@ -100,6 +103,8 @@ void addMeshCollisionObject(const std::string &id,
   co.mesh_poses.push_back(pose);
   co.operation = moveit_msgs::CollisionObject::ADD;
   planning_scene_interface->applyCollisionObjects({co});
+  ros::Duration(0.1).sleep();
+  ros::spinOnce();   
 }
 
 // Subscriber callback: update scene from ObjectPoseArray
@@ -158,15 +163,6 @@ void objectPosesCallback(const assignment2_package::ObjectPoseArray::ConstPtr &m
 
       std::string obj_id = "tag_mesh_" + std::to_string(tag_id);
 
-      // IMPORTANT: Remove existing mesh before adding with new pose
-      if (detected_tags.find(tag_id) != detected_tags.end())
-      {
-        // Object already exists, remove it first to ensure update
-        std::vector<std::string> to_remove = {obj_id};
-        planning_scene_interface->removeCollisionObjects(to_remove);
-        ros::Duration(0.05).sleep(); // Brief pause for removal to process
-        ROS_DEBUG("Removed existing mesh %s before update", obj_id.c_str());
-      }
 
       // Now add with new pose
       addMeshCollisionObject(obj_id, mesh_uri, obj_pose, BASE_FRAME, prism_scale);
@@ -198,7 +194,7 @@ void objectPosesCallback(const assignment2_package::ObjectPoseArray::ConstPtr &m
     }
 
     // Adjust Z position: move down by half the object height so bottom sits on surface
-    obj_pose.position.z -= height_offset;
+    obj_pose.position.z -= height_offset + 0.005;
 
     std::string obj_id = "tag_object_" + std::to_string(tag_id);
     addCollisionObject(obj_id, primitive, obj_pose, BASE_FRAME);
@@ -248,7 +244,8 @@ void objectPosesCallback(const assignment2_package::ObjectPoseArray::ConstPtr &m
   if (!to_remove.empty())
   {
     planning_scene_interface->removeCollisionObjects(to_remove);
-    ROS_INFO("Removed %zu collision objects from planning scene", to_remove.size());
+    ros::Duration(0.1).sleep();
+    ros::spinOnce();   
   }
 }
 
@@ -278,6 +275,11 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
 
     // Set the end effector link
     arm_group->setEndEffectorLink("gripper_grasping_frame");
+    arm_group->setPlannerId("RRTConnectkConfigDefault");
+    arm_group->setGoalPositionTolerance(0.010);   // 10 mm
+    arm_group->setGoalOrientationTolerance(0.03); // ~1.7°
+    arm_group->setPlanningTime(2.0);
+    arm_group->setNumPlanningAttempts(10);
 
     // Get the target pose from the request
     geometry_msgs::Pose target_pose = req.target.pose;
@@ -340,7 +342,7 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     {
       // Case 3: For prism on slope — requested orientation sequence:
       // final = target_q * Rx(+45°) * Rx(180°) * Rz(+90°)
-      ROS_INFO("Handling prism on slope (IDs 7–9) with specific above-pose orientation");
+      ROS_INFO("Handling prism on slope (IDs 7-9) with specific above-pose orientation");
       object_height = 0.032;
 
       // Start from the measured tag pose
@@ -393,6 +395,7 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
              above_pose.position.x, above_pose.position.y, above_pose.position.z);
 
     arm_group->setPoseTarget(above_pose);
+    arm_group->setStartStateToCurrentState();
     moveit::planning_interface::MoveGroupInterface::Plan plan1;
     bool success1 = (arm_group->plan(plan1) == moveit::core::MoveItErrorCode::SUCCESS);
 
@@ -413,6 +416,8 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
       return true;
     }
 
+    arm_group->clearPoseTargets();
+
     ROS_INFO("Successfully moved above target!");
 
     // STEP 2: Cartesian move down
@@ -432,14 +437,25 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     waypoints.push_back(above_pose); // Start position
     waypoints.push_back(grasp_pose); // End position
 
-    // Plan Cartesian path
+    // Plan Cartesian path (explicit jump threshold + collision avoidance)
     moveit_msgs::RobotTrajectory trajectory;
-    const double eef_step = 0.01; // 1cm interpolation steps
-    double fraction = arm_group->computeCartesianPath(waypoints, eef_step, trajectory);
+    const double eef_step = 0.005;      // finer interpolation helps IK continuity
+    const bool avoid_collisions = true; // keep true while object is (or will be) attached
+    
+    arm_group->stop();  
+    arm_group->setStartStateToCurrentState();
+    ros::Duration(0.05).sleep(); 
+  
 
-    ROS_INFO("Cartesian path planned (%.2f%% achieved)", fraction * 100.0);
-
-    if (fraction < 0.65) // If less than 65 of path achieved
+    moveit_msgs::MoveItErrorCodes cart_err;
+    double fraction = arm_group->computeCartesianPath(
+        waypoints, eef_step, trajectory, avoid_collisions, &cart_err);
+    if (cart_err.val != moveit_msgs::MoveItErrorCodes::SUCCESS && fraction >= 0.65)
+    {
+      ROS_WARN("computeCartesianPath returned non-success code %d but acceptable fraction=%.2f",
+               cart_err.val, fraction);
+    }
+    if (fraction < 0.65) // If less than 65% of path achieved
     {
       ROS_ERROR("Could not plan full Cartesian path down to object!");
       res.success = false;
@@ -447,11 +463,25 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
       return true;
     }
 
+    // Time-parameterize before execution (adds timestamps/vel/acc)
+    robot_trajectory::RobotTrajectory rt(
+        arm_group->getCurrentState()->getRobotModel(), arm_group->getName());
+    rt.setRobotTrajectoryMsg(*arm_group->getCurrentState(), trajectory);
+
+    trajectory_processing::IterativeParabolicTimeParameterization iptp;
+    bool timing_ok = iptp.computeTimeStamps(rt, 0.3 /*vel*/, 0.3 /*acc*/);
+    if (!timing_ok)
+    {
+      ROS_WARN("Time-parameterization failed; proceeding with un-timed trajectory may be unstable");
+    }
+    rt.getRobotTrajectoryMsg(trajectory);
+
     // Execute the Cartesian path
     moveit::planning_interface::MoveGroupInterface::Plan plan2;
     plan2.trajectory_ = trajectory;
 
     moveit::core::MoveItErrorCode execute_result2 = arm_group->execute(plan2);
+
     if (execute_result2 != moveit::core::MoveItErrorCode::SUCCESS)
     {
       ROS_ERROR("Failed to execute Cartesian move down!");
@@ -459,6 +489,8 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
       reset_flag();
       return true;
     }
+
+    arm_group->clearPoseTargets();
 
     ROS_INFO("Successfully moved to grasp position!");
 
@@ -560,34 +592,42 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     ROS_INFO("STEP 3b: Attaching object to gripper in MoveIt!");
     moveit_msgs::AttachedCollisionObject attached_co;
     attached_co.link_name = MOVEIT_ATTACH_LINK;
-    attached_co.object.header.frame_id = MOVEIT_ATTACH_LINK;
+
+    // Just reference the SAME id; MoveIt will move it from world -> attached.
     attached_co.object.id = attached_object_id;
+    attached_co.object.header.frame_id = MOVEIT_ATTACH_LINK;
 
-    // Apply same offset you used when approaching (so collision geometry matches)
+    planning_scene_interface->removeCollisionObjects({attached_object_id}); 
+    ros::Duration(0.1).sleep();
+    ros::spinOnce();   
+      
+    // Optional: keep the small offset so the collision geometry sits inside the fingers
     geometry_msgs::Pose attach_pose;
-    attach_pose.orientation.w = 1.0;                           // keep orientation aligned with link
-    attach_pose.position.x = -0.05;                            // offset into fingers
-    attached_co.object.primitive_poses.push_back(attach_pose); // for primitive/box/cylinder
-    attached_co.object.mesh_poses.push_back(attach_pose);      // for mesh case (harmless if unused)
+    attach_pose.orientation.w = 1.0; // aligned with link frame
+    attach_pose.position.x = -0.05;  // into the fingers
 
-    // Add the gripper finger links to the list of links that can "touch" the object
-    attached_co.touch_links.push_back("gripper_left_finger_link");
-    attached_co.touch_links.push_back("gripper_right_finger_link");
-    attached_co.touch_links.push_back("gripper_grasping_frame");
-    attached_co.touch_links.push_back("arm_7_link");
-    attached_co.touch_links.push_back("arm_6_link");
-    attached_co.touch_links.push_back("arm_5_link");
-    attached_co.touch_links.push_back("arm_4_link");
-    attached_co.touch_links.push_back("arm_3_link");
+    // You can provide both pose arrays; harmless if one isn't used
+    attached_co.object.primitive_poses.push_back(attach_pose);
+    attached_co.object.mesh_poses.push_back(attach_pose);
 
-    // Mark object for addition (will be removed from world and attached)
+    // Touch links so the attached object can contact the gripper without collisions
+    attached_co.touch_links = {
+        "gripper_left_finger_link",
+        "gripper_right_finger_link",
+        "gripper_grasping_frame",
+        "gripper_grasping_frame_Y",
+        "gripper_grasping_frame_Z"};
+
+    // This is the crucial bit: ADD with an existing id attaches it (and removes from world)
     attached_co.object.operation = moveit_msgs::CollisionObject::ADD;
 
     planning_scene_interface->applyAttachedCollisionObject(attached_co);
+    ros::Duration(0.1).sleep();
+    ros::spinOnce();   
     ROS_INFO("Successfully attached object '%s' to gripper link '%s' in MoveIt!",
              attached_object_id.c_str(), attached_co.link_name.c_str());
 
-    // Wait for attachment to stabilize in physics engine and planning scene
+    // Wait for attachment to reflect in the planning scene
     ros::Duration(1.0).sleep();
 
     // STEP 4: Close the gripper
@@ -627,13 +667,23 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     lift_waypoints.push_back(grasp_pose); // Start position
     lift_waypoints.push_back(lift_pose);  // End position (0.3m up)
 
-    // Plan Cartesian path for lifting
+    // Plan Cartesian path for lifting (explicit jump threshold + collision avoidance)
     moveit_msgs::RobotTrajectory lift_trajectory;
-    const double lift_eef_step = 0.01; // 1cm interpolation steps
-    double lift_fraction = arm_group->computeCartesianPath(lift_waypoints, lift_eef_step, lift_trajectory);
+    const double lift_eef_step = 0.005;
+    const bool lift_avoid_collisions = true;
 
-    ROS_INFO("Lift Cartesian path planned (%.2f%% achieved)", lift_fraction * 100.0);
-
+    arm_group->stop();  
+    arm_group->setStartStateToCurrentState();
+    ros::Duration(0.05).sleep(); 
+  
+    moveit_msgs::MoveItErrorCodes lift_err;
+    double lift_fraction = arm_group->computeCartesianPath(
+        lift_waypoints, lift_eef_step, lift_trajectory, lift_avoid_collisions, &lift_err);
+    if (lift_err.val != moveit_msgs::MoveItErrorCodes::SUCCESS && lift_fraction >= 0.65)
+    {
+      ROS_WARN("computeCartesianPath(lift) non-success code %d but acceptable fraction=%.2f",
+               lift_err.val, lift_fraction);
+    }
     if (lift_fraction < 0.65) // If less than 65% of path achieved
     {
       ROS_ERROR("Could not plan full Cartesian path for lifting!");
@@ -642,11 +692,25 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
       return true;
     }
 
+    // Time-parameterize before execution
+    robot_trajectory::RobotTrajectory lift_rt(
+        arm_group->getCurrentState()->getRobotModel(), arm_group->getName());
+    lift_rt.setRobotTrajectoryMsg(*arm_group->getCurrentState(), lift_trajectory);
+
+    trajectory_processing::IterativeParabolicTimeParameterization lift_iptp;
+    bool lift_timing_ok = lift_iptp.computeTimeStamps(lift_rt, 0.3 /*vel*/, 0.3 /*acc*/);
+    if (!lift_timing_ok)
+    {
+      ROS_WARN("Time-parameterization (lift) failed; proceeding may be unstable");
+    }
+    lift_rt.getRobotTrajectoryMsg(lift_trajectory);
+
     // Execute the lift
     moveit::planning_interface::MoveGroupInterface::Plan lift_plan;
     lift_plan.trajectory_ = lift_trajectory;
 
     moveit::core::MoveItErrorCode lift_result = arm_group->execute(lift_plan);
+
     if (lift_result != moveit::core::MoveItErrorCode::SUCCESS)
     {
       ROS_ERROR("Failed to execute lift!");
@@ -654,6 +718,7 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
       reset_flag();
       return true;
     }
+    arm_group->clearPoseTargets();
 
     ROS_INFO("Successfully lifted object!");
 
@@ -696,60 +761,27 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
     ROS_INFO("Moving down from z=%.3f to z=%.3f (with attached object, includes 0.050m buffer)",
              current_pose.position.z, target_pose.position.z);
 
-    // Publish TF frames for visualization (optional - can be commented out)
-    static tf2_ros::StaticTransformBroadcaster static_tf_broadcaster;
-    {
-      geometry_msgs::TransformStamped tf_start;
-      tf_start.header.stamp = ros::Time::now();
-      tf_start.header.frame_id = BASE_FRAME;
-      tf_start.child_frame_id = "place_start_frame";
-      tf_start.transform.translation.x = current_pose.position.x;
-      tf_start.transform.translation.y = current_pose.position.y;
-      tf_start.transform.translation.z = current_pose.position.z;
-      tf_start.transform.rotation = current_pose.orientation;
-      static_tf_broadcaster.sendTransform(tf_start);
-
-      geometry_msgs::TransformStamped tf_target;
-      tf_target.header.stamp = ros::Time::now();
-      tf_target.header.frame_id = BASE_FRAME;
-      tf_target.child_frame_id = "place_target_frame";
-      tf_target.transform.translation.x = target_pose.position.x;
-      tf_target.transform.translation.y = target_pose.position.y;
-      tf_target.transform.translation.z = target_pose.position.z;
-      tf_target.transform.rotation = target_pose.orientation;
-      static_tf_broadcaster.sendTransform(tf_target);
-
-      ROS_INFO_STREAM("Published TF frames:"
-                      << " 'place_start_frame' @ ("
-                      << current_pose.position.x << ", "
-                      << current_pose.position.y << ", "
-                      << current_pose.position.z << ") and"
-                      << " 'place_target_frame' @ ("
-                      << target_pose.position.x << ", "
-                      << target_pose.position.y << ", "
-                      << target_pose.position.z << ")");
-    }
-
     // REMOVED: Force-removing collision object - we want to keep it for collision checking
 
     // ========== JOINT-SPACE PLANNING WITH ATTACHED OBJECT ==========
     ROS_INFO("STEP 2: Using joint-space planning for placement movement (with attached object)");
 
     // Set tolerances for more reliable planning
-    arm_group->setGoalPositionTolerance(0.015);
-    arm_group->setGoalOrientationTolerance(0.015);
-    arm_group->setPlanningTime(10.0);
-    arm_group->setNumPlanningAttempts(5);
+    arm_group->setGoalPositionTolerance(0.010);   // 10 mm
+    arm_group->setGoalOrientationTolerance(0.03); // ~1.7°
+    arm_group->setPlanningTime(2.0);
+    arm_group->setNumPlanningAttempts(20);
 
     // Set the target pose
     arm_group->setPoseTarget(target_pose);
 
     // Slow down the movement for safety with attached object
-    arm_group->setMaxVelocityScalingFactor(0.3);
-    arm_group->setMaxAccelerationScalingFactor(0.3);
+    arm_group->setMaxVelocityScalingFactor(0.2);
+    arm_group->setMaxAccelerationScalingFactor(0.2);
 
     // Plan the movement (MoveIt will consider the attached object for collision checking)
     moveit::planning_interface::MoveGroupInterface::Plan place_plan;
+    arm_group->setStartStateToCurrentState();
     bool plan_success = (arm_group->plan(place_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
 
     if (!plan_success)
@@ -787,7 +819,7 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
     // Execute the movement
     ROS_INFO("Executing placement movement with reduced speed...");
     moveit::core::MoveItErrorCode place_result = arm_group->execute(place_plan);
-
+    arm_group->clearPoseTargets();
     // Reset scaling factors for future movements
     arm_group->setMaxVelocityScalingFactor(0.5);
     arm_group->setMaxAccelerationScalingFactor(0.5);
@@ -805,7 +837,7 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
     ROS_INFO("Reached placement position");
 
     // Wait for arm to fully settle
-    ros::Duration(1.5).sleep();
+    ros::Duration(1.0).sleep();
 
     // NOW we can detach from MoveIt planning scene (after movement is complete)
     ROS_INFO("Detaching object from MoveIt planning scene after successful placement");
@@ -942,8 +974,8 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
 
       // Use joint-space planning for retreat as well
       arm_group->setPoseTarget(retreat_pose);
-      arm_group->setMaxVelocityScalingFactor(0.3); // Faster for retreat
-      arm_group->setMaxAccelerationScalingFactor(0.3);
+      arm_group->setMaxVelocityScalingFactor(0.2); // Faster for retreat
+      arm_group->setMaxAccelerationScalingFactor(0.2);
 
       moveit::planning_interface::MoveGroupInterface::Plan retreat_plan;
       bool retreat_success = (arm_group->plan(retreat_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
@@ -951,6 +983,7 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
       if (retreat_success)
       {
         arm_group->execute(retreat_plan);
+        arm_group->clearPoseTargets();
         ROS_INFO("Successfully retreated from placement position");
       }
       else
@@ -1027,8 +1060,12 @@ int main(int argc, char **argv)
     arm_group = &arm_mg;
     gripper_group = &gripper_mg;
     planning_scene_interface = &psi;
-
-    arm_group->setPlanningTime(10.0);
+    arm_group->setPlannerId("RRTConnectkConfigDefault");
+    arm_group->setPoseReferenceFrame(BASE_FRAME);
+    arm_group->setGoalPositionTolerance(0.010);   // 10 mm
+    arm_group->setGoalOrientationTolerance(0.03); // ~1.7°
+    arm_group->setPlanningTime(2.0);
+    arm_group->setNumPlanningAttempts(20);
     arm_group->setMaxVelocityScalingFactor(0.5);
     arm_group->setMaxAccelerationScalingFactor(0.5);
 

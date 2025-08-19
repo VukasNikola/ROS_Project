@@ -27,7 +27,7 @@ struct DetectedObject
 };
 
 std::vector<DetectedObject> current_objects;
-std::unordered_set<int> picked_ids; // set of IDs already picked
+std::unordered_set<int> picked_ids;  // set of IDs already picked
 std::unordered_set<int> picked_bins; // new set to store picked bin IDs
 
 // Helper function to get the bin ID for a given tag ID
@@ -123,25 +123,41 @@ bool getObjectPoseService(assignment2_package::GetObjectPose::Request &req,
         return false;
     }
 
-    // Iterate through current detections to find a suitable object
-    for (const auto &obj : current_objects)
+    // Define bin priority order 
+    std::vector<int> bin_priority = {3, 1, 2};
+
+    // Try bins in priority order
+    for (int priority_bin : bin_priority)
     {
-        int bin_id = getBinId(obj.id);
-        
-        // Check if the object's bin has already been picked
-        if (bin_id != 0 && picked_bins.find(bin_id) == picked_bins.end())
+        // Skip if this bin has already been picked
+        if (picked_bins.find(priority_bin) != picked_bins.end())
         {
-            // Found a suitable object.
-            res.obj_id = obj.id;
-            res.obj_pose = obj.pose;
-            
-            // Mark the object and its entire bin as picked
-            picked_ids.insert(obj.id);
-            picked_bins.insert(bin_id);
-            
-            ROS_INFO("Node B: Providing object ID %u from bin %u. Bin is now marked as picked.", res.obj_id, bin_id);
-            return true;
+            ROS_DEBUG("Node B: Bin %d already picked, skipping", priority_bin);
+            continue;
         }
+
+        // Look for objects in this priority bin
+        for (const auto &obj : current_objects)
+        {
+            int bin_id = getBinId(obj.id);
+
+            if (bin_id == priority_bin)
+            {
+                // Found an object in the current priority bin
+                res.obj_id = obj.id;
+                res.obj_pose = obj.pose;
+
+                // Mark the object and its entire bin as picked
+                picked_ids.insert(obj.id);
+                picked_bins.insert(bin_id);
+
+                ROS_INFO("Node B: Providing object ID %u from priority bin %u. Bin is now marked as picked.",
+                         res.obj_id, bin_id);
+                return true;
+            }
+        }
+
+        ROS_DEBUG("Node B: No objects found in priority bin %d", priority_bin);
     }
 
     // If we get here, no suitable objects were found

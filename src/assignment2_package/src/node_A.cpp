@@ -23,6 +23,69 @@ static const std::string BASE_FRAME = "base_footprint";          // robot base f
 static const std::string TAG_FRAME = "tag_10";                   // Reference frame of AprilTag ID 10 (placing table corner)
 static const std::string PLANNING_GROUP_ARM_TORSO = "arm_torso"; // For reaching deep into a scene if needed
 
+bool navigateWithPrecision(actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> &ac,
+                           const move_base_msgs::MoveBaseGoal &goal,
+                           double position_tolerance = 0.1,
+                           double orientation_tolerance = 0.1)
+{
+    ROS_INFO("Navigating to target: (%.3f, %.3f) with tolerance: pos=%.2fm, orient=%.2frad",
+             goal.target_pose.pose.position.x, goal.target_pose.pose.position.y,
+             position_tolerance, orientation_tolerance);
+
+    ac.sendGoal(goal);
+
+    // Wait for result with timeout
+    bool finished_before_timeout = ac.waitForResult(ros::Duration(30.0));
+
+    if (!finished_before_timeout)
+    {
+        ROS_WARN("Navigation timed out after 30 seconds");
+        ac.cancelGoal();
+        return false;
+    }
+
+    actionlib::SimpleClientGoalState state = ac.getState();
+
+    if (state == actionlib::SimpleClientGoalState::SUCCEEDED)
+    {
+        ROS_INFO("Navigation succeeded");
+
+        // Brief settling time
+        ros::Duration(0.5).sleep();
+
+        // Optional: Verify we're actually at the goal
+        try
+        {
+            tf2_ros::Buffer tfBuffer;
+            tf2_ros::TransformListener tfListener(tfBuffer);
+            ros::Duration(0.5).sleep();
+
+            geometry_msgs::TransformStamped robotTransform =
+                tfBuffer.lookupTransform("odom", "base_footprint", ros::Time(0), ros::Duration(1.0));
+
+            double dx = robotTransform.transform.translation.x - goal.target_pose.pose.position.x;
+            double dy = robotTransform.transform.translation.y - goal.target_pose.pose.position.y;
+            double dist_error = std::sqrt(dx * dx + dy * dy);
+
+            if (dist_error > position_tolerance * 2.0)
+            { // Only warn if significantly off
+                ROS_WARN("Position verification: %.3fm from goal (tolerance: %.3fm)",
+                         dist_error, position_tolerance);
+            }
+        }
+        catch (...)
+        {
+            // Verification failed, but navigation reported success, so continue
+        }
+
+        return true;
+    }
+    else
+    {
+        ROS_ERROR("Navigation failed with state: %s", state.toString().c_str());
+        return false;
+    }
+}
 // ==================== PLACEMENT POSE MANAGER CLASS ====================
 class PlacementPoseManager
 {
@@ -428,22 +491,37 @@ int main(int argc, char **argv)
 
         // STEP 1: Navigate to picking table
         ROS_INFO("Node A: Navigating to picking table...");
-        goal.target_pose.header.stamp = ros::Time::now();
-        goal.target_pose.pose.position.x = 8.88;  // Leave room for head movement
-        goal.target_pose.pose.position.y = -3.02; // Correct Y for picking table
-        goal.target_pose.pose.position.z = 0.0;
-        {
-            tf2::Quaternion q;
-            double yaw = M_PI; // Facing negative X direction
-            q.setRPY(0.0, 0.0, yaw);
-            goal.target_pose.pose.orientation = tf2::toMsg(q);
+        move_base_msgs::MoveBaseGoal approach_goal;
+        approach_goal.target_pose.header.frame_id = "odom";
+        approach_goal.target_pose.header.stamp = ros::Time::now();
+        approach_goal.target_pose.pose.position.x = 8.88;
+        approach_goal.target_pose.pose.position.y = -3.02;
+        approach_goal.target_pose.pose.position.z = 0.0;
+        // Don't set orientation - let robot choose the easiest path
+        approach_goal.target_pose.pose.orientation.w = 1.0;
+
+        if (!navigateWithPrecision(ac, approach_goal, 0.1, 3.14))
+        { // Very loose orientation tolerance
+            ROS_ERROR("Failed to approach picking table");
+            break;
         }
 
-        ac.sendGoal(goal);
-        ac.waitForResult();
-        if (ac.getState() != actionlib::SimpleClientGoalState::SUCCEEDED)
-        {
-            ROS_ERROR("Failed to reach picking table. Aborting.");
+        // Step 2: Rotate in place to desired orientation
+        ros::Duration(0.5).sleep(); // Let robot settle
+
+        move_base_msgs::MoveBaseGoal rotate_goal;
+        rotate_goal.target_pose.header.frame_id = "odom";
+        rotate_goal.target_pose.header.stamp = ros::Time::now();
+        // Keep same position
+        rotate_goal.target_pose.pose.position = approach_goal.target_pose.pose.position;
+        // Set desired orientation
+        tf2::Quaternion q;
+        q.setRPY(0.0, 0.0, M_PI); // Face negative X
+        rotate_goal.target_pose.pose.orientation = tf2::toMsg(q);
+
+        if (!navigateWithPrecision(ac, rotate_goal, 0.05, 0.087))
+        { // Tight tolerances for final alignment
+            ROS_ERROR("Failed to align with picking table");
             break;
         }
         ROS_INFO("Successfully reached picking table.");
@@ -616,7 +694,7 @@ int main(int argc, char **argv)
         // NEW STEP 3.7: Rotate to face positive Y direction to avoid arc navigation
         ROS_INFO("Node A: Rotating to face positive Y direction for straight navigation...");
         goal.target_pose.header.stamp = ros::Time::now();
-        goal.target_pose.pose.position.x = 9;     // Keep same position
+        goal.target_pose.pose.position.x = 8.88;     // Keep same position
         goal.target_pose.pose.position.y = -3.02; // Keep same position
         goal.target_pose.pose.position.z = 0.0;
         {
