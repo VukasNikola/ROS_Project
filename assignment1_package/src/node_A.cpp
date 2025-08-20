@@ -1,75 +1,104 @@
+// Updated Node A - Action Client
 #include <ros/ros.h>
+#include <actionlib/client/simple_action_client.h>
 #include <std_msgs/String.h>
 #include <std_msgs/Int32MultiArray.h>
 #include <geometry_msgs/PoseArray.h>
+#include <tiago_iaslab_simulation/Objs.h>
+#include <assignment1_package/NavigationTaskAction.h>
+#include <vector>
 
-// Use your provided service header (adjust the path if needed)
-#include </home/nikolavukas/project/src/tiago_iaslab_simulation/include/tiago_iaslab_simulation/ApriltagIds.h> // BAD NEEDS FIXING
+typedef actionlib::SimpleActionClient<assignment1_package::NavigationTaskAction> NavigationClient;
 
-// Global publisher to send target IDs to Node B.
-ros::Publisher target_ids_pub;
-
-// Callback to receive feedback from Node B.
-void feedbackCallback(const std_msgs::String::ConstPtr &msg) {
-  ROS_INFO_STREAM("[Node A] Feedback: " << msg->data);
-}
-
-// Callback to receive the final cube positions from Node B.
-void cubePositionsCallback(const geometry_msgs::PoseArray::ConstPtr &msg) {
-  ROS_INFO("[Node A] Received final cube positions (in the map frame):");
-  for (size_t i = 0; i < msg->poses.size(); ++i) {
-    ROS_INFO_STREAM("Cube " << i << " Position: ["
-                    << msg->poses[i].position.x << ", "
-                    << msg->poses[i].position.y << ", "
-                    << msg->poses[i].position.z << "]");
-  }
-}
+class NodeA {
+private:
+    ros::NodeHandle nh_;
+    NavigationClient navigation_client_;
+    std::vector<int> target_ids_;
+    
+public:
+    NodeA() : navigation_client_("navigation_task", true) {
+        ROS_INFO("[Node A] Waiting for navigation action server...");
+        navigation_client_.waitForServer();
+        ROS_INFO("[Node A] Connected to navigation action server!");
+    }
+    
+    // Feedback callback - prints robot status
+    void feedbackCallback(const assignment1_package::NavigationTaskFeedbackConstPtr& feedback) {
+        ROS_INFO("[Node A] Robot Status: %s", feedback->status.c_str());
+        
+        if (!feedback->found_tag_ids.empty()) {
+            std::ostringstream oss;
+            oss << "[Node A] Found AprilTags with IDs: ";
+            for (int id : feedback->found_tag_ids) {
+                oss << id << " ";
+            }
+            ROS_INFO_STREAM(oss.str());
+        }
+    }
+    
+    // Result callback - receives final cube positions
+    void resultCallback(const actionlib::SimpleClientGoalState& state,
+                       const assignment1_package::NavigationTaskResultConstPtr& result) {
+        if (state == actionlib::SimpleClientGoalState::SUCCEEDED) {
+            ROS_INFO("[Node A] Navigation task completed successfully!");
+            ROS_INFO("[Node A] Received %zu cube positions:", result->cube_positions.poses.size());
+            
+            for (size_t i = 0; i < result->cube_positions.poses.size(); ++i) {
+                const auto& pose = result->cube_positions.poses[i];
+                ROS_INFO("[Node A] Cube %zu: [%.2f, %.2f, %.2f]", i+1,
+                         pose.position.x, pose.position.y, pose.position.z);
+            }
+        } else {
+            ROS_WARN("[Node A] Navigation task failed with state: %s", state.toString().c_str());
+        }
+    }
+    
+    void run() {
+        // Get target IDs from AprilTag service
+        ros::ServiceClient client = nh_.serviceClient<tiago_iaslab_simulation::Objs>("/apriltag_ids_srv");
+        
+        ROS_INFO("[Node A] Waiting for service /apriltag_ids_srv...");
+        client.waitForExistence();
+        
+        tiago_iaslab_simulation::Objs srv;
+        srv.request.ready = true;
+        
+        if (client.call(srv)) {
+            target_ids_ = srv.response.ids;
+            
+            std::ostringstream oss;
+            oss << "[Node A] Received AprilTag IDs: ";
+            for (int id : target_ids_) {
+                oss << id << " ";
+            }
+            ROS_INFO_STREAM(oss.str());
+            
+            // Send navigation goal to Node B
+            assignment1_package::NavigationTaskGoal goal;
+            goal.target_ids = target_ids_;
+            
+            ROS_INFO("[Node A] Sending navigation task to Node B...");
+            navigation_client_.sendGoal(goal,
+                boost::bind(&NodeA::resultCallback, this, _1, _2),
+                NavigationClient::SimpleActiveCallback(),
+                boost::bind(&NodeA::feedbackCallback, this, _1));
+            
+            // Wait for completion
+            navigation_client_.waitForResult();
+            
+        } else {
+            ROS_ERROR("[Node A] Failed to call service /apriltag_ids_srv");
+        }
+    }
+};
 
 int main(int argc, char** argv) {
-  ros::init(argc, argv, "node_a");
-  ros::NodeHandle nh;
-
-  // Create a service client to call the AprilTag IDs service.
-  ros::ServiceClient client = nh.serviceClient<tiago_iaslab_simulation::Objs>("/apriltag_ids_srv");
-
-  ROS_INFO("Waiting for service /apriltag_ids_srv...");
-  client.waitForExistence();
-
-  tiago_iaslab_simulation::Objs srv;
-  srv.request.ready = true; // Indicate that we are ready
-
-  if (client.call(srv)) {
-    ROS_INFO("Service call successful; received AprilTag IDs.");
+    ros::init(argc, argv, "node_a");
     
-    // Print each received ID
-    std::ostringstream oss;
-    oss << "Received AprilTag IDs: ";
-    for (const int id : srv.response.ids) {
-      oss << id << " ";
-    }
-    ROS_INFO_STREAM("[Node A] " << oss.str());
+    NodeA node_a;
+    node_a.run();
     
-    // Publish the target IDs to Node B.
-    std_msgs::Int32MultiArray target_ids_msg;
-    for (const int id : srv.response.ids) {
-      target_ids_msg.data.push_back(id);
-    }
-    
-    // Create the publisher with latch=true so that new subscribers receive the message.
-    target_ids_pub = nh.advertise<std_msgs::Int32MultiArray>("target_ids", 10, true);
-    ros::Duration(0.5).sleep();  // Give time for the subscriber to connect.
-    
-    target_ids_pub.publish(target_ids_msg);
-    ROS_INFO_STREAM("[Node A] Published target IDs to the topic 'target_ids'.");
-  } else {
-    ROS_ERROR("Failed to call service /apriltag_ids_srv.");
-    return 1;
-  }
-
-  // Subscribers for feedback and final cube positions.
-  ros::Subscriber feedback_sub = nh.subscribe("robot_feedback", 10, feedbackCallback);
-  ros::Subscriber cube_positions_sub = nh.subscribe("cube_positions", 10, cubePositionsCallback);
-
-  ros::spin();
-  return 0;
+    ros::spin();
+    return 0;
 }

@@ -1,0 +1,14 @@
+# Goal - what Node A sends to Node B
+int32[] target_ids
+
+---
+
+# Result - what Node B sends back to Node A when done
+geometry_msgs/PoseArray cube_positions
+
+---
+
+# Feedback - continuous updates from Node B to Node A
+string status
+int32[] found_tag_ids
+geometry_msgs/PoseArray current_detections
