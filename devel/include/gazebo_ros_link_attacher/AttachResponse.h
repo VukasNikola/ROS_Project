@@ -1,1 +1,0 @@
-/home/nikolavukas/project/devel/.private/gazebo_ros_link_attacher/include/gazebo_ros_link_attacher/AttachResponse.h

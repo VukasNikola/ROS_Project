@@ -1,1 +1,0 @@
-/home/nikolavukas/project/devel/.private/tiago_iaslab_simulation/share/gennodejs/ros/tiago_iaslab_simulation/_index.js

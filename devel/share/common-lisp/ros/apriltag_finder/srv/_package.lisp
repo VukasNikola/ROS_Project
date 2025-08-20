@@ -1,1 +1,0 @@
-/home/nikolavukas/project/devel/.private/apriltag_finder/share/common-lisp/ros/apriltag_finder/srv/_package.lisp

@@ -1,3 +1,0 @@
-bool ready          #if true apriltag_ids sends the apriltags IDs, otherwise prints an error and kill ros
----
-int32[] ids

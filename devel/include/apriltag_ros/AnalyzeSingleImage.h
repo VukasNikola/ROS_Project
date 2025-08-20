@@ -1,1 +1,0 @@
-/home/nikolavukas/project/devel/.private/apriltag_ros/include/apriltag_ros/AnalyzeSingleImage.h
