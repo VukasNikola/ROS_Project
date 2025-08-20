@@ -14,6 +14,6 @@
         pkg="assignment1_package"
         type="waypoints_navigation_node"
         output="screen">
-    <param name="waypoints_file" value="$(find assignment1_packgae)/config/tiago_waypoints.yaml" />
+    <param name="waypoints_file" value="$(find assignment1_package)/config/tiago_waypoints.yaml" />
   </node>
 </launch>
