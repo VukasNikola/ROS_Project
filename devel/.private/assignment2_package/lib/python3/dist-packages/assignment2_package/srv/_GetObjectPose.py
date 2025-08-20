@@ -104,10 +104,11 @@ import geometry_msgs.msg
 import std_msgs.msg
 
 class GetObjectPoseResponse(genpy.Message):
-  _md5sum = "5174181ef2b390a67f5f6f66dd09d3ff"
+  _md5sum = "d6d4f3bebbf31073267f6fff2a596a9a"
   _type = "assignment2_package/GetObjectPoseResponse"
   _has_header = False  # flag to mark the presence of a Header object
-  _full_text = """geometry_msgs/PoseStamped obj_pose
+  _full_text = """uint32 obj_id
+geometry_msgs/PoseStamped obj_pose
 
 ================================================================================
 MSG: geometry_msgs/PoseStamped
@@ -153,8 +154,8 @@ float64 y
 float64 z
 float64 w
 """
-  __slots__ = ['obj_pose']
-  _slot_types = ['geometry_msgs/PoseStamped']
+  __slots__ = ['obj_id','obj_pose']
+  _slot_types = ['uint32','geometry_msgs/PoseStamped']
 
   def __init__(self, *args, **kwds):
     """
@@ -164,7 +165,7 @@ float64 w
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       obj_pose
+       obj_id,obj_pose
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -173,9 +174,12 @@ float64 w
     if args or kwds:
       super(GetObjectPoseResponse, self).__init__(*args, **kwds)
       # message fields cannot be None, assign default values for those that are
+      if self.obj_id is None:
+        self.obj_id = 0
       if self.obj_pose is None:
         self.obj_pose = geometry_msgs.msg.PoseStamped()
     else:
+      self.obj_id = 0
       self.obj_pose = geometry_msgs.msg.PoseStamped()
 
   def _get_types(self):
@@ -191,7 +195,7 @@ float64 w
     """
     try:
       _x = self
-      buff.write(_get_struct_3I().pack(_x.obj_pose.header.seq, _x.obj_pose.header.stamp.secs, _x.obj_pose.header.stamp.nsecs))
+      buff.write(_get_struct_4I().pack(_x.obj_id, _x.obj_pose.header.seq, _x.obj_pose.header.stamp.secs, _x.obj_pose.header.stamp.nsecs))
       _x = self.obj_pose.header.frame_id
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -216,8 +220,8 @@ float64 w
       end = 0
       _x = self
       start = end
-      end += 12
-      (_x.obj_pose.header.seq, _x.obj_pose.header.stamp.secs, _x.obj_pose.header.stamp.nsecs,) = _get_struct_3I().unpack(str[start:end])
+      end += 16
+      (_x.obj_id, _x.obj_pose.header.seq, _x.obj_pose.header.stamp.secs, _x.obj_pose.header.stamp.nsecs,) = _get_struct_4I().unpack(str[start:end])
       start = end
       end += 4
       (length,) = _struct_I.unpack(str[start:end])
@@ -244,7 +248,7 @@ float64 w
     """
     try:
       _x = self
-      buff.write(_get_struct_3I().pack(_x.obj_pose.header.seq, _x.obj_pose.header.stamp.secs, _x.obj_pose.header.stamp.nsecs))
+      buff.write(_get_struct_4I().pack(_x.obj_id, _x.obj_pose.header.seq, _x.obj_pose.header.stamp.secs, _x.obj_pose.header.stamp.nsecs))
       _x = self.obj_pose.header.frame_id
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -270,8 +274,8 @@ float64 w
       end = 0
       _x = self
       start = end
-      end += 12
-      (_x.obj_pose.header.seq, _x.obj_pose.header.stamp.secs, _x.obj_pose.header.stamp.nsecs,) = _get_struct_3I().unpack(str[start:end])
+      end += 16
+      (_x.obj_id, _x.obj_pose.header.seq, _x.obj_pose.header.stamp.secs, _x.obj_pose.header.stamp.nsecs,) = _get_struct_4I().unpack(str[start:end])
       start = end
       end += 4
       (length,) = _struct_I.unpack(str[start:end])
@@ -293,12 +297,12 @@ _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_3I = None
-def _get_struct_3I():
-    global _struct_3I
-    if _struct_3I is None:
-        _struct_3I = struct.Struct("<3I")
-    return _struct_3I
+_struct_4I = None
+def _get_struct_4I():
+    global _struct_4I
+    if _struct_4I is None:
+        _struct_4I = struct.Struct("<4I")
+    return _struct_4I
 _struct_7d = None
 def _get_struct_7d():
     global _struct_7d
@@ -307,6 +311,6 @@ def _get_struct_7d():
     return _struct_7d
 class GetObjectPose(object):
   _type          = 'assignment2_package/GetObjectPose'
-  _md5sum = '5174181ef2b390a67f5f6f66dd09d3ff'
+  _md5sum = 'd6d4f3bebbf31073267f6fff2a596a9a'
   _request_class  = GetObjectPoseRequest
   _response_class = GetObjectPoseResponse

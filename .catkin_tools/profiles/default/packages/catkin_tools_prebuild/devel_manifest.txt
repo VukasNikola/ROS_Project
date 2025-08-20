@@ -1,6 +1,7 @@
 /home/nikolavukas/project/build/catkin_tools_prebuild
 /home/nikolavukas/project/devel/.private/catkin_tools_prebuild/env.sh /home/nikolavukas/project/devel/./env.sh
-/home/nikolavukas/project/devel/.private/catkin_tools_prebuild/cmake.lock /home/nikolavukas/project/devel/./cmake.lock
+/home/nikolavukas/project/devel/.private/catkin_tools_prebuild/setup.fish /home/nikolavukas/project/devel/./setup.fish
+/home/nikolavukas/project/devel/.private/catkin_tools_prebuild/local_setup.fish /home/nikolavukas/project/devel/./local_setup.fish
 /home/nikolavukas/project/devel/.private/catkin_tools_prebuild/local_setup.sh /home/nikolavukas/project/devel/./local_setup.sh
 /home/nikolavukas/project/devel/.private/catkin_tools_prebuild/setup.bash /home/nikolavukas/project/devel/./setup.bash
 /home/nikolavukas/project/devel/.private/catkin_tools_prebuild/_setup_util.py /home/nikolavukas/project/devel/./_setup_util.py

@@ -15,7 +15,7 @@
 #include "assignment2_package/ObjectPoseArray.h"
 #include "assignment2_package/PlaceObject.h"
 #include "assignment2_package/GetObjectPose.h"
-#include "gripper_control.h"
+#include "assignment2_package/gripper_control.h"
 #include <geometric_shapes/mesh_operations.h>
 #include <geometric_shapes/shape_operations.h>
 #include <Eigen/Geometry>
@@ -59,7 +59,7 @@ std::map<int, bool> persistent_tables;                    // Track which tables 
 // Object state management
 int currently_manipulated_id = -1;  // ID of object being manipulated (-1 = none)
 std::string attached_object_id;     // MoveIt collision object ID of attached object
-double saved_pickup_z = 0.0 + 0.03; // Z coordinate for placement
+double saved_pickup_z = 0.0; // Z coordinate for placement
 
 // Helper: Get collision object ID for a given tag
 std::string getCollisionObjectId(int tag_id)
@@ -420,7 +420,7 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     }
     else
     {
-      saved_pickup_z = grasp_pose.position.z + 0.03; // Keep original for primitives
+      saved_pickup_z = grasp_pose.position.z + 0.05; // Keep original for primitives
     }
 
     ROS_INFO("Saved pickup Z: %.3f", saved_pickup_z);

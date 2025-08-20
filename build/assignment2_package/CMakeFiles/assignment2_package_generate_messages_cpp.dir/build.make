@@ -53,37 +53,73 @@ CMAKE_BINARY_DIR = /home/nikolavukas/project/build/assignment2_package
 # Include the progress variables for this target.
 include CMakeFiles/assignment2_package_generate_messages_cpp.dir/progress.make
 
+CMakeFiles/assignment2_package_generate_messages_cpp: /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/ObjectPose.h
+CMakeFiles/assignment2_package_generate_messages_cpp: /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/ObjectPoseArray.h
 CMakeFiles/assignment2_package_generate_messages_cpp: /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PickObject.h
 CMakeFiles/assignment2_package_generate_messages_cpp: /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/GetObjectPose.h
+CMakeFiles/assignment2_package_generate_messages_cpp: /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PlaceObject.h
 
+
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/ObjectPose.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/ObjectPose.h: /home/nikolavukas/project/src/assignment2_package/msg/ObjectPose.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/ObjectPose.h: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/ObjectPose.h: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/ObjectPose.h: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/ObjectPose.h: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/ObjectPose.h: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/ObjectPose.h: /opt/ros/noetic/share/gencpp/msg.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating C++ code from assignment2_package/ObjectPose.msg"
+	cd /home/nikolavukas/project/src/assignment2_package && /home/nikolavukas/project/build/assignment2_package/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/nikolavukas/project/src/assignment2_package/msg/ObjectPose.msg -Iassignment2_package:/home/nikolavukas/project/src/assignment2_package/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package -e /opt/ros/noetic/share/gencpp/cmake/..
+
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/ObjectPoseArray.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/ObjectPoseArray.h: /home/nikolavukas/project/src/assignment2_package/msg/ObjectPoseArray.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/ObjectPoseArray.h: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/ObjectPoseArray.h: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/ObjectPoseArray.h: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/ObjectPoseArray.h: /home/nikolavukas/project/src/assignment2_package/msg/ObjectPose.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/ObjectPoseArray.h: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/ObjectPoseArray.h: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/ObjectPoseArray.h: /opt/ros/noetic/share/gencpp/msg.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating C++ code from assignment2_package/ObjectPoseArray.msg"
+	cd /home/nikolavukas/project/src/assignment2_package && /home/nikolavukas/project/build/assignment2_package/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/nikolavukas/project/src/assignment2_package/msg/ObjectPoseArray.msg -Iassignment2_package:/home/nikolavukas/project/src/assignment2_package/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package -e /opt/ros/noetic/share/gencpp/cmake/..
 
 /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PickObject.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
 /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PickObject.h: /home/nikolavukas/project/src/assignment2_package/srv/PickObject.srv
-/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PickObject.h: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
-/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PickObject.h: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PickObject.h: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
-/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PickObject.h: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PickObject.h: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
 /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PickObject.h: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PickObject.h: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PickObject.h: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
 /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PickObject.h: /opt/ros/noetic/share/gencpp/msg.h.template
 /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PickObject.h: /opt/ros/noetic/share/gencpp/srv.h.template
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating C++ code from assignment2_package/PickObject.srv"
-	cd /home/nikolavukas/project/src/assignment2_package && /home/nikolavukas/project/build/assignment2_package/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/nikolavukas/project/src/assignment2_package/srv/PickObject.srv -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package -e /opt/ros/noetic/share/gencpp/cmake/..
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating C++ code from assignment2_package/PickObject.srv"
+	cd /home/nikolavukas/project/src/assignment2_package && /home/nikolavukas/project/build/assignment2_package/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/nikolavukas/project/src/assignment2_package/srv/PickObject.srv -Iassignment2_package:/home/nikolavukas/project/src/assignment2_package/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package -e /opt/ros/noetic/share/gencpp/cmake/..
 
 /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/GetObjectPose.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
 /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/GetObjectPose.h: /home/nikolavukas/project/src/assignment2_package/srv/GetObjectPose.srv
-/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/GetObjectPose.h: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
-/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/GetObjectPose.h: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/GetObjectPose.h: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
-/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/GetObjectPose.h: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/GetObjectPose.h: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
 /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/GetObjectPose.h: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/GetObjectPose.h: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/GetObjectPose.h: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
 /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/GetObjectPose.h: /opt/ros/noetic/share/gencpp/msg.h.template
 /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/GetObjectPose.h: /opt/ros/noetic/share/gencpp/srv.h.template
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating C++ code from assignment2_package/GetObjectPose.srv"
-	cd /home/nikolavukas/project/src/assignment2_package && /home/nikolavukas/project/build/assignment2_package/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/nikolavukas/project/src/assignment2_package/srv/GetObjectPose.srv -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package -e /opt/ros/noetic/share/gencpp/cmake/..
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating C++ code from assignment2_package/GetObjectPose.srv"
+	cd /home/nikolavukas/project/src/assignment2_package && /home/nikolavukas/project/build/assignment2_package/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/nikolavukas/project/src/assignment2_package/srv/GetObjectPose.srv -Iassignment2_package:/home/nikolavukas/project/src/assignment2_package/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package -e /opt/ros/noetic/share/gencpp/cmake/..
+
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PlaceObject.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PlaceObject.h: /home/nikolavukas/project/src/assignment2_package/srv/PlaceObject.srv
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PlaceObject.h: /opt/ros/noetic/share/gencpp/msg.h.template
+/home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PlaceObject.h: /opt/ros/noetic/share/gencpp/srv.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating C++ code from assignment2_package/PlaceObject.srv"
+	cd /home/nikolavukas/project/src/assignment2_package && /home/nikolavukas/project/build/assignment2_package/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/nikolavukas/project/src/assignment2_package/srv/PlaceObject.srv -Iassignment2_package:/home/nikolavukas/project/src/assignment2_package/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package -e /opt/ros/noetic/share/gencpp/cmake/..
 
 assignment2_package_generate_messages_cpp: CMakeFiles/assignment2_package_generate_messages_cpp
+assignment2_package_generate_messages_cpp: /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/ObjectPose.h
+assignment2_package_generate_messages_cpp: /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/ObjectPoseArray.h
 assignment2_package_generate_messages_cpp: /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PickObject.h
 assignment2_package_generate_messages_cpp: /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/GetObjectPose.h
+assignment2_package_generate_messages_cpp: /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PlaceObject.h
 assignment2_package_generate_messages_cpp: CMakeFiles/assignment2_package_generate_messages_cpp.dir/build.make
 
 .PHONY : assignment2_package_generate_messages_cpp

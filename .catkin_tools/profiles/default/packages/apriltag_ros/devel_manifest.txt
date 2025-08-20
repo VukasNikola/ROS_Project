@@ -1,5 +1,4 @@
 apriltag_ros/apriltag_ros
-/home/nikolavukas/project/devel/.private/apriltag_ros/cmake.lock /home/nikolavukas/project/devel/./cmake.lock
 /home/nikolavukas/project/devel/.private/apriltag_ros/include/apriltag_ros/AnalyzeSingleImage.h /home/nikolavukas/project/devel/include/apriltag_ros/AnalyzeSingleImage.h
 /home/nikolavukas/project/devel/.private/apriltag_ros/include/apriltag_ros/AnalyzeSingleImageRequest.h /home/nikolavukas/project/devel/include/apriltag_ros/AnalyzeSingleImageRequest.h
 /home/nikolavukas/project/devel/.private/apriltag_ros/include/apriltag_ros/AprilTagDetection.h /home/nikolavukas/project/devel/include/apriltag_ros/AprilTagDetection.h

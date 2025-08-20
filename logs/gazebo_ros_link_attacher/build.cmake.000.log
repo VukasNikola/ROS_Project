@@ -34,7 +34,7 @@ Not searching for unused variables given on the command line.
 [36m--[0m Found PythonInterp: /usr/bin/python3 (found version "3.8.10")
 [36m--[0m Found Threads: TRUE
 [36m--[0m Using Python nosetests: /usr/bin/nosetests3
-[36m--[0m catkin 0.8.10
+[36m--[0m catkin 0.8.12
 [36m--[0m BUILD_SHARED_LIBS is on
 [36m--[0m Using these message generators: gencpp;geneus;genlisp;gennodejs;genpy
 [36m--[0m Found PkgConfig: /usr/bin/pkg-config (found version "0.29.1")
@@ -67,9 +67,8 @@ Not searching for unused variables given on the command line.
 [36m--[0m Looking for OGRE_Overlay...
 [36m--[0m Found OGRE_Overlay: optimized;/usr/lib/x86_64-linux-gnu/libOgreOverlay.so;debug;/usr/lib/x86_64-linux-gnu/libOgreOverlay.so
 [36m--[0m Looking for ignition-math6 -- found version 6.15.1
-[36m--[0m Looking for ignition-transport8 -- found version 8.3.0
+[36m--[0m Looking for ignition-transport8 -- found version 8.5.0
 [36m--[0m Searching for dependencies of ignition-transport8
-[36m--[0m Found Protobuf: /usr/lib/x86_64-linux-gnu/libprotobuf.so;-lpthread (found suitable version "3.6.1", minimum required is "3")
 [36m--[0m Config-file not installed for ZeroMQ -- checking for pkg-config
 [36m--[0m Checking for module 'libzmq >= 4'
 [36m--[0m   Found libzmq , version 4.3.2
@@ -77,22 +76,23 @@ Not searching for unused variables given on the command line.
 [36m--[0m Checking for module 'uuid'
 [36m--[0m   Found uuid, version 2.34.0
 [36m--[0m Found UUID: TRUE
-[36m--[0m Looking for ignition-msgs5 -- found version 5.10.0
+[36m--[0m Looking for ignition-msgs5 -- found version 5.11.0
 [36m--[0m Searching for dependencies of ignition-msgs5
+[36m--[0m Found Protobuf: /usr/lib/x86_64-linux-gnu/libprotobuf.so;-lpthread (found suitable version "3.6.1", minimum required is "3")
 [36m--[0m Looking for ignition-math6 -- found version 6.15.1
 [36m--[0m Checking for module 'tinyxml2'
 [36m--[0m   Found tinyxml2, version 6.2.0
-[36m--[0m Looking for ignition-msgs5 -- found version 5.10.0
-[36m--[0m Looking for ignition-common3 -- found version 3.14.2
+[36m--[0m Looking for ignition-msgs5 -- found version 5.11.0
+[36m--[0m Looking for ignition-common3 -- found version 3.17.0
 [36m--[0m Searching for dependencies of ignition-common3
 [36m--[0m Looking for dlfcn.h - found
 [36m--[0m Looking for libdl - found
 [36m--[0m Found DL: TRUE
 [36m--[0m Searching for <ignition-common3> component [graphics]
-[36m--[0m Looking for ignition-common3-graphics -- found version 3.14.2
+[36m--[0m Looking for ignition-common3-graphics -- found version 3.17.0
 [36m--[0m Searching for dependencies of ignition-common3-graphics
 [36m--[0m Looking for ignition-math6 -- found version 6.15.1
-[36m--[0m Looking for ignition-fuel_tools4 -- found version 4.6.0
+[36m--[0m Looking for ignition-fuel_tools4 -- found version 4.9.1
 [36m--[0m Searching for dependencies of ignition-fuel_tools4
 [36m--[0m Found CURL: /usr/lib/x86_64-linux-gnu/libcurl.so (found version "7.68.0")
 [36m--[0m Checking for module 'jsoncpp'
@@ -104,9 +104,9 @@ Not searching for unused variables given on the command line.
 [36m--[0m Checking for module 'libzip'
 [36m--[0m   Found libzip, version 1.5.1
 [36m--[0m Found ZIP: TRUE
-[36m--[0m Looking for ignition-common3 -- found version 3.14.2
+[36m--[0m Looking for ignition-common3 -- found version 3.17.0
 [36m--[0m Looking for ignition-math6 -- found version 6.15.1
-[36m--[0m Looking for ignition-msgs5 -- found version 5.10.0
+[36m--[0m Looking for ignition-msgs5 -- found version 5.11.0
 [36m--[0m gazebo_ros_link_attacher: 0 messages, 1 services
 [36m--[0m Configuring done
 [36m--[0m Generating done

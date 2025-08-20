@@ -208,12 +208,20 @@ struct Printer< ::gazebo_ros_link_attacher::AttachRequest_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::gazebo_ros_link_attacher::AttachRequest_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "model_name_1: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.model_name_1);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "link_name_1: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.link_name_1);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "model_name_2: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.model_name_2);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "link_name_2: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.link_name_2);
   }

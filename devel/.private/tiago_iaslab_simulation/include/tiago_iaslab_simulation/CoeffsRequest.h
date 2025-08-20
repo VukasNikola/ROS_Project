@@ -184,6 +184,8 @@ struct Printer< ::tiago_iaslab_simulation::CoeffsRequest_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::tiago_iaslab_simulation::CoeffsRequest_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "ready: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.ready);
   }

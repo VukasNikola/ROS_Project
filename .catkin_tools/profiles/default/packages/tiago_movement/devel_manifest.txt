@@ -1,6 +1,0 @@
-tiago_movement
-/home/nikolavukas/project/devel/.private/tiago_movement/cmake.lock /home/nikolavukas/project/devel/./cmake.lock
-/home/nikolavukas/project/devel/.private/tiago_movement/lib/pkgconfig/tiago_movement.pc /home/nikolavukas/project/devel/lib/pkgconfig/tiago_movement.pc
-/home/nikolavukas/project/devel/.private/tiago_movement/lib/tiago_movement/cmd_vel_subscriber /home/nikolavukas/project/devel/lib/tiago_movement/cmd_vel_subscriber
-/home/nikolavukas/project/devel/.private/tiago_movement/share/tiago_movement/cmake/tiago_movementConfig.cmake /home/nikolavukas/project/devel/share/tiago_movement/cmake/tiago_movementConfig.cmake
-/home/nikolavukas/project/devel/.private/tiago_movement/share/tiago_movement/cmake/tiago_movementConfig-version.cmake /home/nikolavukas/project/devel/share/tiago_movement/cmake/tiago_movementConfig-version.cmake

@@ -1,7 +1,0 @@
-[01m[K/home/nikolavukas/project/src/assignment2_package/src/node_A.cpp:13:10:[m[K [01;31m[Kfatal error: [m[Kassignment2_package/GetObjectPose.h: No such file or directory
-   13 | #include [01;31m[K"assignment2_package/GetObjectPose.h"[m[K
-      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
-compilation terminated.
-make[2]: *** [CMakeFiles/node_A.dir/build.make:63: CMakeFiles/node_A.dir/src/node_A.cpp.o] Error 1
-make[1]: *** [CMakeFiles/Makefile2:384: CMakeFiles/node_A.dir/all] Error 2
-make: *** [Makefile:141: all] Error 2

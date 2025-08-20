@@ -25,10 +25,12 @@ struct PickObjectRequest_
   typedef PickObjectRequest_<ContainerAllocator> Type;
 
   PickObjectRequest_()
-    : target()  {
+    : target()
+    , target_id(0)  {
     }
   PickObjectRequest_(const ContainerAllocator& _alloc)
-    : target(_alloc)  {
+    : target(_alloc)
+    , target_id(0)  {
   (void)_alloc;
     }
 
@@ -36,6 +38,9 @@ struct PickObjectRequest_
 
    typedef  ::geometry_msgs::PoseStamped_<ContainerAllocator>  _target_type;
   _target_type target;
+
+   typedef uint32_t _target_id_type;
+  _target_id_type target_id;
 
 
 
@@ -66,7 +71,8 @@ return s;
 template<typename ContainerAllocator1, typename ContainerAllocator2>
 bool operator==(const ::assignment2_package::PickObjectRequest_<ContainerAllocator1> & lhs, const ::assignment2_package::PickObjectRequest_<ContainerAllocator2> & rhs)
 {
-  return lhs.target == rhs.target;
+  return lhs.target == rhs.target &&
+    lhs.target_id == rhs.target_id;
 }
 
 template<typename ContainerAllocator1, typename ContainerAllocator2>
@@ -123,12 +129,12 @@ struct MD5Sum< ::assignment2_package::PickObjectRequest_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "8ba8aeef25187f3dc987f3a87f890b3a";
+    return "4a622a0823833e7721ad9c8fd18b51f0";
   }
 
   static const char* value(const ::assignment2_package::PickObjectRequest_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x8ba8aeef25187f3dULL;
-  static const uint64_t static_value2 = 0xc987f3a87f890b3aULL;
+  static const uint64_t static_value1 = 0x4a622a0823833e77ULL;
+  static const uint64_t static_value2 = 0x21ad9c8fd18b51f0ULL;
 };
 
 template<class ContainerAllocator>
@@ -148,6 +154,7 @@ struct Definition< ::assignment2_package::PickObjectRequest_<ContainerAllocator>
   static const char* value()
   {
     return "geometry_msgs/PoseStamped target\n"
+"uint32 target_id\n"
 "\n"
 "================================================================================\n"
 "MSG: geometry_msgs/PoseStamped\n"
@@ -211,6 +218,7 @@ namespace serialization
     template<typename Stream, typename T> inline static void allInOne(Stream& stream, T m)
     {
       stream.next(m.target);
+      stream.next(m.target_id);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -229,9 +237,14 @@ struct Printer< ::assignment2_package::PickObjectRequest_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::assignment2_package::PickObjectRequest_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "target: ";
-    s << std::endl;
     Printer< ::geometry_msgs::PoseStamped_<ContainerAllocator> >::stream(s, indent + "  ", v.target);
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "target_id: ";
+    Printer<uint32_t>::stream(s, indent + "  ", v.target_id);
   }
 };
 

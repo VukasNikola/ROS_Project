@@ -185,12 +185,21 @@ struct Printer< ::tiago_iaslab_simulation::CoeffsResponse_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::tiago_iaslab_simulation::CoeffsResponse_<ContainerAllocator>& v)
   {
-    s << indent << "coeffs[]" << std::endl;
+    if (false || !indent.empty())
+      s << std::endl;
+    s << indent << "coeffs: ";
+    if (v.coeffs.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.coeffs.size(); ++i)
     {
-      s << indent << "  coeffs[" << i << "]: ";
-      Printer<float>::stream(s, indent + "  ", v.coeffs[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<float>::stream(s, true ? std::string() : indent + "    ", v.coeffs[i]);
     }
+    if (v.coeffs.empty() || true)
+      s << "]";
   }
 };
 

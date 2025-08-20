@@ -53,38 +53,70 @@ CMAKE_BINARY_DIR = /home/nikolavukas/project/build/assignment2_package
 # Include the progress variables for this target.
 include CMakeFiles/assignment2_package_generate_messages_eus.dir/progress.make
 
+CMakeFiles/assignment2_package_generate_messages_eus: /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg/ObjectPose.l
+CMakeFiles/assignment2_package_generate_messages_eus: /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg/ObjectPoseArray.l
 CMakeFiles/assignment2_package_generate_messages_eus: /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PickObject.l
 CMakeFiles/assignment2_package_generate_messages_eus: /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/GetObjectPose.l
+CMakeFiles/assignment2_package_generate_messages_eus: /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PlaceObject.l
 CMakeFiles/assignment2_package_generate_messages_eus: /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/manifest.l
 
 
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg/ObjectPose.l: /opt/ros/noetic/lib/geneus/gen_eus.py
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg/ObjectPose.l: /home/nikolavukas/project/src/assignment2_package/msg/ObjectPose.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg/ObjectPose.l: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg/ObjectPose.l: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg/ObjectPose.l: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg/ObjectPose.l: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg/ObjectPose.l: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating EusLisp code from assignment2_package/ObjectPose.msg"
+	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/nikolavukas/project/src/assignment2_package/msg/ObjectPose.msg -Iassignment2_package:/home/nikolavukas/project/src/assignment2_package/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg
+
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg/ObjectPoseArray.l: /opt/ros/noetic/lib/geneus/gen_eus.py
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg/ObjectPoseArray.l: /home/nikolavukas/project/src/assignment2_package/msg/ObjectPoseArray.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg/ObjectPoseArray.l: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg/ObjectPoseArray.l: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg/ObjectPoseArray.l: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg/ObjectPoseArray.l: /home/nikolavukas/project/src/assignment2_package/msg/ObjectPose.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg/ObjectPoseArray.l: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg/ObjectPoseArray.l: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating EusLisp code from assignment2_package/ObjectPoseArray.msg"
+	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/nikolavukas/project/src/assignment2_package/msg/ObjectPoseArray.msg -Iassignment2_package:/home/nikolavukas/project/src/assignment2_package/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg
+
 /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PickObject.l: /opt/ros/noetic/lib/geneus/gen_eus.py
 /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PickObject.l: /home/nikolavukas/project/src/assignment2_package/srv/PickObject.srv
-/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PickObject.l: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
-/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PickObject.l: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PickObject.l: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
-/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PickObject.l: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PickObject.l: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
 /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PickObject.l: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating EusLisp code from assignment2_package/PickObject.srv"
-	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/nikolavukas/project/src/assignment2_package/srv/PickObject.srv -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PickObject.l: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PickObject.l: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating EusLisp code from assignment2_package/PickObject.srv"
+	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/nikolavukas/project/src/assignment2_package/srv/PickObject.srv -Iassignment2_package:/home/nikolavukas/project/src/assignment2_package/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv
 
 /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/GetObjectPose.l: /opt/ros/noetic/lib/geneus/gen_eus.py
 /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/GetObjectPose.l: /home/nikolavukas/project/src/assignment2_package/srv/GetObjectPose.srv
-/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/GetObjectPose.l: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
-/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/GetObjectPose.l: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/GetObjectPose.l: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
-/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/GetObjectPose.l: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/GetObjectPose.l: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
 /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/GetObjectPose.l: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating EusLisp code from assignment2_package/GetObjectPose.srv"
-	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/nikolavukas/project/src/assignment2_package/srv/GetObjectPose.srv -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/GetObjectPose.l: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/GetObjectPose.l: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating EusLisp code from assignment2_package/GetObjectPose.srv"
+	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/nikolavukas/project/src/assignment2_package/srv/GetObjectPose.srv -Iassignment2_package:/home/nikolavukas/project/src/assignment2_package/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv
+
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PlaceObject.l: /opt/ros/noetic/lib/geneus/gen_eus.py
+/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PlaceObject.l: /home/nikolavukas/project/src/assignment2_package/srv/PlaceObject.srv
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating EusLisp code from assignment2_package/PlaceObject.srv"
+	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/nikolavukas/project/src/assignment2_package/srv/PlaceObject.srv -Iassignment2_package:/home/nikolavukas/project/src/assignment2_package/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv
 
 /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/manifest.l: /opt/ros/noetic/lib/geneus/gen_eus.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating EusLisp manifest code for assignment2_package"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Generating EusLisp manifest code for assignment2_package"
 	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py -m -o /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package assignment2_package std_msgs geometry_msgs
 
 assignment2_package_generate_messages_eus: CMakeFiles/assignment2_package_generate_messages_eus
+assignment2_package_generate_messages_eus: /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg/ObjectPose.l
+assignment2_package_generate_messages_eus: /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg/ObjectPoseArray.l
 assignment2_package_generate_messages_eus: /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PickObject.l
 assignment2_package_generate_messages_eus: /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/GetObjectPose.l
+assignment2_package_generate_messages_eus: /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PlaceObject.l
 assignment2_package_generate_messages_eus: /home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/manifest.l
 assignment2_package_generate_messages_eus: CMakeFiles/assignment2_package_generate_messages_eus.dir/build.make
 

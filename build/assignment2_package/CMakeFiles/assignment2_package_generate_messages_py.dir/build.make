@@ -53,40 +53,86 @@ CMAKE_BINARY_DIR = /home/nikolavukas/project/build/assignment2_package
 # Include the progress variables for this target.
 include CMakeFiles/assignment2_package_generate_messages_py.dir/progress.make
 
+CMakeFiles/assignment2_package_generate_messages_py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPose.py
+CMakeFiles/assignment2_package_generate_messages_py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPoseArray.py
 CMakeFiles/assignment2_package_generate_messages_py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PickObject.py
 CMakeFiles/assignment2_package_generate_messages_py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_GetObjectPose.py
+CMakeFiles/assignment2_package_generate_messages_py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PlaceObject.py
+CMakeFiles/assignment2_package_generate_messages_py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/__init__.py
 CMakeFiles/assignment2_package_generate_messages_py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/__init__.py
 
 
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPose.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPose.py: /home/nikolavukas/project/src/assignment2_package/msg/ObjectPose.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPose.py: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPose.py: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPose.py: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPose.py: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPose.py: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Python from MSG assignment2_package/ObjectPose"
+	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/nikolavukas/project/src/assignment2_package/msg/ObjectPose.msg -Iassignment2_package:/home/nikolavukas/project/src/assignment2_package/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg
+
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPoseArray.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPoseArray.py: /home/nikolavukas/project/src/assignment2_package/msg/ObjectPoseArray.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPoseArray.py: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPoseArray.py: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPoseArray.py: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPoseArray.py: /home/nikolavukas/project/src/assignment2_package/msg/ObjectPose.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPoseArray.py: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPoseArray.py: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Python from MSG assignment2_package/ObjectPoseArray"
+	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/nikolavukas/project/src/assignment2_package/msg/ObjectPoseArray.msg -Iassignment2_package:/home/nikolavukas/project/src/assignment2_package/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg
+
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PickObject.py: /opt/ros/noetic/lib/genpy/gensrv_py.py
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PickObject.py: /home/nikolavukas/project/src/assignment2_package/srv/PickObject.srv
-/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PickObject.py: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
-/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PickObject.py: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PickObject.py: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
-/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PickObject.py: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PickObject.py: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PickObject.py: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Python code from SRV assignment2_package/PickObject"
-	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/gensrv_py.py /home/nikolavukas/project/src/assignment2_package/srv/PickObject.srv -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PickObject.py: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PickObject.py: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Python code from SRV assignment2_package/PickObject"
+	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/gensrv_py.py /home/nikolavukas/project/src/assignment2_package/srv/PickObject.srv -Iassignment2_package:/home/nikolavukas/project/src/assignment2_package/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv
 
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_GetObjectPose.py: /opt/ros/noetic/lib/genpy/gensrv_py.py
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_GetObjectPose.py: /home/nikolavukas/project/src/assignment2_package/srv/GetObjectPose.srv
-/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_GetObjectPose.py: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
-/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_GetObjectPose.py: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_GetObjectPose.py: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
-/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_GetObjectPose.py: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_GetObjectPose.py: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_GetObjectPose.py: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Python code from SRV assignment2_package/GetObjectPose"
-	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/gensrv_py.py /home/nikolavukas/project/src/assignment2_package/srv/GetObjectPose.srv -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_GetObjectPose.py: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_GetObjectPose.py: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Python code from SRV assignment2_package/GetObjectPose"
+	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/gensrv_py.py /home/nikolavukas/project/src/assignment2_package/srv/GetObjectPose.srv -Iassignment2_package:/home/nikolavukas/project/src/assignment2_package/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv
+
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PlaceObject.py: /opt/ros/noetic/lib/genpy/gensrv_py.py
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PlaceObject.py: /home/nikolavukas/project/src/assignment2_package/srv/PlaceObject.srv
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating Python code from SRV assignment2_package/PlaceObject"
+	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/gensrv_py.py /home/nikolavukas/project/src/assignment2_package/srv/PlaceObject.srv -Iassignment2_package:/home/nikolavukas/project/src/assignment2_package/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv
+
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/__init__.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/__init__.py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPose.py
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/__init__.py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPoseArray.py
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/__init__.py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PickObject.py
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/__init__.py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_GetObjectPose.py
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/__init__.py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PlaceObject.py
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Generating Python msg __init__.py for assignment2_package"
+	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py -o /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg --initpy
 
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/__init__.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/__init__.py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPose.py
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/__init__.py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPoseArray.py
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/__init__.py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PickObject.py
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/__init__.py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_GetObjectPose.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Python srv __init__.py for assignment2_package"
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/__init__.py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PlaceObject.py
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Generating Python srv __init__.py for assignment2_package"
 	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py -o /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv --initpy
 
 assignment2_package_generate_messages_py: CMakeFiles/assignment2_package_generate_messages_py
+assignment2_package_generate_messages_py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPose.py
+assignment2_package_generate_messages_py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/_ObjectPoseArray.py
 assignment2_package_generate_messages_py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PickObject.py
 assignment2_package_generate_messages_py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_GetObjectPose.py
+assignment2_package_generate_messages_py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/_PlaceObject.py
+assignment2_package_generate_messages_py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/msg/__init__.py
 assignment2_package_generate_messages_py: /home/nikolavukas/project/devel/.private/assignment2_package/lib/python3/dist-packages/assignment2_package/srv/__init__.py
 assignment2_package_generate_messages_py: CMakeFiles/assignment2_package_generate_messages_py.dir/build.make
 

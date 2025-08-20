@@ -10,10 +10,11 @@ import geometry_msgs.msg
 import std_msgs.msg
 
 class PickObjectRequest(genpy.Message):
-  _md5sum = "8ba8aeef25187f3dc987f3a87f890b3a"
+  _md5sum = "4a622a0823833e7721ad9c8fd18b51f0"
   _type = "assignment2_package/PickObjectRequest"
   _has_header = False  # flag to mark the presence of a Header object
   _full_text = """geometry_msgs/PoseStamped target
+uint32 target_id
 
 ================================================================================
 MSG: geometry_msgs/PoseStamped
@@ -59,8 +60,8 @@ float64 y
 float64 z
 float64 w
 """
-  __slots__ = ['target']
-  _slot_types = ['geometry_msgs/PoseStamped']
+  __slots__ = ['target','target_id']
+  _slot_types = ['geometry_msgs/PoseStamped','uint32']
 
   def __init__(self, *args, **kwds):
     """
@@ -70,7 +71,7 @@ float64 w
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       target
+       target,target_id
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -81,8 +82,11 @@ float64 w
       # message fields cannot be None, assign default values for those that are
       if self.target is None:
         self.target = geometry_msgs.msg.PoseStamped()
+      if self.target_id is None:
+        self.target_id = 0
     else:
       self.target = geometry_msgs.msg.PoseStamped()
+      self.target_id = 0
 
   def _get_types(self):
     """
@@ -105,7 +109,7 @@ float64 w
         length = len(_x)
       buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
       _x = self
-      buff.write(_get_struct_7d().pack(_x.target.pose.position.x, _x.target.pose.position.y, _x.target.pose.position.z, _x.target.pose.orientation.x, _x.target.pose.orientation.y, _x.target.pose.orientation.z, _x.target.pose.orientation.w))
+      buff.write(_get_struct_7dI().pack(_x.target.pose.position.x, _x.target.pose.position.y, _x.target.pose.position.z, _x.target.pose.orientation.x, _x.target.pose.orientation.y, _x.target.pose.orientation.z, _x.target.pose.orientation.w, _x.target_id))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -135,8 +139,8 @@ float64 w
         self.target.header.frame_id = str[start:end]
       _x = self
       start = end
-      end += 56
-      (_x.target.pose.position.x, _x.target.pose.position.y, _x.target.pose.position.z, _x.target.pose.orientation.x, _x.target.pose.orientation.y, _x.target.pose.orientation.z, _x.target.pose.orientation.w,) = _get_struct_7d().unpack(str[start:end])
+      end += 60
+      (_x.target.pose.position.x, _x.target.pose.position.y, _x.target.pose.position.z, _x.target.pose.orientation.x, _x.target.pose.orientation.y, _x.target.pose.orientation.z, _x.target.pose.orientation.w, _x.target_id,) = _get_struct_7dI().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -158,7 +162,7 @@ float64 w
         length = len(_x)
       buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
       _x = self
-      buff.write(_get_struct_7d().pack(_x.target.pose.position.x, _x.target.pose.position.y, _x.target.pose.position.z, _x.target.pose.orientation.x, _x.target.pose.orientation.y, _x.target.pose.orientation.z, _x.target.pose.orientation.w))
+      buff.write(_get_struct_7dI().pack(_x.target.pose.position.x, _x.target.pose.position.y, _x.target.pose.position.z, _x.target.pose.orientation.x, _x.target.pose.orientation.y, _x.target.pose.orientation.z, _x.target.pose.orientation.w, _x.target_id))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -189,8 +193,8 @@ float64 w
         self.target.header.frame_id = str[start:end]
       _x = self
       start = end
-      end += 56
-      (_x.target.pose.position.x, _x.target.pose.position.y, _x.target.pose.position.z, _x.target.pose.orientation.x, _x.target.pose.orientation.y, _x.target.pose.orientation.z, _x.target.pose.orientation.w,) = _get_struct_7d().unpack(str[start:end])
+      end += 60
+      (_x.target.pose.position.x, _x.target.pose.position.y, _x.target.pose.position.z, _x.target.pose.orientation.x, _x.target.pose.orientation.y, _x.target.pose.orientation.z, _x.target.pose.orientation.w, _x.target_id,) = _get_struct_7dI().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -205,12 +209,12 @@ def _get_struct_3I():
     if _struct_3I is None:
         _struct_3I = struct.Struct("<3I")
     return _struct_3I
-_struct_7d = None
-def _get_struct_7d():
-    global _struct_7d
-    if _struct_7d is None:
-        _struct_7d = struct.Struct("<7d")
-    return _struct_7d
+_struct_7dI = None
+def _get_struct_7dI():
+    global _struct_7dI
+    if _struct_7dI is None:
+        _struct_7dI = struct.Struct("<7dI")
+    return _struct_7dI
 # This Python file uses the following encoding: utf-8
 """autogenerated by genpy from assignment2_package/PickObjectResponse.msg. Do not edit."""
 import codecs
@@ -328,6 +332,6 @@ def _get_struct_B():
     return _struct_B
 class PickObject(object):
   _type          = 'assignment2_package/PickObject'
-  _md5sum = '327c2f6cdc43d58ff36d1dc7acc1780f'
+  _md5sum = '1353e22d17c63a0b3e01bd479f8a9f82'
   _request_class  = PickObjectRequest
   _response_class = PickObjectResponse

@@ -118,6 +118,21 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
+   "/home/nikolavukas/project/install/setup.fish;/home/nikolavukas/project/install/local_setup.fish")
+  if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  endif()
+  if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  endif()
+file(INSTALL DESTINATION "/home/nikolavukas/project/install" TYPE FILE FILES
+    "/home/nikolavukas/project/build/assignment2_package/catkin_generated/installspace/setup.fish"
+    "/home/nikolavukas/project/build/assignment2_package/catkin_generated/installspace/local_setup.fish"
+    )
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
    "/home/nikolavukas/project/install/.rosinstall")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
@@ -132,6 +147,14 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/assignment2_package/srv" TYPE FILE FILES
     "/home/nikolavukas/project/src/assignment2_package/srv/PickObject.srv"
     "/home/nikolavukas/project/src/assignment2_package/srv/GetObjectPose.srv"
+    "/home/nikolavukas/project/src/assignment2_package/srv/PlaceObject.srv"
+    )
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/assignment2_package/msg" TYPE FILE FILES
+    "/home/nikolavukas/project/src/assignment2_package/msg/ObjectPose.msg"
+    "/home/nikolavukas/project/src/assignment2_package/msg/ObjectPoseArray.msg"
     )
 endif()
 
@@ -180,6 +203,10 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/assignment2_package" TYPE FILE FILES "/home/nikolavukas/project/src/assignment2_package/package.xml")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/assignment2_package/urdf" TYPE DIRECTORY FILES "/home/nikolavukas/project/src/assignment2_package/urdf/")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)

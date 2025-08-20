@@ -1,0 +1,286 @@
+[35m[1mScanning dependencies of target _assignment2_package_generate_messages_check_deps_ObjectPose[0m
+[35m[1mScanning dependencies of target std_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target _assignment2_package_generate_messages_check_deps_PickObject[0m
+[35m[1mScanning dependencies of target _assignment2_package_generate_messages_check_deps_ObjectPoseArray[0m
+[35m[1mScanning dependencies of target _assignment2_package_generate_messages_check_deps_PlaceObject[0m
+[35m[1mScanning dependencies of target geometry_msgs_generate_messages_nodejs[0m
+[  0%] Built target std_msgs_generate_messages_nodejs
+[  0%] Built target geometry_msgs_generate_messages_nodejs
+[35m[1mScanning dependencies of target _assignment2_package_generate_messages_check_deps_GetObjectPose[0m
+[35m[1mScanning dependencies of target geometry_msgs_generate_messages_py[0m
+[  0%] Built target geometry_msgs_generate_messages_py
+[  0%] Built target _assignment2_package_generate_messages_check_deps_ObjectPose
+[  0%] Built target _assignment2_package_generate_messages_check_deps_ObjectPoseArray
+[35m[1mScanning dependencies of target std_msgs_generate_messages_py[0m
+[  0%] Built target _assignment2_package_generate_messages_check_deps_PlaceObject
+[35m[1mScanning dependencies of target trajectory_msgs_generate_messages_py[0m
+[  0%] Built target _assignment2_package_generate_messages_check_deps_PickObject
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_cpp[0m
+[  0%] Built target _assignment2_package_generate_messages_check_deps_GetObjectPose
+[  0%] Built target trajectory_msgs_generate_messages_py
+[  0%] Built target std_msgs_generate_messages_py
+[35m[1mScanning dependencies of target trajectory_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target tiago_iaslab_simulation_generate_messages_nodejs[0m
+[  0%] Built target rosgraph_msgs_generate_messages_cpp
+[35m[1mScanning dependencies of target shape_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target tiago_iaslab_simulation_generate_messages_cpp[0m
+[  0%] Built target trajectory_msgs_generate_messages_lisp
+[35m[1mScanning dependencies of target moveit_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target sensor_msgs_generate_messages_cpp[0m
+[  0%] Built target tiago_iaslab_simulation_generate_messages_nodejs
+[  0%] Built target shape_msgs_generate_messages_lisp
+[  0%] Built target tiago_iaslab_simulation_generate_messages_cpp
+[  0%] Built target moveit_msgs_generate_messages_nodejs
+[35m[1mScanning dependencies of target moveit_msgs_generate_messages_cpp[0m
+[  0%] Built target sensor_msgs_generate_messages_cpp
+[35m[1mScanning dependencies of target trajectory_msgs_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target actionlib_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target actionlib_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target tf_generate_messages_py[0m
+[  0%] Built target moveit_msgs_generate_messages_cpp
+[35m[1mScanning dependencies of target actionlib_generate_messages_py[0m
+[  0%] Built target actionlib_msgs_generate_messages_nodejs
+[  0%] Built target trajectory_msgs_generate_messages_cpp
+[  0%] Built target tf_generate_messages_py
+[35m[1mScanning dependencies of target trajectory_msgs_generate_messages_nodejs[0m
+[  0%] Built target actionlib_msgs_generate_messages_lisp
+[  0%] Built target actionlib_generate_messages_py
+[35m[1mScanning dependencies of target sensor_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target roscpp_generate_messages_py[0m
+[  0%] Built target trajectory_msgs_generate_messages_nodejs
+[35m[1mScanning dependencies of target actionlib_msgs_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_eus[0m
+[  0%] Built target sensor_msgs_generate_messages_nodejs
+[35m[1mScanning dependencies of target moveit_ros_planning_gencfg[0m
+[  0%] Built target roscpp_generate_messages_py
+[35m[1mScanning dependencies of target actionlib_generate_messages_nodejs[0m
+[  0%] Built target actionlib_msgs_generate_messages_cpp
+[  0%] Built target rosgraph_msgs_generate_messages_eus
+[35m[1mScanning dependencies of target std_srvs_generate_messages_py[0m
+[  0%] Built target actionlib_generate_messages_nodejs
+[  0%] Built target moveit_ros_planning_gencfg
+[35m[1mScanning dependencies of target moveit_msgs_generate_messages_py[0m
+[35m[1mScanning dependencies of target geometry_msgs_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target dynamic_reconfigure_generate_messages_eus[0m
+[35m[1mScanning dependencies of target roscpp_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target sensor_msgs_generate_messages_py[0m
+[  0%] Built target std_srvs_generate_messages_py
+[  0%] Built target moveit_msgs_generate_messages_py
+[  0%] Built target geometry_msgs_generate_messages_cpp
+[  0%] Built target sensor_msgs_generate_messages_py
+[  0%] Built target dynamic_reconfigure_generate_messages_eus
+[35m[1mScanning dependencies of target tf2_msgs_generate_messages_eus[0m
+[  0%] Built target roscpp_generate_messages_cpp
+[35m[1mScanning dependencies of target object_recognition_msgs_generate_messages_eus[0m
+[35m[1mScanning dependencies of target shape_msgs_generate_messages_nodejs[0m
+[  0%] Built target tf2_msgs_generate_messages_eus
+[35m[1mScanning dependencies of target moveit_msgs_generate_messages_eus[0m
+[35m[1mScanning dependencies of target object_recognition_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target actionlib_msgs_generate_messages_eus[0m
+[  0%] Built target shape_msgs_generate_messages_nodejs
+[  0%] Built target object_recognition_msgs_generate_messages_eus
+[  0%] Built target moveit_msgs_generate_messages_eus
+[  0%] Built target object_recognition_msgs_generate_messages_nodejs
+[35m[1mScanning dependencies of target dynamic_reconfigure_generate_messages_py[0m
+[  0%] Built target actionlib_msgs_generate_messages_eus
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target tf_generate_messages_eus[0m
+[35m[1mScanning dependencies of target std_srvs_generate_messages_cpp[0m
+[  0%] Built target dynamic_reconfigure_generate_messages_py
+[35m[1mScanning dependencies of target visualization_msgs_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target trajectory_msgs_generate_messages_eus[0m
+[  0%] Built target tf_generate_messages_eus
+[  0%] Built target rosgraph_msgs_generate_messages_lisp
+[35m[1mScanning dependencies of target geometry_msgs_generate_messages_eus[0m
+[  0%] Built target visualization_msgs_generate_messages_cpp
+[  0%] Built target trajectory_msgs_generate_messages_eus
+[  0%] Built target std_srvs_generate_messages_cpp
+[35m[1mScanning dependencies of target std_msgs_generate_messages_eus[0m
+[  0%] Built target geometry_msgs_generate_messages_eus
+[35m[1mScanning dependencies of target actionlib_msgs_generate_messages_py[0m
+[35m[1mScanning dependencies of target moveit_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target std_msgs_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target actionlib_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target object_recognition_msgs_generate_messages_cpp[0m
+[  0%] Built target std_msgs_generate_messages_eus
+[  0%] Built target moveit_msgs_generate_messages_lisp
+[  0%] Built target actionlib_msgs_generate_messages_py
+[  0%] Built target actionlib_generate_messages_cpp
+[  0%] Built target std_msgs_generate_messages_cpp
+[35m[1mScanning dependencies of target nodelet_generate_messages_lisp[0m
+[  0%] Built target object_recognition_msgs_generate_messages_cpp
+[35m[1mScanning dependencies of target actionlib_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target sensor_msgs_generate_messages_eus[0m
+[35m[1mScanning dependencies of target shape_msgs_generate_messages_cpp[0m
+[  0%] Built target nodelet_generate_messages_lisp
+[35m[1mScanning dependencies of target geometry_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target moveit_ros_manipulation_gencfg[0m
+[  0%] Built target actionlib_generate_messages_lisp
+[  0%] Built target shape_msgs_generate_messages_cpp
+[35m[1mScanning dependencies of target shape_msgs_generate_messages_eus[0m
+[  0%] Built target sensor_msgs_generate_messages_eus
+[  0%] Built target geometry_msgs_generate_messages_lisp
+[  0%] Built target moveit_ros_manipulation_gencfg
+[35m[1mScanning dependencies of target std_msgs_generate_messages_lisp[0m
+[  0%] Built target shape_msgs_generate_messages_eus
+[35m[1mScanning dependencies of target octomap_msgs_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target octomap_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target octomap_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target actionlib_generate_messages_eus[0m
+[  0%] Built target std_msgs_generate_messages_lisp
+[35m[1mScanning dependencies of target apriltag_ros_generate_messages_py[0m
+[  0%] Built target octomap_msgs_generate_messages_nodejs
+[  0%] Built target actionlib_generate_messages_eus
+[  0%] Built target octomap_msgs_generate_messages_lisp
+[  0%] Built target octomap_msgs_generate_messages_cpp
+[35m[1mScanning dependencies of target bond_generate_messages_nodejs[0m
+[  0%] Built target apriltag_ros_generate_messages_py
+[35m[1mScanning dependencies of target dynamic_reconfigure_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target dynamic_reconfigure_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target dynamic_reconfigure_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target assignment2_package_generate_messages_lisp[0m
+[  0%] Built target bond_generate_messages_nodejs
+[35m[1mScanning dependencies of target tf2_msgs_generate_messages_cpp[0m
+[  0%] Built target dynamic_reconfigure_generate_messages_cpp
+[  2%] [34m[1mGenerating Lisp code from assignment2_package/ObjectPose.msg[0m
+[  2%] Built target dynamic_reconfigure_generate_messages_lisp
+[  2%] Built target dynamic_reconfigure_generate_messages_nodejs
+[35m[1mScanning dependencies of target tf2_msgs_generate_messages_py[0m
+[35m[1mScanning dependencies of target bond_generate_messages_cpp[0m
+[  2%] Built target tf2_msgs_generate_messages_cpp
+[35m[1mScanning dependencies of target visualization_msgs_generate_messages_lisp[0m
+[  2%] Built target tf2_msgs_generate_messages_py
+[35m[1mScanning dependencies of target dynamic_reconfigure_gencfg[0m
+[  2%] Built target bond_generate_messages_cpp
+[35m[1mScanning dependencies of target visualization_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_py[0m
+[  2%] Built target visualization_msgs_generate_messages_lisp
+[  2%] Built target dynamic_reconfigure_gencfg
+[  2%] Built target visualization_msgs_generate_messages_nodejs
+[35m[1mScanning dependencies of target octomap_msgs_generate_messages_py[0m
+[35m[1mScanning dependencies of target visualization_msgs_generate_messages_py[0m
+[  2%] Built target rosgraph_msgs_generate_messages_py
+[35m[1mScanning dependencies of target tf2_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target tf_generate_messages_cpp[0m
+[  2%] Built target visualization_msgs_generate_messages_py
+[35m[1mScanning dependencies of target apriltag_ros_generate_messages_lisp[0m
+[  2%] Built target octomap_msgs_generate_messages_py
+[  2%] Built target tf2_msgs_generate_messages_lisp
+[  2%] Built target tf_generate_messages_cpp
+[  5%] [34m[1mGenerating Lisp code from assignment2_package/ObjectPoseArray.msg[0m
+[35m[1mScanning dependencies of target shape_msgs_generate_messages_py[0m
+[  5%] Built target apriltag_ros_generate_messages_lisp
+[35m[1mScanning dependencies of target tf_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target std_srvs_generate_messages_eus[0m
+[35m[1mScanning dependencies of target tiago_iaslab_simulation_generate_messages_py[0m
+[  5%] Built target tf_generate_messages_nodejs
+[  5%] Built target shape_msgs_generate_messages_py
+[35m[1mScanning dependencies of target roscpp_generate_messages_lisp[0m
+[  5%] Built target std_srvs_generate_messages_eus
+[  5%] Built target tiago_iaslab_simulation_generate_messages_py
+[35m[1mScanning dependencies of target std_srvs_generate_messages_lisp[0m
+[  7%] [34m[1mGenerating Lisp code from assignment2_package/PickObject.srv[0m
+[  7%] Built target roscpp_generate_messages_lisp
+[35m[1mScanning dependencies of target std_srvs_generate_messages_nodejs[0m
+[  7%] Built target std_srvs_generate_messages_lisp
+[35m[1mScanning dependencies of target nodelet_generate_messages_py[0m
+[35m[1mScanning dependencies of target apriltag_ros_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target roscpp_generate_messages_eus[0m
+[  7%] Built target nodelet_generate_messages_py
+[  7%] Built target std_srvs_generate_messages_nodejs
+[  7%] Built target apriltag_ros_generate_messages_cpp
+[  7%] Built target roscpp_generate_messages_eus
+[35m[1mScanning dependencies of target apriltag_ros_generate_messages_eus[0m
+[35m[1mScanning dependencies of target octomap_msgs_generate_messages_eus[0m
+[35m[1mScanning dependencies of target visualization_msgs_generate_messages_eus[0m
+[ 10%] [34m[1mGenerating Lisp code from assignment2_package/GetObjectPose.srv[0m
+[35m[1mScanning dependencies of target apriltag_ros_generate_messages_nodejs[0m
+[ 10%] Built target apriltag_ros_generate_messages_eus
+[ 10%] Built target octomap_msgs_generate_messages_eus
+[ 10%] Built target visualization_msgs_generate_messages_eus
+[ 13%] [34m[1mGenerating Lisp code from assignment2_package/PlaceObject.srv[0m
+[ 13%] Built target apriltag_ros_generate_messages_nodejs
+[35m[1mScanning dependencies of target sensor_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target tf2_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target nodelet_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target nodelet_generate_messages_eus[0m
+[ 13%] Built target sensor_msgs_generate_messages_lisp
+[ 13%] Built target nodelet_generate_messages_cpp
+[ 13%] Built target tf2_msgs_generate_messages_nodejs
+[ 13%] Built target nodelet_generate_messages_eus
+[35m[1mScanning dependencies of target object_recognition_msgs_generate_messages_py[0m
+[35m[1mScanning dependencies of target nodelet_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target bond_generate_messages_eus[0m
+[35m[1mScanning dependencies of target bond_generate_messages_lisp[0m
+[ 13%] Built target object_recognition_msgs_generate_messages_py
+[ 13%] Built target nodelet_generate_messages_nodejs
+[35m[1mScanning dependencies of target bond_generate_messages_py[0m
+[35m[1mScanning dependencies of target tf_generate_messages_lisp[0m
+[ 13%] Built target bond_generate_messages_eus
+[ 13%] Built target bond_generate_messages_lisp
+[35m[1mScanning dependencies of target tiago_iaslab_simulation_generate_messages_eus[0m
+[ 13%] Built target bond_generate_messages_py
+[35m[1mScanning dependencies of target object_recognition_msgs_generate_messages_lisp[0m
+[ 13%] Built target tf_generate_messages_lisp
+[35m[1mScanning dependencies of target tiago_iaslab_simulation_generate_messages_lisp[0m
+[ 13%] Built target tiago_iaslab_simulation_generate_messages_eus
+[ 13%] Built target assignment2_package_generate_messages_lisp
+[ 13%] Built target tiago_iaslab_simulation_generate_messages_lisp
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_nodejs[0m
+[ 13%] Built target object_recognition_msgs_generate_messages_lisp
+[35m[1mScanning dependencies of target roscpp_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target assignment2_package_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target assignment2_package_generate_messages_nodejs[0m
+[ 13%] Built target rosgraph_msgs_generate_messages_nodejs
+[35m[1mScanning dependencies of target assignment2_package_generate_messages_py[0m
+[35m[1mScanning dependencies of target assignment2_package_generate_messages_eus[0m
+[ 13%] Built target roscpp_generate_messages_nodejs
+[ 18%] [34m[1mGenerating C++ code from assignment2_package/ObjectPose.msg[0m
+[ 18%] [34m[1mGenerating Javascript code from assignment2_package/ObjectPose.msg[0m
+[ 21%] [34m[1mGenerating Python from MSG assignment2_package/ObjectPose[0m
+[ 23%] [34m[1mGenerating C++ code from assignment2_package/ObjectPoseArray.msg[0m
+[ 26%] [34m[1mGenerating EusLisp code from assignment2_package/ObjectPose.msg[0m
+[ 28%] [34m[1mGenerating EusLisp code from assignment2_package/ObjectPoseArray.msg[0m
+[ 31%] [34m[1mGenerating Javascript code from assignment2_package/ObjectPoseArray.msg[0m
+[ 34%] [34m[1mGenerating EusLisp code from assignment2_package/PickObject.srv[0m
+[ 36%] [34m[1mGenerating EusLisp code from assignment2_package/GetObjectPose.srv[0m
+[ 42%] [34m[1mGenerating Javascript code from assignment2_package/PickObject.srv[0m
+[ 42%] [34m[1mGenerating C++ code from assignment2_package/PickObject.srv[0m
+[ 44%] [34m[1mGenerating C++ code from assignment2_package/GetObjectPose.srv[0m
+[ 47%] [34m[1mGenerating Python from MSG assignment2_package/ObjectPoseArray[0m
+[ 50%] [34m[1mGenerating Javascript code from assignment2_package/GetObjectPose.srv[0m
+[ 52%] [34m[1mGenerating EusLisp manifest code for assignment2_package[0m
+[ 55%] [34m[1mGenerating EusLisp code from assignment2_package/PlaceObject.srv[0m
+[ 57%] [34m[1mGenerating Javascript code from assignment2_package/PlaceObject.srv[0m
+[ 57%] Built target assignment2_package_generate_messages_nodejs
+[ 60%] [34m[1mGenerating C++ code from assignment2_package/PlaceObject.srv[0m
+[ 63%] [34m[1mGenerating Python code from SRV assignment2_package/GetObjectPose[0m
+[ 65%] [34m[1mGenerating Python code from SRV assignment2_package/PickObject[0m
+[ 68%] [34m[1mGenerating Python code from SRV assignment2_package/PlaceObject[0m
+[ 73%] [34m[1mGenerating Python srv __init__.py for assignment2_package[0m
+[ 73%] [34m[1mGenerating Python msg __init__.py for assignment2_package[0m
+[ 73%] Built target assignment2_package_generate_messages_cpp
+[ 73%] Built target assignment2_package_generate_messages_py
+[ 73%] Built target assignment2_package_generate_messages_eus
+[35m[1mScanning dependencies of target tables_node[0m
+[35m[1mScanning dependencies of target node_C[0m
+[35m[1mScanning dependencies of target test_node[0m
+[35m[1mScanning dependencies of target node_A[0m
+[35m[1mScanning dependencies of target assignment2_package_generate_messages[0m
+[35m[1mScanning dependencies of target node_B[0m
+[ 73%] Built target assignment2_package_generate_messages
+[ 76%] [32mBuilding CXX object CMakeFiles/node_B.dir/src/node_B.cpp.o[0m
+[ 78%] [32mBuilding CXX object CMakeFiles/tables_node.dir/src/tables_node.cpp.o[0m
+[ 81%] [32mBuilding CXX object CMakeFiles/node_C.dir/src/node_C.cpp.o[0m
+[ 84%] [32mBuilding CXX object CMakeFiles/test_node.dir/src/test_node.cpp.o[0m
+[ 86%] [32mBuilding CXX object CMakeFiles/node_A.dir/src/node_A.cpp.o[0m
+[ 89%] [32m[1mLinking CXX executable /home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B[0m
+[ 89%] Built target node_B
+[ 92%] [32m[1mLinking CXX executable /home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/tables_node[0m
+[ 92%] Built target tables_node
+[ 94%] [32m[1mLinking CXX executable /home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/test_node[0m
+[ 94%] Built target test_node
+[ 97%] [32m[1mLinking CXX executable /home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_C[0m
+[ 97%] Built target node_C
+[100%] [32m[1mLinking CXX executable /home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_A[0m
+[100%] Built target node_A

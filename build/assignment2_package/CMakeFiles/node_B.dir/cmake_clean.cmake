@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B"
   "/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B.pdb"
-  "CMakeFiles/node_B.dir/src/node_A.cpp.o"
+  "CMakeFiles/node_B.dir/src/node_B.cpp.o"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -9,6 +9,7 @@ CMakeFiles/apriltag.dir/apriltag.c.o: /home/nikolavukas/project/src/apriltag/com
 CMakeFiles/apriltag.dir/apriltag.c.o: /home/nikolavukas/project/src/apriltag/common/homography.h
 CMakeFiles/apriltag.dir/apriltag.c.o: /home/nikolavukas/project/src/apriltag/common/image_types.h
 CMakeFiles/apriltag.dir/apriltag.c.o: /home/nikolavukas/project/src/apriltag/common/image_u8.h
+CMakeFiles/apriltag.dir/apriltag.c.o: /home/nikolavukas/project/src/apriltag/common/image_u8_parallel.h
 CMakeFiles/apriltag.dir/apriltag.c.o: /home/nikolavukas/project/src/apriltag/common/image_u8x3.h
 CMakeFiles/apriltag.dir/apriltag.c.o: /home/nikolavukas/project/src/apriltag/common/matd.h
 CMakeFiles/apriltag.dir/apriltag.c.o: /home/nikolavukas/project/src/apriltag/common/math_util.h
@@ -74,6 +75,14 @@ CMakeFiles/apriltag.dir/common/image_u8.c.o: /home/nikolavukas/project/src/april
 CMakeFiles/apriltag.dir/common/image_u8.c.o: /home/nikolavukas/project/src/apriltag/common/image_u8.h
 CMakeFiles/apriltag.dir/common/image_u8.c.o: /home/nikolavukas/project/src/apriltag/common/math_util.h
 CMakeFiles/apriltag.dir/common/image_u8.c.o: /home/nikolavukas/project/src/apriltag/common/pnm.h
+
+CMakeFiles/apriltag.dir/common/image_u8_parallel.c.o: /home/nikolavukas/project/src/apriltag/common/image_types.h
+CMakeFiles/apriltag.dir/common/image_u8_parallel.c.o: /home/nikolavukas/project/src/apriltag/common/image_u8.h
+CMakeFiles/apriltag.dir/common/image_u8_parallel.c.o: /home/nikolavukas/project/src/apriltag/common/image_u8_parallel.c
+CMakeFiles/apriltag.dir/common/image_u8_parallel.c.o: /home/nikolavukas/project/src/apriltag/common/image_u8_parallel.h
+CMakeFiles/apriltag.dir/common/image_u8_parallel.c.o: /home/nikolavukas/project/src/apriltag/common/math_util.h
+CMakeFiles/apriltag.dir/common/image_u8_parallel.c.o: /home/nikolavukas/project/src/apriltag/common/workerpool.h
+CMakeFiles/apriltag.dir/common/image_u8_parallel.c.o: /home/nikolavukas/project/src/apriltag/common/zarray.h
 
 CMakeFiles/apriltag.dir/common/image_u8x3.c.o: /home/nikolavukas/project/src/apriltag/common/image_types.h
 CMakeFiles/apriltag.dir/common/image_u8x3.c.o: /home/nikolavukas/project/src/apriltag/common/image_u8x3.c

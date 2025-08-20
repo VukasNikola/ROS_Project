@@ -53,33 +53,65 @@ CMAKE_BINARY_DIR = /home/nikolavukas/project/build/assignment2_package
 # Include the progress variables for this target.
 include CMakeFiles/assignment2_package_generate_messages_nodejs.dir/progress.make
 
+CMakeFiles/assignment2_package_generate_messages_nodejs: /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/msg/ObjectPose.js
+CMakeFiles/assignment2_package_generate_messages_nodejs: /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/msg/ObjectPoseArray.js
 CMakeFiles/assignment2_package_generate_messages_nodejs: /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PickObject.js
 CMakeFiles/assignment2_package_generate_messages_nodejs: /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/GetObjectPose.js
+CMakeFiles/assignment2_package_generate_messages_nodejs: /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PlaceObject.js
 
+
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/msg/ObjectPose.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/msg/ObjectPose.js: /home/nikolavukas/project/src/assignment2_package/msg/ObjectPose.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/msg/ObjectPose.js: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/msg/ObjectPose.js: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/msg/ObjectPose.js: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/msg/ObjectPose.js: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/msg/ObjectPose.js: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Javascript code from assignment2_package/ObjectPose.msg"
+	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/nikolavukas/project/src/assignment2_package/msg/ObjectPose.msg -Iassignment2_package:/home/nikolavukas/project/src/assignment2_package/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/msg
+
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/msg/ObjectPoseArray.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/msg/ObjectPoseArray.js: /home/nikolavukas/project/src/assignment2_package/msg/ObjectPoseArray.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/msg/ObjectPoseArray.js: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/msg/ObjectPoseArray.js: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/msg/ObjectPoseArray.js: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/msg/ObjectPoseArray.js: /home/nikolavukas/project/src/assignment2_package/msg/ObjectPose.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/msg/ObjectPoseArray.js: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/msg/ObjectPoseArray.js: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Javascript code from assignment2_package/ObjectPoseArray.msg"
+	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/nikolavukas/project/src/assignment2_package/msg/ObjectPoseArray.msg -Iassignment2_package:/home/nikolavukas/project/src/assignment2_package/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/msg
 
 /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PickObject.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
 /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PickObject.js: /home/nikolavukas/project/src/assignment2_package/srv/PickObject.srv
-/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PickObject.js: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
-/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PickObject.js: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PickObject.js: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
-/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PickObject.js: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PickObject.js: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
 /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PickObject.js: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Javascript code from assignment2_package/PickObject.srv"
-	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/nikolavukas/project/src/assignment2_package/srv/PickObject.srv -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PickObject.js: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PickObject.js: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Javascript code from assignment2_package/PickObject.srv"
+	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/nikolavukas/project/src/assignment2_package/srv/PickObject.srv -Iassignment2_package:/home/nikolavukas/project/src/assignment2_package/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv
 
 /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/GetObjectPose.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
 /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/GetObjectPose.js: /home/nikolavukas/project/src/assignment2_package/srv/GetObjectPose.srv
-/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/GetObjectPose.js: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
-/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/GetObjectPose.js: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/GetObjectPose.js: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
-/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/GetObjectPose.js: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/GetObjectPose.js: /opt/ros/noetic/share/geometry_msgs/msg/PoseStamped.msg
 /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/GetObjectPose.js: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Javascript code from assignment2_package/GetObjectPose.srv"
-	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/nikolavukas/project/src/assignment2_package/srv/GetObjectPose.srv -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/GetObjectPose.js: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/GetObjectPose.js: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Javascript code from assignment2_package/GetObjectPose.srv"
+	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/nikolavukas/project/src/assignment2_package/srv/GetObjectPose.srv -Iassignment2_package:/home/nikolavukas/project/src/assignment2_package/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv
+
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PlaceObject.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
+/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PlaceObject.js: /home/nikolavukas/project/src/assignment2_package/srv/PlaceObject.srv
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating Javascript code from assignment2_package/PlaceObject.srv"
+	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/nikolavukas/project/src/assignment2_package/srv/PlaceObject.srv -Iassignment2_package:/home/nikolavukas/project/src/assignment2_package/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p assignment2_package -o /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv
 
 assignment2_package_generate_messages_nodejs: CMakeFiles/assignment2_package_generate_messages_nodejs
+assignment2_package_generate_messages_nodejs: /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/msg/ObjectPose.js
+assignment2_package_generate_messages_nodejs: /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/msg/ObjectPoseArray.js
 assignment2_package_generate_messages_nodejs: /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PickObject.js
 assignment2_package_generate_messages_nodejs: /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/GetObjectPose.js
+assignment2_package_generate_messages_nodejs: /home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PlaceObject.js
 assignment2_package_generate_messages_nodejs: CMakeFiles/assignment2_package_generate_messages_nodejs.dir/build.make
 
 .PHONY : assignment2_package_generate_messages_nodejs

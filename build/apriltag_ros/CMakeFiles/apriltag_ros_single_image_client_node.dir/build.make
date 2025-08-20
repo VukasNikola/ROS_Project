@@ -212,7 +212,7 @@ apriltag_ros_single_image_client_node_EXTERNAL_OBJECTS =
 /home/nikolavukas/project/devel/.private/apriltag_ros/lib/apriltag_ros/apriltag_ros_single_image_client_node: /usr/lib/x86_64-linux-gnu/libopencv_photo.so.4.2.0
 /home/nikolavukas/project/devel/.private/apriltag_ros/lib/apriltag_ros/apriltag_ros_single_image_client_node: /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.4.2.0
 /home/nikolavukas/project/devel/.private/apriltag_ros/lib/apriltag_ros/apriltag_ros_single_image_client_node: /usr/lib/x86_64-linux-gnu/libopencv_core.so.4.2.0
-/home/nikolavukas/project/devel/.private/apriltag_ros/lib/apriltag_ros/apriltag_ros_single_image_client_node: /home/nikolavukas/project/devel/lib/libapriltag.so.3.4.2
+/home/nikolavukas/project/devel/.private/apriltag_ros/lib/apriltag_ros/apriltag_ros_single_image_client_node: /home/nikolavukas/project/devel/lib/libapriltag.so.3.4.4
 /home/nikolavukas/project/devel/.private/apriltag_ros/lib/apriltag_ros/apriltag_ros_single_image_client_node: CMakeFiles/apriltag_ros_single_image_client_node.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/nikolavukas/project/build/apriltag_ros/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable /home/nikolavukas/project/devel/.private/apriltag_ros/lib/apriltag_ros/apriltag_ros_single_image_client_node"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/apriltag_ros_single_image_client_node.dir/link.txt --verbose=$(VERBOSE)

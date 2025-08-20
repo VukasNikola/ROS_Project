@@ -40,7 +40,7 @@ template<>
 struct MD5Sum< ::assignment2_package::PickObject > {
   static const char* value()
   {
-    return "327c2f6cdc43d58ff36d1dc7acc1780f";
+    return "1353e22d17c63a0b3e01bd479f8a9f82";
   }
 
   static const char* value(const ::assignment2_package::PickObject&) { return value(); }

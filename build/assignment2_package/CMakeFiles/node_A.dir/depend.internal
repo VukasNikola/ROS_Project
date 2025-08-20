@@ -8,9 +8,12 @@ CMakeFiles/node_A.dir/src/node_A.cpp.o
  /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PickObject.h
  /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PickObjectRequest.h
  /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PickObjectResponse.h
- /home/nikolavukas/project/devel/.private/tiago_iaslab_simulation/include/tiago_iaslab_simulation/Coeffs.h
- /home/nikolavukas/project/devel/.private/tiago_iaslab_simulation/include/tiago_iaslab_simulation/CoeffsRequest.h
- /home/nikolavukas/project/devel/.private/tiago_iaslab_simulation/include/tiago_iaslab_simulation/CoeffsResponse.h
+ /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PlaceObject.h
+ /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PlaceObjectRequest.h
+ /home/nikolavukas/project/devel/.private/assignment2_package/include/assignment2_package/PlaceObjectResponse.h
+ /home/nikolavukas/project/devel/include/tiago_iaslab_simulation/Coeffs.h
+ /home/nikolavukas/project/devel/include/tiago_iaslab_simulation/CoeffsRequest.h
+ /home/nikolavukas/project/devel/include/tiago_iaslab_simulation/CoeffsResponse.h
  /home/nikolavukas/project/src/assignment2_package/src/node_A.cpp
  /opt/ros/noetic/include/actionlib/action_definition.h
  /opt/ros/noetic/include/actionlib/client/action_client.h
@@ -32,6 +35,14 @@ CMakeFiles/node_A.dir/src/node_A.cpp.o
  /opt/ros/noetic/include/actionlib_msgs/GoalID.h
  /opt/ros/noetic/include/actionlib_msgs/GoalStatus.h
  /opt/ros/noetic/include/actionlib_msgs/GoalStatusArray.h
+ /opt/ros/noetic/include/control_msgs/FollowJointTrajectoryAction.h
+ /opt/ros/noetic/include/control_msgs/FollowJointTrajectoryActionFeedback.h
+ /opt/ros/noetic/include/control_msgs/FollowJointTrajectoryActionGoal.h
+ /opt/ros/noetic/include/control_msgs/FollowJointTrajectoryActionResult.h
+ /opt/ros/noetic/include/control_msgs/FollowJointTrajectoryFeedback.h
+ /opt/ros/noetic/include/control_msgs/FollowJointTrajectoryGoal.h
+ /opt/ros/noetic/include/control_msgs/FollowJointTrajectoryResult.h
+ /opt/ros/noetic/include/control_msgs/JointTolerance.h
  /opt/ros/noetic/include/eigen_stl_containers/eigen_stl_containers.h
  /opt/ros/noetic/include/eigen_stl_containers/eigen_stl_map_container.h
  /opt/ros/noetic/include/eigen_stl_containers/eigen_stl_vector_container.h

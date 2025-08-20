@@ -25,14 +25,19 @@ struct GetObjectPoseResponse_
   typedef GetObjectPoseResponse_<ContainerAllocator> Type;
 
   GetObjectPoseResponse_()
-    : obj_pose()  {
+    : obj_id(0)
+    , obj_pose()  {
     }
   GetObjectPoseResponse_(const ContainerAllocator& _alloc)
-    : obj_pose(_alloc)  {
+    : obj_id(0)
+    , obj_pose(_alloc)  {
   (void)_alloc;
     }
 
 
+
+   typedef uint32_t _obj_id_type;
+  _obj_id_type obj_id;
 
    typedef  ::geometry_msgs::PoseStamped_<ContainerAllocator>  _obj_pose_type;
   _obj_pose_type obj_pose;
@@ -66,7 +71,8 @@ return s;
 template<typename ContainerAllocator1, typename ContainerAllocator2>
 bool operator==(const ::assignment2_package::GetObjectPoseResponse_<ContainerAllocator1> & lhs, const ::assignment2_package::GetObjectPoseResponse_<ContainerAllocator2> & rhs)
 {
-  return lhs.obj_pose == rhs.obj_pose;
+  return lhs.obj_id == rhs.obj_id &&
+    lhs.obj_pose == rhs.obj_pose;
 }
 
 template<typename ContainerAllocator1, typename ContainerAllocator2>
@@ -123,12 +129,12 @@ struct MD5Sum< ::assignment2_package::GetObjectPoseResponse_<ContainerAllocator>
 {
   static const char* value()
   {
-    return "5174181ef2b390a67f5f6f66dd09d3ff";
+    return "d6d4f3bebbf31073267f6fff2a596a9a";
   }
 
   static const char* value(const ::assignment2_package::GetObjectPoseResponse_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x5174181ef2b390a6ULL;
-  static const uint64_t static_value2 = 0x7f5f6f66dd09d3ffULL;
+  static const uint64_t static_value1 = 0xd6d4f3bebbf31073ULL;
+  static const uint64_t static_value2 = 0x267f6fff2a596a9aULL;
 };
 
 template<class ContainerAllocator>
@@ -147,7 +153,8 @@ struct Definition< ::assignment2_package::GetObjectPoseResponse_<ContainerAlloca
 {
   static const char* value()
   {
-    return "geometry_msgs/PoseStamped obj_pose\n"
+    return "uint32 obj_id\n"
+"geometry_msgs/PoseStamped obj_pose\n"
 "\n"
 "================================================================================\n"
 "MSG: geometry_msgs/PoseStamped\n"
@@ -210,6 +217,7 @@ namespace serialization
   {
     template<typename Stream, typename T> inline static void allInOne(Stream& stream, T m)
     {
+      stream.next(m.obj_id);
       stream.next(m.obj_pose);
     }
 
@@ -229,8 +237,13 @@ struct Printer< ::assignment2_package::GetObjectPoseResponse_<ContainerAllocator
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::assignment2_package::GetObjectPoseResponse_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
+    s << indent << "obj_id: ";
+    Printer<uint32_t>::stream(s, indent + "  ", v.obj_id);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "obj_pose: ";
-    s << std::endl;
     Printer< ::geometry_msgs::PoseStamped_<ContainerAllocator> >::stream(s, indent + "  ", v.obj_pose);
   }
 };

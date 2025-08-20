@@ -1,1 +1,0 @@
-/home/nikolavukas/project/devel/.private/apriltag_finder/share/gennodejs/ros/apriltag_finder/srv/ApriltagsIDsSrv.js

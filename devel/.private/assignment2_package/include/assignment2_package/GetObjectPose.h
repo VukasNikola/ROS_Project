@@ -40,7 +40,7 @@ template<>
 struct MD5Sum< ::assignment2_package::GetObjectPose > {
   static const char* value()
   {
-    return "5174181ef2b390a67f5f6f66dd09d3ff";
+    return "d6d4f3bebbf31073267f6fff2a596a9a";
   }
 
   static const char* value(const ::assignment2_package::GetObjectPose&) { return value(); }

@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/nikolavukas/project/build/assignment2_package
 include CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/progress.make
 
 CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose:
-	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py assignment2_package /home/nikolavukas/project/src/assignment2_package/srv/GetObjectPose.srv geometry_msgs/PoseStamped:std_msgs/Header:geometry_msgs/Quaternion:geometry_msgs/Point:geometry_msgs/Pose
+	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py assignment2_package /home/nikolavukas/project/src/assignment2_package/srv/GetObjectPose.srv geometry_msgs/Quaternion:geometry_msgs/PoseStamped:geometry_msgs/Pose:std_msgs/Header:geometry_msgs/Point
 
 _assignment2_package_generate_messages_check_deps_GetObjectPose: CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose
 _assignment2_package_generate_messages_check_deps_GetObjectPose: CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/build.make

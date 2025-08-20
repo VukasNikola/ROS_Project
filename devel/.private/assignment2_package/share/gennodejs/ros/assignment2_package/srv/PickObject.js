@@ -23,6 +23,7 @@ class PickObjectRequest {
     if (initObj === null) {
       // initObj === null is a special case for deserialization where we don't initialize fields
       this.target = null;
+      this.target_id = null;
     }
     else {
       if (initObj.hasOwnProperty('target')) {
@@ -31,6 +32,12 @@ class PickObjectRequest {
       else {
         this.target = new geometry_msgs.msg.PoseStamped();
       }
+      if (initObj.hasOwnProperty('target_id')) {
+        this.target_id = initObj.target_id
+      }
+      else {
+        this.target_id = 0;
+      }
     }
   }
 
@@ -38,6 +45,8 @@ class PickObjectRequest {
     // Serializes a message object of type PickObjectRequest
     // Serialize message field [target]
     bufferOffset = geometry_msgs.msg.PoseStamped.serialize(obj.target, buffer, bufferOffset);
+    // Serialize message field [target_id]
+    bufferOffset = _serializer.uint32(obj.target_id, buffer, bufferOffset);
     return bufferOffset;
   }
 
@@ -47,13 +56,15 @@ class PickObjectRequest {
     let data = new PickObjectRequest(null);
     // Deserialize message field [target]
     data.target = geometry_msgs.msg.PoseStamped.deserialize(buffer, bufferOffset);
+    // Deserialize message field [target_id]
+    data.target_id = _deserializer.uint32(buffer, bufferOffset);
     return data;
   }
 
   static getMessageSize(object) {
     let length = 0;
     length += geometry_msgs.msg.PoseStamped.getMessageSize(object.target);
-    return length;
+    return length + 4;
   }
 
   static datatype() {
@@ -63,13 +74,14 @@ class PickObjectRequest {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return '8ba8aeef25187f3dc987f3a87f890b3a';
+    return '4a622a0823833e7721ad9c8fd18b51f0';
   }
 
   static messageDefinition() {
     // Returns full string definition for message
     return `
     geometry_msgs/PoseStamped target
+    uint32 target_id
     
     ================================================================================
     MSG: geometry_msgs/PoseStamped
@@ -129,6 +141,13 @@ class PickObjectRequest {
     }
     else {
       resolved.target = new geometry_msgs.msg.PoseStamped()
+    }
+
+    if (msg.target_id !== undefined) {
+      resolved.target_id = msg.target_id;
+    }
+    else {
+      resolved.target_id = 0
     }
 
     return resolved;
@@ -209,6 +228,6 @@ class PickObjectResponse {
 module.exports = {
   Request: PickObjectRequest,
   Response: PickObjectResponse,
-  md5sum() { return '327c2f6cdc43d58ff36d1dc7acc1780f'; },
+  md5sum() { return '1353e22d17c63a0b3e01bd479f8a9f82'; },
   datatype() { return 'assignment2_package/PickObject'; }
 };

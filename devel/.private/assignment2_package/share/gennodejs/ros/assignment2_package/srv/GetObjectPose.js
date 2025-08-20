@@ -75,9 +75,16 @@ class GetObjectPoseResponse {
   constructor(initObj={}) {
     if (initObj === null) {
       // initObj === null is a special case for deserialization where we don't initialize fields
+      this.obj_id = null;
       this.obj_pose = null;
     }
     else {
+      if (initObj.hasOwnProperty('obj_id')) {
+        this.obj_id = initObj.obj_id
+      }
+      else {
+        this.obj_id = 0;
+      }
       if (initObj.hasOwnProperty('obj_pose')) {
         this.obj_pose = initObj.obj_pose
       }
@@ -89,6 +96,8 @@ class GetObjectPoseResponse {
 
   static serialize(obj, buffer, bufferOffset) {
     // Serializes a message object of type GetObjectPoseResponse
+    // Serialize message field [obj_id]
+    bufferOffset = _serializer.uint32(obj.obj_id, buffer, bufferOffset);
     // Serialize message field [obj_pose]
     bufferOffset = geometry_msgs.msg.PoseStamped.serialize(obj.obj_pose, buffer, bufferOffset);
     return bufferOffset;
@@ -98,6 +107,8 @@ class GetObjectPoseResponse {
     //deserializes a message object of type GetObjectPoseResponse
     let len;
     let data = new GetObjectPoseResponse(null);
+    // Deserialize message field [obj_id]
+    data.obj_id = _deserializer.uint32(buffer, bufferOffset);
     // Deserialize message field [obj_pose]
     data.obj_pose = geometry_msgs.msg.PoseStamped.deserialize(buffer, bufferOffset);
     return data;
@@ -106,7 +117,7 @@ class GetObjectPoseResponse {
   static getMessageSize(object) {
     let length = 0;
     length += geometry_msgs.msg.PoseStamped.getMessageSize(object.obj_pose);
-    return length;
+    return length + 4;
   }
 
   static datatype() {
@@ -116,12 +127,13 @@ class GetObjectPoseResponse {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return '5174181ef2b390a67f5f6f66dd09d3ff';
+    return 'd6d4f3bebbf31073267f6fff2a596a9a';
   }
 
   static messageDefinition() {
     // Returns full string definition for message
     return `
+    uint32 obj_id
     geometry_msgs/PoseStamped obj_pose
     
     ================================================================================
@@ -177,6 +189,13 @@ class GetObjectPoseResponse {
       msg = {};
     }
     const resolved = new GetObjectPoseResponse(null);
+    if (msg.obj_id !== undefined) {
+      resolved.obj_id = msg.obj_id;
+    }
+    else {
+      resolved.obj_id = 0
+    }
+
     if (msg.obj_pose !== undefined) {
       resolved.obj_pose = geometry_msgs.msg.PoseStamped.Resolve(msg.obj_pose)
     }
@@ -191,6 +210,6 @@ class GetObjectPoseResponse {
 module.exports = {
   Request: GetObjectPoseRequest,
   Response: GetObjectPoseResponse,
-  md5sum() { return '5174181ef2b390a67f5f6f66dd09d3ff'; },
+  md5sum() { return 'd6d4f3bebbf31073267f6fff2a596a9a'; },
   datatype() { return 'assignment2_package/GetObjectPose'; }
 };

@@ -23,6 +23,8 @@ errno.h
 -
 common/image_u8.h
 /home/nikolavukas/project/src/apriltag/common/image_u8.h
+common/image_u8_parallel.h
+/home/nikolavukas/project/src/apriltag/common/image_u8_parallel.h
 common/image_u8x3.h
 /home/nikolavukas/project/src/apriltag/common/image_u8x3.h
 common/zarray.h
@@ -209,6 +211,22 @@ stdint.h
 -
 image_types.h
 /home/nikolavukas/project/src/apriltag/common/image_types.h
+
+/home/nikolavukas/project/src/apriltag/common/image_u8_parallel.c
+common/image_u8_parallel.h
+/home/nikolavukas/project/src/apriltag/common/common/image_u8_parallel.h
+common/workerpool.h
+/home/nikolavukas/project/src/apriltag/common/common/workerpool.h
+common/math_util.h
+/home/nikolavukas/project/src/apriltag/common/common/math_util.h
+
+/home/nikolavukas/project/src/apriltag/common/image_u8_parallel.h
+image_u8.h
+/home/nikolavukas/project/src/apriltag/common/image_u8.h
+workerpool.h
+/home/nikolavukas/project/src/apriltag/common/workerpool.h
+math_util.h
+/home/nikolavukas/project/src/apriltag/common/math_util.h
 
 /home/nikolavukas/project/src/apriltag/common/image_u8x3.c
 assert.h
@@ -431,7 +449,7 @@ stdint.h
 -
 time.h
 -
-windows.h
+Winsock2.h
 -
 sys/time.h
 -

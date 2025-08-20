@@ -22,15 +22,17 @@
 
 (defclass assignment2_package::PickObjectRequest
   :super ros::object
-  :slots (_target ))
+  :slots (_target _target_id ))
 
 (defmethod assignment2_package::PickObjectRequest
   (:init
    (&key
     ((:target __target) (instance geometry_msgs::PoseStamped :init))
+    ((:target_id __target_id) 0)
     )
    (send-super :init)
    (setq _target __target)
+   (setq _target_id (round __target_id))
    self)
   (:target
    (&rest __target)
@@ -39,11 +41,16 @@
      (progn
        (if __target (setq _target (car __target)))
        _target)))
+  (:target_id
+   (&optional __target_id)
+   (if __target_id (setq _target_id __target_id)) _target_id)
   (:serialization-length
    ()
    (+
     ;; geometry_msgs/PoseStamped _target
     (send _target :serialization-length)
+    ;; uint32 _target_id
+    4
     ))
   (:serialize
    (&optional strm)
@@ -51,12 +58,16 @@
               (make-string-output-stream (send self :serialization-length)))))
      ;; geometry_msgs/PoseStamped _target
        (send _target :serialize s)
+     ;; uint32 _target_id
+       (write-long _target_id s)
      ;;
      (if (null strm) (get-output-stream-string s))))
   (:deserialize
    (buf &optional (ptr- 0))
    ;; geometry_msgs/PoseStamped _target
      (send _target :deserialize buf ptr-) (incf ptr- (send _target :serialization-length))
+   ;; uint32 _target_id
+     (setq _target_id (sys::peek buf ptr- :integer)) (incf ptr- 4)
    ;;
    self)
   )
@@ -102,7 +113,7 @@
   :super ros::object
   :slots ())
 
-(setf (get assignment2_package::PickObject :md5sum-) "327c2f6cdc43d58ff36d1dc7acc1780f")
+(setf (get assignment2_package::PickObject :md5sum-) "1353e22d17c63a0b3e01bd479f8a9f82")
 (setf (get assignment2_package::PickObject :datatype-) "assignment2_package/PickObject")
 (setf (get assignment2_package::PickObject :request) assignment2_package::PickObjectRequest)
 (setf (get assignment2_package::PickObject :response) assignment2_package::PickObjectResponse)
@@ -110,10 +121,11 @@
 (defmethod assignment2_package::PickObjectRequest
   (:response () (instance assignment2_package::PickObjectResponse :init)))
 
-(setf (get assignment2_package::PickObjectRequest :md5sum-) "327c2f6cdc43d58ff36d1dc7acc1780f")
+(setf (get assignment2_package::PickObjectRequest :md5sum-) "1353e22d17c63a0b3e01bd479f8a9f82")
 (setf (get assignment2_package::PickObjectRequest :datatype-) "assignment2_package/PickObjectRequest")
 (setf (get assignment2_package::PickObjectRequest :definition-)
       "geometry_msgs/PoseStamped target
+uint32 target_id
 
 ================================================================================
 MSG: geometry_msgs/PoseStamped
@@ -162,10 +174,11 @@ float64 w
 bool success
 ")
 
-(setf (get assignment2_package::PickObjectResponse :md5sum-) "327c2f6cdc43d58ff36d1dc7acc1780f")
+(setf (get assignment2_package::PickObjectResponse :md5sum-) "1353e22d17c63a0b3e01bd479f8a9f82")
 (setf (get assignment2_package::PickObjectResponse :datatype-) "assignment2_package/PickObjectResponse")
 (setf (get assignment2_package::PickObjectResponse :definition-)
       "geometry_msgs/PoseStamped target
+uint32 target_id
 
 ================================================================================
 MSG: geometry_msgs/PoseStamped
@@ -216,6 +229,6 @@ bool success
 
 
 
-(provide :assignment2_package/PickObject "327c2f6cdc43d58ff36d1dc7acc1780f")
+(provide :assignment2_package/PickObject "1353e22d17c63a0b3e01bd479f8a9f82")
 
 

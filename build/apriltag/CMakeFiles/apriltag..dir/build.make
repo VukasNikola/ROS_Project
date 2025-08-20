@@ -79,8 +79,7 @@ apriltag__EXTERNAL_OBJECTS =
 
 apriltag..so: CMakeFiles/apriltag..dir/apriltag_pywrap.c.o
 apriltag..so: CMakeFiles/apriltag..dir/build.make
-apriltag..so: libapriltag.so.3.4.2
-apriltag..so: /usr/lib/x86_64-linux-gnu/libpython3.8.so
+apriltag..so: libapriltag.so.3.4.4
 apriltag..so: CMakeFiles/apriltag..dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C shared module apriltag..so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/apriltag..dir/link.txt --verbose=$(VERBOSE)

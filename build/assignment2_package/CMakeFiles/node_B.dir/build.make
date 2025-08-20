@@ -57,27 +57,27 @@ include CMakeFiles/node_B.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/node_B.dir/flags.make
 
-CMakeFiles/node_B.dir/src/node_A.cpp.o: CMakeFiles/node_B.dir/flags.make
-CMakeFiles/node_B.dir/src/node_A.cpp.o: /home/nikolavukas/project/src/assignment2_package/src/node_A.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/node_B.dir/src/node_A.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/node_B.dir/src/node_A.cpp.o -c /home/nikolavukas/project/src/assignment2_package/src/node_A.cpp
+CMakeFiles/node_B.dir/src/node_B.cpp.o: CMakeFiles/node_B.dir/flags.make
+CMakeFiles/node_B.dir/src/node_B.cpp.o: /home/nikolavukas/project/src/assignment2_package/src/node_B.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/node_B.dir/src/node_B.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/node_B.dir/src/node_B.cpp.o -c /home/nikolavukas/project/src/assignment2_package/src/node_B.cpp
 
-CMakeFiles/node_B.dir/src/node_A.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/node_B.dir/src/node_A.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nikolavukas/project/src/assignment2_package/src/node_A.cpp > CMakeFiles/node_B.dir/src/node_A.cpp.i
+CMakeFiles/node_B.dir/src/node_B.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/node_B.dir/src/node_B.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nikolavukas/project/src/assignment2_package/src/node_B.cpp > CMakeFiles/node_B.dir/src/node_B.cpp.i
 
-CMakeFiles/node_B.dir/src/node_A.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/node_B.dir/src/node_A.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nikolavukas/project/src/assignment2_package/src/node_A.cpp -o CMakeFiles/node_B.dir/src/node_A.cpp.s
+CMakeFiles/node_B.dir/src/node_B.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/node_B.dir/src/node_B.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nikolavukas/project/src/assignment2_package/src/node_B.cpp -o CMakeFiles/node_B.dir/src/node_B.cpp.s
 
 # Object files for target node_B
 node_B_OBJECTS = \
-"CMakeFiles/node_B.dir/src/node_A.cpp.o"
+"CMakeFiles/node_B.dir/src/node_B.cpp.o"
 
 # External object files for target node_B
 node_B_EXTERNAL_OBJECTS =
 
-/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: CMakeFiles/node_B.dir/src/node_A.cpp.o
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: CMakeFiles/node_B.dir/src/node_B.cpp.o
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: CMakeFiles/node_B.dir/build.make
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/libmoveit_common_planning_interface_objects.so
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/libmoveit_planning_scene_interface.so
@@ -234,6 +234,98 @@ node_B_EXTERNAL_OBJECTS =
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libboost_system.so.1.71.0
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.0.4
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/libgeometric_shapes.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/liboctomap.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/liboctomath.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/librandom_numbers.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/libroscpp_serialization.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/librostime.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libboost_date_time.so.1.71.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/libcpp_common.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libboost_system.so.1.71.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.0.4
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/liborocos-kdl.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /home/nikolavukas/project/devel/.private/apriltag_ros/lib/libapriltag_ros_common.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /home/nikolavukas/project/devel/.private/apriltag_ros/lib/libapriltag_ros_continuous_detector.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /home/nikolavukas/project/devel/.private/apriltag_ros/lib/libapriltag_ros_single_image_detector.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libm.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/libcv_bridge.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_calib3d.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_dnn.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_features2d.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_flann.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_highgui.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_ml.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_objdetect.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_photo.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_stitching.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_video.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_videoio.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_aruco.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_bgsegm.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_bioinspired.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_ccalib.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_datasets.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_dnn_objdetect.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_dnn_superres.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_dpm.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_face.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_freetype.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_fuzzy.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_hdf.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_hfs.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_img_hash.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_line_descriptor.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_optflow.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_phase_unwrapping.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_plot.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_quality.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_reg.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_rgbd.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_saliency.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_shape.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_stereo.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_structured_light.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_superres.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_surface_matching.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_text.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_tracking.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_videostab.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_viz.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_ximgproc.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_xobjdetect.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_xphoto.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_core.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libopencv_imgcodecs.so.4.2.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/libimage_transport.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/libnodeletlib.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/libbondcpp.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libuuid.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/libclass_loader.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libPocoFoundation.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libdl.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/libroslib.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/librospack.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libpython3.8.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.71.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libtinyxml2.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/libtf.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/libtf2_ros.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/libmessage_filters.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/libtf2.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/libactionlib.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/libroscpp.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libpthread.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.71.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.71.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/librosconsole.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/librosconsole_log4cxx.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/librosconsole_backend_interface.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/liblog4cxx.so
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /usr/lib/x86_64-linux-gnu/libboost_regex.so.1.71.0
+/home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: /opt/ros/noetic/lib/libxmlrpcpp.so
 /home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B: CMakeFiles/node_B.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable /home/nikolavukas/project/devel/.private/assignment2_package/lib/assignment2_package/node_B"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/node_B.dir/link.txt --verbose=$(VERBOSE)

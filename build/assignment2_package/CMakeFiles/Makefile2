@@ -53,9 +53,9 @@ CMAKE_BINARY_DIR = /home/nikolavukas/project/build/assignment2_package
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
+all: CMakeFiles/tables_node.dir/all
 all: CMakeFiles/node_C.dir/all
 all: CMakeFiles/node_A.dir/all
-all: CMakeFiles/test_node.dir/all
 all: CMakeFiles/node_B.dir/all
 all: CMakeFiles/assignment2_package_generate_messages.dir/all
 all: gtest/all
@@ -68,9 +68,11 @@ preinstall: gtest/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
+clean: CMakeFiles/tables_node.dir/clean
 clean: CMakeFiles/node_C.dir/clean
 clean: CMakeFiles/node_A.dir/clean
-clean: CMakeFiles/assignment2_package_genlisp.dir/clean
+clean: CMakeFiles/assignment2_package_genpy.dir/clean
+clean: CMakeFiles/assignment2_package_generate_messages_py.dir/clean
 clean: CMakeFiles/trajectory_msgs_generate_messages_py.dir/clean
 clean: CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
 clean: CMakeFiles/tiago_iaslab_simulation_generate_messages_nodejs.dir/clean
@@ -80,21 +82,23 @@ clean: CMakeFiles/tiago_iaslab_simulation_generate_messages_cpp.dir/clean
 clean: CMakeFiles/sensor_msgs_generate_messages_cpp.dir/clean
 clean: CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/clean
 clean: CMakeFiles/moveit_msgs_generate_messages_cpp.dir/clean
-clean: CMakeFiles/test_node.dir/clean
-clean: CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/clean
-clean: CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/clean
-clean: CMakeFiles/tf_generate_messages_py.dir/clean
 clean: CMakeFiles/node_B.dir/clean
 clean: CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/clean
+clean: CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/clean
+clean: CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/clean
+clean: CMakeFiles/tf_generate_messages_py.dir/clean
 clean: CMakeFiles/actionlib_generate_messages_py.dir/clean
+clean: CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/clean
+clean: CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/clean
+clean: CMakeFiles/roscpp_generate_messages_py.dir/clean
+clean: CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/clean
 clean: CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
 clean: CMakeFiles/moveit_ros_planning_gencfg.dir/clean
-clean: CMakeFiles/shape_msgs_generate_messages_eus.dir/clean
-clean: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/clean
+clean: CMakeFiles/actionlib_generate_messages_nodejs.dir/clean
+clean: CMakeFiles/std_srvs_generate_messages_py.dir/clean
 clean: CMakeFiles/assignment2_package_generate_messages.dir/clean
 clean: CMakeFiles/moveit_msgs_generate_messages_py.dir/clean
 clean: CMakeFiles/geometry_msgs_generate_messages_cpp.dir/clean
-clean: CMakeFiles/assignment2_package_genpy.dir/clean
 clean: CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/clean
 clean: CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/clean
 clean: CMakeFiles/roscpp_generate_messages_cpp.dir/clean
@@ -106,8 +110,6 @@ clean: CMakeFiles/moveit_msgs_generate_messages_eus.dir/clean
 clean: CMakeFiles/_assignment2_package_generate_messages_check_deps_PickObject.dir/clean
 clean: CMakeFiles/geometry_msgs_generate_messages_py.dir/clean
 clean: CMakeFiles/shape_msgs_generate_messages_nodejs.dir/clean
-clean: CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/clean
-clean: CMakeFiles/roscpp_generate_messages_py.dir/clean
 clean: CMakeFiles/doxygen.dir/clean
 clean: CMakeFiles/download_extra_data.dir/clean
 clean: CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/clean
@@ -120,25 +122,24 @@ clean: CMakeFiles/run_tests.dir/clean
 clean: CMakeFiles/trajectory_msgs_generate_messages_eus.dir/clean
 clean: CMakeFiles/std_srvs_generate_messages_cpp.dir/clean
 clean: CMakeFiles/assignment2_package_generate_messages_eus.dir/clean
-clean: CMakeFiles/sensor_msgs_generate_messages_eus.dir/clean
-clean: CMakeFiles/shape_msgs_generate_messages_cpp.dir/clean
-clean: CMakeFiles/moveit_ros_manipulation_gencfg.dir/clean
-clean: CMakeFiles/actionlib_generate_messages_lisp.dir/clean
-clean: CMakeFiles/clean_test_results.dir/clean
 clean: CMakeFiles/tests.dir/clean
 clean: CMakeFiles/moveit_msgs_generate_messages_lisp.dir/clean
 clean: CMakeFiles/actionlib_msgs_generate_messages_py.dir/clean
 clean: CMakeFiles/actionlib_generate_messages_cpp.dir/clean
 clean: CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
+clean: CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/clean
+clean: CMakeFiles/std_msgs_generate_messages_py.dir/clean
 clean: CMakeFiles/std_msgs_generate_messages_nodejs.dir/clean
 clean: CMakeFiles/nodelet_generate_messages_lisp.dir/clean
 clean: CMakeFiles/geometry_msgs_generate_messages_eus.dir/clean
-clean: CMakeFiles/std_msgs_generate_messages_py.dir/clean
-clean: CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/clean
-clean: CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/clean
-clean: CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/clean
-clean: CMakeFiles/std_srvs_generate_messages_py.dir/clean
-clean: CMakeFiles/actionlib_generate_messages_nodejs.dir/clean
+clean: CMakeFiles/actionlib_generate_messages_lisp.dir/clean
+clean: CMakeFiles/clean_test_results.dir/clean
+clean: CMakeFiles/sensor_msgs_generate_messages_eus.dir/clean
+clean: CMakeFiles/shape_msgs_generate_messages_cpp.dir/clean
+clean: CMakeFiles/moveit_ros_manipulation_gencfg.dir/clean
+clean: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/clean
+clean: CMakeFiles/shape_msgs_generate_messages_eus.dir/clean
+clean: CMakeFiles/assignment2_package_genlisp.dir/clean
 clean: CMakeFiles/std_msgs_generate_messages_lisp.dir/clean
 clean: CMakeFiles/octomap_msgs_generate_messages_cpp.dir/clean
 clean: CMakeFiles/octomap_msgs_generate_messages_lisp.dir/clean
@@ -171,10 +172,6 @@ clean: CMakeFiles/roscpp_generate_messages_lisp.dir/clean
 clean: CMakeFiles/std_srvs_generate_messages_lisp.dir/clean
 clean: CMakeFiles/std_srvs_generate_messages_nodejs.dir/clean
 clean: CMakeFiles/nodelet_generate_messages_py.dir/clean
-clean: CMakeFiles/tf_generate_messages_lisp.dir/clean
-clean: CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/clean
-clean: CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/clean
-clean: CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/clean
 clean: CMakeFiles/apriltag_ros_generate_messages_cpp.dir/clean
 clean: CMakeFiles/roscpp_generate_messages_eus.dir/clean
 clean: CMakeFiles/apriltag_ros_generate_messages_eus.dir/clean
@@ -190,14 +187,20 @@ clean: CMakeFiles/nodelet_generate_messages_nodejs.dir/clean
 clean: CMakeFiles/bond_generate_messages_eus.dir/clean
 clean: CMakeFiles/bond_generate_messages_lisp.dir/clean
 clean: CMakeFiles/bond_generate_messages_py.dir/clean
+clean: CMakeFiles/tf_generate_messages_lisp.dir/clean
+clean: CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/clean
+clean: CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/clean
+clean: CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/clean
+clean: CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPose.dir/clean
+clean: CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPoseArray.dir/clean
 clean: CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean
 clean: CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/clean
+clean: CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/clean
 clean: CMakeFiles/roscpp_generate_messages_nodejs.dir/clean
 clean: CMakeFiles/assignment2_package_generate_messages_cpp.dir/clean
 clean: CMakeFiles/assignment2_package_gencpp.dir/clean
 clean: CMakeFiles/assignment2_package_generate_messages_nodejs.dir/clean
 clean: CMakeFiles/assignment2_package_gennodejs.dir/clean
-clean: CMakeFiles/assignment2_package_generate_messages_py.dir/clean
 clean: gtest/clean
 
 .PHONY : clean
@@ -260,9 +263,149 @@ gtest/googletest/clean: gtest/googletest/CMakeFiles/gtest.dir/clean
 .PHONY : gtest/googletest/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/tables_node.dir
+
+# All Build rule for target.
+CMakeFiles/tables_node.dir/all: CMakeFiles/assignment2_package_generate_messages_py.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_py.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_nodejs.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_lisp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/shape_msgs_generate_messages_lisp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_cpp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_cpp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_cpp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/tf_generate_messages_py.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/actionlib_generate_messages_py.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/roscpp_generate_messages_py.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/moveit_ros_planning_gencfg.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/actionlib_generate_messages_nodejs.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/std_srvs_generate_messages_py.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_py.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_cpp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/roscpp_generate_messages_cpp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_py.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_eus.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_eus.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_py.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/shape_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_eus.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_cpp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/tf_generate_messages_eus.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_eus.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/std_srvs_generate_messages_cpp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/assignment2_package_generate_messages_eus.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_lisp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_py.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/actionlib_generate_messages_cpp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/std_msgs_generate_messages_cpp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/std_msgs_generate_messages_py.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/nodelet_generate_messages_lisp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_eus.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/actionlib_generate_messages_lisp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_eus.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/shape_msgs_generate_messages_cpp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/moveit_ros_manipulation_gencfg.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/shape_msgs_generate_messages_eus.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/std_msgs_generate_messages_lisp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_cpp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_lisp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/actionlib_generate_messages_eus.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_py.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/bond_generate_messages_nodejs.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_cpp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/assignment2_package_generate_messages_lisp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_py.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/bond_generate_messages_cpp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/dynamic_reconfigure_gencfg.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_lisp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_py.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_py.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_lisp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/tf_generate_messages_cpp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_lisp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/shape_msgs_generate_messages_py.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/tf_generate_messages_nodejs.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_py.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/std_srvs_generate_messages_eus.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/std_msgs_generate_messages_eus.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/roscpp_generate_messages_lisp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/std_srvs_generate_messages_lisp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/std_srvs_generate_messages_nodejs.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/nodelet_generate_messages_py.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_cpp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/roscpp_generate_messages_eus.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_eus.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_eus.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_eus.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_nodejs.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_lisp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/nodelet_generate_messages_cpp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/nodelet_generate_messages_eus.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_py.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/nodelet_generate_messages_nodejs.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/bond_generate_messages_eus.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/bond_generate_messages_lisp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/bond_generate_messages_py.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/tf_generate_messages_lisp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/roscpp_generate_messages_nodejs.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/assignment2_package_generate_messages_cpp.dir/all
+CMakeFiles/tables_node.dir/all: CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all
+	$(MAKE) -f CMakeFiles/tables_node.dir/build.make CMakeFiles/tables_node.dir/depend
+	$(MAKE) -f CMakeFiles/tables_node.dir/build.make CMakeFiles/tables_node.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=43,44 "Built target tables_node"
+.PHONY : CMakeFiles/tables_node.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/tables_node.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 30
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tables_node.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/tables_node.dir/rule
+
+# Convenience name for target.
+tables_node: CMakeFiles/tables_node.dir/rule
+
+.PHONY : tables_node
+
+# clean rule for target.
+CMakeFiles/tables_node.dir/clean:
+	$(MAKE) -f CMakeFiles/tables_node.dir/build.make CMakeFiles/tables_node.dir/clean
+.PHONY : CMakeFiles/tables_node.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/node_C.dir
 
 # All Build rule for target.
+CMakeFiles/node_C.dir/all: CMakeFiles/assignment2_package_generate_messages_py.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/trajectory_msgs_generate_messages_py.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_nodejs.dir/all
@@ -272,15 +415,19 @@ CMakeFiles/node_C.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_
 CMakeFiles/node_C.dir/all: CMakeFiles/sensor_msgs_generate_messages_cpp.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/moveit_msgs_generate_messages_cpp.dir/all
-CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
-CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/node_C.dir/all: CMakeFiles/tf_generate_messages_py.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/tf_generate_messages_py.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/roscpp_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/moveit_ros_planning_gencfg.dir/all
-CMakeFiles/node_C.dir/all: CMakeFiles/shape_msgs_generate_messages_eus.dir/all
-CMakeFiles/node_C.dir/all: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/std_srvs_generate_messages_py.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/moveit_msgs_generate_messages_py.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/geometry_msgs_generate_messages_cpp.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/all
@@ -292,8 +439,6 @@ CMakeFiles/node_C.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_
 CMakeFiles/node_C.dir/all: CMakeFiles/moveit_msgs_generate_messages_eus.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/geometry_msgs_generate_messages_py.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/shape_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/node_C.dir/all: CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/node_C.dir/all: CMakeFiles/roscpp_generate_messages_py.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_msgs_generate_messages_eus.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/all
@@ -303,23 +448,21 @@ CMakeFiles/node_C.dir/all: CMakeFiles/tf_generate_messages_eus.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/trajectory_msgs_generate_messages_eus.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/std_srvs_generate_messages_cpp.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/assignment2_package_generate_messages_eus.dir/all
-CMakeFiles/node_C.dir/all: CMakeFiles/sensor_msgs_generate_messages_eus.dir/all
-CMakeFiles/node_C.dir/all: CMakeFiles/shape_msgs_generate_messages_cpp.dir/all
-CMakeFiles/node_C.dir/all: CMakeFiles/moveit_ros_manipulation_gencfg.dir/all
-CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_generate_messages_lisp.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/moveit_msgs_generate_messages_lisp.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_msgs_generate_messages_py.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_generate_messages_cpp.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/std_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/std_msgs_generate_messages_py.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/nodelet_generate_messages_lisp.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/geometry_msgs_generate_messages_eus.dir/all
-CMakeFiles/node_C.dir/all: CMakeFiles/std_msgs_generate_messages_py.dir/all
-CMakeFiles/node_C.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
-CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
-CMakeFiles/node_C.dir/all: CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/node_C.dir/all: CMakeFiles/std_srvs_generate_messages_py.dir/all
-CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_generate_messages_nodejs.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/actionlib_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/sensor_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/shape_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/moveit_ros_manipulation_gencfg.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/shape_msgs_generate_messages_eus.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/std_msgs_generate_messages_lisp.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/octomap_msgs_generate_messages_cpp.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/octomap_msgs_generate_messages_lisp.dir/all
@@ -352,10 +495,6 @@ CMakeFiles/node_C.dir/all: CMakeFiles/roscpp_generate_messages_lisp.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/std_srvs_generate_messages_lisp.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/std_srvs_generate_messages_nodejs.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/nodelet_generate_messages_py.dir/all
-CMakeFiles/node_C.dir/all: CMakeFiles/tf_generate_messages_lisp.dir/all
-CMakeFiles/node_C.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/all
-CMakeFiles/node_C.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
-CMakeFiles/node_C.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/apriltag_ros_generate_messages_cpp.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/roscpp_generate_messages_eus.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/apriltag_ros_generate_messages_eus.dir/all
@@ -371,19 +510,22 @@ CMakeFiles/node_C.dir/all: CMakeFiles/nodelet_generate_messages_nodejs.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/bond_generate_messages_eus.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/bond_generate_messages_lisp.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/bond_generate_messages_py.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/tf_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_C.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/roscpp_generate_messages_nodejs.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/assignment2_package_generate_messages_cpp.dir/all
 CMakeFiles/node_C.dir/all: CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all
-CMakeFiles/node_C.dir/all: CMakeFiles/assignment2_package_generate_messages_py.dir/all
 	$(MAKE) -f CMakeFiles/node_C.dir/build.make CMakeFiles/node_C.dir/depend
 	$(MAKE) -f CMakeFiles/node_C.dir/build.make CMakeFiles/node_C.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=25,26 "Built target node_C"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=41,42 "Built target node_C"
 .PHONY : CMakeFiles/node_C.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/node_C.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 14
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 30
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/node_C.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
 .PHONY : CMakeFiles/node_C.dir/rule
@@ -402,6 +544,7 @@ CMakeFiles/node_C.dir/clean:
 # Target rules for target CMakeFiles/node_A.dir
 
 # All Build rule for target.
+CMakeFiles/node_A.dir/all: CMakeFiles/assignment2_package_generate_messages_py.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/trajectory_msgs_generate_messages_py.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_nodejs.dir/all
@@ -411,15 +554,19 @@ CMakeFiles/node_A.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_
 CMakeFiles/node_A.dir/all: CMakeFiles/sensor_msgs_generate_messages_cpp.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/moveit_msgs_generate_messages_cpp.dir/all
-CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
-CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/node_A.dir/all: CMakeFiles/tf_generate_messages_py.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/tf_generate_messages_py.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/roscpp_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/moveit_ros_planning_gencfg.dir/all
-CMakeFiles/node_A.dir/all: CMakeFiles/shape_msgs_generate_messages_eus.dir/all
-CMakeFiles/node_A.dir/all: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/std_srvs_generate_messages_py.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/moveit_msgs_generate_messages_py.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/geometry_msgs_generate_messages_cpp.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/all
@@ -431,8 +578,6 @@ CMakeFiles/node_A.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_
 CMakeFiles/node_A.dir/all: CMakeFiles/moveit_msgs_generate_messages_eus.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/geometry_msgs_generate_messages_py.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/shape_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/node_A.dir/all: CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/node_A.dir/all: CMakeFiles/roscpp_generate_messages_py.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_msgs_generate_messages_eus.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/all
@@ -442,23 +587,21 @@ CMakeFiles/node_A.dir/all: CMakeFiles/tf_generate_messages_eus.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/trajectory_msgs_generate_messages_eus.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/std_srvs_generate_messages_cpp.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/assignment2_package_generate_messages_eus.dir/all
-CMakeFiles/node_A.dir/all: CMakeFiles/sensor_msgs_generate_messages_eus.dir/all
-CMakeFiles/node_A.dir/all: CMakeFiles/shape_msgs_generate_messages_cpp.dir/all
-CMakeFiles/node_A.dir/all: CMakeFiles/moveit_ros_manipulation_gencfg.dir/all
-CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_generate_messages_lisp.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/moveit_msgs_generate_messages_lisp.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_msgs_generate_messages_py.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_generate_messages_cpp.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/std_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/std_msgs_generate_messages_py.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/nodelet_generate_messages_lisp.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/geometry_msgs_generate_messages_eus.dir/all
-CMakeFiles/node_A.dir/all: CMakeFiles/std_msgs_generate_messages_py.dir/all
-CMakeFiles/node_A.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
-CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
-CMakeFiles/node_A.dir/all: CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/node_A.dir/all: CMakeFiles/std_srvs_generate_messages_py.dir/all
-CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_generate_messages_nodejs.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/actionlib_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/sensor_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/shape_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/moveit_ros_manipulation_gencfg.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/shape_msgs_generate_messages_eus.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/std_msgs_generate_messages_lisp.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/octomap_msgs_generate_messages_cpp.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/octomap_msgs_generate_messages_lisp.dir/all
@@ -491,10 +634,6 @@ CMakeFiles/node_A.dir/all: CMakeFiles/roscpp_generate_messages_lisp.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/std_srvs_generate_messages_lisp.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/std_srvs_generate_messages_nodejs.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/nodelet_generate_messages_py.dir/all
-CMakeFiles/node_A.dir/all: CMakeFiles/tf_generate_messages_lisp.dir/all
-CMakeFiles/node_A.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/all
-CMakeFiles/node_A.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
-CMakeFiles/node_A.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/apriltag_ros_generate_messages_cpp.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/roscpp_generate_messages_eus.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/apriltag_ros_generate_messages_eus.dir/all
@@ -510,19 +649,22 @@ CMakeFiles/node_A.dir/all: CMakeFiles/nodelet_generate_messages_nodejs.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/bond_generate_messages_eus.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/bond_generate_messages_lisp.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/bond_generate_messages_py.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/tf_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_A.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/roscpp_generate_messages_nodejs.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/assignment2_package_generate_messages_cpp.dir/all
 CMakeFiles/node_A.dir/all: CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all
-CMakeFiles/node_A.dir/all: CMakeFiles/assignment2_package_generate_messages_py.dir/all
 	$(MAKE) -f CMakeFiles/node_A.dir/build.make CMakeFiles/node_A.dir/depend
 	$(MAKE) -f CMakeFiles/node_A.dir/build.make CMakeFiles/node_A.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=21,22 "Built target node_A"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=37,38 "Built target node_A"
 .PHONY : CMakeFiles/node_A.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/node_A.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 14
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 30
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/node_A.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
 .PHONY : CMakeFiles/node_A.dir/rule
@@ -538,31 +680,64 @@ CMakeFiles/node_A.dir/clean:
 .PHONY : CMakeFiles/node_A.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/assignment2_package_genlisp.dir
+# Target rules for target CMakeFiles/assignment2_package_genpy.dir
 
 # All Build rule for target.
-CMakeFiles/assignment2_package_genlisp.dir/all: CMakeFiles/assignment2_package_generate_messages_lisp.dir/all
-	$(MAKE) -f CMakeFiles/assignment2_package_genlisp.dir/build.make CMakeFiles/assignment2_package_genlisp.dir/depend
-	$(MAKE) -f CMakeFiles/assignment2_package_genlisp.dir/build.make CMakeFiles/assignment2_package_genlisp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target assignment2_package_genlisp"
-.PHONY : CMakeFiles/assignment2_package_genlisp.dir/all
+CMakeFiles/assignment2_package_genpy.dir/all: CMakeFiles/assignment2_package_generate_messages_py.dir/all
+	$(MAKE) -f CMakeFiles/assignment2_package_genpy.dir/build.make CMakeFiles/assignment2_package_genpy.dir/depend
+	$(MAKE) -f CMakeFiles/assignment2_package_genpy.dir/build.make CMakeFiles/assignment2_package_genpy.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target assignment2_package_genpy"
+.PHONY : CMakeFiles/assignment2_package_genpy.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/assignment2_package_genlisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/assignment2_package_genlisp.dir/all
+CMakeFiles/assignment2_package_genpy.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 7
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/assignment2_package_genpy.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/assignment2_package_genlisp.dir/rule
+.PHONY : CMakeFiles/assignment2_package_genpy.dir/rule
 
 # Convenience name for target.
-assignment2_package_genlisp: CMakeFiles/assignment2_package_genlisp.dir/rule
+assignment2_package_genpy: CMakeFiles/assignment2_package_genpy.dir/rule
 
-.PHONY : assignment2_package_genlisp
+.PHONY : assignment2_package_genpy
 
 # clean rule for target.
-CMakeFiles/assignment2_package_genlisp.dir/clean:
-	$(MAKE) -f CMakeFiles/assignment2_package_genlisp.dir/build.make CMakeFiles/assignment2_package_genlisp.dir/clean
-.PHONY : CMakeFiles/assignment2_package_genlisp.dir/clean
+CMakeFiles/assignment2_package_genpy.dir/clean:
+	$(MAKE) -f CMakeFiles/assignment2_package_genpy.dir/build.make CMakeFiles/assignment2_package_genpy.dir/clean
+.PHONY : CMakeFiles/assignment2_package_genpy.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/assignment2_package_generate_messages_py.dir
+
+# All Build rule for target.
+CMakeFiles/assignment2_package_generate_messages_py.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_PickObject.dir/all
+CMakeFiles/assignment2_package_generate_messages_py.dir/all: CMakeFiles/geometry_msgs_generate_messages_py.dir/all
+CMakeFiles/assignment2_package_generate_messages_py.dir/all: CMakeFiles/std_msgs_generate_messages_py.dir/all
+CMakeFiles/assignment2_package_generate_messages_py.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPose.dir/all
+CMakeFiles/assignment2_package_generate_messages_py.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPoseArray.dir/all
+CMakeFiles/assignment2_package_generate_messages_py.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/all
+CMakeFiles/assignment2_package_generate_messages_py.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/all
+	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_py.dir/build.make CMakeFiles/assignment2_package_generate_messages_py.dir/depend
+	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_py.dir/build.make CMakeFiles/assignment2_package_generate_messages_py.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=22,23,24,25,26,27,28 "Built target assignment2_package_generate_messages_py"
+.PHONY : CMakeFiles/assignment2_package_generate_messages_py.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/assignment2_package_generate_messages_py.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 7
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/assignment2_package_generate_messages_py.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/assignment2_package_generate_messages_py.dir/rule
+
+# Convenience name for target.
+assignment2_package_generate_messages_py: CMakeFiles/assignment2_package_generate_messages_py.dir/rule
+
+.PHONY : assignment2_package_generate_messages_py
+
+# clean rule for target.
+CMakeFiles/assignment2_package_generate_messages_py.dir/clean:
+	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_py.dir/build.make CMakeFiles/assignment2_package_generate_messages_py.dir/clean
+.PHONY : CMakeFiles/assignment2_package_generate_messages_py.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/trajectory_msgs_generate_messages_py.dir
@@ -808,229 +983,10 @@ CMakeFiles/moveit_msgs_generate_messages_cpp.dir/clean:
 .PHONY : CMakeFiles/moveit_msgs_generate_messages_cpp.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_node.dir
-
-# All Build rule for target.
-CMakeFiles/test_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_py.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_nodejs.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_lisp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/shape_msgs_generate_messages_lisp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_cpp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_cpp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_cpp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/tf_generate_messages_py.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/actionlib_generate_messages_py.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/moveit_ros_planning_gencfg.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/shape_msgs_generate_messages_eus.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_py.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_cpp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/roscpp_generate_messages_cpp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_py.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_eus.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_eus.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_py.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/shape_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/roscpp_generate_messages_py.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_eus.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_cpp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/tf_generate_messages_eus.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_eus.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/std_srvs_generate_messages_cpp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/assignment2_package_generate_messages_eus.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_eus.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/shape_msgs_generate_messages_cpp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/moveit_ros_manipulation_gencfg.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/actionlib_generate_messages_lisp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/moveit_msgs_generate_messages_lisp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_py.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/actionlib_generate_messages_cpp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/std_msgs_generate_messages_cpp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/nodelet_generate_messages_lisp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/geometry_msgs_generate_messages_eus.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/std_msgs_generate_messages_py.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/std_srvs_generate_messages_py.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/actionlib_generate_messages_nodejs.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/std_msgs_generate_messages_lisp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_cpp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_lisp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/actionlib_generate_messages_eus.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_py.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/bond_generate_messages_nodejs.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_cpp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/assignment2_package_generate_messages_lisp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_py.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/bond_generate_messages_cpp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/dynamic_reconfigure_gencfg.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_lisp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_py.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_py.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_lisp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/tf_generate_messages_cpp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_lisp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/shape_msgs_generate_messages_py.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/tf_generate_messages_nodejs.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_py.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/std_srvs_generate_messages_eus.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/std_msgs_generate_messages_eus.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/roscpp_generate_messages_lisp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/std_srvs_generate_messages_lisp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/std_srvs_generate_messages_nodejs.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/nodelet_generate_messages_py.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/tf_generate_messages_lisp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_cpp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/roscpp_generate_messages_eus.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_eus.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/octomap_msgs_generate_messages_eus.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/visualization_msgs_generate_messages_eus.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/apriltag_ros_generate_messages_nodejs.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/sensor_msgs_generate_messages_lisp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/nodelet_generate_messages_cpp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/nodelet_generate_messages_eus.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_py.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/nodelet_generate_messages_nodejs.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/bond_generate_messages_eus.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/bond_generate_messages_lisp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/bond_generate_messages_py.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/roscpp_generate_messages_nodejs.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/assignment2_package_generate_messages_cpp.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all
-CMakeFiles/test_node.dir/all: CMakeFiles/assignment2_package_generate_messages_py.dir/all
-	$(MAKE) -f CMakeFiles/test_node.dir/build.make CMakeFiles/test_node.dir/depend
-	$(MAKE) -f CMakeFiles/test_node.dir/build.make CMakeFiles/test_node.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=27,28 "Built target test_node"
-.PHONY : CMakeFiles/test_node.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_node.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 14
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/test_node.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/test_node.dir/rule
-
-# Convenience name for target.
-test_node: CMakeFiles/test_node.dir/rule
-
-.PHONY : test_node
-
-# clean rule for target.
-CMakeFiles/test_node.dir/clean:
-	$(MAKE) -f CMakeFiles/test_node.dir/build.make CMakeFiles/test_node.dir/clean
-.PHONY : CMakeFiles/test_node.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/actionlib_msgs_generate_messages_lisp.dir
-
-# All Build rule for target.
-CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all:
-	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/depend
-	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target actionlib_msgs_generate_messages_lisp"
-.PHONY : CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-actionlib_msgs_generate_messages_lisp: CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : actionlib_msgs_generate_messages_lisp
-
-# clean rule for target.
-CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/clean:
-	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/clean
-.PHONY : CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir
-
-# All Build rule for target.
-CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all:
-	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/depend
-	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target actionlib_msgs_generate_messages_nodejs"
-.PHONY : CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-actionlib_msgs_generate_messages_nodejs: CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : actionlib_msgs_generate_messages_nodejs
-
-# clean rule for target.
-CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/clean:
-	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/clean
-.PHONY : CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/tf_generate_messages_py.dir
-
-# All Build rule for target.
-CMakeFiles/tf_generate_messages_py.dir/all:
-	$(MAKE) -f CMakeFiles/tf_generate_messages_py.dir/build.make CMakeFiles/tf_generate_messages_py.dir/depend
-	$(MAKE) -f CMakeFiles/tf_generate_messages_py.dir/build.make CMakeFiles/tf_generate_messages_py.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target tf_generate_messages_py"
-.PHONY : CMakeFiles/tf_generate_messages_py.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/tf_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tf_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/tf_generate_messages_py.dir/rule
-
-# Convenience name for target.
-tf_generate_messages_py: CMakeFiles/tf_generate_messages_py.dir/rule
-
-.PHONY : tf_generate_messages_py
-
-# clean rule for target.
-CMakeFiles/tf_generate_messages_py.dir/clean:
-	$(MAKE) -f CMakeFiles/tf_generate_messages_py.dir/build.make CMakeFiles/tf_generate_messages_py.dir/clean
-.PHONY : CMakeFiles/tf_generate_messages_py.dir/clean
-
-#=============================================================================
 # Target rules for target CMakeFiles/node_B.dir
 
 # All Build rule for target.
+CMakeFiles/node_B.dir/all: CMakeFiles/assignment2_package_generate_messages_py.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/trajectory_msgs_generate_messages_py.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_nodejs.dir/all
@@ -1040,15 +996,19 @@ CMakeFiles/node_B.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_
 CMakeFiles/node_B.dir/all: CMakeFiles/sensor_msgs_generate_messages_cpp.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/moveit_msgs_generate_messages_cpp.dir/all
-CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
-CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/node_B.dir/all: CMakeFiles/tf_generate_messages_py.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/tf_generate_messages_py.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/roscpp_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/moveit_ros_planning_gencfg.dir/all
-CMakeFiles/node_B.dir/all: CMakeFiles/shape_msgs_generate_messages_eus.dir/all
-CMakeFiles/node_B.dir/all: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/std_srvs_generate_messages_py.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/moveit_msgs_generate_messages_py.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/geometry_msgs_generate_messages_cpp.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/all
@@ -1060,8 +1020,6 @@ CMakeFiles/node_B.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_
 CMakeFiles/node_B.dir/all: CMakeFiles/moveit_msgs_generate_messages_eus.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/geometry_msgs_generate_messages_py.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/shape_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/node_B.dir/all: CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/node_B.dir/all: CMakeFiles/roscpp_generate_messages_py.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_msgs_generate_messages_eus.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/all
@@ -1071,23 +1029,21 @@ CMakeFiles/node_B.dir/all: CMakeFiles/tf_generate_messages_eus.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/trajectory_msgs_generate_messages_eus.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/std_srvs_generate_messages_cpp.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/assignment2_package_generate_messages_eus.dir/all
-CMakeFiles/node_B.dir/all: CMakeFiles/sensor_msgs_generate_messages_eus.dir/all
-CMakeFiles/node_B.dir/all: CMakeFiles/shape_msgs_generate_messages_cpp.dir/all
-CMakeFiles/node_B.dir/all: CMakeFiles/moveit_ros_manipulation_gencfg.dir/all
-CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_generate_messages_lisp.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/moveit_msgs_generate_messages_lisp.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_msgs_generate_messages_py.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_generate_messages_cpp.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/std_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/std_msgs_generate_messages_py.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/nodelet_generate_messages_lisp.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/geometry_msgs_generate_messages_eus.dir/all
-CMakeFiles/node_B.dir/all: CMakeFiles/std_msgs_generate_messages_py.dir/all
-CMakeFiles/node_B.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
-CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
-CMakeFiles/node_B.dir/all: CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all
-CMakeFiles/node_B.dir/all: CMakeFiles/std_srvs_generate_messages_py.dir/all
-CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_generate_messages_nodejs.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/actionlib_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/sensor_msgs_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/shape_msgs_generate_messages_cpp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/moveit_ros_manipulation_gencfg.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/shape_msgs_generate_messages_eus.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/std_msgs_generate_messages_lisp.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/octomap_msgs_generate_messages_cpp.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/octomap_msgs_generate_messages_lisp.dir/all
@@ -1120,10 +1076,6 @@ CMakeFiles/node_B.dir/all: CMakeFiles/roscpp_generate_messages_lisp.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/std_srvs_generate_messages_lisp.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/std_srvs_generate_messages_nodejs.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/nodelet_generate_messages_py.dir/all
-CMakeFiles/node_B.dir/all: CMakeFiles/tf_generate_messages_lisp.dir/all
-CMakeFiles/node_B.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/all
-CMakeFiles/node_B.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
-CMakeFiles/node_B.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/apriltag_ros_generate_messages_cpp.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/roscpp_generate_messages_eus.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/apriltag_ros_generate_messages_eus.dir/all
@@ -1139,19 +1091,22 @@ CMakeFiles/node_B.dir/all: CMakeFiles/nodelet_generate_messages_nodejs.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/bond_generate_messages_eus.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/bond_generate_messages_lisp.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/bond_generate_messages_py.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/tf_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
+CMakeFiles/node_B.dir/all: CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/roscpp_generate_messages_nodejs.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/assignment2_package_generate_messages_cpp.dir/all
 CMakeFiles/node_B.dir/all: CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all
-CMakeFiles/node_B.dir/all: CMakeFiles/assignment2_package_generate_messages_py.dir/all
 	$(MAKE) -f CMakeFiles/node_B.dir/build.make CMakeFiles/node_B.dir/depend
 	$(MAKE) -f CMakeFiles/node_B.dir/build.make CMakeFiles/node_B.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=23,24 "Built target node_B"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=39,40 "Built target node_B"
 .PHONY : CMakeFiles/node_B.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/node_B.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 14
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 30
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/node_B.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
 .PHONY : CMakeFiles/node_B.dir/rule
@@ -1194,6 +1149,87 @@ CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/clean:
 .PHONY : CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir
+
+# All Build rule for target.
+CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all:
+	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/depend
+	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target actionlib_msgs_generate_messages_nodejs"
+.PHONY : CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+actionlib_msgs_generate_messages_nodejs: CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : actionlib_msgs_generate_messages_nodejs
+
+# clean rule for target.
+CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/clean:
+	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/clean
+.PHONY : CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/actionlib_msgs_generate_messages_lisp.dir
+
+# All Build rule for target.
+CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all:
+	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/depend
+	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target actionlib_msgs_generate_messages_lisp"
+.PHONY : CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+actionlib_msgs_generate_messages_lisp: CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule
+
+.PHONY : actionlib_msgs_generate_messages_lisp
+
+# clean rule for target.
+CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/clean:
+	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/clean
+.PHONY : CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/tf_generate_messages_py.dir
+
+# All Build rule for target.
+CMakeFiles/tf_generate_messages_py.dir/all:
+	$(MAKE) -f CMakeFiles/tf_generate_messages_py.dir/build.make CMakeFiles/tf_generate_messages_py.dir/depend
+	$(MAKE) -f CMakeFiles/tf_generate_messages_py.dir/build.make CMakeFiles/tf_generate_messages_py.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target tf_generate_messages_py"
+.PHONY : CMakeFiles/tf_generate_messages_py.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/tf_generate_messages_py.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tf_generate_messages_py.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/tf_generate_messages_py.dir/rule
+
+# Convenience name for target.
+tf_generate_messages_py: CMakeFiles/tf_generate_messages_py.dir/rule
+
+.PHONY : tf_generate_messages_py
+
+# clean rule for target.
+CMakeFiles/tf_generate_messages_py.dir/clean:
+	$(MAKE) -f CMakeFiles/tf_generate_messages_py.dir/build.make CMakeFiles/tf_generate_messages_py.dir/clean
+.PHONY : CMakeFiles/tf_generate_messages_py.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/actionlib_generate_messages_py.dir
 
 # All Build rule for target.
@@ -1219,6 +1255,114 @@ actionlib_generate_messages_py: CMakeFiles/actionlib_generate_messages_py.dir/ru
 CMakeFiles/actionlib_generate_messages_py.dir/clean:
 	$(MAKE) -f CMakeFiles/actionlib_generate_messages_py.dir/build.make CMakeFiles/actionlib_generate_messages_py.dir/clean
 .PHONY : CMakeFiles/actionlib_generate_messages_py.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir
+
+# All Build rule for target.
+CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all:
+	$(MAKE) -f CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/depend
+	$(MAKE) -f CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target trajectory_msgs_generate_messages_nodejs"
+.PHONY : CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+trajectory_msgs_generate_messages_nodejs: CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : trajectory_msgs_generate_messages_nodejs
+
+# clean rule for target.
+CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/clean:
+	$(MAKE) -f CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/clean
+.PHONY : CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/sensor_msgs_generate_messages_nodejs.dir
+
+# All Build rule for target.
+CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all:
+	$(MAKE) -f CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/depend
+	$(MAKE) -f CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target sensor_msgs_generate_messages_nodejs"
+.PHONY : CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+sensor_msgs_generate_messages_nodejs: CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : sensor_msgs_generate_messages_nodejs
+
+# clean rule for target.
+CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/clean:
+	$(MAKE) -f CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/clean
+.PHONY : CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/roscpp_generate_messages_py.dir
+
+# All Build rule for target.
+CMakeFiles/roscpp_generate_messages_py.dir/all:
+	$(MAKE) -f CMakeFiles/roscpp_generate_messages_py.dir/build.make CMakeFiles/roscpp_generate_messages_py.dir/depend
+	$(MAKE) -f CMakeFiles/roscpp_generate_messages_py.dir/build.make CMakeFiles/roscpp_generate_messages_py.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target roscpp_generate_messages_py"
+.PHONY : CMakeFiles/roscpp_generate_messages_py.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/roscpp_generate_messages_py.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/roscpp_generate_messages_py.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/roscpp_generate_messages_py.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_py: CMakeFiles/roscpp_generate_messages_py.dir/rule
+
+.PHONY : roscpp_generate_messages_py
+
+# clean rule for target.
+CMakeFiles/roscpp_generate_messages_py.dir/clean:
+	$(MAKE) -f CMakeFiles/roscpp_generate_messages_py.dir/build.make CMakeFiles/roscpp_generate_messages_py.dir/clean
+.PHONY : CMakeFiles/roscpp_generate_messages_py.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/actionlib_msgs_generate_messages_cpp.dir
+
+# All Build rule for target.
+CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all:
+	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/depend
+	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target actionlib_msgs_generate_messages_cpp"
+.PHONY : CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+actionlib_msgs_generate_messages_cpp: CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule
+
+.PHONY : actionlib_msgs_generate_messages_cpp
+
+# clean rule for target.
+CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/clean:
+	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/clean
+.PHONY : CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/rosgraph_msgs_generate_messages_eus.dir
@@ -1275,68 +1419,68 @@ CMakeFiles/moveit_ros_planning_gencfg.dir/clean:
 .PHONY : CMakeFiles/moveit_ros_planning_gencfg.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/shape_msgs_generate_messages_eus.dir
+# Target rules for target CMakeFiles/actionlib_generate_messages_nodejs.dir
 
 # All Build rule for target.
-CMakeFiles/shape_msgs_generate_messages_eus.dir/all:
-	$(MAKE) -f CMakeFiles/shape_msgs_generate_messages_eus.dir/build.make CMakeFiles/shape_msgs_generate_messages_eus.dir/depend
-	$(MAKE) -f CMakeFiles/shape_msgs_generate_messages_eus.dir/build.make CMakeFiles/shape_msgs_generate_messages_eus.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target shape_msgs_generate_messages_eus"
-.PHONY : CMakeFiles/shape_msgs_generate_messages_eus.dir/all
+CMakeFiles/actionlib_generate_messages_nodejs.dir/all:
+	$(MAKE) -f CMakeFiles/actionlib_generate_messages_nodejs.dir/build.make CMakeFiles/actionlib_generate_messages_nodejs.dir/depend
+	$(MAKE) -f CMakeFiles/actionlib_generate_messages_nodejs.dir/build.make CMakeFiles/actionlib_generate_messages_nodejs.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target actionlib_generate_messages_nodejs"
+.PHONY : CMakeFiles/actionlib_generate_messages_nodejs.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/shape_msgs_generate_messages_eus.dir/rule: cmake_check_build_system
+CMakeFiles/actionlib_generate_messages_nodejs.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/shape_msgs_generate_messages_eus.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/actionlib_generate_messages_nodejs.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/shape_msgs_generate_messages_eus.dir/rule
+.PHONY : CMakeFiles/actionlib_generate_messages_nodejs.dir/rule
 
 # Convenience name for target.
-shape_msgs_generate_messages_eus: CMakeFiles/shape_msgs_generate_messages_eus.dir/rule
+actionlib_generate_messages_nodejs: CMakeFiles/actionlib_generate_messages_nodejs.dir/rule
 
-.PHONY : shape_msgs_generate_messages_eus
+.PHONY : actionlib_generate_messages_nodejs
 
 # clean rule for target.
-CMakeFiles/shape_msgs_generate_messages_eus.dir/clean:
-	$(MAKE) -f CMakeFiles/shape_msgs_generate_messages_eus.dir/build.make CMakeFiles/shape_msgs_generate_messages_eus.dir/clean
-.PHONY : CMakeFiles/shape_msgs_generate_messages_eus.dir/clean
+CMakeFiles/actionlib_generate_messages_nodejs.dir/clean:
+	$(MAKE) -f CMakeFiles/actionlib_generate_messages_nodejs.dir/build.make CMakeFiles/actionlib_generate_messages_nodejs.dir/clean
+.PHONY : CMakeFiles/actionlib_generate_messages_nodejs.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/geometry_msgs_generate_messages_lisp.dir
+# Target rules for target CMakeFiles/std_srvs_generate_messages_py.dir
 
 # All Build rule for target.
-CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all:
-	$(MAKE) -f CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build.make CMakeFiles/geometry_msgs_generate_messages_lisp.dir/depend
-	$(MAKE) -f CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build.make CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target geometry_msgs_generate_messages_lisp"
-.PHONY : CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
+CMakeFiles/std_srvs_generate_messages_py.dir/all:
+	$(MAKE) -f CMakeFiles/std_srvs_generate_messages_py.dir/build.make CMakeFiles/std_srvs_generate_messages_py.dir/depend
+	$(MAKE) -f CMakeFiles/std_srvs_generate_messages_py.dir/build.make CMakeFiles/std_srvs_generate_messages_py.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target std_srvs_generate_messages_py"
+.PHONY : CMakeFiles/std_srvs_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
+CMakeFiles/std_srvs_generate_messages_py.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/std_srvs_generate_messages_py.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule
+.PHONY : CMakeFiles/std_srvs_generate_messages_py.dir/rule
 
 # Convenience name for target.
-geometry_msgs_generate_messages_lisp: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule
+std_srvs_generate_messages_py: CMakeFiles/std_srvs_generate_messages_py.dir/rule
 
-.PHONY : geometry_msgs_generate_messages_lisp
+.PHONY : std_srvs_generate_messages_py
 
 # clean rule for target.
-CMakeFiles/geometry_msgs_generate_messages_lisp.dir/clean:
-	$(MAKE) -f CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build.make CMakeFiles/geometry_msgs_generate_messages_lisp.dir/clean
-.PHONY : CMakeFiles/geometry_msgs_generate_messages_lisp.dir/clean
+CMakeFiles/std_srvs_generate_messages_py.dir/clean:
+	$(MAKE) -f CMakeFiles/std_srvs_generate_messages_py.dir/build.make CMakeFiles/std_srvs_generate_messages_py.dir/clean
+.PHONY : CMakeFiles/std_srvs_generate_messages_py.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/assignment2_package_generate_messages.dir
 
 # All Build rule for target.
+CMakeFiles/assignment2_package_generate_messages.dir/all: CMakeFiles/assignment2_package_generate_messages_py.dir/all
 CMakeFiles/assignment2_package_generate_messages.dir/all: CMakeFiles/assignment2_package_generate_messages_eus.dir/all
 CMakeFiles/assignment2_package_generate_messages.dir/all: CMakeFiles/assignment2_package_generate_messages_lisp.dir/all
 CMakeFiles/assignment2_package_generate_messages.dir/all: CMakeFiles/assignment2_package_generate_messages_cpp.dir/all
 CMakeFiles/assignment2_package_generate_messages.dir/all: CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all
-CMakeFiles/assignment2_package_generate_messages.dir/all: CMakeFiles/assignment2_package_generate_messages_py.dir/all
 	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages.dir/build.make CMakeFiles/assignment2_package_generate_messages.dir/depend
 	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages.dir/build.make CMakeFiles/assignment2_package_generate_messages.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target assignment2_package_generate_messages"
@@ -1344,7 +1488,7 @@ CMakeFiles/assignment2_package_generate_messages.dir/all: CMakeFiles/assignment2
 
 # Build rule for subdir invocation for target.
 CMakeFiles/assignment2_package_generate_messages.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 12
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 28
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/assignment2_package_generate_messages.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
 .PHONY : CMakeFiles/assignment2_package_generate_messages.dir/rule
@@ -1412,33 +1556,6 @@ geometry_msgs_generate_messages_cpp: CMakeFiles/geometry_msgs_generate_messages_
 CMakeFiles/geometry_msgs_generate_messages_cpp.dir/clean:
 	$(MAKE) -f CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build.make CMakeFiles/geometry_msgs_generate_messages_cpp.dir/clean
 .PHONY : CMakeFiles/geometry_msgs_generate_messages_cpp.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/assignment2_package_genpy.dir
-
-# All Build rule for target.
-CMakeFiles/assignment2_package_genpy.dir/all: CMakeFiles/assignment2_package_generate_messages_py.dir/all
-	$(MAKE) -f CMakeFiles/assignment2_package_genpy.dir/build.make CMakeFiles/assignment2_package_genpy.dir/depend
-	$(MAKE) -f CMakeFiles/assignment2_package_genpy.dir/build.make CMakeFiles/assignment2_package_genpy.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target assignment2_package_genpy"
-.PHONY : CMakeFiles/assignment2_package_genpy.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/assignment2_package_genpy.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 3
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/assignment2_package_genpy.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/assignment2_package_genpy.dir/rule
-
-# Convenience name for target.
-assignment2_package_genpy: CMakeFiles/assignment2_package_genpy.dir/rule
-
-.PHONY : assignment2_package_genpy
-
-# clean rule for target.
-CMakeFiles/assignment2_package_genpy.dir/clean:
-	$(MAKE) -f CMakeFiles/assignment2_package_genpy.dir/build.make CMakeFiles/assignment2_package_genpy.dir/clean
-.PHONY : CMakeFiles/assignment2_package_genpy.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/geometry_msgs_generate_messages_nodejs.dir
@@ -1614,7 +1731,7 @@ CMakeFiles/assignment2_package_geneus.dir/all: CMakeFiles/assignment2_package_ge
 
 # Build rule for subdir invocation for target.
 CMakeFiles/assignment2_package_geneus.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 6
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/assignment2_package_geneus.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
 .PHONY : CMakeFiles/assignment2_package_geneus.dir/rule
@@ -1736,60 +1853,6 @@ shape_msgs_generate_messages_nodejs: CMakeFiles/shape_msgs_generate_messages_nod
 CMakeFiles/shape_msgs_generate_messages_nodejs.dir/clean:
 	$(MAKE) -f CMakeFiles/shape_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/shape_msgs_generate_messages_nodejs.dir/clean
 .PHONY : CMakeFiles/shape_msgs_generate_messages_nodejs.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/sensor_msgs_generate_messages_nodejs.dir
-
-# All Build rule for target.
-CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all:
-	$(MAKE) -f CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/depend
-	$(MAKE) -f CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target sensor_msgs_generate_messages_nodejs"
-.PHONY : CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-sensor_msgs_generate_messages_nodejs: CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : sensor_msgs_generate_messages_nodejs
-
-# clean rule for target.
-CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/clean:
-	$(MAKE) -f CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/clean
-.PHONY : CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/roscpp_generate_messages_py.dir
-
-# All Build rule for target.
-CMakeFiles/roscpp_generate_messages_py.dir/all:
-	$(MAKE) -f CMakeFiles/roscpp_generate_messages_py.dir/build.make CMakeFiles/roscpp_generate_messages_py.dir/depend
-	$(MAKE) -f CMakeFiles/roscpp_generate_messages_py.dir/build.make CMakeFiles/roscpp_generate_messages_py.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target roscpp_generate_messages_py"
-.PHONY : CMakeFiles/roscpp_generate_messages_py.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/roscpp_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/roscpp_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/roscpp_generate_messages_py.dir/rule
-
-# Convenience name for target.
-roscpp_generate_messages_py: CMakeFiles/roscpp_generate_messages_py.dir/rule
-
-.PHONY : roscpp_generate_messages_py
-
-# clean rule for target.
-CMakeFiles/roscpp_generate_messages_py.dir/clean:
-	$(MAKE) -f CMakeFiles/roscpp_generate_messages_py.dir/build.make CMakeFiles/roscpp_generate_messages_py.dir/clean
-.PHONY : CMakeFiles/roscpp_generate_messages_py.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/doxygen.dir
@@ -2095,15 +2158,18 @@ CMakeFiles/std_srvs_generate_messages_cpp.dir/clean:
 CMakeFiles/assignment2_package_generate_messages_eus.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_PickObject.dir/all
 CMakeFiles/assignment2_package_generate_messages_eus.dir/all: CMakeFiles/geometry_msgs_generate_messages_eus.dir/all
 CMakeFiles/assignment2_package_generate_messages_eus.dir/all: CMakeFiles/std_msgs_generate_messages_eus.dir/all
+CMakeFiles/assignment2_package_generate_messages_eus.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPose.dir/all
+CMakeFiles/assignment2_package_generate_messages_eus.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPoseArray.dir/all
 CMakeFiles/assignment2_package_generate_messages_eus.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/all
+CMakeFiles/assignment2_package_generate_messages_eus.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/all
 	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_eus.dir/build.make CMakeFiles/assignment2_package_generate_messages_eus.dir/depend
 	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_eus.dir/build.make CMakeFiles/assignment2_package_generate_messages_eus.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=3,4,5 "Built target assignment2_package_generate_messages_eus"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=6,7,8,9,10,11 "Built target assignment2_package_generate_messages_eus"
 .PHONY : CMakeFiles/assignment2_package_generate_messages_eus.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/assignment2_package_generate_messages_eus.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 6
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/assignment2_package_generate_messages_eus.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
 .PHONY : CMakeFiles/assignment2_package_generate_messages_eus.dir/rule
@@ -2117,141 +2183,6 @@ assignment2_package_generate_messages_eus: CMakeFiles/assignment2_package_genera
 CMakeFiles/assignment2_package_generate_messages_eus.dir/clean:
 	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_eus.dir/build.make CMakeFiles/assignment2_package_generate_messages_eus.dir/clean
 .PHONY : CMakeFiles/assignment2_package_generate_messages_eus.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/sensor_msgs_generate_messages_eus.dir
-
-# All Build rule for target.
-CMakeFiles/sensor_msgs_generate_messages_eus.dir/all:
-	$(MAKE) -f CMakeFiles/sensor_msgs_generate_messages_eus.dir/build.make CMakeFiles/sensor_msgs_generate_messages_eus.dir/depend
-	$(MAKE) -f CMakeFiles/sensor_msgs_generate_messages_eus.dir/build.make CMakeFiles/sensor_msgs_generate_messages_eus.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target sensor_msgs_generate_messages_eus"
-.PHONY : CMakeFiles/sensor_msgs_generate_messages_eus.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/sensor_msgs_generate_messages_eus.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/sensor_msgs_generate_messages_eus.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/sensor_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-sensor_msgs_generate_messages_eus: CMakeFiles/sensor_msgs_generate_messages_eus.dir/rule
-
-.PHONY : sensor_msgs_generate_messages_eus
-
-# clean rule for target.
-CMakeFiles/sensor_msgs_generate_messages_eus.dir/clean:
-	$(MAKE) -f CMakeFiles/sensor_msgs_generate_messages_eus.dir/build.make CMakeFiles/sensor_msgs_generate_messages_eus.dir/clean
-.PHONY : CMakeFiles/sensor_msgs_generate_messages_eus.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/shape_msgs_generate_messages_cpp.dir
-
-# All Build rule for target.
-CMakeFiles/shape_msgs_generate_messages_cpp.dir/all:
-	$(MAKE) -f CMakeFiles/shape_msgs_generate_messages_cpp.dir/build.make CMakeFiles/shape_msgs_generate_messages_cpp.dir/depend
-	$(MAKE) -f CMakeFiles/shape_msgs_generate_messages_cpp.dir/build.make CMakeFiles/shape_msgs_generate_messages_cpp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target shape_msgs_generate_messages_cpp"
-.PHONY : CMakeFiles/shape_msgs_generate_messages_cpp.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/shape_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/shape_msgs_generate_messages_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/shape_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-shape_msgs_generate_messages_cpp: CMakeFiles/shape_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : shape_msgs_generate_messages_cpp
-
-# clean rule for target.
-CMakeFiles/shape_msgs_generate_messages_cpp.dir/clean:
-	$(MAKE) -f CMakeFiles/shape_msgs_generate_messages_cpp.dir/build.make CMakeFiles/shape_msgs_generate_messages_cpp.dir/clean
-.PHONY : CMakeFiles/shape_msgs_generate_messages_cpp.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/moveit_ros_manipulation_gencfg.dir
-
-# All Build rule for target.
-CMakeFiles/moveit_ros_manipulation_gencfg.dir/all:
-	$(MAKE) -f CMakeFiles/moveit_ros_manipulation_gencfg.dir/build.make CMakeFiles/moveit_ros_manipulation_gencfg.dir/depend
-	$(MAKE) -f CMakeFiles/moveit_ros_manipulation_gencfg.dir/build.make CMakeFiles/moveit_ros_manipulation_gencfg.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target moveit_ros_manipulation_gencfg"
-.PHONY : CMakeFiles/moveit_ros_manipulation_gencfg.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/moveit_ros_manipulation_gencfg.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/moveit_ros_manipulation_gencfg.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/moveit_ros_manipulation_gencfg.dir/rule
-
-# Convenience name for target.
-moveit_ros_manipulation_gencfg: CMakeFiles/moveit_ros_manipulation_gencfg.dir/rule
-
-.PHONY : moveit_ros_manipulation_gencfg
-
-# clean rule for target.
-CMakeFiles/moveit_ros_manipulation_gencfg.dir/clean:
-	$(MAKE) -f CMakeFiles/moveit_ros_manipulation_gencfg.dir/build.make CMakeFiles/moveit_ros_manipulation_gencfg.dir/clean
-.PHONY : CMakeFiles/moveit_ros_manipulation_gencfg.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/actionlib_generate_messages_lisp.dir
-
-# All Build rule for target.
-CMakeFiles/actionlib_generate_messages_lisp.dir/all:
-	$(MAKE) -f CMakeFiles/actionlib_generate_messages_lisp.dir/build.make CMakeFiles/actionlib_generate_messages_lisp.dir/depend
-	$(MAKE) -f CMakeFiles/actionlib_generate_messages_lisp.dir/build.make CMakeFiles/actionlib_generate_messages_lisp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target actionlib_generate_messages_lisp"
-.PHONY : CMakeFiles/actionlib_generate_messages_lisp.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/actionlib_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/actionlib_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/actionlib_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-actionlib_generate_messages_lisp: CMakeFiles/actionlib_generate_messages_lisp.dir/rule
-
-.PHONY : actionlib_generate_messages_lisp
-
-# clean rule for target.
-CMakeFiles/actionlib_generate_messages_lisp.dir/clean:
-	$(MAKE) -f CMakeFiles/actionlib_generate_messages_lisp.dir/build.make CMakeFiles/actionlib_generate_messages_lisp.dir/clean
-.PHONY : CMakeFiles/actionlib_generate_messages_lisp.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/clean_test_results.dir
-
-# All Build rule for target.
-CMakeFiles/clean_test_results.dir/all:
-	$(MAKE) -f CMakeFiles/clean_test_results.dir/build.make CMakeFiles/clean_test_results.dir/depend
-	$(MAKE) -f CMakeFiles/clean_test_results.dir/build.make CMakeFiles/clean_test_results.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target clean_test_results"
-.PHONY : CMakeFiles/clean_test_results.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/clean_test_results.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/clean_test_results.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/clean_test_results.dir/rule
-
-# Convenience name for target.
-clean_test_results: CMakeFiles/clean_test_results.dir/rule
-
-.PHONY : clean_test_results
-
-# clean rule for target.
-CMakeFiles/clean_test_results.dir/clean:
-	$(MAKE) -f CMakeFiles/clean_test_results.dir/build.make CMakeFiles/clean_test_results.dir/clean
-.PHONY : CMakeFiles/clean_test_results.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/tests.dir
@@ -2389,6 +2320,60 @@ CMakeFiles/std_msgs_generate_messages_cpp.dir/clean:
 .PHONY : CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir
+
+# All Build rule for target.
+CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all:
+	$(MAKE) -f CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/build.make CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/depend
+	$(MAKE) -f CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/build.make CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target object_recognition_msgs_generate_messages_cpp"
+.PHONY : CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+object_recognition_msgs_generate_messages_cpp: CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/rule
+
+.PHONY : object_recognition_msgs_generate_messages_cpp
+
+# clean rule for target.
+CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/clean:
+	$(MAKE) -f CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/build.make CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/clean
+.PHONY : CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/std_msgs_generate_messages_py.dir
+
+# All Build rule for target.
+CMakeFiles/std_msgs_generate_messages_py.dir/all:
+	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_py.dir/build.make CMakeFiles/std_msgs_generate_messages_py.dir/depend
+	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_py.dir/build.make CMakeFiles/std_msgs_generate_messages_py.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target std_msgs_generate_messages_py"
+.PHONY : CMakeFiles/std_msgs_generate_messages_py.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/std_msgs_generate_messages_py.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/std_msgs_generate_messages_py.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/std_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_py: CMakeFiles/std_msgs_generate_messages_py.dir/rule
+
+.PHONY : std_msgs_generate_messages_py
+
+# clean rule for target.
+CMakeFiles/std_msgs_generate_messages_py.dir/clean:
+	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_py.dir/build.make CMakeFiles/std_msgs_generate_messages_py.dir/clean
+.PHONY : CMakeFiles/std_msgs_generate_messages_py.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/std_msgs_generate_messages_nodejs.dir
 
 # All Build rule for target.
@@ -2470,166 +2455,220 @@ CMakeFiles/geometry_msgs_generate_messages_eus.dir/clean:
 .PHONY : CMakeFiles/geometry_msgs_generate_messages_eus.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/std_msgs_generate_messages_py.dir
+# Target rules for target CMakeFiles/actionlib_generate_messages_lisp.dir
 
 # All Build rule for target.
-CMakeFiles/std_msgs_generate_messages_py.dir/all:
-	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_py.dir/build.make CMakeFiles/std_msgs_generate_messages_py.dir/depend
-	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_py.dir/build.make CMakeFiles/std_msgs_generate_messages_py.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target std_msgs_generate_messages_py"
-.PHONY : CMakeFiles/std_msgs_generate_messages_py.dir/all
+CMakeFiles/actionlib_generate_messages_lisp.dir/all:
+	$(MAKE) -f CMakeFiles/actionlib_generate_messages_lisp.dir/build.make CMakeFiles/actionlib_generate_messages_lisp.dir/depend
+	$(MAKE) -f CMakeFiles/actionlib_generate_messages_lisp.dir/build.make CMakeFiles/actionlib_generate_messages_lisp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target actionlib_generate_messages_lisp"
+.PHONY : CMakeFiles/actionlib_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/std_msgs_generate_messages_py.dir/rule: cmake_check_build_system
+CMakeFiles/actionlib_generate_messages_lisp.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/std_msgs_generate_messages_py.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/actionlib_generate_messages_lisp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/std_msgs_generate_messages_py.dir/rule
+.PHONY : CMakeFiles/actionlib_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
-std_msgs_generate_messages_py: CMakeFiles/std_msgs_generate_messages_py.dir/rule
+actionlib_generate_messages_lisp: CMakeFiles/actionlib_generate_messages_lisp.dir/rule
 
-.PHONY : std_msgs_generate_messages_py
+.PHONY : actionlib_generate_messages_lisp
 
 # clean rule for target.
-CMakeFiles/std_msgs_generate_messages_py.dir/clean:
-	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_py.dir/build.make CMakeFiles/std_msgs_generate_messages_py.dir/clean
-.PHONY : CMakeFiles/std_msgs_generate_messages_py.dir/clean
+CMakeFiles/actionlib_generate_messages_lisp.dir/clean:
+	$(MAKE) -f CMakeFiles/actionlib_generate_messages_lisp.dir/build.make CMakeFiles/actionlib_generate_messages_lisp.dir/clean
+.PHONY : CMakeFiles/actionlib_generate_messages_lisp.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir
+# Target rules for target CMakeFiles/clean_test_results.dir
 
 # All Build rule for target.
-CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all:
-	$(MAKE) -f CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/build.make CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/depend
-	$(MAKE) -f CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/build.make CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target object_recognition_msgs_generate_messages_cpp"
-.PHONY : CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
+CMakeFiles/clean_test_results.dir/all:
+	$(MAKE) -f CMakeFiles/clean_test_results.dir/build.make CMakeFiles/clean_test_results.dir/depend
+	$(MAKE) -f CMakeFiles/clean_test_results.dir/build.make CMakeFiles/clean_test_results.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target clean_test_results"
+.PHONY : CMakeFiles/clean_test_results.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
+CMakeFiles/clean_test_results.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/clean_test_results.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/rule
+.PHONY : CMakeFiles/clean_test_results.dir/rule
 
 # Convenience name for target.
-object_recognition_msgs_generate_messages_cpp: CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/rule
+clean_test_results: CMakeFiles/clean_test_results.dir/rule
 
-.PHONY : object_recognition_msgs_generate_messages_cpp
+.PHONY : clean_test_results
 
 # clean rule for target.
-CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/clean:
-	$(MAKE) -f CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/build.make CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/clean
-.PHONY : CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/clean
+CMakeFiles/clean_test_results.dir/clean:
+	$(MAKE) -f CMakeFiles/clean_test_results.dir/build.make CMakeFiles/clean_test_results.dir/clean
+.PHONY : CMakeFiles/clean_test_results.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/actionlib_msgs_generate_messages_cpp.dir
+# Target rules for target CMakeFiles/sensor_msgs_generate_messages_eus.dir
 
 # All Build rule for target.
-CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all:
-	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/depend
-	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target actionlib_msgs_generate_messages_cpp"
-.PHONY : CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
+CMakeFiles/sensor_msgs_generate_messages_eus.dir/all:
+	$(MAKE) -f CMakeFiles/sensor_msgs_generate_messages_eus.dir/build.make CMakeFiles/sensor_msgs_generate_messages_eus.dir/depend
+	$(MAKE) -f CMakeFiles/sensor_msgs_generate_messages_eus.dir/build.make CMakeFiles/sensor_msgs_generate_messages_eus.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target sensor_msgs_generate_messages_eus"
+.PHONY : CMakeFiles/sensor_msgs_generate_messages_eus.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
+CMakeFiles/sensor_msgs_generate_messages_eus.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/sensor_msgs_generate_messages_eus.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule
+.PHONY : CMakeFiles/sensor_msgs_generate_messages_eus.dir/rule
 
 # Convenience name for target.
-actionlib_msgs_generate_messages_cpp: CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule
+sensor_msgs_generate_messages_eus: CMakeFiles/sensor_msgs_generate_messages_eus.dir/rule
 
-.PHONY : actionlib_msgs_generate_messages_cpp
+.PHONY : sensor_msgs_generate_messages_eus
 
 # clean rule for target.
-CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/clean:
-	$(MAKE) -f CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build.make CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/clean
-.PHONY : CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/clean
+CMakeFiles/sensor_msgs_generate_messages_eus.dir/clean:
+	$(MAKE) -f CMakeFiles/sensor_msgs_generate_messages_eus.dir/build.make CMakeFiles/sensor_msgs_generate_messages_eus.dir/clean
+.PHONY : CMakeFiles/sensor_msgs_generate_messages_eus.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir
+# Target rules for target CMakeFiles/shape_msgs_generate_messages_cpp.dir
 
 # All Build rule for target.
-CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all:
-	$(MAKE) -f CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/depend
-	$(MAKE) -f CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target trajectory_msgs_generate_messages_nodejs"
-.PHONY : CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/shape_msgs_generate_messages_cpp.dir/all:
+	$(MAKE) -f CMakeFiles/shape_msgs_generate_messages_cpp.dir/build.make CMakeFiles/shape_msgs_generate_messages_cpp.dir/depend
+	$(MAKE) -f CMakeFiles/shape_msgs_generate_messages_cpp.dir/build.make CMakeFiles/shape_msgs_generate_messages_cpp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target shape_msgs_generate_messages_cpp"
+.PHONY : CMakeFiles/shape_msgs_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/rule: cmake_check_build_system
+CMakeFiles/shape_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/shape_msgs_generate_messages_cpp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/rule
+.PHONY : CMakeFiles/shape_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
-trajectory_msgs_generate_messages_nodejs: CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/rule
+shape_msgs_generate_messages_cpp: CMakeFiles/shape_msgs_generate_messages_cpp.dir/rule
 
-.PHONY : trajectory_msgs_generate_messages_nodejs
+.PHONY : shape_msgs_generate_messages_cpp
 
 # clean rule for target.
-CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/clean:
-	$(MAKE) -f CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/clean
-.PHONY : CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/clean
+CMakeFiles/shape_msgs_generate_messages_cpp.dir/clean:
+	$(MAKE) -f CMakeFiles/shape_msgs_generate_messages_cpp.dir/build.make CMakeFiles/shape_msgs_generate_messages_cpp.dir/clean
+.PHONY : CMakeFiles/shape_msgs_generate_messages_cpp.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/std_srvs_generate_messages_py.dir
+# Target rules for target CMakeFiles/moveit_ros_manipulation_gencfg.dir
 
 # All Build rule for target.
-CMakeFiles/std_srvs_generate_messages_py.dir/all:
-	$(MAKE) -f CMakeFiles/std_srvs_generate_messages_py.dir/build.make CMakeFiles/std_srvs_generate_messages_py.dir/depend
-	$(MAKE) -f CMakeFiles/std_srvs_generate_messages_py.dir/build.make CMakeFiles/std_srvs_generate_messages_py.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target std_srvs_generate_messages_py"
-.PHONY : CMakeFiles/std_srvs_generate_messages_py.dir/all
+CMakeFiles/moveit_ros_manipulation_gencfg.dir/all:
+	$(MAKE) -f CMakeFiles/moveit_ros_manipulation_gencfg.dir/build.make CMakeFiles/moveit_ros_manipulation_gencfg.dir/depend
+	$(MAKE) -f CMakeFiles/moveit_ros_manipulation_gencfg.dir/build.make CMakeFiles/moveit_ros_manipulation_gencfg.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target moveit_ros_manipulation_gencfg"
+.PHONY : CMakeFiles/moveit_ros_manipulation_gencfg.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/std_srvs_generate_messages_py.dir/rule: cmake_check_build_system
+CMakeFiles/moveit_ros_manipulation_gencfg.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/std_srvs_generate_messages_py.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/moveit_ros_manipulation_gencfg.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/std_srvs_generate_messages_py.dir/rule
+.PHONY : CMakeFiles/moveit_ros_manipulation_gencfg.dir/rule
 
 # Convenience name for target.
-std_srvs_generate_messages_py: CMakeFiles/std_srvs_generate_messages_py.dir/rule
+moveit_ros_manipulation_gencfg: CMakeFiles/moveit_ros_manipulation_gencfg.dir/rule
 
-.PHONY : std_srvs_generate_messages_py
+.PHONY : moveit_ros_manipulation_gencfg
 
 # clean rule for target.
-CMakeFiles/std_srvs_generate_messages_py.dir/clean:
-	$(MAKE) -f CMakeFiles/std_srvs_generate_messages_py.dir/build.make CMakeFiles/std_srvs_generate_messages_py.dir/clean
-.PHONY : CMakeFiles/std_srvs_generate_messages_py.dir/clean
+CMakeFiles/moveit_ros_manipulation_gencfg.dir/clean:
+	$(MAKE) -f CMakeFiles/moveit_ros_manipulation_gencfg.dir/build.make CMakeFiles/moveit_ros_manipulation_gencfg.dir/clean
+.PHONY : CMakeFiles/moveit_ros_manipulation_gencfg.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/actionlib_generate_messages_nodejs.dir
+# Target rules for target CMakeFiles/geometry_msgs_generate_messages_lisp.dir
 
 # All Build rule for target.
-CMakeFiles/actionlib_generate_messages_nodejs.dir/all:
-	$(MAKE) -f CMakeFiles/actionlib_generate_messages_nodejs.dir/build.make CMakeFiles/actionlib_generate_messages_nodejs.dir/depend
-	$(MAKE) -f CMakeFiles/actionlib_generate_messages_nodejs.dir/build.make CMakeFiles/actionlib_generate_messages_nodejs.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target actionlib_generate_messages_nodejs"
-.PHONY : CMakeFiles/actionlib_generate_messages_nodejs.dir/all
+CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all:
+	$(MAKE) -f CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build.make CMakeFiles/geometry_msgs_generate_messages_lisp.dir/depend
+	$(MAKE) -f CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build.make CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target geometry_msgs_generate_messages_lisp"
+.PHONY : CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/actionlib_generate_messages_nodejs.dir/rule: cmake_check_build_system
+CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/actionlib_generate_messages_nodejs.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/actionlib_generate_messages_nodejs.dir/rule
+.PHONY : CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
-actionlib_generate_messages_nodejs: CMakeFiles/actionlib_generate_messages_nodejs.dir/rule
+geometry_msgs_generate_messages_lisp: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule
 
-.PHONY : actionlib_generate_messages_nodejs
+.PHONY : geometry_msgs_generate_messages_lisp
 
 # clean rule for target.
-CMakeFiles/actionlib_generate_messages_nodejs.dir/clean:
-	$(MAKE) -f CMakeFiles/actionlib_generate_messages_nodejs.dir/build.make CMakeFiles/actionlib_generate_messages_nodejs.dir/clean
-.PHONY : CMakeFiles/actionlib_generate_messages_nodejs.dir/clean
+CMakeFiles/geometry_msgs_generate_messages_lisp.dir/clean:
+	$(MAKE) -f CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build.make CMakeFiles/geometry_msgs_generate_messages_lisp.dir/clean
+.PHONY : CMakeFiles/geometry_msgs_generate_messages_lisp.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/shape_msgs_generate_messages_eus.dir
+
+# All Build rule for target.
+CMakeFiles/shape_msgs_generate_messages_eus.dir/all:
+	$(MAKE) -f CMakeFiles/shape_msgs_generate_messages_eus.dir/build.make CMakeFiles/shape_msgs_generate_messages_eus.dir/depend
+	$(MAKE) -f CMakeFiles/shape_msgs_generate_messages_eus.dir/build.make CMakeFiles/shape_msgs_generate_messages_eus.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target shape_msgs_generate_messages_eus"
+.PHONY : CMakeFiles/shape_msgs_generate_messages_eus.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/shape_msgs_generate_messages_eus.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/shape_msgs_generate_messages_eus.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/shape_msgs_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+shape_msgs_generate_messages_eus: CMakeFiles/shape_msgs_generate_messages_eus.dir/rule
+
+.PHONY : shape_msgs_generate_messages_eus
+
+# clean rule for target.
+CMakeFiles/shape_msgs_generate_messages_eus.dir/clean:
+	$(MAKE) -f CMakeFiles/shape_msgs_generate_messages_eus.dir/build.make CMakeFiles/shape_msgs_generate_messages_eus.dir/clean
+.PHONY : CMakeFiles/shape_msgs_generate_messages_eus.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/assignment2_package_genlisp.dir
+
+# All Build rule for target.
+CMakeFiles/assignment2_package_genlisp.dir/all: CMakeFiles/assignment2_package_generate_messages_lisp.dir/all
+	$(MAKE) -f CMakeFiles/assignment2_package_genlisp.dir/build.make CMakeFiles/assignment2_package_genlisp.dir/depend
+	$(MAKE) -f CMakeFiles/assignment2_package_genlisp.dir/build.make CMakeFiles/assignment2_package_genlisp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target assignment2_package_genlisp"
+.PHONY : CMakeFiles/assignment2_package_genlisp.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/assignment2_package_genlisp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 5
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/assignment2_package_genlisp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/assignment2_package_genlisp.dir/rule
+
+# Convenience name for target.
+assignment2_package_genlisp: CMakeFiles/assignment2_package_genlisp.dir/rule
+
+.PHONY : assignment2_package_genlisp
+
+# clean rule for target.
+CMakeFiles/assignment2_package_genlisp.dir/clean:
+	$(MAKE) -f CMakeFiles/assignment2_package_genlisp.dir/build.make CMakeFiles/assignment2_package_genlisp.dir/clean
+.PHONY : CMakeFiles/assignment2_package_genlisp.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/std_msgs_generate_messages_lisp.dir
@@ -2905,18 +2944,21 @@ CMakeFiles/tf2_msgs_generate_messages_cpp.dir/clean:
 # Target rules for target CMakeFiles/assignment2_package_generate_messages_lisp.dir
 
 # All Build rule for target.
-CMakeFiles/assignment2_package_generate_messages_lisp.dir/all: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
 CMakeFiles/assignment2_package_generate_messages_lisp.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_PickObject.dir/all
+CMakeFiles/assignment2_package_generate_messages_lisp.dir/all: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
 CMakeFiles/assignment2_package_generate_messages_lisp.dir/all: CMakeFiles/std_msgs_generate_messages_lisp.dir/all
+CMakeFiles/assignment2_package_generate_messages_lisp.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPose.dir/all
+CMakeFiles/assignment2_package_generate_messages_lisp.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPoseArray.dir/all
 CMakeFiles/assignment2_package_generate_messages_lisp.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/all
+CMakeFiles/assignment2_package_generate_messages_lisp.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/all
 	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_lisp.dir/build.make CMakeFiles/assignment2_package_generate_messages_lisp.dir/depend
 	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_lisp.dir/build.make CMakeFiles/assignment2_package_generate_messages_lisp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=6,7 "Built target assignment2_package_generate_messages_lisp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=12,13,14,15,16 "Built target assignment2_package_generate_messages_lisp"
 .PHONY : CMakeFiles/assignment2_package_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/assignment2_package_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 5
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/assignment2_package_generate_messages_lisp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
 .PHONY : CMakeFiles/assignment2_package_generate_messages_lisp.dir/rule
@@ -3499,114 +3541,6 @@ CMakeFiles/nodelet_generate_messages_py.dir/clean:
 .PHONY : CMakeFiles/nodelet_generate_messages_py.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/tf_generate_messages_lisp.dir
-
-# All Build rule for target.
-CMakeFiles/tf_generate_messages_lisp.dir/all:
-	$(MAKE) -f CMakeFiles/tf_generate_messages_lisp.dir/build.make CMakeFiles/tf_generate_messages_lisp.dir/depend
-	$(MAKE) -f CMakeFiles/tf_generate_messages_lisp.dir/build.make CMakeFiles/tf_generate_messages_lisp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target tf_generate_messages_lisp"
-.PHONY : CMakeFiles/tf_generate_messages_lisp.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/tf_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tf_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/tf_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-tf_generate_messages_lisp: CMakeFiles/tf_generate_messages_lisp.dir/rule
-
-.PHONY : tf_generate_messages_lisp
-
-# clean rule for target.
-CMakeFiles/tf_generate_messages_lisp.dir/clean:
-	$(MAKE) -f CMakeFiles/tf_generate_messages_lisp.dir/build.make CMakeFiles/tf_generate_messages_lisp.dir/clean
-.PHONY : CMakeFiles/tf_generate_messages_lisp.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir
-
-# All Build rule for target.
-CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/all:
-	$(MAKE) -f CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/build.make CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/depend
-	$(MAKE) -f CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/build.make CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target tiago_iaslab_simulation_generate_messages_eus"
-.PHONY : CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-tiago_iaslab_simulation_generate_messages_eus: CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/rule
-
-.PHONY : tiago_iaslab_simulation_generate_messages_eus
-
-# clean rule for target.
-CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/clean:
-	$(MAKE) -f CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/build.make CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/clean
-.PHONY : CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir
-
-# All Build rule for target.
-CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all:
-	$(MAKE) -f CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build.make CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/depend
-	$(MAKE) -f CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build.make CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target object_recognition_msgs_generate_messages_lisp"
-.PHONY : CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-object_recognition_msgs_generate_messages_lisp: CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : object_recognition_msgs_generate_messages_lisp
-
-# clean rule for target.
-CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/clean:
-	$(MAKE) -f CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build.make CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/clean
-.PHONY : CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir
-
-# All Build rule for target.
-CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/all:
-	$(MAKE) -f CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/build.make CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/depend
-	$(MAKE) -f CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/build.make CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target tiago_iaslab_simulation_generate_messages_lisp"
-.PHONY : CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-tiago_iaslab_simulation_generate_messages_lisp: CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/rule
-
-.PHONY : tiago_iaslab_simulation_generate_messages_lisp
-
-# clean rule for target.
-CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/clean:
-	$(MAKE) -f CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/build.make CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/clean
-.PHONY : CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/clean
-
-#=============================================================================
 # Target rules for target CMakeFiles/apriltag_ros_generate_messages_cpp.dir
 
 # All Build rule for target.
@@ -4012,6 +3946,168 @@ CMakeFiles/bond_generate_messages_py.dir/clean:
 .PHONY : CMakeFiles/bond_generate_messages_py.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/tf_generate_messages_lisp.dir
+
+# All Build rule for target.
+CMakeFiles/tf_generate_messages_lisp.dir/all:
+	$(MAKE) -f CMakeFiles/tf_generate_messages_lisp.dir/build.make CMakeFiles/tf_generate_messages_lisp.dir/depend
+	$(MAKE) -f CMakeFiles/tf_generate_messages_lisp.dir/build.make CMakeFiles/tf_generate_messages_lisp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target tf_generate_messages_lisp"
+.PHONY : CMakeFiles/tf_generate_messages_lisp.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/tf_generate_messages_lisp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tf_generate_messages_lisp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/tf_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+tf_generate_messages_lisp: CMakeFiles/tf_generate_messages_lisp.dir/rule
+
+.PHONY : tf_generate_messages_lisp
+
+# clean rule for target.
+CMakeFiles/tf_generate_messages_lisp.dir/clean:
+	$(MAKE) -f CMakeFiles/tf_generate_messages_lisp.dir/build.make CMakeFiles/tf_generate_messages_lisp.dir/clean
+.PHONY : CMakeFiles/tf_generate_messages_lisp.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir
+
+# All Build rule for target.
+CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/all:
+	$(MAKE) -f CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/build.make CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/depend
+	$(MAKE) -f CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/build.make CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target tiago_iaslab_simulation_generate_messages_eus"
+.PHONY : CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+tiago_iaslab_simulation_generate_messages_eus: CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/rule
+
+.PHONY : tiago_iaslab_simulation_generate_messages_eus
+
+# clean rule for target.
+CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/clean:
+	$(MAKE) -f CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/build.make CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/clean
+.PHONY : CMakeFiles/tiago_iaslab_simulation_generate_messages_eus.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir
+
+# All Build rule for target.
+CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all:
+	$(MAKE) -f CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build.make CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/depend
+	$(MAKE) -f CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build.make CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target object_recognition_msgs_generate_messages_lisp"
+.PHONY : CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+object_recognition_msgs_generate_messages_lisp: CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
+
+.PHONY : object_recognition_msgs_generate_messages_lisp
+
+# clean rule for target.
+CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/clean:
+	$(MAKE) -f CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build.make CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/clean
+.PHONY : CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir
+
+# All Build rule for target.
+CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/all:
+	$(MAKE) -f CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/build.make CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/depend
+	$(MAKE) -f CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/build.make CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target tiago_iaslab_simulation_generate_messages_lisp"
+.PHONY : CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+tiago_iaslab_simulation_generate_messages_lisp: CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/rule
+
+.PHONY : tiago_iaslab_simulation_generate_messages_lisp
+
+# clean rule for target.
+CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/clean:
+	$(MAKE) -f CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/build.make CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/clean
+.PHONY : CMakeFiles/tiago_iaslab_simulation_generate_messages_lisp.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPose.dir
+
+# All Build rule for target.
+CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPose.dir/all:
+	$(MAKE) -f CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPose.dir/build.make CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPose.dir/depend
+	$(MAKE) -f CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPose.dir/build.make CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPose.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target _assignment2_package_generate_messages_check_deps_ObjectPose"
+.PHONY : CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPose.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPose.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPose.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPose.dir/rule
+
+# Convenience name for target.
+_assignment2_package_generate_messages_check_deps_ObjectPose: CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPose.dir/rule
+
+.PHONY : _assignment2_package_generate_messages_check_deps_ObjectPose
+
+# clean rule for target.
+CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPose.dir/clean:
+	$(MAKE) -f CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPose.dir/build.make CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPose.dir/clean
+.PHONY : CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPose.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPoseArray.dir
+
+# All Build rule for target.
+CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPoseArray.dir/all:
+	$(MAKE) -f CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPoseArray.dir/build.make CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPoseArray.dir/depend
+	$(MAKE) -f CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPoseArray.dir/build.make CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPoseArray.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target _assignment2_package_generate_messages_check_deps_ObjectPoseArray"
+.PHONY : CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPoseArray.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPoseArray.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPoseArray.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPoseArray.dir/rule
+
+# Convenience name for target.
+_assignment2_package_generate_messages_check_deps_ObjectPoseArray: CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPoseArray.dir/rule
+
+.PHONY : _assignment2_package_generate_messages_check_deps_ObjectPoseArray
+
+# clean rule for target.
+CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPoseArray.dir/clean:
+	$(MAKE) -f CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPoseArray.dir/build.make CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPoseArray.dir/clean
+.PHONY : CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPoseArray.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir
 
 # All Build rule for target.
@@ -4066,6 +4162,33 @@ CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/c
 .PHONY : CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir
+
+# All Build rule for target.
+CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/all:
+	$(MAKE) -f CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/build.make CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/depend
+	$(MAKE) -f CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/build.make CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num= "Built target _assignment2_package_generate_messages_check_deps_PlaceObject"
+.PHONY : CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
+.PHONY : CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/rule
+
+# Convenience name for target.
+_assignment2_package_generate_messages_check_deps_PlaceObject: CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/rule
+
+.PHONY : _assignment2_package_generate_messages_check_deps_PlaceObject
+
+# clean rule for target.
+CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/clean:
+	$(MAKE) -f CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/build.make CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/clean
+.PHONY : CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/roscpp_generate_messages_nodejs.dir
 
 # All Build rule for target.
@@ -4099,15 +4222,18 @@ CMakeFiles/roscpp_generate_messages_nodejs.dir/clean:
 CMakeFiles/assignment2_package_generate_messages_cpp.dir/all: CMakeFiles/geometry_msgs_generate_messages_cpp.dir/all
 CMakeFiles/assignment2_package_generate_messages_cpp.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_PickObject.dir/all
 CMakeFiles/assignment2_package_generate_messages_cpp.dir/all: CMakeFiles/std_msgs_generate_messages_cpp.dir/all
+CMakeFiles/assignment2_package_generate_messages_cpp.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPose.dir/all
+CMakeFiles/assignment2_package_generate_messages_cpp.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPoseArray.dir/all
 CMakeFiles/assignment2_package_generate_messages_cpp.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/all
+CMakeFiles/assignment2_package_generate_messages_cpp.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/all
 	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_cpp.dir/build.make CMakeFiles/assignment2_package_generate_messages_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_cpp.dir/build.make CMakeFiles/assignment2_package_generate_messages_cpp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=1,2 "Built target assignment2_package_generate_messages_cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=1,2,3,4,5 "Built target assignment2_package_generate_messages_cpp"
 .PHONY : CMakeFiles/assignment2_package_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/assignment2_package_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 5
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/assignment2_package_generate_messages_cpp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
 .PHONY : CMakeFiles/assignment2_package_generate_messages_cpp.dir/rule
@@ -4134,7 +4260,7 @@ CMakeFiles/assignment2_package_gencpp.dir/all: CMakeFiles/assignment2_package_ge
 
 # Build rule for subdir invocation for target.
 CMakeFiles/assignment2_package_gencpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 5
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/assignment2_package_gencpp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
 .PHONY : CMakeFiles/assignment2_package_gencpp.dir/rule
@@ -4156,15 +4282,18 @@ CMakeFiles/assignment2_package_gencpp.dir/clean:
 CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all: CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/all
 CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_PickObject.dir/all
 CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all: CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPose.dir/all
+CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_ObjectPoseArray.dir/all
 CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/all
+CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_PlaceObject.dir/all
 	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_nodejs.dir/build.make CMakeFiles/assignment2_package_generate_messages_nodejs.dir/depend
 	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_nodejs.dir/build.make CMakeFiles/assignment2_package_generate_messages_nodejs.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=8,9 "Built target assignment2_package_generate_messages_nodejs"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=17,18,19,20,21 "Built target assignment2_package_generate_messages_nodejs"
 .PHONY : CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/assignment2_package_generate_messages_nodejs.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 5
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/assignment2_package_generate_messages_nodejs.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
 .PHONY : CMakeFiles/assignment2_package_generate_messages_nodejs.dir/rule
@@ -4191,7 +4320,7 @@ CMakeFiles/assignment2_package_gennodejs.dir/all: CMakeFiles/assignment2_package
 
 # Build rule for subdir invocation for target.
 CMakeFiles/assignment2_package_gennodejs.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 5
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/assignment2_package_gennodejs.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
 .PHONY : CMakeFiles/assignment2_package_gennodejs.dir/rule
@@ -4207,36 +4336,6 @@ CMakeFiles/assignment2_package_gennodejs.dir/clean:
 .PHONY : CMakeFiles/assignment2_package_gennodejs.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/assignment2_package_generate_messages_py.dir
-
-# All Build rule for target.
-CMakeFiles/assignment2_package_generate_messages_py.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_PickObject.dir/all
-CMakeFiles/assignment2_package_generate_messages_py.dir/all: CMakeFiles/geometry_msgs_generate_messages_py.dir/all
-CMakeFiles/assignment2_package_generate_messages_py.dir/all: CMakeFiles/std_msgs_generate_messages_py.dir/all
-CMakeFiles/assignment2_package_generate_messages_py.dir/all: CMakeFiles/_assignment2_package_generate_messages_check_deps_GetObjectPose.dir/all
-	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_py.dir/build.make CMakeFiles/assignment2_package_generate_messages_py.dir/depend
-	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_py.dir/build.make CMakeFiles/assignment2_package_generate_messages_py.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=10,11,12 "Built target assignment2_package_generate_messages_py"
-.PHONY : CMakeFiles/assignment2_package_generate_messages_py.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/assignment2_package_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 3
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/assignment2_package_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/assignment2_package/CMakeFiles 0
-.PHONY : CMakeFiles/assignment2_package_generate_messages_py.dir/rule
-
-# Convenience name for target.
-assignment2_package_generate_messages_py: CMakeFiles/assignment2_package_generate_messages_py.dir/rule
-
-.PHONY : assignment2_package_generate_messages_py
-
-# clean rule for target.
-CMakeFiles/assignment2_package_generate_messages_py.dir/clean:
-	$(MAKE) -f CMakeFiles/assignment2_package_generate_messages_py.dir/build.make CMakeFiles/assignment2_package_generate_messages_py.dir/clean
-.PHONY : CMakeFiles/assignment2_package_generate_messages_py.dir/clean
-
-#=============================================================================
 # Target rules for target gtest/googlemock/CMakeFiles/gmock_main.dir
 
 # All Build rule for target.
@@ -4244,7 +4343,7 @@ gtest/googlemock/CMakeFiles/gmock_main.dir/all: gtest/googlemock/CMakeFiles/gmoc
 gtest/googlemock/CMakeFiles/gmock_main.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock_main.dir/build.make gtest/googlemock/CMakeFiles/gmock_main.dir/depend
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock_main.dir/build.make gtest/googlemock/CMakeFiles/gmock_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=15,16 "Built target gmock_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=31,32 "Built target gmock_main"
 .PHONY : gtest/googlemock/CMakeFiles/gmock_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -4271,7 +4370,7 @@ gtest/googlemock/CMakeFiles/gmock_main.dir/clean:
 gtest/googlemock/CMakeFiles/gmock.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock.dir/build.make gtest/googlemock/CMakeFiles/gmock.dir/depend
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock.dir/build.make gtest/googlemock/CMakeFiles/gmock.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=13,14 "Built target gmock"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=29,30 "Built target gmock"
 .PHONY : gtest/googlemock/CMakeFiles/gmock.dir/all
 
 # Build rule for subdir invocation for target.
@@ -4298,7 +4397,7 @@ gtest/googlemock/CMakeFiles/gmock.dir/clean:
 gtest/googletest/CMakeFiles/gtest_main.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest_main.dir/build.make gtest/googletest/CMakeFiles/gtest_main.dir/depend
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest_main.dir/build.make gtest/googletest/CMakeFiles/gtest_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=19,20 "Built target gtest_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=35,36 "Built target gtest_main"
 .PHONY : gtest/googletest/CMakeFiles/gtest_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -4325,7 +4424,7 @@ gtest/googletest/CMakeFiles/gtest_main.dir/clean:
 gtest/googletest/CMakeFiles/gtest.dir/all:
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest.dir/build.make gtest/googletest/CMakeFiles/gtest.dir/depend
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest.dir/build.make gtest/googletest/CMakeFiles/gtest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=17,18 "Built target gtest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/assignment2_package/CMakeFiles --progress-num=33,34 "Built target gtest"
 .PHONY : gtest/googletest/CMakeFiles/gtest.dir/all
 
 # Build rule for subdir invocation for target.

@@ -49,16 +49,21 @@
 
 (defclass assignment2_package::GetObjectPoseResponse
   :super ros::object
-  :slots (_obj_pose ))
+  :slots (_obj_id _obj_pose ))
 
 (defmethod assignment2_package::GetObjectPoseResponse
   (:init
    (&key
+    ((:obj_id __obj_id) 0)
     ((:obj_pose __obj_pose) (instance geometry_msgs::PoseStamped :init))
     )
    (send-super :init)
+   (setq _obj_id (round __obj_id))
    (setq _obj_pose __obj_pose)
    self)
+  (:obj_id
+   (&optional __obj_id)
+   (if __obj_id (setq _obj_id __obj_id)) _obj_id)
   (:obj_pose
    (&rest __obj_pose)
    (if (keywordp (car __obj_pose))
@@ -69,6 +74,8 @@
   (:serialization-length
    ()
    (+
+    ;; uint32 _obj_id
+    4
     ;; geometry_msgs/PoseStamped _obj_pose
     (send _obj_pose :serialization-length)
     ))
@@ -76,12 +83,16 @@
    (&optional strm)
    (let ((s (if strm strm
               (make-string-output-stream (send self :serialization-length)))))
+     ;; uint32 _obj_id
+       (write-long _obj_id s)
      ;; geometry_msgs/PoseStamped _obj_pose
        (send _obj_pose :serialize s)
      ;;
      (if (null strm) (get-output-stream-string s))))
   (:deserialize
    (buf &optional (ptr- 0))
+   ;; uint32 _obj_id
+     (setq _obj_id (sys::peek buf ptr- :integer)) (incf ptr- 4)
    ;; geometry_msgs/PoseStamped _obj_pose
      (send _obj_pose :deserialize buf ptr-) (incf ptr- (send _obj_pose :serialization-length))
    ;;
@@ -92,7 +103,7 @@
   :super ros::object
   :slots ())
 
-(setf (get assignment2_package::GetObjectPose :md5sum-) "5174181ef2b390a67f5f6f66dd09d3ff")
+(setf (get assignment2_package::GetObjectPose :md5sum-) "d6d4f3bebbf31073267f6fff2a596a9a")
 (setf (get assignment2_package::GetObjectPose :datatype-) "assignment2_package/GetObjectPose")
 (setf (get assignment2_package::GetObjectPose :request) assignment2_package::GetObjectPoseRequest)
 (setf (get assignment2_package::GetObjectPose :response) assignment2_package::GetObjectPoseResponse)
@@ -100,11 +111,12 @@
 (defmethod assignment2_package::GetObjectPoseRequest
   (:response () (instance assignment2_package::GetObjectPoseResponse :init)))
 
-(setf (get assignment2_package::GetObjectPoseRequest :md5sum-) "5174181ef2b390a67f5f6f66dd09d3ff")
+(setf (get assignment2_package::GetObjectPoseRequest :md5sum-) "d6d4f3bebbf31073267f6fff2a596a9a")
 (setf (get assignment2_package::GetObjectPoseRequest :datatype-) "assignment2_package/GetObjectPoseRequest")
 (setf (get assignment2_package::GetObjectPoseRequest :definition-)
       "#No request
 ---
+uint32 obj_id
 geometry_msgs/PoseStamped obj_pose
 
 ================================================================================
@@ -152,11 +164,12 @@ float64 z
 float64 w
 ")
 
-(setf (get assignment2_package::GetObjectPoseResponse :md5sum-) "5174181ef2b390a67f5f6f66dd09d3ff")
+(setf (get assignment2_package::GetObjectPoseResponse :md5sum-) "d6d4f3bebbf31073267f6fff2a596a9a")
 (setf (get assignment2_package::GetObjectPoseResponse :datatype-) "assignment2_package/GetObjectPoseResponse")
 (setf (get assignment2_package::GetObjectPoseResponse :definition-)
       "#No request
 ---
+uint32 obj_id
 geometry_msgs/PoseStamped obj_pose
 
 ================================================================================
@@ -206,6 +219,6 @@ float64 w
 
 
 
-(provide :assignment2_package/GetObjectPose "5174181ef2b390a67f5f6f66dd09d3ff")
+(provide :assignment2_package/GetObjectPose "d6d4f3bebbf31073267f6fff2a596a9a")
 
 

@@ -207,7 +207,7 @@ CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 CMAKE_PROJECT_NAME:STATIC=apriltag
 
 //Value Computed by CMake
-CMAKE_PROJECT_VERSION:STATIC=3.4.2
+CMAKE_PROJECT_VERSION:STATIC=3.4.4
 
 //Value Computed by CMake
 CMAKE_PROJECT_VERSION_MAJOR:STATIC=3
@@ -216,7 +216,7 @@ CMAKE_PROJECT_VERSION_MAJOR:STATIC=3
 CMAKE_PROJECT_VERSION_MINOR:STATIC=4
 
 //Value Computed by CMake
-CMAKE_PROJECT_VERSION_PATCH:STATIC=2
+CMAKE_PROJECT_VERSION_PATCH:STATIC=4
 
 //Value Computed by CMake
 CMAKE_PROJECT_VERSION_TWEAK:STATIC=
@@ -305,7 +305,7 @@ _Python3_LIBRARY_RELEASE:FILEPATH=/usr/lib/x86_64-linux-gnu/libpython3.8.so
 _Python3_NumPy_INCLUDE_DIR:PATH=/home/nikolavukas/.local/lib/python3.8/site-packages/numpy/core/include
 
 //Dependencies for the target
-apriltag._LIB_DEPENDS:STATIC=general;apriltag;general;Python3::Python;
+apriltag._LIB_DEPENDS:STATIC=general;apriltag;
 
 //Value Computed by CMake
 apriltag_BINARY_DIR:STATIC=/home/nikolavukas/project/build/apriltag

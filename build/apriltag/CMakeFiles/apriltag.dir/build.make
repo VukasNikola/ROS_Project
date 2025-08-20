@@ -148,9 +148,22 @@ CMakeFiles/apriltag.dir/common/image_u8.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/apriltag.dir/common/image_u8.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/nikolavukas/project/src/apriltag/common/image_u8.c -o CMakeFiles/apriltag.dir/common/image_u8.c.s
 
+CMakeFiles/apriltag.dir/common/image_u8_parallel.c.o: CMakeFiles/apriltag.dir/flags.make
+CMakeFiles/apriltag.dir/common/image_u8_parallel.c.o: /home/nikolavukas/project/src/apriltag/common/image_u8_parallel.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/apriltag.dir/common/image_u8_parallel.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/common/image_u8_parallel.c.o   -c /home/nikolavukas/project/src/apriltag/common/image_u8_parallel.c
+
+CMakeFiles/apriltag.dir/common/image_u8_parallel.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/apriltag.dir/common/image_u8_parallel.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/nikolavukas/project/src/apriltag/common/image_u8_parallel.c > CMakeFiles/apriltag.dir/common/image_u8_parallel.c.i
+
+CMakeFiles/apriltag.dir/common/image_u8_parallel.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/apriltag.dir/common/image_u8_parallel.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/nikolavukas/project/src/apriltag/common/image_u8_parallel.c -o CMakeFiles/apriltag.dir/common/image_u8_parallel.c.s
+
 CMakeFiles/apriltag.dir/common/image_u8x3.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/common/image_u8x3.c.o: /home/nikolavukas/project/src/apriltag/common/image_u8x3.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/apriltag.dir/common/image_u8x3.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/apriltag.dir/common/image_u8x3.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/common/image_u8x3.c.o   -c /home/nikolavukas/project/src/apriltag/common/image_u8x3.c
 
 CMakeFiles/apriltag.dir/common/image_u8x3.c.i: cmake_force
@@ -163,7 +176,7 @@ CMakeFiles/apriltag.dir/common/image_u8x3.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/common/image_u8x4.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/common/image_u8x4.c.o: /home/nikolavukas/project/src/apriltag/common/image_u8x4.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/apriltag.dir/common/image_u8x4.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/apriltag.dir/common/image_u8x4.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/common/image_u8x4.c.o   -c /home/nikolavukas/project/src/apriltag/common/image_u8x4.c
 
 CMakeFiles/apriltag.dir/common/image_u8x4.c.i: cmake_force
@@ -176,7 +189,7 @@ CMakeFiles/apriltag.dir/common/image_u8x4.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/common/matd.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/common/matd.c.o: /home/nikolavukas/project/src/apriltag/common/matd.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/apriltag.dir/common/matd.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/apriltag.dir/common/matd.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/common/matd.c.o   -c /home/nikolavukas/project/src/apriltag/common/matd.c
 
 CMakeFiles/apriltag.dir/common/matd.c.i: cmake_force
@@ -189,7 +202,7 @@ CMakeFiles/apriltag.dir/common/matd.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/common/pam.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/common/pam.c.o: /home/nikolavukas/project/src/apriltag/common/pam.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/apriltag.dir/common/pam.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object CMakeFiles/apriltag.dir/common/pam.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/common/pam.c.o   -c /home/nikolavukas/project/src/apriltag/common/pam.c
 
 CMakeFiles/apriltag.dir/common/pam.c.i: cmake_force
@@ -202,7 +215,7 @@ CMakeFiles/apriltag.dir/common/pam.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/common/pjpeg-idct.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/common/pjpeg-idct.c.o: /home/nikolavukas/project/src/apriltag/common/pjpeg-idct.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object CMakeFiles/apriltag.dir/common/pjpeg-idct.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/apriltag.dir/common/pjpeg-idct.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/common/pjpeg-idct.c.o   -c /home/nikolavukas/project/src/apriltag/common/pjpeg-idct.c
 
 CMakeFiles/apriltag.dir/common/pjpeg-idct.c.i: cmake_force
@@ -215,7 +228,7 @@ CMakeFiles/apriltag.dir/common/pjpeg-idct.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/common/pjpeg.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/common/pjpeg.c.o: /home/nikolavukas/project/src/apriltag/common/pjpeg.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/apriltag.dir/common/pjpeg.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/apriltag.dir/common/pjpeg.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/common/pjpeg.c.o   -c /home/nikolavukas/project/src/apriltag/common/pjpeg.c
 
 CMakeFiles/apriltag.dir/common/pjpeg.c.i: cmake_force
@@ -228,7 +241,7 @@ CMakeFiles/apriltag.dir/common/pjpeg.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/common/pnm.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/common/pnm.c.o: /home/nikolavukas/project/src/apriltag/common/pnm.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/apriltag.dir/common/pnm.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/apriltag.dir/common/pnm.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/common/pnm.c.o   -c /home/nikolavukas/project/src/apriltag/common/pnm.c
 
 CMakeFiles/apriltag.dir/common/pnm.c.i: cmake_force
@@ -241,7 +254,7 @@ CMakeFiles/apriltag.dir/common/pnm.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/common/pthreads_cross.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/common/pthreads_cross.c.o: /home/nikolavukas/project/src/apriltag/common/pthreads_cross.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/apriltag.dir/common/pthreads_cross.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object CMakeFiles/apriltag.dir/common/pthreads_cross.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/common/pthreads_cross.c.o   -c /home/nikolavukas/project/src/apriltag/common/pthreads_cross.c
 
 CMakeFiles/apriltag.dir/common/pthreads_cross.c.i: cmake_force
@@ -254,7 +267,7 @@ CMakeFiles/apriltag.dir/common/pthreads_cross.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/common/string_util.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/common/string_util.c.o: /home/nikolavukas/project/src/apriltag/common/string_util.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object CMakeFiles/apriltag.dir/common/string_util.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building C object CMakeFiles/apriltag.dir/common/string_util.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/common/string_util.c.o   -c /home/nikolavukas/project/src/apriltag/common/string_util.c
 
 CMakeFiles/apriltag.dir/common/string_util.c.i: cmake_force
@@ -267,7 +280,7 @@ CMakeFiles/apriltag.dir/common/string_util.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/common/svd22.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/common/svd22.c.o: /home/nikolavukas/project/src/apriltag/common/svd22.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building C object CMakeFiles/apriltag.dir/common/svd22.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building C object CMakeFiles/apriltag.dir/common/svd22.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/common/svd22.c.o   -c /home/nikolavukas/project/src/apriltag/common/svd22.c
 
 CMakeFiles/apriltag.dir/common/svd22.c.i: cmake_force
@@ -280,7 +293,7 @@ CMakeFiles/apriltag.dir/common/svd22.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/common/time_util.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/common/time_util.c.o: /home/nikolavukas/project/src/apriltag/common/time_util.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building C object CMakeFiles/apriltag.dir/common/time_util.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building C object CMakeFiles/apriltag.dir/common/time_util.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/common/time_util.c.o   -c /home/nikolavukas/project/src/apriltag/common/time_util.c
 
 CMakeFiles/apriltag.dir/common/time_util.c.i: cmake_force
@@ -293,7 +306,7 @@ CMakeFiles/apriltag.dir/common/time_util.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/common/unionfind.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/common/unionfind.c.o: /home/nikolavukas/project/src/apriltag/common/unionfind.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building C object CMakeFiles/apriltag.dir/common/unionfind.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building C object CMakeFiles/apriltag.dir/common/unionfind.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/common/unionfind.c.o   -c /home/nikolavukas/project/src/apriltag/common/unionfind.c
 
 CMakeFiles/apriltag.dir/common/unionfind.c.i: cmake_force
@@ -306,7 +319,7 @@ CMakeFiles/apriltag.dir/common/unionfind.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/common/workerpool.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/common/workerpool.c.o: /home/nikolavukas/project/src/apriltag/common/workerpool.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building C object CMakeFiles/apriltag.dir/common/workerpool.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object CMakeFiles/apriltag.dir/common/workerpool.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/common/workerpool.c.o   -c /home/nikolavukas/project/src/apriltag/common/workerpool.c
 
 CMakeFiles/apriltag.dir/common/workerpool.c.i: cmake_force
@@ -319,7 +332,7 @@ CMakeFiles/apriltag.dir/common/workerpool.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/common/zarray.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/common/zarray.c.o: /home/nikolavukas/project/src/apriltag/common/zarray.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object CMakeFiles/apriltag.dir/common/zarray.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building C object CMakeFiles/apriltag.dir/common/zarray.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/common/zarray.c.o   -c /home/nikolavukas/project/src/apriltag/common/zarray.c
 
 CMakeFiles/apriltag.dir/common/zarray.c.i: cmake_force
@@ -332,7 +345,7 @@ CMakeFiles/apriltag.dir/common/zarray.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/common/zhash.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/common/zhash.c.o: /home/nikolavukas/project/src/apriltag/common/zhash.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building C object CMakeFiles/apriltag.dir/common/zhash.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building C object CMakeFiles/apriltag.dir/common/zhash.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/common/zhash.c.o   -c /home/nikolavukas/project/src/apriltag/common/zhash.c
 
 CMakeFiles/apriltag.dir/common/zhash.c.i: cmake_force
@@ -345,7 +358,7 @@ CMakeFiles/apriltag.dir/common/zhash.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/common/zmaxheap.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/common/zmaxheap.c.o: /home/nikolavukas/project/src/apriltag/common/zmaxheap.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building C object CMakeFiles/apriltag.dir/common/zmaxheap.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building C object CMakeFiles/apriltag.dir/common/zmaxheap.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/common/zmaxheap.c.o   -c /home/nikolavukas/project/src/apriltag/common/zmaxheap.c
 
 CMakeFiles/apriltag.dir/common/zmaxheap.c.i: cmake_force
@@ -358,7 +371,7 @@ CMakeFiles/apriltag.dir/common/zmaxheap.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/tag16h5.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/tag16h5.c.o: /home/nikolavukas/project/src/apriltag/tag16h5.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building C object CMakeFiles/apriltag.dir/tag16h5.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building C object CMakeFiles/apriltag.dir/tag16h5.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/tag16h5.c.o   -c /home/nikolavukas/project/src/apriltag/tag16h5.c
 
 CMakeFiles/apriltag.dir/tag16h5.c.i: cmake_force
@@ -371,7 +384,7 @@ CMakeFiles/apriltag.dir/tag16h5.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/tag25h9.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/tag25h9.c.o: /home/nikolavukas/project/src/apriltag/tag25h9.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building C object CMakeFiles/apriltag.dir/tag25h9.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building C object CMakeFiles/apriltag.dir/tag25h9.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/tag25h9.c.o   -c /home/nikolavukas/project/src/apriltag/tag25h9.c
 
 CMakeFiles/apriltag.dir/tag25h9.c.i: cmake_force
@@ -384,7 +397,7 @@ CMakeFiles/apriltag.dir/tag25h9.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/tag36h10.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/tag36h10.c.o: /home/nikolavukas/project/src/apriltag/tag36h10.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building C object CMakeFiles/apriltag.dir/tag36h10.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building C object CMakeFiles/apriltag.dir/tag36h10.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/tag36h10.c.o   -c /home/nikolavukas/project/src/apriltag/tag36h10.c
 
 CMakeFiles/apriltag.dir/tag36h10.c.i: cmake_force
@@ -397,7 +410,7 @@ CMakeFiles/apriltag.dir/tag36h10.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/tag36h11.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/tag36h11.c.o: /home/nikolavukas/project/src/apriltag/tag36h11.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building C object CMakeFiles/apriltag.dir/tag36h11.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building C object CMakeFiles/apriltag.dir/tag36h11.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/tag36h11.c.o   -c /home/nikolavukas/project/src/apriltag/tag36h11.c
 
 CMakeFiles/apriltag.dir/tag36h11.c.i: cmake_force
@@ -410,7 +423,7 @@ CMakeFiles/apriltag.dir/tag36h11.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/tagCircle21h7.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/tagCircle21h7.c.o: /home/nikolavukas/project/src/apriltag/tagCircle21h7.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building C object CMakeFiles/apriltag.dir/tagCircle21h7.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building C object CMakeFiles/apriltag.dir/tagCircle21h7.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/tagCircle21h7.c.o   -c /home/nikolavukas/project/src/apriltag/tagCircle21h7.c
 
 CMakeFiles/apriltag.dir/tagCircle21h7.c.i: cmake_force
@@ -423,7 +436,7 @@ CMakeFiles/apriltag.dir/tagCircle21h7.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/tagCircle49h12.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/tagCircle49h12.c.o: /home/nikolavukas/project/src/apriltag/tagCircle49h12.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building C object CMakeFiles/apriltag.dir/tagCircle49h12.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building C object CMakeFiles/apriltag.dir/tagCircle49h12.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/tagCircle49h12.c.o   -c /home/nikolavukas/project/src/apriltag/tagCircle49h12.c
 
 CMakeFiles/apriltag.dir/tagCircle49h12.c.i: cmake_force
@@ -436,7 +449,7 @@ CMakeFiles/apriltag.dir/tagCircle49h12.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/tagCustom48h12.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/tagCustom48h12.c.o: /home/nikolavukas/project/src/apriltag/tagCustom48h12.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building C object CMakeFiles/apriltag.dir/tagCustom48h12.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building C object CMakeFiles/apriltag.dir/tagCustom48h12.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/tagCustom48h12.c.o   -c /home/nikolavukas/project/src/apriltag/tagCustom48h12.c
 
 CMakeFiles/apriltag.dir/tagCustom48h12.c.i: cmake_force
@@ -449,7 +462,7 @@ CMakeFiles/apriltag.dir/tagCustom48h12.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/tagStandard41h12.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/tagStandard41h12.c.o: /home/nikolavukas/project/src/apriltag/tagStandard41h12.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building C object CMakeFiles/apriltag.dir/tagStandard41h12.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building C object CMakeFiles/apriltag.dir/tagStandard41h12.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/tagStandard41h12.c.o   -c /home/nikolavukas/project/src/apriltag/tagStandard41h12.c
 
 CMakeFiles/apriltag.dir/tagStandard41h12.c.i: cmake_force
@@ -462,7 +475,7 @@ CMakeFiles/apriltag.dir/tagStandard41h12.c.s: cmake_force
 
 CMakeFiles/apriltag.dir/tagStandard52h13.c.o: CMakeFiles/apriltag.dir/flags.make
 CMakeFiles/apriltag.dir/tagStandard52h13.c.o: /home/nikolavukas/project/src/apriltag/tagStandard52h13.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building C object CMakeFiles/apriltag.dir/tagStandard52h13.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building C object CMakeFiles/apriltag.dir/tagStandard52h13.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/apriltag.dir/tagStandard52h13.c.o   -c /home/nikolavukas/project/src/apriltag/tagStandard52h13.c
 
 CMakeFiles/apriltag.dir/tagStandard52h13.c.i: cmake_force
@@ -482,6 +495,7 @@ apriltag_OBJECTS = \
 "CMakeFiles/apriltag.dir/common/getopt.c.o" \
 "CMakeFiles/apriltag.dir/common/homography.c.o" \
 "CMakeFiles/apriltag.dir/common/image_u8.c.o" \
+"CMakeFiles/apriltag.dir/common/image_u8_parallel.c.o" \
 "CMakeFiles/apriltag.dir/common/image_u8x3.c.o" \
 "CMakeFiles/apriltag.dir/common/image_u8x4.c.o" \
 "CMakeFiles/apriltag.dir/common/matd.c.o" \
@@ -511,48 +525,49 @@ apriltag_OBJECTS = \
 # External object files for target apriltag
 apriltag_EXTERNAL_OBJECTS =
 
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/apriltag.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/apriltag_pose.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/apriltag_quad_thresh.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/common/g2d.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/common/getopt.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/common/homography.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/common/image_u8.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/common/image_u8x3.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/common/image_u8x4.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/common/matd.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/common/pam.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/common/pjpeg-idct.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/common/pjpeg.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/common/pnm.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/common/pthreads_cross.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/common/string_util.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/common/svd22.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/common/time_util.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/common/unionfind.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/common/workerpool.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/common/zarray.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/common/zhash.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/common/zmaxheap.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/tag16h5.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/tag25h9.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/tag36h10.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/tag36h11.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/tagCircle21h7.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/tagCircle49h12.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/tagCustom48h12.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/tagStandard41h12.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/tagStandard52h13.c.o
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/build.make
-libapriltag.so.3.4.2: CMakeFiles/apriltag.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Linking C shared library libapriltag.so"
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/apriltag.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/apriltag_pose.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/apriltag_quad_thresh.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/common/g2d.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/common/getopt.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/common/homography.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/common/image_u8.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/common/image_u8_parallel.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/common/image_u8x3.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/common/image_u8x4.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/common/matd.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/common/pam.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/common/pjpeg-idct.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/common/pjpeg.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/common/pnm.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/common/pthreads_cross.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/common/string_util.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/common/svd22.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/common/time_util.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/common/unionfind.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/common/workerpool.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/common/zarray.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/common/zhash.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/common/zmaxheap.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/tag16h5.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/tag25h9.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/tag36h10.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/tag36h11.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/tagCircle21h7.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/tagCircle49h12.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/tagCustom48h12.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/tagStandard41h12.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/tagStandard52h13.c.o
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/build.make
+libapriltag.so.3.4.4: CMakeFiles/apriltag.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Linking C shared library libapriltag.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/apriltag.dir/link.txt --verbose=$(VERBOSE)
-	$(CMAKE_COMMAND) -E cmake_symlink_library libapriltag.so.3.4.2 libapriltag.so.3 libapriltag.so
+	$(CMAKE_COMMAND) -E cmake_symlink_library libapriltag.so.3.4.4 libapriltag.so.3 libapriltag.so
 
-libapriltag.so.3: libapriltag.so.3.4.2
+libapriltag.so.3: libapriltag.so.3.4.4
 	@$(CMAKE_COMMAND) -E touch_nocreate libapriltag.so.3
 
-libapriltag.so: libapriltag.so.3.4.2
+libapriltag.so: libapriltag.so.3.4.4
 	@$(CMAKE_COMMAND) -E touch_nocreate libapriltag.so
 
 # Rule to build all files generated by this target.

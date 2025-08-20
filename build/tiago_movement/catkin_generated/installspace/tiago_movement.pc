@@ -1,8 +1,0 @@
-prefix=/home/nikolavukas/project/install
-
-Name: tiago_movement
-Description: Description of tiago_movement
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: roscpp geometry_msgs

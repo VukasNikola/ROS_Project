@@ -6,6 +6,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/apriltag.dir/common/getopt.c.o"
   "CMakeFiles/apriltag.dir/common/homography.c.o"
   "CMakeFiles/apriltag.dir/common/image_u8.c.o"
+  "CMakeFiles/apriltag.dir/common/image_u8_parallel.c.o"
   "CMakeFiles/apriltag.dir/common/image_u8x3.c.o"
   "CMakeFiles/apriltag.dir/common/image_u8x4.c.o"
   "CMakeFiles/apriltag.dir/common/matd.c.o"
@@ -34,7 +35,7 @@ file(REMOVE_RECURSE
   "libapriltag.pdb"
   "libapriltag.so"
   "libapriltag.so.3"
-  "libapriltag.so.3.4.2"
+  "libapriltag.so.3.4.4"
 )
 
 # Per-language clean rules from dependency scanning.

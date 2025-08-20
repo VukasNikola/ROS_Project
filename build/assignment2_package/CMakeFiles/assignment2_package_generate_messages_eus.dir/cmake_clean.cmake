@@ -1,7 +1,10 @@
 file(REMOVE_RECURSE
   "/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/manifest.l"
+  "/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg/ObjectPose.l"
+  "/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/msg/ObjectPoseArray.l"
   "/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/GetObjectPose.l"
   "/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PickObject.l"
+  "/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/PlaceObject.l"
   "CMakeFiles/assignment2_package_generate_messages_eus"
 )
 

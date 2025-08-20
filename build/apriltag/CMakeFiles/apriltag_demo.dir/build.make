@@ -79,7 +79,7 @@ apriltag_demo_EXTERNAL_OBJECTS =
 
 apriltag_demo: CMakeFiles/apriltag_demo.dir/example/apriltag_demo.c.o
 apriltag_demo: CMakeFiles/apriltag_demo.dir/build.make
-apriltag_demo: libapriltag.so.3.4.2
+apriltag_demo: libapriltag.so.3.4.4
 apriltag_demo: CMakeFiles/apriltag_demo.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C executable apriltag_demo"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/apriltag_demo.dir/link.txt --verbose=$(VERBOSE)

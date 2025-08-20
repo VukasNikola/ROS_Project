@@ -15,7 +15,6 @@
 #include <ros/builtin_message_traits.h>
 #include <ros/message_operations.h>
 
-#include <geometry_msgs/PoseStamped.h>
 
 namespace assignment2_package
 {
@@ -25,17 +24,17 @@ struct PlaceObjectRequest_
   typedef PlaceObjectRequest_<ContainerAllocator> Type;
 
   PlaceObjectRequest_()
-    : target_pose()  {
+    : target_id(0)  {
     }
   PlaceObjectRequest_(const ContainerAllocator& _alloc)
-    : target_pose(_alloc)  {
+    : target_id(0)  {
   (void)_alloc;
     }
 
 
 
-   typedef  ::geometry_msgs::PoseStamped_<ContainerAllocator>  _target_pose_type;
-  _target_pose_type target_pose;
+   typedef uint32_t _target_id_type;
+  _target_id_type target_id;
 
 
 
@@ -66,7 +65,7 @@ return s;
 template<typename ContainerAllocator1, typename ContainerAllocator2>
 bool operator==(const ::assignment2_package::PlaceObjectRequest_<ContainerAllocator1> & lhs, const ::assignment2_package::PlaceObjectRequest_<ContainerAllocator2> & rhs)
 {
-  return lhs.target_pose == rhs.target_pose;
+  return lhs.target_id == rhs.target_id;
 }
 
 template<typename ContainerAllocator1, typename ContainerAllocator2>
@@ -99,12 +98,12 @@ struct IsMessage< ::assignment2_package::PlaceObjectRequest_<ContainerAllocator>
 
 template <class ContainerAllocator>
 struct IsFixedSize< ::assignment2_package::PlaceObjectRequest_<ContainerAllocator> >
-  : FalseType
+  : TrueType
   { };
 
 template <class ContainerAllocator>
 struct IsFixedSize< ::assignment2_package::PlaceObjectRequest_<ContainerAllocator> const>
-  : FalseType
+  : TrueType
   { };
 
 template <class ContainerAllocator>
@@ -123,12 +122,12 @@ struct MD5Sum< ::assignment2_package::PlaceObjectRequest_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "257d089627d7eb7136c24d3593d05a16";
+    return "98392fd5466c675983b3320d46c457ab";
   }
 
   static const char* value(const ::assignment2_package::PlaceObjectRequest_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x257d089627d7eb71ULL;
-  static const uint64_t static_value2 = 0x36c24d3593d05a16ULL;
+  static const uint64_t static_value1 = 0x98392fd5466c6759ULL;
+  static const uint64_t static_value2 = 0x83b3320d46c457abULL;
 };
 
 template<class ContainerAllocator>
@@ -147,52 +146,7 @@ struct Definition< ::assignment2_package::PlaceObjectRequest_<ContainerAllocator
 {
   static const char* value()
   {
-    return "# PlaceObject.srv\n"
-"geometry_msgs/PoseStamped target_pose\n"
-"\n"
-"================================================================================\n"
-"MSG: geometry_msgs/PoseStamped\n"
-"# A Pose with reference coordinate frame and timestamp\n"
-"Header header\n"
-"Pose pose\n"
-"\n"
-"================================================================================\n"
-"MSG: std_msgs/Header\n"
-"# Standard metadata for higher-level stamped data types.\n"
-"# This is generally used to communicate timestamped data \n"
-"# in a particular coordinate frame.\n"
-"# \n"
-"# sequence ID: consecutively increasing ID \n"
-"uint32 seq\n"
-"#Two-integer timestamp that is expressed as:\n"
-"# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')\n"
-"# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')\n"
-"# time-handling sugar is provided by the client library\n"
-"time stamp\n"
-"#Frame this data is associated with\n"
-"string frame_id\n"
-"\n"
-"================================================================================\n"
-"MSG: geometry_msgs/Pose\n"
-"# A representation of pose in free space, composed of position and orientation. \n"
-"Point position\n"
-"Quaternion orientation\n"
-"\n"
-"================================================================================\n"
-"MSG: geometry_msgs/Point\n"
-"# This contains the position of a point in free space\n"
-"float64 x\n"
-"float64 y\n"
-"float64 z\n"
-"\n"
-"================================================================================\n"
-"MSG: geometry_msgs/Quaternion\n"
-"# This represents an orientation in free space in quaternion form.\n"
-"\n"
-"float64 x\n"
-"float64 y\n"
-"float64 z\n"
-"float64 w\n"
+    return "uint32 target_id\n"
 ;
   }
 
@@ -211,7 +165,7 @@ namespace serialization
   {
     template<typename Stream, typename T> inline static void allInOne(Stream& stream, T m)
     {
-      stream.next(m.target_pose);
+      stream.next(m.target_id);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -230,9 +184,10 @@ struct Printer< ::assignment2_package::PlaceObjectRequest_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::assignment2_package::PlaceObjectRequest_<ContainerAllocator>& v)
   {
-    s << indent << "target_pose: ";
-    s << std::endl;
-    Printer< ::geometry_msgs::PoseStamped_<ContainerAllocator> >::stream(s, indent + "  ", v.target_pose);
+    if (false || !indent.empty())
+      s << std::endl;
+    s << indent << "target_id: ";
+    Printer<uint32_t>::stream(s, indent + "  ", v.target_id);
   }
 };
 

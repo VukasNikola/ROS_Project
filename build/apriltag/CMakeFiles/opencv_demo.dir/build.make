@@ -79,7 +79,7 @@ opencv_demo_EXTERNAL_OBJECTS =
 
 opencv_demo: CMakeFiles/opencv_demo.dir/example/opencv_demo.cc.o
 opencv_demo: CMakeFiles/opencv_demo.dir/build.make
-opencv_demo: libapriltag.so.3.4.2
+opencv_demo: libapriltag.so.3.4.4
 opencv_demo: /usr/lib/x86_64-linux-gnu/libopencv_highgui.so.4.2.0
 opencv_demo: /usr/lib/x86_64-linux-gnu/libopencv_videoio.so.4.2.0
 opencv_demo: /usr/lib/x86_64-linux-gnu/libopencv_imgcodecs.so.4.2.0

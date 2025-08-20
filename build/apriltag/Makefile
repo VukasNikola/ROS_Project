@@ -437,6 +437,33 @@ common/image_u8.c.s:
 	$(MAKE) -f CMakeFiles/apriltag.dir/build.make CMakeFiles/apriltag.dir/common/image_u8.c.s
 .PHONY : common/image_u8.c.s
 
+common/image_u8_parallel.o: common/image_u8_parallel.c.o
+
+.PHONY : common/image_u8_parallel.o
+
+# target to build an object file
+common/image_u8_parallel.c.o:
+	$(MAKE) -f CMakeFiles/apriltag.dir/build.make CMakeFiles/apriltag.dir/common/image_u8_parallel.c.o
+.PHONY : common/image_u8_parallel.c.o
+
+common/image_u8_parallel.i: common/image_u8_parallel.c.i
+
+.PHONY : common/image_u8_parallel.i
+
+# target to preprocess a source file
+common/image_u8_parallel.c.i:
+	$(MAKE) -f CMakeFiles/apriltag.dir/build.make CMakeFiles/apriltag.dir/common/image_u8_parallel.c.i
+.PHONY : common/image_u8_parallel.c.i
+
+common/image_u8_parallel.s: common/image_u8_parallel.c.s
+
+.PHONY : common/image_u8_parallel.s
+
+# target to generate assembly for a file
+common/image_u8_parallel.c.s:
+	$(MAKE) -f CMakeFiles/apriltag.dir/build.make CMakeFiles/apriltag.dir/common/image_u8_parallel.c.s
+.PHONY : common/image_u8_parallel.c.s
+
 common/image_u8x3.o: common/image_u8x3.c.o
 
 .PHONY : common/image_u8x3.o
@@ -1207,6 +1234,9 @@ help:
 	@echo "... common/image_u8.o"
 	@echo "... common/image_u8.i"
 	@echo "... common/image_u8.s"
+	@echo "... common/image_u8_parallel.o"
+	@echo "... common/image_u8_parallel.i"
+	@echo "... common/image_u8_parallel.s"
 	@echo "... common/image_u8x3.o"
 	@echo "... common/image_u8x3.i"
 	@echo "... common/image_u8x3.s"

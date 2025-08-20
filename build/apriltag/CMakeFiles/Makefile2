@@ -81,12 +81,12 @@ clean: CMakeFiles/apriltag.dir/clean
 CMakeFiles/opencv_demo.dir/all: CMakeFiles/apriltag.dir/all
 	$(MAKE) -f CMakeFiles/opencv_demo.dir/build.make CMakeFiles/opencv_demo.dir/depend
 	$(MAKE) -f CMakeFiles/opencv_demo.dir/build.make CMakeFiles/opencv_demo.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=40,41 "Built target opencv_demo"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=41,42 "Built target opencv_demo"
 .PHONY : CMakeFiles/opencv_demo.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/opencv_demo.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/apriltag/CMakeFiles 35
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/apriltag/CMakeFiles 36
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/opencv_demo.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/apriltag/CMakeFiles 0
 .PHONY : CMakeFiles/opencv_demo.dir/rule
@@ -108,12 +108,12 @@ CMakeFiles/opencv_demo.dir/clean:
 CMakeFiles/apriltag_demo.dir/all: CMakeFiles/apriltag.dir/all
 	$(MAKE) -f CMakeFiles/apriltag_demo.dir/build.make CMakeFiles/apriltag_demo.dir/depend
 	$(MAKE) -f CMakeFiles/apriltag_demo.dir/build.make CMakeFiles/apriltag_demo.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=36,37 "Built target apriltag_demo"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=37,38 "Built target apriltag_demo"
 .PHONY : CMakeFiles/apriltag_demo.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/apriltag_demo.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/apriltag/CMakeFiles 35
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/apriltag/CMakeFiles 36
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/apriltag_demo.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/apriltag/CMakeFiles 0
 .PHONY : CMakeFiles/apriltag_demo.dir/rule
@@ -136,12 +136,12 @@ CMakeFiles/apriltag..dir/all: CMakeFiles/apriltag_py_docstrings.dir/all
 CMakeFiles/apriltag..dir/all: CMakeFiles/apriltag.dir/all
 	$(MAKE) -f CMakeFiles/apriltag..dir/build.make CMakeFiles/apriltag..dir/depend
 	$(MAKE) -f CMakeFiles/apriltag..dir/build.make CMakeFiles/apriltag..dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=34,35 "Built target apriltag."
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=35,36 "Built target apriltag."
 .PHONY : CMakeFiles/apriltag..dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/apriltag..dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/apriltag/CMakeFiles 37
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/apriltag/CMakeFiles 38
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/apriltag..dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/apriltag/CMakeFiles 0
 .PHONY : CMakeFiles/apriltag..dir/rule
@@ -163,7 +163,7 @@ CMakeFiles/apriltag..dir/clean:
 CMakeFiles/apriltag_py_docstrings.dir/all:
 	$(MAKE) -f CMakeFiles/apriltag_py_docstrings.dir/build.make CMakeFiles/apriltag_py_docstrings.dir/depend
 	$(MAKE) -f CMakeFiles/apriltag_py_docstrings.dir/build.make CMakeFiles/apriltag_py_docstrings.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=38,39 "Built target apriltag_py_docstrings"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=39,40 "Built target apriltag_py_docstrings"
 .PHONY : CMakeFiles/apriltag_py_docstrings.dir/all
 
 # Build rule for subdir invocation for target.
@@ -190,12 +190,12 @@ CMakeFiles/apriltag_py_docstrings.dir/clean:
 CMakeFiles/apriltag.dir/all:
 	$(MAKE) -f CMakeFiles/apriltag.dir/build.make CMakeFiles/apriltag.dir/depend
 	$(MAKE) -f CMakeFiles/apriltag.dir/build.make CMakeFiles/apriltag.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33 "Built target apriltag"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikolavukas/project/build/apriltag/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34 "Built target apriltag"
 .PHONY : CMakeFiles/apriltag.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/apriltag.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/apriltag/CMakeFiles 33
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/apriltag/CMakeFiles 34
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/apriltag.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikolavukas/project/build/apriltag/CMakeFiles 0
 .PHONY : CMakeFiles/apriltag.dir/rule

@@ -89,7 +89,7 @@ stdint.h
 -
 time.h
 -
-windows.h
+Winsock2.h
 -
 sys/time.h
 -

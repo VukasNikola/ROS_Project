@@ -185,12 +185,21 @@ struct Printer< ::tiago_iaslab_simulation::ObjsResponse_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::tiago_iaslab_simulation::ObjsResponse_<ContainerAllocator>& v)
   {
-    s << indent << "ids[]" << std::endl;
+    if (false || !indent.empty())
+      s << std::endl;
+    s << indent << "ids: ";
+    if (v.ids.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.ids.size(); ++i)
     {
-      s << indent << "  ids[" << i << "]: ";
-      Printer<int32_t>::stream(s, indent + "  ", v.ids[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<int32_t>::stream(s, true ? std::string() : indent + "    ", v.ids[i]);
     }
+    if (v.ids.empty() || true)
+      s << "]";
   }
 };
 

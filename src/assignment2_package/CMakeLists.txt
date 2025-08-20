@@ -44,6 +44,7 @@ generate_messages(
 
 ## Catkin exports
 catkin_package(
+  INCLUDE_DIRS include
   LIBRARIES ${PROJECT_NAME}
   CATKIN_DEPENDS
     roscpp
@@ -62,26 +63,24 @@ catkin_package(
 )
 
 include_directories(
+  include
   ${catkin_INCLUDE_DIRS}
   ${geometric_shapes_INCLUDE_DIRS}
 )
 
 ## Node executables
-add_executable(test_node   src/test_node.cpp)
 add_executable(node_A      src/node_A.cpp)
 add_executable(node_B      src/node_B.cpp)
 add_executable(node_C      src/node_C.cpp)
 add_executable(tables_node     src/tables_node.cpp)
 
 ## Link libraries
-target_link_libraries(test_node   ${catkin_LIBRARIES} ${geometric_shapes_LIBRARIES})
 target_link_libraries(node_A      ${catkin_LIBRARIES} ${geometric_shapes_LIBRARIES})
 target_link_libraries(node_B      ${catkin_LIBRARIES} ${geometric_shapes_LIBRARIES})
 target_link_libraries(node_C      ${catkin_LIBRARIES} ${geometric_shapes_LIBRARIES})
 target_link_libraries(tables_node     ${catkin_LIBRARIES} ${geometric_shapes_LIBRARIES})
 
 ## Ensure messages are built before the nodes
-add_dependencies(test_node  ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(node_A     ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(node_B     ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(node_C     ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

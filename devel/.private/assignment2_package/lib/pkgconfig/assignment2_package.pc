@@ -3,6 +3,6 @@ prefix=/home/nikolavukas/project/devel/.private/assignment2_package
 Name: assignment2_package
 Description: Description of assignment2_package
 Version: 0.0.0
-Cflags: -I/home/nikolavukas/project/devel/.private/assignment2_package/include
-Libs: -L${prefix}/lib 
-Requires: roscpp std_msgs geometry_msgs moveit_ros_planning_interface tf2_ros tf2_geometry_msgs message_runtime tiago_iaslab_simulation apriltag_ros actionlib
+Cflags: -I/home/nikolavukas/project/devel/.private/assignment2_package/include -I/home/nikolavukas/project/src/assignment2_package/include
+Libs: -L${prefix}/lib -lassignment2_package
+Requires: roscpp std_msgs geometry_msgs shape_msgs moveit_ros_planning_interface tf2_ros tf2_geometry_msgs message_runtime apriltag_ros actionlib tiago_iaslab_simulation geometric_shapes

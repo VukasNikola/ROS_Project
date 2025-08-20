@@ -185,6 +185,8 @@ struct Printer< ::gazebo_ros_link_attacher::AttachResponse_<ContainerAllocator> 
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::gazebo_ros_link_attacher::AttachResponse_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "ok: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.ok);
   }
