@@ -1,8 +1,0 @@
-prefix=/home/nikolavukas/project/install
-
-Name: assignment2_package
-Description: Description of assignment2_package
-Version: 0.0.0
-Cflags: -I${prefix}/include
-Libs: -L${prefix}/lib -lassignment2_package
-Requires: roscpp std_msgs geometry_msgs shape_msgs moveit_ros_planning_interface tf2_ros tf2_geometry_msgs message_runtime apriltag_ros actionlib tiago_iaslab_simulation geometric_shapes

@@ -1,1 +1,0 @@
-/home/nikolavukas/project/devel/.private/apriltag_ros/share/roseus/ros/apriltag_ros/msg/AprilTagDetection.l

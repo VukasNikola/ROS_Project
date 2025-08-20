@@ -1,6 +1,0 @@
-devel_space: /home/nikolavukas/project/devel
-install: false
-install_space: /home/nikolavukas/project/install
-profile: default
-source_space: /home/nikolavukas/project/src
-workspace: /home/nikolavukas/project

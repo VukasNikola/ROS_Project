@@ -1,1 +1,0 @@
-/home/nikolavukas/project/devel/.private/assignment2_package/share/roseus/ros/assignment2_package/srv/GetObjectPose.l

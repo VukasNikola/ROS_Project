@@ -1,1 +1,0 @@
-/home/nikolavukas/project/devel/.private/assignment2_package/share/common-lisp/ros/assignment2_package/msg/_package.lisp

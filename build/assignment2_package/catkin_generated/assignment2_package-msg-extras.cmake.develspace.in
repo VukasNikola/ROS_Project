@@ -1,2 +1,0 @@
-set(assignment2_package_MESSAGE_FILES "/home/nikolavukas/project/src/assignment2_package/msg/ObjectPose.msg;/home/nikolavukas/project/src/assignment2_package/msg/ObjectPoseArray.msg")
-set(assignment2_package_SERVICE_FILES "/home/nikolavukas/project/src/assignment2_package/srv/PickObject.srv;/home/nikolavukas/project/src/assignment2_package/srv/GetObjectPose.srv;/home/nikolavukas/project/src/assignment2_package/srv/PlaceObject.srv")

@@ -1,1 +1,0 @@
-/home/nikolavukas/project/devel/.private/assignment2_package/share/gennodejs/ros/assignment2_package/srv/PickObject.js
