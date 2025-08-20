@@ -1,0 +1,4 @@
+#No request
+---
+uint32 obj_id
+geometry_msgs/PoseStamped obj_pose
