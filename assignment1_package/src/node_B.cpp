@@ -122,8 +122,13 @@ public:
         twist_msg.angular.y = 0.0;
         twist_msg.angular.z = angular_velocity; // Positive for counter-clockwise
 
-        // Update feedback
-        updateFeedbackStatus("Rotating 360 degrees for AprilTag detection at waypoint " + std::to_string(waypoint_num));
+        // Update feedback with improved message
+        std::string scan_msg = "Scanning waypoint " + std::to_string(waypoint_num) + " (360 degree rotation) - ";
+        {
+            std::lock_guard<std::mutex> lock(detected_cubes_mutex_);
+            scan_msg += std::to_string(detected_cubes_.size()) + " targets found so far";
+        }
+        updateFeedbackStatus(scan_msg);
 
         // Record start time
         ros::Time start_time = ros::Time::now();
@@ -152,7 +157,13 @@ public:
         // All velocities are 0 by default
         cmd_vel_pub.publish(stop_msg);
 
-        updateFeedbackStatus("360 degree scan completed at waypoint " + std::to_string(waypoint_num));
+        // Update feedback after scan completion
+        std::string complete_msg = "Waypoint " + std::to_string(waypoint_num) + " scan complete - ";
+        {
+            std::lock_guard<std::mutex> lock(detected_cubes_mutex_);
+            complete_msg += std::to_string(detected_cubes_.size()) + " targets found total";
+        }
+        updateFeedbackStatus(complete_msg);
     }
 
     void updateFeedbackStatus(const std::string &status)
@@ -264,7 +275,7 @@ public:
 
         navigation_active_ = true; // Enable continuous detection
 
-        updateFeedbackStatus("Starting navigation task");
+        updateFeedbackStatus("Starting navigation task - searching for " + std::to_string(target_ids_.size()) + " targets");
 
         ROS_INFO("[Node B] Starting navigation for %zu target IDs", target_ids_.size());
 
@@ -280,8 +291,15 @@ public:
 
             int waypoint_num = i + 1; // Convert to 1-indexed
 
-            // Update feedback - moving to waypoint
-            updateFeedbackStatus("Moving to waypoint " + std::to_string(waypoint_num) + "/" + std::to_string(waypoints_.size()));
+            // Update feedback - moving to waypoint with progress and detection count
+            std::string move_msg = "Moving to waypoint " + std::to_string(waypoint_num) + "/" + 
+                                  std::to_string(waypoints_.size()) + " (" + 
+                                  std::to_string((waypoint_num * 100) / waypoints_.size()) + "%) - ";
+            {
+                std::lock_guard<std::mutex> lock(detected_cubes_mutex_);
+                move_msg += std::to_string(detected_cubes_.size()) + " cubes found";
+            }
+            updateFeedbackStatus(move_msg);
 
             // Navigate to waypoint (detection happens continuously during movement)
             if (navigateToWaypoint(waypoints_[i], waypoint_num))
@@ -290,13 +308,17 @@ public:
                 if (no_rotation_waypoints_.find(waypoint_num) == no_rotation_waypoints_.end())
                 {
                     // Waypoint needs rotation - perform 360-degree scan
-                    updateFeedbackStatus("Scanning 360 degrees for AprilTags at waypoint " + std::to_string(waypoint_num));
                     rotateInPlace(waypoints_[i], waypoint_num);
                 }
                 else
                 {
                     // Waypoint doesn't need rotation - just brief pause for detection
-                    updateFeedbackStatus("Scanning for AprilTags at waypoint " + std::to_string(waypoint_num) + " (no rotation needed)");
+                    std::string pause_msg = "Scanning waypoint " + std::to_string(waypoint_num) + " (no rotation) - ";
+                    {
+                        std::lock_guard<std::mutex> lock(detected_cubes_mutex_);
+                        pause_msg += std::to_string(detected_cubes_.size()) + " targets found so far";
+                    }
+                    updateFeedbackStatus(pause_msg);
                     
                     // Brief pause to allow for detection without rotation
                     ros::Rate rate(10);
@@ -333,9 +355,13 @@ public:
             // Set header for pose array
             result_.cube_positions.header.frame_id = "map";
             result_.cube_positions.header.stamp = ros::Time::now();
-        }
 
-        updateFeedbackStatus("Detection finished. Found " + std::to_string(detected_cubes_.size()) + " cubes.");
+            // Improved final feedback message
+            std::string final_msg = "Navigation complete! Found " + 
+                                   std::to_string(detected_cubes_.size()) + "/" + 
+                                   std::to_string(target_ids_.size()) + " target cubes";
+            updateFeedbackStatus(final_msg);
+        }
 
         action_server_.setSucceeded(result_);
         ROS_INFO("[Node B] Navigation task completed! Found %zu cubes with IDs.", result_.cube_ids.size());
