@@ -44,10 +44,6 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(move_head_down_node src/move_head_down_node.cpp)
-add_dependencies(move_head_down_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(move_head_down_node ${catkin_LIBRARIES})
-
 add_executable(node_A src/node_A.cpp)
 add_dependencies(node_A ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(node_A ${catkin_LIBRARIES}

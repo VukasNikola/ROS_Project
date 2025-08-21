@@ -15,6 +15,7 @@
 #include <mutex>
 #include <geometry_msgs/Twist.h>
 #include <cmath>
+#include <set>
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 typedef actionlib::SimpleActionServer<assignment1_package::NavigationTaskAction> NavigationServer;
@@ -41,6 +42,9 @@ private:
     assignment1_package::NavigationTaskResult result_;
 
     bool navigation_active_; // Flag to control detection behavior
+    
+    // Waypoints that don't need rotation (1-indexed as per comment)
+    std::set<int> no_rotation_waypoints_;
 
 public:
     NavigationActionServer() : action_server_(nh_, "navigation_task", boost::bind(&NavigationActionServer::executeNavigation, this, _1), false),
@@ -49,6 +53,8 @@ public:
                                tf_listener_(tf_buffer_),
                                navigation_active_(false)
     {
+        // Initialize waypoints that don't need rotation (1, 3, 5, 6, 9)
+        no_rotation_waypoints_ = {1, 3, 5, 6, 9};
 
         // Load waypoints
         loadWaypoints();
@@ -96,8 +102,6 @@ public:
 
     void rotateInPlace(const std::pair<double, double> &position, int waypoint_num)
     {
-        ROS_INFO("[Node B] Performing 360 degree scan at waypoint %d", waypoint_num);
-
         // Create velocity publisher for direct rotation control
         ros::Publisher cmd_vel_pub = nh_.advertise<geometry_msgs::Twist>("/mobile_base_controller/cmd_vel", 10);
         ros::Duration(0.1).sleep(); // Brief wait for publisher to connect
@@ -148,7 +152,7 @@ public:
         // All velocities are 0 by default
         cmd_vel_pub.publish(stop_msg);
 
-        ROS_INFO("[Node B] 360 degree scan completed at waypoint %d", waypoint_num);
+        updateFeedbackStatus("360 degree scan completed at waypoint " + std::to_string(waypoint_num));
     }
 
     void updateFeedbackStatus(const std::string &status)
@@ -274,17 +278,38 @@ public:
                 return;
             }
 
+            int waypoint_num = i + 1; // Convert to 1-indexed
+
             // Update feedback - moving to waypoint
-            updateFeedbackStatus("Moving to waypoint " + std::to_string(i + 1) + "/" + std::to_string(waypoints_.size()));
+            updateFeedbackStatus("Moving to waypoint " + std::to_string(waypoint_num) + "/" + std::to_string(waypoints_.size()));
 
             // Navigate to waypoint (detection happens continuously during movement)
-            if (navigateToWaypoint(waypoints_[i], i + 1))
+            if (navigateToWaypoint(waypoints_[i], waypoint_num))
             {
-                // Update feedback - scanning
-                updateFeedbackStatus("Scanning 360 degrees for AprilTags at waypoint " + std::to_string(i + 1));
-
-                // Rotate 360° at this position (additional detection opportunity)
-                rotateInPlace(waypoints_[i], i + 1);
+                // Check if this waypoint needs rotation
+                if (no_rotation_waypoints_.find(waypoint_num) == no_rotation_waypoints_.end())
+                {
+                    // Waypoint needs rotation - perform 360-degree scan
+                    updateFeedbackStatus("Scanning 360 degrees for AprilTags at waypoint " + std::to_string(waypoint_num));
+                    rotateInPlace(waypoints_[i], waypoint_num);
+                }
+                else
+                {
+                    // Waypoint doesn't need rotation - just brief pause for detection
+                    updateFeedbackStatus("Scanning for AprilTags at waypoint " + std::to_string(waypoint_num) + " (no rotation needed)");
+                    
+                    // Brief pause to allow for detection without rotation
+                    ros::Rate rate(10);
+                    ros::Time start_time = ros::Time::now();
+                    while (ros::ok() && !action_server_.isPreemptRequested() && 
+                           (ros::Time::now() - start_time).toSec() < 1.0) // 1 second pause
+                    {
+                        ros::spinOnce();
+                        rate.sleep();
+                    }
+                    
+                    ROS_INFO("[Node B] Completed scanning at waypoint %d (no rotation)", waypoint_num);
+                }
             }
         }
 
@@ -293,17 +318,35 @@ public:
         // Prepare result
         {
             std::lock_guard<std::mutex> lock(detected_cubes_mutex_);
+
+            // Clear previous results
+            result_.cube_ids.clear();
             result_.cube_positions.poses.clear();
+
+            // Fill both arrays with corresponding data
             for (const auto &cube : detected_cubes_)
             {
-                result_.cube_positions.poses.push_back(cube.second.pose);
+                result_.cube_ids.push_back(cube.first);                   // The ID
+                result_.cube_positions.poses.push_back(cube.second.pose); // The pose
             }
+
+            // Set header for pose array
+            result_.cube_positions.header.frame_id = "map";
+            result_.cube_positions.header.stamp = ros::Time::now();
         }
 
         updateFeedbackStatus("Detection finished. Found " + std::to_string(detected_cubes_.size()) + " cubes.");
 
         action_server_.setSucceeded(result_);
-        ROS_INFO("[Node B] Navigation task completed!");
+        ROS_INFO("[Node B] Navigation task completed! Found %zu cubes with IDs.", result_.cube_ids.size());
+
+        // Optional: Log the results for debugging
+        for (size_t i = 0; i < result_.cube_ids.size(); ++i)
+        {
+            const auto &pos = result_.cube_positions.poses[i].position;
+            ROS_INFO("[Node B] Cube ID %d at position [%.2f, %.2f, %.2f]",
+                     result_.cube_ids[i], pos.x, pos.y, pos.z);
+        }
     }
 
     bool navigateToWaypoint(const std::pair<double, double> &wp, int waypoint_num)
