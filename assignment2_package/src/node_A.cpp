@@ -61,7 +61,7 @@ bool navigateWithPrecision(actionlib::SimpleActionClient<move_base_msgs::MoveBas
             ros::Duration(0.5).sleep();
 
             geometry_msgs::TransformStamped robotTransform =
-                tfBuffer.lookupTransform("odom", "base_footprint", ros::Time(0), ros::Duration(1.0));
+                tfBuffer.lookupTransform("map", "base_footprint", ros::Time(0), ros::Duration(1.0));
 
             double dx = robotTransform.transform.translation.x - goal.target_pose.pose.position.x;
             double dy = robotTransform.transform.translation.y - goal.target_pose.pose.position.y;
@@ -153,7 +153,7 @@ public:
             closest_x = table_center_x_;
             closest_y = line_q;
         }
-        else if (std::abs(1.0 / line_m) < EPSILON)
+        else if (std::abs(line_m) > 1e6)  // Very steep line, treat as vertical
         {
             // Vertical line: x = -q/m
             closest_x = -line_q / line_m;
@@ -261,8 +261,6 @@ public:
 
         try
         {
-            // Use SINGLE timestamp for consistency
-            ros::Time current_time = ros::Time::now();
 
             // Get the stored placement point in tag_10 frame
             double x = placement_points_tag_frame_[object_index].first;
@@ -270,7 +268,7 @@ public:
 
             geometry_msgs::PoseStamped pose_tag;
             pose_tag.header.frame_id = TAG_FRAME;
-            pose_tag.header.stamp = current_time;
+            pose_tag.header.stamp = ros::Time(0);
             pose_tag.pose.position.x = x;
             pose_tag.pose.position.y = y;
             pose_tag.pose.position.z = 0.0; // On the table surface in tag_10 frame
@@ -289,7 +287,7 @@ public:
             pose_tag.pose.position.z += offset_world.z();
 
             // Wait for transform to be available
-            if (!tfBuffer.canTransform(BASE_FRAME, TAG_FRAME, current_time, ros::Duration(3.0)))
+            if (!tfBuffer.canTransform(BASE_FRAME, TAG_FRAME, ros::Time(0), ros::Duration(3.0)))
             {
                 ROS_ERROR("Cannot get transform from %s to %s", TAG_FRAME.c_str(), BASE_FRAME.c_str());
                 return false;
@@ -445,7 +443,7 @@ int main(int argc, char **argv)
 
     // Create navigation goal
     move_base_msgs::MoveBaseGoal goal;
-    goal.target_pose.header.frame_id = "odom";
+    goal.target_pose.header.frame_id = "map";
 
     // Service clients for Node B and Node C
     ros::ServiceClient get_pose_client = nh.serviceClient<assignment2_package::GetObjectPose>("get_object_pose");
@@ -494,7 +492,7 @@ int main(int argc, char **argv)
         // STEP 1: Navigate to picking table
         ROS_INFO("Node A: Navigating to picking table...");
         move_base_msgs::MoveBaseGoal approach_goal;
-        approach_goal.target_pose.header.frame_id = "odom";
+        approach_goal.target_pose.header.frame_id = "map";
         approach_goal.target_pose.header.stamp = ros::Time::now();
         approach_goal.target_pose.pose.position.x = 8.881;
         approach_goal.target_pose.pose.position.y = -3.02;
@@ -512,7 +510,7 @@ int main(int argc, char **argv)
         ros::Duration(0.5).sleep(); // Let robot settle
 
         move_base_msgs::MoveBaseGoal rotate_goal;
-        rotate_goal.target_pose.header.frame_id = "odom";
+        rotate_goal.target_pose.header.frame_id = "map";
         rotate_goal.target_pose.header.stamp = ros::Time::now();
         // Keep same position
         rotate_goal.target_pose.pose.position = approach_goal.target_pose.pose.position;

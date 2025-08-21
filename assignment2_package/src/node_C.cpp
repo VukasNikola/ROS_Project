@@ -57,9 +57,9 @@ std::map<int, geometry_msgs::PoseStamped> frozen_objects; // Frozen object poses
 std::map<int, bool> persistent_tables;                    // Track which tables have been created
 
 // Object state management
-int currently_manipulated_id = -1;  // ID of object being manipulated (-1 = none)
-std::string attached_object_id;     // MoveIt collision object ID of attached object
-double saved_pickup_z = 0.0; // Z coordinate for placement
+int currently_manipulated_id = -1; // ID of object being manipulated (-1 = none)
+std::string attached_object_id;    // MoveIt collision object ID of attached object
+double saved_pickup_z = 0.0;       // Z coordinate for placement
 
 // Helper: Get collision object ID for a given tag
 std::string getCollisionObjectId(int tag_id)
@@ -100,16 +100,13 @@ void addMeshCollisionObject(const std::string &id,
   co.id = id;
   co.header.frame_id = frame_id;
 
-  // Load & scale the mesh in one go:
-  // (this overload applies your scale to X, Y, Z axes)
   shapes::Mesh *m = shapes::createMeshFromResource(mesh_resource, scale);
 
-  // Convert to the ShapeMsg variant and extract the mesh
   shapes::ShapeMsg shape_msg;
   shapes::constructMsgFromShape(m, shape_msg);
   const shape_msgs::Mesh &mesh_msg = boost::get<shape_msgs::Mesh>(shape_msg);
 
-  // Populate and apply
+  delete m;
   co.meshes.push_back(mesh_msg);
   co.mesh_poses.push_back(pose);
   co.operation = moveit_msgs::CollisionObject::ADD;
@@ -440,13 +437,13 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     double fraction = arm_group->computeCartesianPath(
         waypoints, eef_step, trajectory, avoid_collisions, &cart_err);
 
-    if (cart_err.val != moveit_msgs::MoveItErrorCodes::SUCCESS && fraction >= 0.65)
+    if (cart_err.val != moveit_msgs::MoveItErrorCodes::SUCCESS && fraction >= 0.85)
     {
       ROS_WARN("computeCartesianPath returned non-success code %d but acceptable fraction=%.2f",
                cart_err.val, fraction);
     }
 
-    if (fraction < 0.65)
+    if (fraction < 0.85)
     {
       ROS_ERROR("Could not plan Cartesian path down (only %.2f%% achieved)", fraction * 100);
       currently_manipulated_id = -1;
@@ -635,13 +632,13 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     double lift_fraction = arm_group->computeCartesianPath(
         lift_waypoints, lift_eef_step, lift_trajectory, lift_avoid_collisions, &lift_err);
 
-    if (lift_err.val != moveit_msgs::MoveItErrorCodes::SUCCESS && lift_fraction >= 0.65)
+    if (lift_err.val != moveit_msgs::MoveItErrorCodes::SUCCESS && lift_fraction >= 0.85)
     {
       ROS_WARN("computeCartesianPath(lift) non-success code %d but acceptable fraction=%.2f",
                lift_err.val, lift_fraction);
     }
 
-    if (lift_fraction >= 0.65)
+    if (lift_fraction >= 0.85)
     {
       ROS_INFO("Using cartesian lift path (%.2f%% achieved)", lift_fraction * 100);
 
@@ -860,7 +857,7 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
     planning_scene_interface->applyAttachedCollisionObject(detach_from_moveit);
     ros::Duration(0.5).sleep();
 
-    // Remove object to avoid issues with gripper 
+    // Remove object to avoid issues with gripper
     if (!attached_object_id.empty())
     {
       std::vector<std::string> rm_ids = {attached_object_id};
@@ -980,6 +977,10 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
     frozen_objects.erase(id);      // Remove from frozen list
     attached_object_id = "";       // Clear attached ID
     saved_pickup_z = 0.0;          // Reset saved Z
+
+    // ADD THESE 2 LINES:
+    detected_tags.erase(id); // Force object to be re-detected and re-added
+    ROS_INFO("Forced object %d removal from detected_tags to trigger re-addition", id);
 
     // The next objectPosesCallback will re-add this object to the scene
     ROS_INFO("Object %d will be re-added to collision scene on next update", id);

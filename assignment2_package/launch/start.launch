@@ -1,0 +1,15 @@
+<launch>
+  <!-- Start the simulation with the specified world -->
+  <include file="$(find tiago_iaslab_simulation)/launch/start_simulation.launch">
+    <arg name="world_name" value="iaslab_assignment2" />
+  </include>
+
+  <!-- Navigation stack -->
+  <include file="$(find tiago_iaslab_simulation)/launch/navigation.launch"/>
+
+  <!-- Run the get_straightline_node -->
+  <node pkg="tiago_iaslab_simulation" type="get_straightline_node" name="get_straightline_node" output="screen"/>
+
+  <include file="$(find tiago_iaslab_simulation)/launch/apriltag2.launch"/>
+
+</launch>

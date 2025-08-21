@@ -59,7 +59,7 @@ void detectionsCallback(const apriltag_ros::AprilTagDetectionArray::ConstPtr &ms
     try
     {
         cam_to_base = tfBuffer.lookupTransform(BASE_FRAME, msg->header.frame_id,
-                                               msg->header.stamp, ros::Duration(0.1));
+                                               ros::Time(0), ros::Duration(0.5));
     }
     catch (tf2::TransformException &ex)
     {
@@ -123,7 +123,7 @@ bool getObjectPoseService(assignment2_package::GetObjectPose::Request &req,
         return false;
     }
 
-    // Define bin priority order 
+    // Define bin priority order
     std::vector<int> bin_priority = {3, 1, 2};
 
     // Try bins in priority order
