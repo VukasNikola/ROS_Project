@@ -53,8 +53,8 @@ public:
                                tf_listener_(tf_buffer_),
                                navigation_active_(false)
     {
-        // Initialize waypoints that don't need rotation (1, 3, 5, 6, 9)
-        no_rotation_waypoints_ = {1, 3, 5, 6, 9};
+        // Initialize waypoints that don't need rotation
+        no_rotation_waypoints_ = {1, 3, 6, 7, 9};
 
         // Load waypoints
         loadWaypoints();
