@@ -85,7 +85,7 @@ public:
         goal.trajectory.joint_names = {"head_1_joint", "head_2_joint"};
 
         trajectory_msgs::JointTrajectoryPoint point;
-        point.positions = {0.0, -0.75}; // Pan=0, Tilt down
+        point.positions = {0.0, -1.3}; // Pan=0, Tilt down
         point.time_from_start = ros::Duration(2.0);
         goal.trajectory.points.push_back(point);
 
