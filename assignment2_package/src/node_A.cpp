@@ -86,187 +86,127 @@ bool navigateWithPrecision(actionlib::SimpleActionClient<move_base_msgs::MoveBas
         return false;
     }
 }
-// ==================== PLACEMENT POSE MANAGER CLASS ====================
-class PlacementPoseManager
+
+// ==================== SIMPLIFIED PLACEMENT POSE MANAGER CLASS ====================
+class SimplePlacementPoseManager
 {
 private:
-    // Store the line coefficients and table info
-    double line_m_;
-    double line_q_;
-    double table_center_x_;
-    double table_center_y_;
+    // Reference point in tag_10 frame
+    static constexpr double REF_X = 0.36;
+    static constexpr double REF_Y = 0.145;
 
-    // Store the placement points in tag_10 frame
-    std::vector<std::pair<double, double>> placement_points_tag_frame_;
-    bool poses_initialized_;
+    // Best line coefficients
+    double best_m_;
+    double best_q_;
+    bool line_found_;
 
-    // Table dimensions (matching your test node)
-    static constexpr double TABLE_WIDTH = 1.07;
-    static constexpr double TABLE_DEPTH = 1.07;
-    static constexpr double TABLE_HEIGHT = 0.77;
-    static constexpr double TABLE_OFFSET_X = 0.36;
-    static constexpr double TABLE_OFFSET_Y = 0.145;
-    static constexpr double EPSILON = 1e-6;
+    // The 3 placement points in tag_10 frame
+    std::vector<std::pair<double, double>> placement_points_;
 
 public:
-    PlacementPoseManager() : poses_initialized_(false) {}
+    SimplePlacementPoseManager() : line_found_(false) {}
 
     /**
-     * @brief Check if a point is within the table bounds
+     * @brief Find the best line from 300 iterations and generate 3 placement poses
      */
-    bool isPointOnTable(double x, double y)
+    bool findBestLineAndGeneratePoses(ros::ServiceClient &coeffs_client)
     {
-        double x_min = table_center_x_ - TABLE_WIDTH / 2.0;
-        double x_max = table_center_x_ + TABLE_WIDTH / 2.0;
-        double y_min = table_center_y_ - TABLE_DEPTH / 2.0;
-        double y_max = table_center_y_ + TABLE_DEPTH / 2.0;
+        ROS_INFO("Finding best line from 300 iterations...");
 
-        return (x >= x_min - EPSILON && x <= x_max + EPSILON &&
-                y >= y_min - EPSILON && y <= y_max + EPSILON);
-    }
+        double best_distance = std::numeric_limits<double>::max();
+        best_m_ = 0.0;
+        best_q_ = 0.0;
 
-    /**
-     * @brief Initialize placement poses along the line in tag_10 frame
-     * This matches the logic from your test node
-     */
-    bool initializePoses(double line_m, double line_q, int num_objects = 3)
-    {
-        ROS_INFO("Initializing %d placement poses along line y = %.3fx + %.3f", num_objects, line_m, line_q);
-
-        // Store line coefficients
-        line_m_ = line_m;
-        line_q_ = line_q;
-
-        // Set table center (matching your test node)
-        table_center_x_ = TABLE_OFFSET_X;
-        table_center_y_ = TABLE_OFFSET_Y;
-
-        // Clear any existing points
-        placement_points_tag_frame_.clear();
-
-        // Find the closest point on the line to the table center
-        double closest_x, closest_y;
-
-        if (std::abs(line_m) < EPSILON)
+        for (int iteration = 0; iteration < 300; ++iteration)
         {
-            // Horizontal line: y = q
-            closest_x = table_center_x_;
-            closest_y = line_q;
-        }
-        else if (std::abs(1.0 / line_m) < EPSILON)
-        {
-            // Vertical line: x = -q/m
-            closest_x = -line_q / line_m;
-            closest_y = table_center_y_;
-        }
-        else
-        {
-            // General case: find perpendicular intersection
-            double m_perp = -1.0 / line_m;
-            double q_perp = table_center_y_ - m_perp * table_center_x_;
-            closest_x = (q_perp - line_q) / (line_m - m_perp);
-            closest_y = line_m * closest_x + line_q;
-        }
+            tiago_iaslab_simulation::Coeffs coeffs_srv;
+            coeffs_srv.request.ready = true;
 
-        // Calculate direction vector along the line
-        double dir_x, dir_y;
-        if (std::abs(line_m) < EPSILON)
-        {
-            // Horizontal line
-            dir_x = 1.0;
-            dir_y = 0.0;
-        }
-        else if (std::abs(1.0 / line_m) < EPSILON)
-        {
-            // Vertical line
-            dir_x = 0.0;
-            dir_y = 1.0;
-        }
-        else
-        {
-            // General case
-            dir_x = 1.0;
-            dir_y = line_m;
-            double length = std::sqrt(dir_x * dir_x + dir_y * dir_y);
-            dir_x /= length;
-            dir_y /= length;
-        }
-
-        // Generate placement points: center point ± 0.16m along the line
-        double spacing = 0.16;
-
-        // Center point (closest to table center)
-        placement_points_tag_frame_.push_back({closest_x, closest_y});
-
-        // Point 0.15m "above" (in positive direction along line)
-        placement_points_tag_frame_.push_back({closest_x + spacing * dir_x,
-                                               closest_y + spacing * dir_y});
-
-        // Point 0.15m "below" (in negative direction along line)
-        placement_points_tag_frame_.push_back({closest_x - spacing * dir_x,
-                                               closest_y - spacing * dir_y});
-
-        // Verify all points are on the table
-        bool all_valid = true;
-        for (size_t i = 0; i < placement_points_tag_frame_.size(); ++i)
-        {
-            double x = placement_points_tag_frame_[i].first;
-            double y = placement_points_tag_frame_[i].second;
-
-            if (!isPointOnTable(x, y))
+            if (!coeffs_client.call(coeffs_srv))
             {
-                ROS_WARN("Placement point %zu at (%.3f, %.3f) is off the table!", i, x, y);
-                all_valid = false;
+                ROS_ERROR("Failed to call /straight_line_srv on iteration %d", iteration);
+                continue;
             }
-            else
+
+            double m = coeffs_srv.response.coeffs[0];
+            double q = coeffs_srv.response.coeffs[1];
+
+            // Calculate distance from reference point (0.36, 0.145) to line y = mx + q
+            // Distance formula: |mx₀ - y₀ + q| / √(m² + 1)
+            double numerator = std::abs(m * REF_X - REF_Y + q);
+            double denominator = std::sqrt(m * m + 1.0);
+            double distance = numerator / denominator;
+
+            ROS_INFO("Iteration %d: y = %.3fx + %.3f, distance = %.4f", iteration, m, q, distance);
+
+            if (distance < best_distance)
             {
-                std::string position_name = (i == 0) ? "CENTER" : (i == 1 ? "FORWARD" : "BACKWARD");
-                ROS_INFO("Placement %zu (%s): tag_10(%.3f, %.3f)", i, position_name.c_str(), x, y);
+                best_distance = distance;
+                best_m_ = m;
+                best_q_ = q;
+                ROS_INFO("  --> NEW BEST! Distance: %.4f", distance);
             }
         }
 
-        if (!all_valid)
-        {
-            ROS_ERROR("Some placement points are off the table. Line may not be suitable.");
-            // Continue anyway, but warn the user
-        }
+        ROS_INFO("===== BEST LINE FOUND =====");
+        ROS_INFO("Line: y = %.3fx + %.3f", best_m_, best_q_);
+        ROS_INFO("Distance from reference point: %.4f", best_distance);
 
-        poses_initialized_ = true;
-        ROS_INFO("Successfully initialized %zu placement poses", placement_points_tag_frame_.size());
+        // Generate the 3 placement poses
+        placement_points_.clear();
+
+        // Pose 1: x = 0.36 - 0.15 = 0.21, y = m*0.21 + q
+        double x1 = 0.36 - 0.15;
+        double y1 = best_m_ * x1 + best_q_;
+        placement_points_.push_back({x1, y1});
+
+        // Pose 2: x = 0.36, y = m*0.36 + q
+        double x2 = 0.36;
+        double y2 = best_m_ * x2 + best_q_;
+        placement_points_.push_back({x2, y2});
+
+        // Pose 3: x = 0.36 + 0.15 = 0.51, y = m*0.51 + q
+        double x3 = 0.36 + 0.15;
+        double y3 = best_m_ * x3 + best_q_;
+        placement_points_.push_back({x3, y3});
+
+        ROS_INFO("Generated 3 placement poses:");
+        ROS_INFO("  Pose 0: tag_10(%.3f, %.3f, 0.0)", x1, y1);
+        ROS_INFO("  Pose 1: tag_10(%.3f, %.3f, 0.0)", x2, y2);
+        ROS_INFO("  Pose 2: tag_10(%.3f, %.3f, 0.0)", x3, y3);
+
+        line_found_ = true;
         return true;
     }
 
     /**
      * @brief Get a placement pose transformed to base_footprint frame
-     * Call this right before you need to place an object
-     * @param object_index Index of the object (0, 1, 2, ...)
-     * @param pose_out Output pose in base_footprint frame
+     * @param object_index Index of the object (0, 1, 2)
+     * @param pose_out Output pose in base_footprint frame (at table surface level)
      * @param tfBuffer TF buffer for transformations
-     * @param z_offset Height above table surface (default 0.3m above table for approach)*/
+     */
     bool getPlacementPose(int object_index, geometry_msgs::PoseStamped &pose_out,
-                          tf2_ros::Buffer &tfBuffer, double z_offset = 0.3)
+                          tf2_ros::Buffer &tfBuffer)
     {
-        if (!poses_initialized_)
+        if (!line_found_)
         {
-            ROS_ERROR("Poses not initialized. Call initializePoses() first.");
+            ROS_ERROR("Best line not found. Call findBestLineAndGeneratePoses() first.");
             return false;
         }
 
-        if (object_index < 0 || object_index >= placement_points_tag_frame_.size())
+        if (object_index < 0 || object_index >= 3)
         {
-            ROS_ERROR("Invalid object index %d. Valid range: 0-%zu",
-                      object_index, placement_points_tag_frame_.size() - 1);
+            ROS_ERROR("Invalid object index %d. Valid range: 0-2", object_index);
             return false;
         }
 
         try
         {
-            // Use SINGLE timestamp for consistency
             ros::Time current_time = ros::Time::now();
 
-            // Get the stored placement point in tag_10 frame
-            double x = placement_points_tag_frame_[object_index].first;
-            double y = placement_points_tag_frame_[object_index].second;
+            // Get the placement point in tag_10 frame
+            double x = placement_points_[object_index].first;
+            double y = placement_points_[object_index].second;
 
             geometry_msgs::PoseStamped pose_tag;
             pose_tag.header.frame_id = TAG_FRAME;
@@ -275,9 +215,9 @@ public:
             pose_tag.pose.position.y = y;
             pose_tag.pose.position.z = 0.0; // On the table surface in tag_10 frame
 
-            // End-effector pointing downward
+            // Simple downward-pointing orientation (let MoveIt handle the rest)
             tf2::Quaternion q_down;
-            q_down.setRPY(M_PI, 0, 0);
+            q_down.setRPY(M_PI, 0, M_PI / 2); // 180° around X (down) + +90° around Z (X forward)
             pose_tag.pose.orientation = tf2::toMsg(q_down);
 
             // Add gripper offset (before transformation)
@@ -295,44 +235,13 @@ public:
                 return false;
             }
 
-            // Transform to base_footprint - this preserves the actual table height
+            // Transform to base_footprint (this gives us the actual table surface position)
             tfBuffer.transform(pose_tag, pose_out, BASE_FRAME, ros::Duration(3.0));
 
-            // IMPORTANT: Now add z_offset to the TRANSFORMED z position
-            // This keeps the pose relative to the actual table surface as defined by tag_10
-            double table_surface_z = pose_out.pose.position.z;     // Save the actual table surface height
-            pose_out.pose.position.z = table_surface_z + z_offset; // Add offset for approach
-
-            // Use torso_fixed_link orientation for all placements
-            ROS_INFO("Using torso_fixed_link orientation for placement (object orientation doesn't matter)");
-            geometry_msgs::TransformStamped torso_transform;
-            try
-            {
-                torso_transform = tfBuffer.lookupTransform(BASE_FRAME, "torso_fixed_link", ros::Time(0), ros::Duration(1.0));
-                tf2::Quaternion torso_q;
-                tf2::fromMsg(torso_transform.transform.rotation, torso_q);
-
-                // Create 180 degree rotation around X
-                tf2::Quaternion x_rotation;
-                x_rotation.setRPY(M_PI, 0, 0);
-
-                // Apply the rotation
-                tf2::Quaternion final_q = torso_q * x_rotation;
-                pose_out.pose.orientation = tf2::toMsg(final_q);
-            }
-            catch (tf2::TransformException &ex)
-            {
-                ROS_ERROR("Could not get torso_fixed_link transform: %s", ex.what());
-                return false;
-            }
-
-            std::string position_name = (object_index == 0) ? "CENTER" : (object_index == 1 ? "FORWARD" : "BACKWARD");
-            ROS_INFO("Approach pose %d (%s): tag_10(%.3f, %.3f, 0.0) -> base(%.3f, %.3f, %.3f)",
-                     object_index, position_name.c_str(),
-                     x, y,
+            ROS_INFO("Placement pose %d: tag_10(%.3f, %.3f, 0.0) -> base(%.3f, %.3f, %.3f)",
+                     object_index, x, y,
                      pose_out.pose.position.x, pose_out.pose.position.y, pose_out.pose.position.z);
-            ROS_INFO("  Table surface at z=%.3f in base frame, approach at z=%.3f (+%.2fm offset)",
-                     table_surface_z, pose_out.pose.position.z, z_offset);
+            ROS_INFO("  Pose at table surface level - Node C will handle approach/place sequence");
 
             return true;
         }
@@ -344,29 +253,11 @@ public:
     }
 
     /**
-     * @brief Get number of stored poses
-     */
-    int getNumPoses() const
-    {
-        return poses_initialized_ ? placement_points_tag_frame_.size() : 0;
-    }
-
-    /**
-     * @brief Check if poses are initialized
+     * @brief Check if best line has been found
      */
     bool isInitialized() const
     {
-        return poses_initialized_;
-    }
-
-    /**
-     * @brief Clear stored poses
-     */
-    void clear()
-    {
-        placement_points_tag_frame_.clear();
-        poses_initialized_ = false;
-        ROS_INFO("Cleared stored placement poses");
+        return line_found_;
     }
 
     /**
@@ -374,8 +265,8 @@ public:
      */
     void getLineInfo(double &m, double &q) const
     {
-        m = line_m_;
-        q = line_q_;
+        m = best_m_;
+        q = best_q_;
     }
 };
 
@@ -394,9 +285,10 @@ int main(int argc, char **argv)
     // Service client to get line coefficients from /straight_line_srv
     ros::ServiceClient coeffs_client = nh.serviceClient<tiago_iaslab_simulation::Coeffs>("/straight_line_srv");
 
-    // ==================== INITIALIZE PLACEMENT POSE MANAGER ====================
-    PlacementPoseManager pose_manager;
-    int num_objects = 3;               // we will place 3 objects (minimum required)
+    // ==================== INITIALIZE SIMPLIFIED PLACEMENT POSE MANAGER ====================
+    SimplePlacementPoseManager pose_manager; // Use the simplified version
+    int num_objects = 3;
+
     bool best_line_found = false;      // Track if we've found the best line yet
     double best_m = 0.0, best_q = 0.0; // Store the best line coefficients
 
@@ -717,27 +609,24 @@ int main(int argc, char **argv)
             ROS_INFO("Successfully rotated to face positive Y direction.");
         }
 
-        // STEP 4: Navigate to placing table
+        // STEP 4: Navigate to placing table (single move with tight tolerances)
         ROS_INFO("Node A: Navigating to placing table...");
         goal.target_pose.header.stamp = ros::Time::now();
         goal.target_pose.pose.position.x = 9;
         goal.target_pose.pose.position.y = -1.92; // Correct Y for placing table
         goal.target_pose.pose.position.z = 0.0;
-        {
-            tf2::Quaternion q;
-            double yaw = M_PI; // Facing negative X direction
-            q.setRPY(0.0, 0.0, yaw);
-            goal.target_pose.pose.orientation = tf2::toMsg(q);
-        }
 
-        ac.sendGoal(goal);
-        ac.waitForResult();
-        if (ac.getState() != actionlib::SimpleClientGoalState::SUCCEEDED)
+        // Set precise orientation (facing negative X direction)
+        tf2::Quaternion q_place;
+        q_place.setRPY(0.0, 0.0, M_PI); // Facing negative X direction
+        goal.target_pose.pose.orientation = tf2::toMsg(q_place);
+
+        if (!navigateWithPrecision(ac, goal, 0.03, 0.05))
         {
-            ROS_ERROR("Failed to reach placing table. Aborting.");
+            ROS_ERROR("Failed to reach placing table with precise navigation. Aborting.");
             break;
         }
-        ROS_INFO("Successfully reached placing table.");
+        ROS_INFO("Successfully reached placing table with precise navigation.");
 
         // Allow time for robot to settle and any dynamic elements to stabilize
         ROS_INFO("Node A: Waiting for robot to settle at placing table...");
@@ -779,158 +668,44 @@ int main(int argc, char **argv)
         }
 
         // STEP 4.6: Find best line on FIRST visit to placing table
-        if (!best_line_found)
+        if (!pose_manager.isInitialized()) // Much simpler check
         {
             ROS_INFO("Node A: First time at placing table - finding best line from 300 iterations...");
 
-            // Wait a bit more to ensure tag_10 is being detected
+            // Wait a bit to ensure tag_10 is being detected
             ros::Duration(2.0).sleep();
 
-            struct LineCandidate
+            // This single call does everything: finds best line AND generates 3 poses
+            if (!pose_manager.findBestLineAndGeneratePoses(coeffs_client))
             {
-                double m, q;
-                double distance_to_center;
-                bool all_points_valid;
-            };
-
-            std::vector<LineCandidate> valid_lines;
-            const double TABLE_CENTER_X = 0.36;  // Matching test node
-            const double TABLE_CENTER_Y = 0.145; // Matching test node
-
-            for (int iteration = 0; iteration < 300; ++iteration)
-            {
-                tiago_iaslab_simulation::Coeffs coeffs_srv;
-                coeffs_srv.request.ready = true;
-
-                if (!coeffs_client.call(coeffs_srv))
-                {
-                    ROS_ERROR("Failed to call /straight_line_srv on iteration %d", iteration);
-                    continue;
-                }
-
-                double m = coeffs_srv.response.coeffs[0];
-                double q = coeffs_srv.response.coeffs[1];
-
-                ROS_INFO("Iteration %d: Line y = %.3fx + %.3f", iteration, m, q);
-
-                // Calculate distance to table center (simplified version)
-                double closest_x, closest_y;
-                if (std::abs(m) < 1e-6)
-                {
-                    closest_x = TABLE_CENTER_X;
-                    closest_y = q;
-                }
-                else
-                {
-                    double m_perp = -1.0 / m;
-                    double q_perp = TABLE_CENTER_Y - m_perp * TABLE_CENTER_X;
-                    closest_x = (q_perp - q) / (m - m_perp);
-                    closest_y = m * closest_x + q;
-                }
-
-                double distance = std::sqrt(std::pow(closest_x - TABLE_CENTER_X, 2) +
-                                            std::pow(closest_y - TABLE_CENTER_Y, 2));
-
-                LineCandidate candidate;
-                candidate.m = m;
-                candidate.q = q;
-                candidate.distance_to_center = distance;
-                candidate.all_points_valid = true;
-
-                valid_lines.push_back(candidate);
-                ROS_INFO("  - Distance to table center: %.4f", distance);
+                ROS_ERROR("Node A: Failed to find best line and generate poses");
+                break;
             }
 
-            if (valid_lines.empty())
-            {
-                ROS_ERROR("No valid lines found after 300 iterations");
-                break; // Skip this object
-            }
-
-            // Find the best line (closest to table center)
-            auto best_line = std::min_element(valid_lines.begin(), valid_lines.end(),
-                                              [](const LineCandidate &a, const LineCandidate &b)
-                                              {
-                                                  return a.distance_to_center < b.distance_to_center;
-                                              });
-
-            best_m = best_line->m;
-            best_q = best_line->q;
-
-            ROS_INFO("===== BEST LINE SELECTED =====");
-            ROS_INFO("Line: y = %.3fx + %.3f", best_m, best_q);
-            ROS_INFO("Distance to table center: %.4f", best_line->distance_to_center);
-            ROS_INFO("This line will be used for ALL placements");
-            ROS_INFO("==============================");
-
-            // Initialize placement poses with the best line
-            if (!pose_manager.initializePoses(best_m, best_q, num_objects))
-            {
-                ROS_ERROR("Node A: Failed to initialize placement poses");
-                break; // Skip this object
-            }
-
-            best_line_found = true;
-            ROS_INFO("Node A: Placement poses initialized for %d objects using best line", num_objects);
+            ROS_INFO("Node A: Best line found and 3 placement poses generated!");
         }
         else
         {
-            ROS_INFO("Node A: Using previously found best line y = %.3fx + %.3f", best_m, best_q);
+            double m, q;
+            pose_manager.getLineInfo(m, q);
+            ROS_INFO("Node A: Using previously found best line y = %.3fx + %.3f", m, q);
         }
 
-        // STEP 5: Get placement pose and move to approach position using arm_torso
-        ROS_INFO("Node A: Getting approach pose for object %d (0.3m above placement)...", objects_processed + 1);
+        // STEP 5: Get placement pose (at table surface level)
+        ROS_INFO("Node A: Getting placement pose for object %d...", objects_processed + 1);
 
-        // IMPORTANT: Update poses each time we return to the placing table
-        // This ensures the transformation from tag_10 to base_footprint is current
-        ROS_INFO("Node A: Updating placement pose transformation for current robot position...");
-
-        geometry_msgs::PoseStamped approach_pose_base;
-
-        if (!pose_manager.getPlacementPose(objects_processed, approach_pose_base, tfBuffer, 0.3))
+        geometry_msgs::PoseStamped placement_pose_base;
+        if (!pose_manager.getPlacementPose(objects_processed, placement_pose_base, tfBuffer))
         {
-            ROS_ERROR("Node A: Failed to get approach pose for object %d. Skipping.", objects_processed + 1);
-            continue; // Skip this object
+            ROS_ERROR("Node A: Failed to get placement pose for object %d. Skipping.", objects_processed + 1);
+            continue;
         }
-
-        // The pose is now freshly transformed from tag_10 to base_footprint
-        // using the current TF, so it will be at the correct position
-        ROS_INFO("Node A: Placement pose updated with current transform");
-
-        // IMPORTANT: Use arm_torso for better reach to placement position
-        ROS_INFO("Node A: Moving arm to approach pose above placement position using arm_torso...");
-        arm_torso_move_group.setEndEffectorLink("gripper_grasping_frame"); // Match Node C
-        arm_torso_move_group.setPoseTarget(approach_pose_base.pose, "gripper_grasping_frame");
-        arm_torso_move_group.setPlanningTime(30.0);
-        arm_torso_move_group.setNumPlanningAttempts(20);
-
-        moveit::planning_interface::MoveGroupInterface::Plan plan;
-        bool success = (arm_torso_move_group.plan(plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-
-        if (!success)
-        {
-            ROS_ERROR("Node A: Failed to plan approach to placement position with arm_torso. Trying alternative approach...");
-
-            // Try with arm_tool_link as end effector
-            arm_torso_move_group.setEndEffectorLink("arm_tool_link");
-            arm_torso_move_group.setPoseTarget(approach_pose_base.pose, "arm_tool_link");
-            success = (arm_torso_move_group.plan(plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-
-            if (!success)
-            {
-                ROS_ERROR("Node A: Still failed to plan. Skipping object %d.", objects_processed + 1);
-                continue;
-            }
-        }
-
-        ROS_INFO("Node A: Executing approach to placement position...");
-        arm_torso_move_group.execute(plan);
-        ros::Duration(2.0).sleep(); // Allow settling
 
         // STEP 6: Call Node C to place the object (it will handle the final positioning)
         ROS_INFO("Node A: Calling Node C to place object from approach pose...");
         assignment2_package::PlaceObject place_srv;
         place_srv.request.target_id = get_pose_srv.response.obj_id;
+        place_srv.request.target_pose = placement_pose_base;
 
         if (!place_client.call(place_srv) || !place_srv.response.success)
         {
