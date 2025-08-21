@@ -13,6 +13,8 @@
 #include <trajectory_msgs/JointTrajectory.h>
 #include <tf2/LinearMath/Quaternion.h>
 #include <mutex>
+#include <geometry_msgs/Twist.h>
+#include <cmath>
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 typedef actionlib::SimpleActionServer<assignment1_package::NavigationTaskAction> NavigationServer;
@@ -96,104 +98,84 @@ public:
     {
         ROS_INFO("[Node B] Performing 360 degree scan at waypoint %d", waypoint_num);
 
-        // Get current robot pose from TF
-        geometry_msgs::TransformStamped robot_transform;
-        try
+        // Create velocity publisher for direct rotation control
+        ros::Publisher cmd_vel_pub = nh_.advertise<geometry_msgs::Twist>("/mobile_base_controller/cmd_vel", 10);
+        ros::Duration(0.1).sleep(); // Brief wait for publisher to connect
+
+        // Rotation parameters
+        double angular_velocity = 0.5;  // rad/s (adjust as needed)
+        double target_angle = 2 * M_PI; // Full circle (360 degrees)
+
+        // Calculate rotation time needed
+        double rotation_time = target_angle / angular_velocity;
+
+        // Create Twist message for rotation
+        geometry_msgs::Twist twist_msg;
+        twist_msg.linear.x = 0.0;
+        twist_msg.linear.y = 0.0;
+        twist_msg.linear.z = 0.0;
+        twist_msg.angular.x = 0.0;
+        twist_msg.angular.y = 0.0;
+        twist_msg.angular.z = angular_velocity; // Positive for counter-clockwise
+
+        // Update feedback
+        updateFeedbackStatus("Rotating 360° for AprilTag detection at waypoint " + std::to_string(waypoint_num));
+
+        // Record start time
+        ros::Time start_time = ros::Time::now();
+        ros::Rate rate(10); // 10 Hz
+
+        // Publish rotation commands
+        while (ros::ok() && !action_server_.isPreemptRequested())
         {
-            robot_transform = tf_buffer_.lookupTransform("map", "base_footprint", ros::Time(0));
-        }
-        catch (tf2::TransformException &ex)
-        {
-            ROS_WARN("[Node B] Could not get robot transform: %s", ex.what());
-            return;
-        }
+            ros::Time current_time = ros::Time::now();
+            double elapsed_time = (current_time - start_time).toSec();
 
-        // Extract current yaw
-        tf2::Quaternion current_q(
-            robot_transform.transform.rotation.x,
-            robot_transform.transform.rotation.y,
-            robot_transform.transform.rotation.z,
-            robot_transform.transform.rotation.w);
-        double roll, pitch, current_yaw;
-        tf2::Matrix3x3(current_q).getRPY(roll, pitch, current_yaw);
-
-        // Two rotations for complete 360° scan
-        std::vector<double> rotation_angles = {
-            current_yaw + (185.0 * M_PI / 180.0), // First rotation: 185 degrees
-            current_yaw + (360.0 * M_PI / 180.0)  // Second rotation: complete the circle
-        };
-
-        for (size_t i = 0; i < rotation_angles.size(); ++i)
-        {
-            move_base_msgs::MoveBaseGoal goal;
-            goal.target_pose.header.frame_id = "map";
-            goal.target_pose.header.stamp = ros::Time::now();
-
-            goal.target_pose.pose.position.x = position.first;
-            goal.target_pose.pose.position.y = position.second;
-            goal.target_pose.pose.position.z = 0.0;
-
-            // Normalize angle to [-pi, pi]
-            double target_yaw = rotation_angles[i];
-            while (target_yaw > M_PI)
-                target_yaw -= 2 * M_PI;
-            while (target_yaw < -M_PI)
-                target_yaw += 2 * M_PI;
-
-            tf2::Quaternion q;
-            q.setRPY(0, 0, target_yaw);
-            goal.target_pose.pose.orientation.x = q.x();
-            goal.target_pose.pose.orientation.y = q.y();
-            goal.target_pose.pose.orientation.z = q.z();
-            goal.target_pose.pose.orientation.w = q.w();
-
-            updateFeedbackStatus("Scanning rotation " + std::to_string(i + 1) + "/2 at waypoint " + std::to_string(waypoint_num));
-
-            move_base_client_.sendGoal(goal);
-            bool success = move_base_client_.waitForResult(ros::Duration(20.0));
-
-            if (success && move_base_client_.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
+            if (elapsed_time >= rotation_time)
             {
-                ROS_INFO("[Node B] Completed rotation %zu/2 (%.1f degrees total)",
-                         i + 1, (i == 0 ? 185.0 : 360.0));
+                break;
+            }
 
-                // Allow more time for detection during scanning
-                ros::Duration(2.0).sleep();
-                ros::spinOnce();
-            }
-            else
-            {
-                ROS_WARN("[Node B] Failed rotation %zu/2", i + 1);
-            }
+            cmd_vel_pub.publish(twist_msg);
+
+            // Process AprilTag callbacks during rotation
+            ros::spinOnce();
+            rate.sleep();
         }
+
+        // Stop the robot
+        geometry_msgs::Twist stop_msg;
+        // All velocities are 0 by default
+        cmd_vel_pub.publish(stop_msg);
 
         ROS_INFO("[Node B] 360 degree scan completed at waypoint %d", waypoint_num);
     }
 
-    void updateFeedbackStatus(const std::string& status)
+    void updateFeedbackStatus(const std::string &status)
     {
         std::lock_guard<std::mutex> lock(detected_cubes_mutex_);
         feedback_.status = status;
-        
+
         // Update found tag IDs
         feedback_.found_tag_ids.clear();
         for (const auto &cube : detected_cubes_)
         {
             feedback_.found_tag_ids.push_back(cube.first);
         }
-        
+
         action_server_.publishFeedback(feedback_);
     }
 
     void apriltagCallback(const apriltag_ros::AprilTagDetectionArray::ConstPtr &msg)
     {
         // Only process detections when navigation is active
-        if (!navigation_active_) {
+        if (!navigation_active_)
+        {
             return;
         }
 
         bool new_detection = false;
-        
+
         for (const auto &detection : msg->detections)
         {
             int tag_id = detection.id[0];
@@ -213,32 +195,35 @@ public:
                     // Thread-safe update of detected cubes
                     {
                         std::lock_guard<std::mutex> lock(detected_cubes_mutex_);
-                        
+
                         // Check if this is a new detection or significantly different position
                         bool is_new_detection = true;
-                        if (detected_cubes_.find(tag_id) != detected_cubes_.end()) {
-                            auto& existing_pose = detected_cubes_[tag_id].pose.position;
-                            auto& new_pose = map_to_tag.pose.position;
-                            
+                        if (detected_cubes_.find(tag_id) != detected_cubes_.end())
+                        {
+                            auto &existing_pose = detected_cubes_[tag_id].pose.position;
+                            auto &new_pose = map_to_tag.pose.position;
+
                             // Calculate distance between existing and new detection
-                            double distance = sqrt(pow(existing_pose.x - new_pose.x, 2) + 
-                                                 pow(existing_pose.y - new_pose.y, 2) + 
-                                                 pow(existing_pose.z - new_pose.z, 2));
-                            
+                            double distance = sqrt(pow(existing_pose.x - new_pose.x, 2) +
+                                                   pow(existing_pose.y - new_pose.y, 2) +
+                                                   pow(existing_pose.z - new_pose.z, 2));
+
                             // Only update if position changed significantly (> 10cm)
-                            if (distance < 0.1) {
+                            if (distance < 0.1)
+                            {
                                 is_new_detection = false;
                             }
                         }
-                        
-                        if (is_new_detection) {
+
+                        if (is_new_detection)
+                        {
                             detected_cubes_[tag_id] = map_to_tag;
                             new_detection = true;
-                            
+
                             ROS_INFO("[Node B] %s AprilTag %d at map position [%.2f, %.2f, %.2f]",
-                                   (detected_cubes_.size() == 1) ? "Detected target" : "Updated target",
-                                   tag_id, map_to_tag.pose.position.x, 
-                                   map_to_tag.pose.position.y, map_to_tag.pose.position.z);
+                                     (detected_cubes_.size() == 1) ? "Detected target" : "Updated target",
+                                     tag_id, map_to_tag.pose.position.x,
+                                     map_to_tag.pose.position.y, map_to_tag.pose.position.z);
                         }
                     }
                 }
@@ -250,7 +235,8 @@ public:
         }
 
         // Update feedback if we had new detections
-        if (new_detection) {
+        if (new_detection)
+        {
             std::lock_guard<std::mutex> lock(detected_cubes_mutex_);
             feedback_.found_tag_ids.clear();
             for (const auto &cube : detected_cubes_)
@@ -265,13 +251,13 @@ public:
     void executeNavigation(const assignment1_package::NavigationTaskGoalConstPtr &goal)
     {
         target_ids_ = goal->target_ids;
-        
+
         // Thread-safe initialization
         {
             std::lock_guard<std::mutex> lock(detected_cubes_mutex_);
             detected_cubes_.clear();
         }
-        
+
         navigation_active_ = true; // Enable continuous detection
 
         updateFeedbackStatus("Starting navigation task");
@@ -330,21 +316,24 @@ public:
         goal.target_pose.pose.orientation.w = 1.0;
 
         move_base_client_.sendGoal(goal);
-        
+
         // Instead of just waiting, actively spin to process AprilTag callbacks
         ros::Rate rate(10); // 10 Hz
-        while (!move_base_client_.waitForResult(ros::Duration(0.1))) {
-            if (action_server_.isPreemptRequested() || !ros::ok()) {
+        while (!move_base_client_.waitForResult(ros::Duration(0.1)))
+        {
+            if (action_server_.isPreemptRequested() || !ros::ok())
+            {
                 move_base_client_.cancelGoal();
                 return false;
             }
-            
+
             // Process callbacks (including AprilTag detections) while moving
             ros::spinOnce();
             rate.sleep();
-            
+
             // Check if we've been trying for too long
-            if ((ros::Time::now() - goal.target_pose.header.stamp).toSec() > 60.0) {
+            if ((ros::Time::now() - goal.target_pose.header.stamp).toSec() > 60.0)
+            {
                 ROS_WARN("[Node B] Timeout waiting for waypoint %d", waypoint_num);
                 move_base_client_.cancelGoal();
                 return false;

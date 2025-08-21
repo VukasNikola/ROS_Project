@@ -1,76 +1,93 @@
 #include <ros/ros.h>
-#include <std_srvs/Trigger.h>
-#include <trajectory_msgs/JointTrajectory.h>
-#include <trajectory_msgs/JointTrajectoryPoint.h>
+#include <geometry_msgs/Twist.h>
+#include <cmath>
 
-// Helper function to move the head with interruption check
-void moveHead(ros::Publisher& head_pub, double yaw, double pitch, double duration, const std::string& description) {
-  trajectory_msgs::JointTrajectory traj;
-  traj.joint_names = {"head_1_joint", "head_2_joint"};
+class TiagoRotateNode
+{
+private:
+    ros::NodeHandle nh_;
+    ros::Publisher cmd_vel_pub_;
+    
+    // Rotation parameters
+    double angular_velocity_;
+    double target_angle_;
 
-  trajectory_msgs::JointTrajectoryPoint point;
-  point.positions = {yaw, pitch};  // Yaw and Pitch
-  point.time_from_start = ros::Duration(duration);
+public:
+    TiagoRotateNode() : angular_velocity_(0.5), target_angle_(2 * M_PI)
+    {
+        // Create publisher for velocity commands
+        cmd_vel_pub_ = nh_.advertise<geometry_msgs::Twist>("/mobile_base_controller/cmd_vel", 10);
+        
+        // Wait for publisher to connect
+        ros::Duration(1.0).sleep();
+        
+        ROS_INFO("TIAGo rotation node initialized");
+    }
+    
+    void rotateFullCircle()
+    {
+        ROS_INFO("Starting full circle rotation...");
+        
+        // Calculate rotation time needed
+        double rotation_time = target_angle_ / angular_velocity_;
+        
+        // Create Twist message
+        geometry_msgs::Twist twist_msg;
+        twist_msg.linear.x = 0.0;
+        twist_msg.linear.y = 0.0;
+        twist_msg.linear.z = 0.0;
+        twist_msg.angular.x = 0.0;
+        twist_msg.angular.y = 0.0;
+        twist_msg.angular.z = angular_velocity_;  // Positive for counter-clockwise
+        
+        // Record start time
+        ros::Time start_time = ros::Time::now();
+        ros::Rate rate(10);  // 10 Hz
+        
+        // Publish rotation commands
+        while (ros::ok())
+        {
+            ros::Time current_time = ros::Time::now();
+            double elapsed_time = (current_time - start_time).toSec();
+            
+            if (elapsed_time >= rotation_time)
+            {
+                break;
+            }
+            
+            cmd_vel_pub_.publish(twist_msg);
+            rate.sleep();
+        }
+        
+        // Stop the robot
+        stopRobot();
+        ROS_INFO("Full circle rotation completed!");
+    }
+    
+    void stopRobot()
+    {
+        geometry_msgs::Twist stop_msg;
+        // All velocities are 0 by default
+        cmd_vel_pub_.publish(stop_msg);
+        ROS_INFO("Robot stopped");
+    }
+};
 
-  traj.points.push_back(point);
-
-  ROS_INFO("Moving head to %s [yaw: %.2f, pitch: %.2f]", description.c_str(), yaw, pitch);
-  head_pub.publish(traj);
-
-  // Use ros::Rate instead of sleep to allow Ctrl+C to interrupt
-  ros::Rate rate(10);  // 10 Hz loop
-  double elapsed = 0.0;
-  while (ros::ok() && elapsed < (duration + 1.0)) {
-    rate.sleep();
-    elapsed += 0.1;
-  }
-}
-
-// Service callback to move the head down and then back up
-bool moveHeadDownAndUp(std_srvs::Trigger::Request &req, std_srvs::Trigger::Response &res) {
-  ros::NodeHandle nh;
-  ros::Publisher head_pub = nh.advertise<trajectory_msgs::JointTrajectory>("/head_controller/command", 10);
-
-  ros::Rate wait_rate(10);
-  double elapsed = 0.0;
-  while (ros::ok() && elapsed < 1.0) {  // Ensure the publisher is connected
-    wait_rate.sleep();
-    elapsed += 0.1;
-  }
-
-  if (!ros::ok()) return false;  // Stop if interrupted
-
-  // 1️ Move the head down
-  moveHead(head_pub, 0.0, -1.3, 2.0, "look down");
-
-  // 2️ Pause for 2 seconds while looking down
-  elapsed = 0.0;
-  while (ros::ok() && elapsed < 2.0) {
-    wait_rate.sleep();
-    elapsed += 0.1;
-  }
-
-  if (!ros::ok()) return false;
-
-  // 3️ Move the head back up
-  moveHead(head_pub, 0.0, 0.0, 2.0, "look forward");
-
-  res.success = true;
-  res.message = "Head moved down and returned to forward position.";
-  return true;
-}
-
-int main(int argc, char** argv) {
-  ros::init(argc, argv, "move_head_down_node");
-  ros::NodeHandle nh;
-
-  // Advertise the service
-  ros::ServiceServer service = nh.advertiseService("/move_head_down", moveHeadDownAndUp);
-  ROS_INFO("Head down and up service is ready.");
-
-  // ros::spin() will now properly handle Ctrl+C
-  ros::spin();
-
-  ROS_INFO("Shutting down move_head_down_node.");
-  return 0;
+int main(int argc, char** argv)
+{
+    // Initialize ROS
+    ros::init(argc, argv, "tiago_rotate_node");
+    
+    try
+    {
+        // Create and run the rotation node
+        TiagoRotateNode tiago_node;
+        tiago_node.rotateFullCircle();
+    }
+    catch (const std::exception& e)
+    {
+        ROS_ERROR("Error: %s", e.what());
+    }
+    
+    return 0;
 }
