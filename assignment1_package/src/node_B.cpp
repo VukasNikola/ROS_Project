@@ -75,7 +75,7 @@ public:
     void loadWaypoints()
     {
         waypoints_ = {
-            {-0.09, -1.01}, {3.08, 0.00}, {6.58, 0.63}, {7.18, -0.77}, {8.58, -2.37}, {7.58, -3.37}, {8.88, -3.97}, {10.58, -4.07}, {11.58, -2.87}, {13.08, -2.87}, {13.08, -1.37}, {12.08, 1.13}, {11.08, 1.13}, {10.58, 0.13}, {8.78, 0.63}};
+            {-0.09, -1.01}, {6.58, 0.63}, {7.18, -0.77}, {8.58, -2.37}, {8, -3.37}, {11.95, -2.87}, {13.08, -2.87}, {13.08, -1.37}, {12.08, 1.13}, {10.70, 0.70}, {8.78, 0.63}};
         ROS_INFO("[Node B] Loaded %zu hardcoded waypoints", waypoints_.size());
     }
 
@@ -119,7 +119,7 @@ public:
         twist_msg.angular.z = angular_velocity; // Positive for counter-clockwise
 
         // Update feedback
-        updateFeedbackStatus("Rotating 360° for AprilTag detection at waypoint " + std::to_string(waypoint_num));
+        updateFeedbackStatus("Rotating 360 degrees for AprilTag detection at waypoint " + std::to_string(waypoint_num));
 
         // Record start time
         ros::Time start_time = ros::Time::now();
@@ -281,7 +281,7 @@ public:
             if (navigateToWaypoint(waypoints_[i], i + 1))
             {
                 // Update feedback - scanning
-                updateFeedbackStatus("Scanning 360° for AprilTags at waypoint " + std::to_string(i + 1));
+                updateFeedbackStatus("Scanning 360 degrees for AprilTags at waypoint " + std::to_string(i + 1));
 
                 // Rotate 360° at this position (additional detection opportunity)
                 rotateInPlace(waypoints_[i], i + 1);
@@ -313,7 +313,7 @@ public:
         goal.target_pose.header.stamp = ros::Time::now();
         goal.target_pose.pose.position.x = wp.first;
         goal.target_pose.pose.position.y = wp.second;
-        goal.target_pose.pose.orientation.w = 1.0;
+        goal.target_pose.pose.orientation.w = 0.0;
 
         move_base_client_.sendGoal(goal);
 
