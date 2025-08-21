@@ -12,6 +12,7 @@
 #include <control_msgs/FollowJointTrajectoryAction.h>
 #include <trajectory_msgs/JointTrajectory.h>
 #include <tf2/LinearMath/Quaternion.h>
+#include <mutex>
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 typedef actionlib::SimpleActionServer<assignment1_package::NavigationTaskAction> NavigationServer;
@@ -32,21 +33,25 @@ private:
     std::vector<std::pair<double, double>> waypoints_;
     std::vector<int32_t> target_ids_;
     std::map<int, geometry_msgs::PoseStamped> detected_cubes_;
+    std::mutex detected_cubes_mutex_; // Thread safety for continuous detection
 
     assignment1_package::NavigationTaskFeedback feedback_;
     assignment1_package::NavigationTaskResult result_;
+
+    bool navigation_active_; // Flag to control detection behavior
 
 public:
     NavigationActionServer() : action_server_(nh_, "navigation_task", boost::bind(&NavigationActionServer::executeNavigation, this, _1), false),
                                move_base_client_("move_base", true),
                                head_client_("/head_controller/follow_joint_trajectory", true),
-                               tf_listener_(tf_buffer_)
+                               tf_listener_(tf_buffer_),
+                               navigation_active_(false)
     {
 
         // Load waypoints
         loadWaypoints();
 
-        // Subscribe to AprilTag detections
+        // Subscribe to AprilTag detections - now runs continuously
         apriltag_sub_ = nh_.subscribe("/tag_detections", 1,
                                       &NavigationActionServer::apriltagCallback, this);
 
@@ -112,9 +117,7 @@ public:
         double roll, pitch, current_yaw;
         tf2::Matrix3x3(current_q).getRPY(roll, pitch, current_yaw);
 
-        // Two rotations:
-        // First: 185-190 degrees (slightly more than 180 to ensure same direction)
-        // Second: Complete the remaining ~170-175 degrees
+        // Two rotations for complete 360° scan
         std::vector<double> rotation_angles = {
             current_yaw + (185.0 * M_PI / 180.0), // First rotation: 185 degrees
             current_yaw + (360.0 * M_PI / 180.0)  // Second rotation: complete the circle
@@ -144,8 +147,7 @@ public:
             goal.target_pose.pose.orientation.z = q.z();
             goal.target_pose.pose.orientation.w = q.w();
 
-            feedback_.status = "Scanning rotation " + std::to_string(i + 1) + "/2 at waypoint " + std::to_string(waypoint_num);
-            action_server_.publishFeedback(feedback_);
+            updateFeedbackStatus("Scanning rotation " + std::to_string(i + 1) + "/2 at waypoint " + std::to_string(waypoint_num));
 
             move_base_client_.sendGoal(goal);
             bool success = move_base_client_.waitForResult(ros::Duration(20.0));
@@ -155,7 +157,7 @@ public:
                 ROS_INFO("[Node B] Completed rotation %zu/2 (%.1f degrees total)",
                          i + 1, (i == 0 ? 185.0 : 360.0));
 
-                // Pause for AprilTag detection
+                // Allow more time for detection during scanning
                 ros::Duration(2.0).sleep();
                 ros::spinOnce();
             }
@@ -168,8 +170,30 @@ public:
         ROS_INFO("[Node B] 360 degree scan completed at waypoint %d", waypoint_num);
     }
 
+    void updateFeedbackStatus(const std::string& status)
+    {
+        std::lock_guard<std::mutex> lock(detected_cubes_mutex_);
+        feedback_.status = status;
+        
+        // Update found tag IDs
+        feedback_.found_tag_ids.clear();
+        for (const auto &cube : detected_cubes_)
+        {
+            feedback_.found_tag_ids.push_back(cube.first);
+        }
+        
+        action_server_.publishFeedback(feedback_);
+    }
+
     void apriltagCallback(const apriltag_ros::AprilTagDetectionArray::ConstPtr &msg)
     {
+        // Only process detections when navigation is active
+        if (!navigation_active_) {
+            return;
+        }
+
+        bool new_detection = false;
+        
         for (const auto &detection : msg->detections)
         {
             int tag_id = detection.id[0];
@@ -186,73 +210,111 @@ public:
                     // Transform directly from camera frame to map frame
                     tf_buffer_.transform(camera_to_tag, map_to_tag, "map", ros::Duration(1.0));
 
-                    detected_cubes_[tag_id] = map_to_tag;
-
-                    // Update feedback
-                    feedback_.status = "Found AprilTag with ID " + std::to_string(tag_id);
-                    feedback_.found_tag_ids.clear();
-                    for (const auto &cube : detected_cubes_)
+                    // Thread-safe update of detected cubes
                     {
-                        feedback_.found_tag_ids.push_back(cube.first);
+                        std::lock_guard<std::mutex> lock(detected_cubes_mutex_);
+                        
+                        // Check if this is a new detection or significantly different position
+                        bool is_new_detection = true;
+                        if (detected_cubes_.find(tag_id) != detected_cubes_.end()) {
+                            auto& existing_pose = detected_cubes_[tag_id].pose.position;
+                            auto& new_pose = map_to_tag.pose.position;
+                            
+                            // Calculate distance between existing and new detection
+                            double distance = sqrt(pow(existing_pose.x - new_pose.x, 2) + 
+                                                 pow(existing_pose.y - new_pose.y, 2) + 
+                                                 pow(existing_pose.z - new_pose.z, 2));
+                            
+                            // Only update if position changed significantly (> 10cm)
+                            if (distance < 0.1) {
+                                is_new_detection = false;
+                            }
+                        }
+                        
+                        if (is_new_detection) {
+                            detected_cubes_[tag_id] = map_to_tag;
+                            new_detection = true;
+                            
+                            ROS_INFO("[Node B] %s AprilTag %d at map position [%.2f, %.2f, %.2f]",
+                                   (detected_cubes_.size() == 1) ? "Detected target" : "Updated target",
+                                   tag_id, map_to_tag.pose.position.x, 
+                                   map_to_tag.pose.position.y, map_to_tag.pose.position.z);
+                        }
                     }
-                    action_server_.publishFeedback(feedback_);
-
-                    ROS_INFO("[Node B] Detected target AprilTag %d at map position [%.2f, %.2f, %.2f]",
-                             tag_id, map_to_tag.pose.position.x, map_to_tag.pose.position.y, map_to_tag.pose.position.z);
                 }
                 catch (tf2::TransformException &ex)
                 {
-                    ROS_WARN("[Node B] Transform failed: %s", ex.what());
+                    ROS_WARN("[Node B] Transform failed for tag %d: %s", tag_id, ex.what());
                 }
             }
+        }
+
+        // Update feedback if we had new detections
+        if (new_detection) {
+            std::lock_guard<std::mutex> lock(detected_cubes_mutex_);
+            feedback_.found_tag_ids.clear();
+            for (const auto &cube : detected_cubes_)
+            {
+                feedback_.found_tag_ids.push_back(cube.first);
+            }
+            // Don't change the main status message, just update the found IDs
+            action_server_.publishFeedback(feedback_);
         }
     }
 
     void executeNavigation(const assignment1_package::NavigationTaskGoalConstPtr &goal)
     {
         target_ids_ = goal->target_ids;
-        detected_cubes_.clear();
+        
+        // Thread-safe initialization
+        {
+            std::lock_guard<std::mutex> lock(detected_cubes_mutex_);
+            detected_cubes_.clear();
+        }
+        
+        navigation_active_ = true; // Enable continuous detection
 
-        feedback_.status = "Starting navigation task";
-        feedback_.found_tag_ids.clear();
-        action_server_.publishFeedback(feedback_);
+        updateFeedbackStatus("Starting navigation task");
 
         ROS_INFO("[Node B] Starting navigation for %zu target IDs", target_ids_.size());
 
-        // Navigate through waypoints
+        // Navigate through waypoints with continuous detection
         for (size_t i = 0; i < waypoints_.size(); ++i)
         {
             if (action_server_.isPreemptRequested() || !ros::ok())
             {
+                navigation_active_ = false;
                 action_server_.setPreempted();
                 return;
             }
 
             // Update feedback - moving to waypoint
-            feedback_.status = "Moving to waypoint " + std::to_string(i + 1) + "/" + std::to_string(waypoints_.size());
-            action_server_.publishFeedback(feedback_);
+            updateFeedbackStatus("Moving to waypoint " + std::to_string(i + 1) + "/" + std::to_string(waypoints_.size()));
 
-            // Navigate to waypoint
+            // Navigate to waypoint (detection happens continuously during movement)
             if (navigateToWaypoint(waypoints_[i], i + 1))
             {
                 // Update feedback - scanning
-                feedback_.status = "Scanning 360° for AprilTags at waypoint " + std::to_string(i + 1);
-                action_server_.publishFeedback(feedback_);
+                updateFeedbackStatus("Scanning 360° for AprilTags at waypoint " + std::to_string(i + 1));
 
-                // Rotate 360° at this position
+                // Rotate 360° at this position (additional detection opportunity)
                 rotateInPlace(waypoints_[i], i + 1);
             }
         }
 
+        navigation_active_ = false; // Disable continuous detection
+
         // Prepare result
-        result_.cube_positions.poses.clear();
-        for (const auto &cube : detected_cubes_)
         {
-            result_.cube_positions.poses.push_back(cube.second.pose);
+            std::lock_guard<std::mutex> lock(detected_cubes_mutex_);
+            result_.cube_positions.poses.clear();
+            for (const auto &cube : detected_cubes_)
+            {
+                result_.cube_positions.poses.push_back(cube.second.pose);
+            }
         }
 
-        feedback_.status = "Detection finished. Found " + std::to_string(detected_cubes_.size()) + " cubes.";
-        action_server_.publishFeedback(feedback_);
+        updateFeedbackStatus("Detection finished. Found " + std::to_string(detected_cubes_.size()) + " cubes.");
 
         action_server_.setSucceeded(result_);
         ROS_INFO("[Node B] Navigation task completed!");
@@ -268,9 +330,28 @@ public:
         goal.target_pose.pose.orientation.w = 1.0;
 
         move_base_client_.sendGoal(goal);
-        bool success = move_base_client_.waitForResult(ros::Duration(60.0));
+        
+        // Instead of just waiting, actively spin to process AprilTag callbacks
+        ros::Rate rate(10); // 10 Hz
+        while (!move_base_client_.waitForResult(ros::Duration(0.1))) {
+            if (action_server_.isPreemptRequested() || !ros::ok()) {
+                move_base_client_.cancelGoal();
+                return false;
+            }
+            
+            // Process callbacks (including AprilTag detections) while moving
+            ros::spinOnce();
+            rate.sleep();
+            
+            // Check if we've been trying for too long
+            if ((ros::Time::now() - goal.target_pose.header.stamp).toSec() > 60.0) {
+                ROS_WARN("[Node B] Timeout waiting for waypoint %d", waypoint_num);
+                move_base_client_.cancelGoal();
+                return false;
+            }
+        }
 
-        if (success && move_base_client_.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
+        if (move_base_client_.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
         {
             ROS_INFO("[Node B] Reached waypoint %d", waypoint_num);
             return true;
