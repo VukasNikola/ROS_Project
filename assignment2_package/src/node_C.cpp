@@ -919,8 +919,8 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
     double z_offset;
     if (id >= 1 && id <= 3)
     {
-      z_offset = 0.13; // Cylinders get 0.13m offset
-      ROS_INFO("Using 0.13 Z offset for cylinder (ID %d)", id);
+      z_offset = 0.113; // Cylinders get 0.113m offset
+      ROS_INFO("Using 0.113 Z offset for cylinder (ID %d)", id);
     }
     else if (id >= 4 && id <= 9)
     {
@@ -1017,6 +1017,7 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
       ROS_INFO("Removed world collision object '%s' (temporarily) to avoid gripper start-in-collision.",
                attached_object_id.c_str());
       ros::Duration(0.2).sleep();
+      detected_tags.erase(id);
     }
 
     // STEP 4: Detach from Gazebo physics BEFORE opening gripper
