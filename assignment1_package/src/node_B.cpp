@@ -1,10 +1,10 @@
 /**
  * Node B - Navigation Action Server
- * 
+ *
  * This node implements a comprehensive navigation and detection system for TIAGo.
  * It serves as an action server that receives navigation tasks from Node A and executes
  * autonomous navigation through predefined waypoints while continuously detecting AprilTags.
- * 
+ *
  * Key Features:
  * - Autonomous navigation through hardcoded waypoints
  * - Continuous AprilTag detection during movement and at waypoints
@@ -40,7 +40,7 @@ typedef actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>
 
 /**
  * NavigationActionServer Class
- * 
+ *
  * Main class that implements the navigation action server functionality.
  * Handles waypoint navigation, AprilTag detection, and robot control.
  */
@@ -48,29 +48,29 @@ class NavigationActionServer
 {
 private:
     // Core ROS Components
-    ros::NodeHandle nh_;                    // Node handle for ROS communication
-    NavigationServer action_server_;        // Action server to communicate with Node A
-    MoveBaseClient move_base_client_;       // Client to control robot navigation
-    HeadClient head_client_;               // Client to control robot head movement
-    ros::Subscriber apriltag_sub_;         // Subscriber for AprilTag detections
+    ros::NodeHandle nh_;              // Node handle for ROS communication
+    NavigationServer action_server_;  // Action server to communicate with Node A
+    MoveBaseClient move_base_client_; // Client to control robot navigation
+    HeadClient head_client_;          // Client to control robot head movement
+    ros::Subscriber apriltag_sub_;    // Subscriber for AprilTag detections
 
     // Transform and Coordinate Systems
-    tf2_ros::Buffer tf_buffer_;            // Buffer for coordinate transformations
+    tf2_ros::Buffer tf_buffer_;              // Buffer for coordinate transformations
     tf2_ros::TransformListener tf_listener_; // Listener for coordinate frame updates
 
     // Navigation Data
-    std::vector<std::pair<double, double>> waypoints_; // Predefined waypoints (x, y coordinates)
-    std::vector<int32_t> target_ids_;      // AprilTag IDs we need to find (from Node A)
+    std::vector<std::pair<double, double>> waypoints_;         // Predefined waypoints (x, y coordinates)
+    std::vector<int32_t> target_ids_;                          // AprilTag IDs we need to find (from Node A)
     std::map<int, geometry_msgs::PoseStamped> detected_cubes_; // Found cubes: ID -> 3D position
-    std::mutex detected_cubes_mutex_;      // Thread safety for concurrent detection access
+    std::mutex detected_cubes_mutex_;                          // Thread safety for concurrent detection access
 
     // Action Communication
     assignment1_package::NavigationTaskFeedback feedback_; // Feedback message for Node A
     assignment1_package::NavigationTaskResult result_;     // Final result message for Node A
 
     // State Management
-    bool navigation_active_;               // Flag to control when detection processing is active
-    
+    bool navigation_active_; // Flag to control when detection processing is active
+
     // Configuration: Waypoints that don't require 360-degree rotation (1-indexed)
     // These waypoints are positioned such that a full rotation isn't necessary for detection
     std::set<int> no_rotation_waypoints_;
@@ -122,9 +122,7 @@ public:
     {
         // Strategic waypoints covering the environment for comprehensive AprilTag detection
         waypoints_ = {
-            {-0.09, -1.01}, {7.18, -0.77}, {8.58, -2.37}, {8, -3.37}, {12.15, -2.87}, 
-            {13.08, -1.37}, {12.08, 1.13}, {10.70, 0.70}, {8.78, 0.63}
-        };
+            {-0.09, -1.01}, {7.18, -0.77}, {8.58, -2.37}, {8, -3.37}, {12.15, -2.87}, {13.08, -1.37}, {12.08, 1.13}, {10.70, 0.70}, {8.78, 0.63}};
         ROS_INFO("[Node B] Loaded %zu hardcoded waypoints", waypoints_.size());
     }
 
@@ -152,7 +150,7 @@ public:
      * Perform 360-Degree Rotation Scan
      * Rotates the robot in place to scan for AprilTags in all directions
      * Used at waypoints where comprehensive scanning is needed
-     * 
+     *
      * @param position Current waypoint position (for reference)
      * @param waypoint_num Waypoint number for logging and feedback
      */
@@ -171,20 +169,15 @@ public:
 
         // Create rotation command (counter-clockwise)
         geometry_msgs::Twist twist_msg;
-        twist_msg.linear.x = 0.0;   // No linear movement
+        twist_msg.linear.x = 0.0; // No linear movement
         twist_msg.linear.y = 0.0;
         twist_msg.linear.z = 0.0;
-        twist_msg.angular.x = 0.0;  // No roll
-        twist_msg.angular.y = 0.0;  // No pitch
+        twist_msg.angular.x = 0.0;              // No roll
+        twist_msg.angular.y = 0.0;              // No pitch
         twist_msg.angular.z = angular_velocity; // Yaw rotation (positive = counter-clockwise)
 
-        // Update feedback with scanning status and current detection count
-        std::string scan_msg = "Scanning waypoint " + std::to_string(waypoint_num) + " (360 degree rotation) - ";
-        {
-            std::lock_guard<std::mutex> lock(detected_cubes_mutex_);
-            scan_msg += std::to_string(detected_cubes_.size()) + " targets found so far";
-        }
-        updateFeedbackStatus(scan_msg);
+        // Update feedback - simple version
+        updateFeedbackStatus("Rotating 360 degrees for AprilTag detection at waypoint " + std::to_string(waypoint_num));
 
         // Execute rotation while processing AprilTag detections
         ros::Time start_time = ros::Time::now();
@@ -215,20 +208,15 @@ public:
         // All velocities default to 0
         cmd_vel_pub.publish(stop_msg);
 
-        // Update feedback with scan completion status
-        std::string complete_msg = "Waypoint " + std::to_string(waypoint_num) + " scan complete - ";
-        {
-            std::lock_guard<std::mutex> lock(detected_cubes_mutex_);
-            complete_msg += std::to_string(detected_cubes_.size()) + " targets found total";
-        }
-        updateFeedbackStatus(complete_msg);
+        // Update feedback - simple version
+        updateFeedbackStatus("360 degree scan completed at waypoint " + std::to_string(waypoint_num));
     }
 
     /**
      * Update Feedback Status
      * Thread-safe method to update and publish feedback to Node A
      * Provides real-time status updates and list of found AprilTags
-     * 
+     *
      * @param status Current status message describing robot's activity
      */
     void updateFeedbackStatus(const std::string &status)
@@ -251,7 +239,7 @@ public:
      * AprilTag Detection Callback
      * Processes incoming AprilTag detections continuously during navigation
      * Transforms coordinates from camera frame to map frame and stores results
-     * 
+     *
      * @param msg AprilTag detection array from the camera
      */
     void apriltagCallback(const apriltag_ros::AprilTagDetectionArray::ConstPtr &msg)
@@ -348,7 +336,7 @@ public:
      * Main Navigation Execution Function
      * Called when Node A sends a navigation goal
      * Executes the complete waypoint navigation and detection sequence
-     * 
+     *
      * @param goal Navigation goal containing target AprilTag IDs from Node A
      */
     void executeNavigation(const assignment1_package::NavigationTaskGoalConstPtr &goal)
@@ -365,7 +353,8 @@ public:
         // Enable continuous AprilTag detection during navigation
         navigation_active_ = true;
 
-        updateFeedbackStatus("Starting navigation task - searching for " + std::to_string(target_ids_.size()) + " targets");
+        // Simple feedback message
+        updateFeedbackStatus("Starting navigation task");
 
         ROS_INFO("[Node B] Starting navigation for %zu target IDs", target_ids_.size());
 
@@ -382,15 +371,8 @@ public:
 
             int waypoint_num = i + 1; // Convert to 1-indexed for user-friendly display
 
-            // Update feedback with movement progress and current detection count
-            std::string move_msg = "Moving to waypoint " + std::to_string(waypoint_num) + "/" + 
-                                  std::to_string(waypoints_.size()) + " (" + 
-                                  std::to_string((waypoint_num * 100) / waypoints_.size()) + "%) - ";
-            {
-                std::lock_guard<std::mutex> lock(detected_cubes_mutex_);
-                move_msg += std::to_string(detected_cubes_.size()) + " cubes found";
-            }
-            updateFeedbackStatus(move_msg);
+            // Simple feedback - moving to waypoint
+            updateFeedbackStatus("Moving to waypoint " + std::to_string(waypoint_num) + "/" + std::to_string(waypoints_.size()));
 
             // Navigate to the current waypoint
             // AprilTag detection happens continuously during movement
@@ -400,28 +382,24 @@ public:
                 if (no_rotation_waypoints_.find(waypoint_num) == no_rotation_waypoints_.end())
                 {
                     // Waypoint requires comprehensive scanning - perform 360-degree rotation
+                    updateFeedbackStatus("Scanning 360 degrees for AprilTags at waypoint " + std::to_string(waypoint_num));
                     rotateInPlace(waypoints_[i], waypoint_num);
                 }
                 else
                 {
                     // Waypoint positioned for detection without rotation - brief pause only
-                    std::string pause_msg = "Scanning waypoint " + std::to_string(waypoint_num) + " (no rotation) - ";
-                    {
-                        std::lock_guard<std::mutex> lock(detected_cubes_mutex_);
-                        pause_msg += std::to_string(detected_cubes_.size()) + " targets found so far";
-                    }
-                    updateFeedbackStatus(pause_msg);
-                    
+                    updateFeedbackStatus("Scanning for AprilTags at waypoint " + std::to_string(waypoint_num) + " (no rotation needed)");
+
                     // Brief pause to allow detection processing without movement
                     ros::Rate rate(10);
                     ros::Time start_time = ros::Time::now();
-                    while (ros::ok() && !action_server_.isPreemptRequested() && 
+                    while (ros::ok() && !action_server_.isPreemptRequested() &&
                            (ros::Time::now() - start_time).toSec() < 1.0) // 1-second pause
                     {
                         ros::spinOnce(); // Process AprilTag callbacks
                         rate.sleep();
                     }
-                    
+
                     ROS_INFO("[Node B] Completed scanning at waypoint %d (no rotation)", waypoint_num);
                 }
             }
@@ -448,13 +426,15 @@ public:
             // Set coordinate frame information for pose array
             result_.cube_positions.header.frame_id = "map";
             result_.cube_positions.header.stamp = ros::Time::now();
-
-            // Generate comprehensive final status message
-            std::string final_msg = "Navigation complete! Found " + 
-                                   std::to_string(detected_cubes_.size()) + "/" + 
-                                   std::to_string(target_ids_.size()) + " target cubes";
-            updateFeedbackStatus(final_msg);
         }
+
+        // Simple final feedback
+        size_t cube_count;
+        {
+            std::lock_guard<std::mutex> lock(detected_cubes_mutex_);
+            cube_count = detected_cubes_.size();
+        }
+        updateFeedbackStatus("Detection finished. Found " + std::to_string(cube_count) + " cubes.");
 
         // Send successful completion to Node A
         action_server_.setSucceeded(result_);
@@ -472,7 +452,7 @@ public:
     /**
      * Navigate to Single Waypoint
      * Handles navigation to a specific waypoint while processing AprilTag detections
-     * 
+     *
      * @param wp Waypoint coordinates (x, y) in map frame
      * @param waypoint_num Waypoint number for logging
      * @return true if navigation succeeded, false if failed or preempted
@@ -537,12 +517,12 @@ int main(int argc, char **argv)
 {
     // Initialize ROS node
     ros::init(argc, argv, "navigation_action_server");
-    
+
     // Create navigation action server instance
     NavigationActionServer server;
-    
+
     // Process ROS callbacks and maintain server operation
     ros::spin();
-    
+
     return 0;
 }
