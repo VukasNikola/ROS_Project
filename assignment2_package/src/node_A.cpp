@@ -527,63 +527,6 @@ int main(int argc, char **argv)
         ROS_INFO("Node A: Waiting for planning scene to stabilize after pick...");
         ros::Duration(2.0).sleep(); // 3 second delay to let Node C finish its updates
 
-        // STEP 3.6: Move arm to safe travel position after clearing table
-        ROS_INFO("Node A: Moving arm to safe position before next pick cycle...");
-        try
-        {
-            std::map<std::string, double> safe_travel_joints;
-            safe_travel_joints["torso_lift_joint"] = 0.200;
-            safe_travel_joints["arm_1_joint"] = 0.200;
-            safe_travel_joints["arm_2_joint"] = -1.339;
-            safe_travel_joints["arm_3_joint"] = -0.200;
-            safe_travel_joints["arm_4_joint"] = 1.938;
-            safe_travel_joints["arm_5_joint"] = -1.570;
-            safe_travel_joints["arm_6_joint"] = 1.370;
-            safe_travel_joints["arm_7_joint"] = 0.00;
-
-            arm_torso_move_group.setJointValueTarget(safe_travel_joints);
-
-            // Increase planning time and attempts
-            arm_torso_move_group.setPlanningTime(10.0);
-            arm_torso_move_group.setNumPlanningAttempts(5);
-
-            // Plan first, then execute
-            moveit::planning_interface::MoveGroupInterface::Plan safe_plan;
-            bool plan_success = (arm_torso_move_group.plan(safe_plan) ==
-                                 moveit::planning_interface::MoveItErrorCode::SUCCESS);
-
-            if (plan_success)
-            {
-                // Slow down for safe movement
-                arm_torso_move_group.setMaxVelocityScalingFactor(0.3);
-                arm_torso_move_group.setMaxAccelerationScalingFactor(0.3);
-
-                moveit::core::MoveItErrorCode exec_result = arm_torso_move_group.execute(safe_plan);
-
-                // Reset scaling
-                arm_torso_move_group.setMaxVelocityScalingFactor(0.5);
-                arm_torso_move_group.setMaxAccelerationScalingFactor(0.5);
-
-                if (exec_result == moveit::core::MoveItErrorCode::SUCCESS)
-                {
-                    ROS_INFO("Node A: Arm moved to safe position.");
-                    ros::Duration(1.0).sleep();
-                }
-                else
-                {
-                    ROS_WARN("Node A: Failed to execute safe position movement (error %d), continuing anyway.",
-                             exec_result.val);
-                }
-            }
-            else
-            {
-                ROS_WARN("Node A: Failed to plan safe position movement, continuing anyway.");
-            }
-        }
-        catch (const std::exception &e)
-        {
-            ROS_WARN("Node A: Exception moving arm to safe position: %s, continuing.", e.what());
-        }
 
         // NEW STEP 3.7: Rotate to face positive Y direction to avoid arc navigation
         ROS_INFO("Node A: Rotating to face positive Y direction for straight navigation...");
@@ -721,64 +664,6 @@ int main(int argc, char **argv)
         {
             ROS_INFO("Node A: Waiting for planning scene to stabilize after place...");
             ros::Duration(2.0).sleep(); // 2 second delay
-            // STEP 6.6: Move arm to safe position
-            ROS_INFO("Node A: Moving arm to safe position before next pick cycle...");
-            try
-            {
-                std::map<std::string, double> safe_travel_joints;
-                safe_travel_joints["torso_lift_joint"] = 0.200;
-                safe_travel_joints["arm_1_joint"] = 0.200;
-                safe_travel_joints["arm_2_joint"] = -1.339;
-                safe_travel_joints["arm_3_joint"] = -0.200;
-                safe_travel_joints["arm_4_joint"] = 1.938;
-                safe_travel_joints["arm_5_joint"] = -1.570;
-                safe_travel_joints["arm_6_joint"] = 1.370;
-                safe_travel_joints["arm_7_joint"] = 0.00;
-
-                arm_torso_move_group.setJointValueTarget(safe_travel_joints);
-
-                // Increase planning time and attempts
-                arm_torso_move_group.setPlanningTime(15.0);
-                arm_torso_move_group.setNumPlanningAttempts(10);
-
-                // Plan first, then execute
-                moveit::planning_interface::MoveGroupInterface::Plan safe_plan;
-                bool plan_success = (arm_torso_move_group.plan(safe_plan) ==
-                                     moveit::planning_interface::MoveItErrorCode::SUCCESS);
-
-                if (plan_success)
-                {
-                    // Slow down for safe movement
-                    arm_torso_move_group.setMaxVelocityScalingFactor(0.3);
-                    arm_torso_move_group.setMaxAccelerationScalingFactor(0.3);
-
-                    moveit::core::MoveItErrorCode exec_result = arm_torso_move_group.execute(safe_plan);
-
-                    // Reset scaling
-                    arm_torso_move_group.setMaxVelocityScalingFactor(0.5);
-                    arm_torso_move_group.setMaxAccelerationScalingFactor(0.5);
-
-                    if (exec_result == moveit::core::MoveItErrorCode::SUCCESS)
-                    {
-                        ROS_INFO("Node A: Arm moved to safe position.");
-                        ros::Duration(1.0).sleep();
-                    }
-                    else
-                    {
-                        ROS_WARN("Node A: Failed to execute safe position movement (error %d), continuing anyway.",
-                                 exec_result.val);
-                    }
-                }
-                else
-                {
-                    ROS_WARN("Node A: Failed to plan safe position movement, continuing anyway.");
-                }
-            }
-            catch (const std::exception &e)
-            {
-                ROS_WARN("Node A: Exception moving arm to safe position: %s, continuing.", e.what());
-            }
-
             // NEW STEP 6.7: Rotate to face negative Y direction to avoid arc navigation
             ROS_INFO("Node A: Rotating to face negative Y direction for straight navigation...");
             goal.target_pose.header.stamp = ros::Time::now();

@@ -58,9 +58,78 @@ std::map<int, geometry_msgs::PoseStamped> frozen_objects; // Frozen object poses
 std::map<int, bool> persistent_tables;                    // Track which tables have been created
 
 // Object state management
-int currently_manipulated_id = -1;  // ID of object being manipulated (-1 = none)
-std::string attached_object_id;     // MoveIt collision object ID of attached object
-double saved_pickup_z = 0.0; // Z coordinate for placement
+int currently_manipulated_id = -1; // ID of object being manipulated (-1 = none)
+std::string attached_object_id;    // MoveIt collision object ID of attached object
+// Safe arm position for camera visibility
+static const std::map<std::string, double> SAFE_TRAVEL_JOINTS = {
+    {"torso_lift_joint", 0.200},
+    {"arm_1_joint", 0.200},
+    {"arm_2_joint", -1.339},
+    {"arm_3_joint", -0.200},
+    {"arm_4_joint", 1.938},
+    {"arm_5_joint", -1.570},
+    {"arm_6_joint", 1.370},
+    {"arm_7_joint", 0.00}};
+// Helper function to move arm to safe viewing position
+bool moveArmToSafePosition()
+{
+  ROS_INFO("Moving arm to safe position for camera visibility");
+  try
+  {
+    // Configure arm_torso for safe movement
+    moveit::planning_interface::MoveGroupInterface arm_torso_group("arm_torso");
+
+    // Set tolerances
+    arm_torso_group.setGoalPositionTolerance(0.03);
+    arm_torso_group.setGoalOrientationTolerance(0.14);
+    arm_torso_group.setMaxAccelerationScalingFactor(0.5);
+    arm_torso_group.setMaxVelocityScalingFactor(0.5);
+    arm_torso_group.setPlanningTime(15.0);
+    arm_torso_group.setNumPlanningAttempts(10);
+
+    arm_torso_group.setJointValueTarget(SAFE_TRAVEL_JOINTS);
+
+    // Plan first, then execute
+    moveit::planning_interface::MoveGroupInterface::Plan safe_plan;
+    bool plan_success = (arm_torso_group.plan(safe_plan) ==
+                         moveit::planning_interface::MoveItErrorCode::SUCCESS);
+
+    if (plan_success)
+    {
+      // Slow down for safe movement
+      arm_torso_group.setMaxVelocityScalingFactor(0.3);
+      arm_torso_group.setMaxAccelerationScalingFactor(0.3);
+
+      moveit::core::MoveItErrorCode exec_result = arm_torso_group.execute(safe_plan);
+
+      // Reset scaling
+      arm_torso_group.setMaxVelocityScalingFactor(0.5);
+      arm_torso_group.setMaxAccelerationScalingFactor(0.5);
+
+      if (exec_result == moveit::core::MoveItErrorCode::SUCCESS)
+      {
+        ROS_INFO("Arm moved to safe position successfully");
+        ros::Duration(1.0).sleep();
+        return true;
+      }
+      else
+      {
+        ROS_WARN("Failed to execute safe position movement (error %d)", exec_result.val);
+        return false;
+      }
+    }
+    else
+    {
+      ROS_WARN("Failed to plan safe position movement");
+      return false;
+    }
+  }
+  catch (const std::exception &e)
+  {
+    ROS_WARN("Exception moving arm to safe position: %s", e.what());
+    return false;
+  }
+}
 
 void broadcastPlacementPose(const geometry_msgs::PoseStamped &pose, const std::string &child_frame)
 {
@@ -138,6 +207,9 @@ void objectPosesCallback(const assignment2_package::ObjectPoseArray::ConstPtr &m
 {
   std::set<int> seen_ids;
 
+  // Static map to track when objects were last updated
+  static std::map<int, ros::Time> last_object_update;
+
   // Precompute mesh resources
   std::string pkg_path = ros::package::getPath("tiago_iaslab_simulation");
   std::string mesh_uri = "file://" + pkg_path + "/meshes/triangle_centered.stl";
@@ -176,59 +248,112 @@ void objectPosesCallback(const assignment2_package::ObjectPoseArray::ConstPtr &m
     geometry_msgs::Pose obj_pose = entry.pose.pose;
     std::string obj_id = getCollisionObjectId(tag_id);
 
-    // Handle mesh objects (7-9)
-    if (tag_id >= 7 && tag_id <= 9)
-    {
-      // Apply orientation corrections for mesh
-      tf2::Quaternion tag_q;
-      tf2::fromMsg(entry.pose.pose.orientation, tag_q);
-      tf2::Quaternion corr_q;
-      corr_q.setRPY(M_PI, 0.0, M_PI / 2.0);
-      tf2::Quaternion final_q = tag_q * corr_q;
-      obj_pose.orientation = tf2::toMsg(final_q);
+    // OPTION 3: Smart update logic for ALL objects
+    bool should_update = false;
+    ros::Time now = ros::Time::now();
 
-      // Remove existing before updating (cleaner update)
-      if (detected_tags.find(tag_id) != detected_tags.end())
+    if (detected_tags.find(tag_id) != detected_tags.end())
+    {
+      // Object already exists - check if we should update it
+      geometry_msgs::Pose old_pose = detected_tags[tag_id].pose;
+      double distance = sqrt(pow(entry.pose.pose.position.x - old_pose.position.x, 2) +
+                             pow(entry.pose.pose.position.y - old_pose.position.y, 2) +
+                             pow(entry.pose.pose.position.z - old_pose.position.z, 2));
+
+      ros::Time last_update = last_object_update[tag_id];
+
+      if (distance > 0.003) // 3mm threshold for position changes
       {
-        std::vector<std::string> to_remove = {obj_id};
-        planning_scene_interface->removeCollisionObjects(to_remove);
-        ros::Duration(0.1).sleep();
+        should_update = true;
+        ROS_DEBUG("Object %d moved %.1fmm - updating collision object", tag_id, distance * 1000);
       }
-
-      addMeshCollisionObject(obj_id, mesh_uri, obj_pose, BASE_FRAME, prism_scale);
-      detected_tags[tag_id] = entry.pose;
-      continue;
-    }
-
-    // Handle primitive objects (1-6)
-    shape_msgs::SolidPrimitive primitive;
-    double height_offset = 0.0;
-
-    if (tag_id >= 1 && tag_id <= 3)
-    {
-      // Cylinders
-      primitive.type = primitive.CYLINDER;
-      primitive.dimensions = {0.1, 0.03}; // height, radius
-      height_offset = primitive.dimensions[0] / 2.0;
-    }
-    else if (tag_id >= 4 && tag_id <= 6)
-    {
-      // Boxes
-      primitive.type = primitive.BOX;
-      primitive.dimensions = {0.05, 0.05, 0.05};
-      height_offset = primitive.dimensions[2] / 2.0;
+      else if ((now - last_update).toSec() > 2.0) // Force update every 2 seconds
+      {
+        should_update = true;
+        ROS_DEBUG("Object %d - forced periodic update (%.1fs since last)", tag_id, (now - last_update).toSec());
+      }
+      else
+      {
+        // Small change and recent update - just update stored pose
+        detected_tags[tag_id] = entry.pose;
+        ROS_DEBUG("Object %d - minor change, skipping collision update", tag_id);
+      }
     }
     else
     {
-      ROS_WARN("Unknown tag ID %d - skipping", tag_id);
-      continue;
+      // First time seeing this object - always add
+      should_update = true;
+      ROS_INFO("Object %d - first detection, adding to collision scene", tag_id);
     }
 
-    // Adjust Z position for collision object
-    obj_pose.position.z -= (height_offset - 0.005);
+    // Only update collision scene if needed
+    if (should_update)
+    {
+      // Handle mesh objects (7-9)
+      if (tag_id >= 7 && tag_id <= 9)
+      {
+        // Apply orientation corrections for mesh
+        tf2::Quaternion tag_q;
+        tf2::fromMsg(entry.pose.pose.orientation, tag_q);
+        tf2::Quaternion corr_q;
+        corr_q.setRPY(M_PI, 0.0, M_PI / 2.0);
+        tf2::Quaternion final_q = tag_q * corr_q;
+        obj_pose.orientation = tf2::toMsg(final_q);
 
-    addCollisionObject(obj_id, primitive, obj_pose, BASE_FRAME);
-    detected_tags[tag_id] = entry.pose;
+        // Remove existing before updating
+        if (detected_tags.find(tag_id) != detected_tags.end())
+        {
+          std::vector<std::string> to_remove = {obj_id};
+          planning_scene_interface->removeCollisionObjects(to_remove);
+          ros::Duration(0.2).sleep(); // Longer wait for mesh processing
+        }
+
+        addMeshCollisionObject(obj_id, mesh_uri, obj_pose, BASE_FRAME, prism_scale);
+        detected_tags[tag_id] = entry.pose;
+        last_object_update[tag_id] = now;
+      }
+      else
+      {
+        // Handle primitive objects (1-6)
+        shape_msgs::SolidPrimitive primitive;
+        double height_offset = 0.0;
+
+        if (tag_id >= 1 && tag_id <= 3)
+        {
+          // Cylinders
+          primitive.type = primitive.CYLINDER;
+          primitive.dimensions = {0.1, 0.03}; // height, radius
+          height_offset = primitive.dimensions[0] / 2.0;
+        }
+        else if (tag_id >= 4 && tag_id <= 6)
+        {
+          // Boxes
+          primitive.type = primitive.BOX;
+          primitive.dimensions = {0.05, 0.05, 0.05};
+          height_offset = primitive.dimensions[2] / 2.0;
+        }
+        else
+        {
+          ROS_WARN("Unknown tag ID %d - skipping", tag_id);
+          continue;
+        }
+
+        // Adjust Z position for collision object
+        obj_pose.position.z -= (height_offset - 0.005);
+
+        // Remove existing before updating
+        if (detected_tags.find(tag_id) != detected_tags.end())
+        {
+          std::vector<std::string> to_remove = {obj_id};
+          planning_scene_interface->removeCollisionObjects(to_remove);
+          ros::Duration(0.1).sleep();
+        }
+
+        addCollisionObject(obj_id, primitive, obj_pose, BASE_FRAME);
+        detected_tags[tag_id] = entry.pose;
+        last_object_update[tag_id] = now;
+      }
+    }
   }
 
   // Clean up objects that are no longer detected
@@ -249,9 +374,10 @@ void objectPosesCallback(const assignment2_package::ObjectPoseArray::ConstPtr &m
         continue;
       }
 
-      // Remove from scene
+      // Remove from scene and cleanup timestamp
       std::string obj_id = getCollisionObjectId(id);
       to_remove.push_back(obj_id);
+      last_object_update.erase(id); // Clean up timestamp tracking
       it = detected_tags.erase(it);
     }
     else
@@ -425,22 +551,11 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     arm_group->clearPoseTargets();
     ROS_INFO("Successfully moved above target!");
     ros::Duration(0.5).sleep();
- // STEP 2: Cartesian move down to grasp (object still exists)
+    // STEP 2: Cartesian move down to grasp (object still exists)
     ROS_INFO("STEP 2: Moving down to grasp position");
     geometry_msgs::Pose grasp_pose = above_pose;
     grasp_pose.position.z = target_pose.position.z - (object_height / 2.0) + 0.025;
 
-    if (id >= 7 && id <= 9)
-    {
-      // For meshes, adjust the saved Z to account for tag vs. geometric center difference
-      saved_pickup_z = grasp_pose.position.z + 0.065; // Increase offset for meshes
-    }
-    else
-    {
-      saved_pickup_z = grasp_pose.position.z + 0.05; // Keep original for primitives
-    }
-
-    ROS_INFO("Saved pickup Z: %.3f", saved_pickup_z);
     ROS_INFO("Moving to grasp position at z=%.3f (target_z=%.3f, object_height=%.3f)",
              grasp_pose.position.z, target_pose.position.z, object_height);
 
@@ -448,7 +563,7 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
 
     // ATTEMPT 1: Try Cartesian path first (preferred for smooth motion)
     ROS_INFO("STEP 2a: Attempting Cartesian path down to grasp");
-    
+
     // Create waypoints for Cartesian path
     std::vector<geometry_msgs::Pose> waypoints = {above_pose, grasp_pose};
     moveit_msgs::RobotTrajectory trajectory;
@@ -471,7 +586,7 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     if (fraction >= 0.85)
     {
       ROS_INFO("Cartesian path planning successful (%.2f%% coverage)", fraction * 100);
-      
+
       // Time-parameterize before execution for smoother motion
       robot_trajectory::RobotTrajectory rt(
           arm_group->getCurrentState()->getRobotModel(), arm_group->getName());
@@ -502,7 +617,7 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     }
     else
     {
-      ROS_WARN("Cartesian path planning failed (only %.2f%% achieved), will try regular planning fallback", 
+      ROS_WARN("Cartesian path planning failed (only %.2f%% achieved), will try regular planning fallback",
                fraction * 100);
       grasp_motion_success = false;
     }
@@ -511,14 +626,14 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     if (!grasp_motion_success)
     {
       ROS_INFO("STEP 2b: Attempting regular motion planning fallback to grasp");
-      
+
       // Set planning parameters for robust operation
       arm_group->setPlannerId("RRTConnectkConfigDefault");
       arm_group->setGoalPositionTolerance(0.010);   // 10 mm
       arm_group->setGoalOrientationTolerance(0.03); // ~1.7°
       arm_group->setPlanningTime(10.0);
       arm_group->setNumPlanningAttempts(10);
-      arm_group->setMaxVelocityScalingFactor(0.3);  // Slower for precision
+      arm_group->setMaxVelocityScalingFactor(0.3); // Slower for precision
       arm_group->setMaxAccelerationScalingFactor(0.3);
 
       arm_group->setPoseTarget(grasp_pose);
@@ -529,7 +644,7 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
       if (arm_group->plan(fallback_plan) == moveit::core::MoveItErrorCode::SUCCESS)
       {
         ROS_INFO("Regular planning successful, executing...");
-        
+
         if (arm_group->execute(fallback_plan) == moveit::core::MoveItErrorCode::SUCCESS)
         {
           ROS_INFO("Regular planning execution successful!");
@@ -538,13 +653,13 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
         else
         {
           ROS_WARN("Regular planning execution failed, trying with relaxed tolerances...");
-          
+
           // Try with more relaxed tolerances
           arm_group->setGoalPositionTolerance(0.015);
           arm_group->setGoalOrientationTolerance(0.05);
           arm_group->setPlanningTime(15.0);
           arm_group->setNumPlanningAttempts(20);
-          
+
           if (arm_group->plan(fallback_plan) == moveit::core::MoveItErrorCode::SUCCESS)
           {
             if (arm_group->execute(fallback_plan) == moveit::core::MoveItErrorCode::SUCCESS)
@@ -768,6 +883,10 @@ bool pickObjectCallback(assignment2_package::PickObject::Request &req,
     ROS_INFO("Successfully lifted object!");
     ros::Duration(1.0).sleep(); // Let movement settle
 
+    // STEP 6: Move arm to safe position for travel  ← WRONG LOCATION
+    ROS_INFO("STEP 6: Moving arm to safe position");
+    moveArmToSafePosition();
+
     ROS_INFO("Pick sequence completed successfully!");
     res.success = true;
     // NOTE: Keep currently_manipulated_id set until after placement!
@@ -805,8 +924,8 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
     }
     else if (id >= 4 && id <= 9)
     {
-      z_offset = 0.6; // Cubes and prisms get 0.6m offset
-      ROS_INFO("Using 0.6m Z offset for cube/prism (ID %d)", id);
+      z_offset = 0.06; // Cubes and prisms get 0.06m offset
+      ROS_INFO("Using 0.06m Z offset for cube/prism (ID %d)", id);
     }
     else
     {
@@ -890,7 +1009,7 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
     planning_scene_interface->applyAttachedCollisionObject(detach_from_moveit);
     ros::Duration(0.5).sleep();
 
-    // Remove object to avoid issues with gripper 
+    // Remove object to avoid issues with gripper
     if (!attached_object_id.empty())
     {
       std::vector<std::string> rm_ids = {attached_object_id};
@@ -974,7 +1093,6 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
     // Give some time for the physics to settle after detachment
     ros::Duration(1.0).sleep();
 
-
     // STEP 5: Open gripper (object is detached from both MoveIt and Gazebo)
     ROS_INFO("STEP 5: Opening gripper (object now detached from Gazebo)");
     gripper_control::GripperController gripper("gripper");
@@ -1006,16 +1124,15 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
     arm_group->setMaxVelocityScalingFactor(0.9);
     arm_group->setMaxAccelerationScalingFactor(0.9);
 
+    // STEP 6.5 MOVE ARM TO SAFE POSITION
+    ROS_INFO("STEP 6.5: Moving arm to safe position before unfreezing object");
+    moveArmToSafePosition(); // Don't check return value - continue regardless
+
     // STEP 7: CRITICAL - Unfreeze the object for future collision avoidance
     ROS_INFO("STEP 7: Unfreezing object %d for collision detection", id);
     currently_manipulated_id = -1; // Reset to allow updates
     frozen_objects.erase(id);      // Remove from frozen list
     attached_object_id = "";       // Clear attached ID
-    saved_pickup_z = 0.0;          // Reset saved Z
-
-    // Force object to be re-detected and re-added
-    detected_tags.erase(id); // Force object to be re-detected and re-added
-    ROS_INFO("Forced object %d removal from detected_tags to trigger re-addition", id);
 
     // The next objectPosesCallback will re-add this object to the scene
     ROS_INFO("Object %d will be re-added to collision scene on next update", id);
@@ -1030,7 +1147,6 @@ bool placeObjectCallback(assignment2_package::PlaceObject::Request &req,
     // Reset state on error
     currently_manipulated_id = -1;
     attached_object_id = "";
-    saved_pickup_z = 0.0;
 
     res.success = false;
   }
