@@ -85,23 +85,15 @@ void detectionsCallback(const apriltag_ros::AprilTagDetectionArray::ConstPtr &ms
         tf2::doTransform(tag_pose_cam, tag_pose_base, cam_to_base);
         tag_pose_base.header.frame_id = BASE_FRAME;
 
-        // Store if not already picked
-        if (picked_ids.find(tag_id) == picked_ids.end())
-        {
-            DetectedObject obj;
-            obj.id = tag_id;
-            obj.pose = tag_pose_base;
-            current_objects.push_back(obj);
+        // Always store detected objects (removed picked check)
+        DetectedObject obj;
+        obj.id = tag_id;
+        obj.pose = tag_pose_base;
+        current_objects.push_back(obj);
 
-            // Only print detection info once every 5 seconds per tag ID
-            ROS_INFO_THROTTLE(5.0, "Node B: Detected object ID %d at [%.2f, %.2f, %.2f]",
-                              tag_id,
-                              tag_pose_base.pose.position.x,
-                              tag_pose_base.pose.position.y,
-                              tag_pose_base.pose.position.z);
-        }
     }
-    // Publish all current objects
+    
+    // Publish all current objects (including previously picked ones)
     assignment2_package::ObjectPoseArray msg_out;
     for (const auto &obj : current_objects)
     {
