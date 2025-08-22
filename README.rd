@@ -49,4 +49,4 @@
 
 ### Other Resources
 
-- **Additional Materials**: Will add drive with videos later
+- **Assignment Videos**: https://drive.google.com/drive/folders/1Hl7Y7bcWGlbeHD9BYXr4l2k2tAIY0HVJ?usp=sharing
