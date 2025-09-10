@@ -1,6 +1,6 @@
-# Intelligent Robotics Assignments - Group 15
+# Intelligent Robotics Assignments
 
-**GROUP 15**
+**Author**
 - Nikola Vukas, nikola.vukas@studenti.unipd.it
 
 ---
